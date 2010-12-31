@@ -45,8 +45,15 @@
         public void LeastCommonMultiple1()
         {
             Assert.AreEqual(6, MathHelper.LeastCommonMultiple(3, 6));
-            Assert.AreEqual(-3, MathHelper.GreatCommonDivisor(-3, -6));
+            Assert.AreEqual(-6, MathHelper.LeastCommonMultiple(-3, -6));
             Assert.AreEqual(12, MathHelper.LeastCommonMultiple(3, 4));
+        }
+
+        [Test]
+        public void LeastCommonMultiple2()
+        {
+            Assert.AreEqual(0, MathHelper.LeastCommonMultiple(0, 6));
+            Assert.AreEqual(0, MathHelper.LeastCommonMultiple(-3, 0));
         }
     }
 }
