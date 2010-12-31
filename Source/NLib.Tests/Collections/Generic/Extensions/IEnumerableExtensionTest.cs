@@ -51,6 +51,39 @@
             CollectionAssert.AreEqual(expected, actual, new TestBetweenComparer());
         }
 
+        [Test]
+        public void ForEach1()
+        {
+            var l = Generator.Generate<int>(20, x => ++x);
+            var i = 0;
+
+            l.ForEach(x => Assert.AreEqual(x, ++i));
+        }
+
+        [Test]
+        public void ForEach2()
+        {
+            var l = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var i = 0;
+
+            l.ForEach(x => Assert.AreEqual(x, ++i));
+        }
+
+        [Test]
+        public void Paginate1()
+        {
+            var l = Generator.Generate<int>(20, x => ++x);
+            var p1 = l.Paginate(0, 5);
+
+            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4, 5 }, p1);
+
+            var p2 = l.Paginate(1, 5);
+            CollectionAssert.AreEquivalent(new[] { 6, 7, 8, 9, 10 }, p2);
+
+            var p3 = l.Paginate(2, 5);
+            CollectionAssert.AreEquivalent(new[] { 11, 12, 13, 14, 15 }, p3);
+        }
+
         private class TestBetween
         {
             public int Id { get; set; }
