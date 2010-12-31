@@ -87,6 +87,7 @@
     <Compile Include="Extensions\ConvertExtension.cs" />
     <Compile Include="Extensions\EventHandlerExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Linq\Extensions\IQueryableExtension.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />

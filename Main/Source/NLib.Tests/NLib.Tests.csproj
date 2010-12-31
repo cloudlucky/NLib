@@ -51,9 +51,11 @@
     <Compile Include="CheckErrorTest.cs" />
     <Compile Include="CheckTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtensionTest.cs" />
+    <Compile Include="Collections\Generic\Extensions\IListExtensionTest.cs" />
     <Compile Include="Collections\Generic\GeneratorTest.cs" />
     <Compile Include="Collections\Generic\SortedBagTest.cs" />
     <Compile Include="EventArgsTest.cs" />
+    <Compile Include="Extensions\ArrayExtensionTest.cs" />
     <Compile Include="MathHelperTest.cs" />
     <Compile Include="Patterns\SimpleCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
