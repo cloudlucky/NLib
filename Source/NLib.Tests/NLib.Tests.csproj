@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
+    <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />

@@ -85,9 +85,11 @@
     <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\ComparisonExtension.cs" />
     <Compile Include="Extensions\ConvertExtension.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Extensions\EventHandlerExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />
+    <Compile Include="Extensions\TypeExtension.cs" />
     <Compile Include="Linq\Extensions\IQueryableExtension.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />
@@ -112,6 +114,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RationalNumberResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Type.cs" />
     <Compile Include="Xml\Extensions\XmlDocumentExtension.cs" />
     <Compile Include="Xml\Linq\Extensions\XDocumentExtension.cs" />
   </ItemGroup>
