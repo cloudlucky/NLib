@@ -42,6 +42,5 @@
             Assert.True(collection.Any());
             Assert.AreEqual(10, collection.Count());
         }
-
     }
 }
