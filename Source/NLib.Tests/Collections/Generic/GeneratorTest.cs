@@ -42,5 +42,17 @@
             Assert.True(collection.Any());
             Assert.AreEqual(10, collection.Count());
         }
+       
+        [Test]
+        public void GenerateTest5()
+        {
+            var collection = Generator.Generate<float>(5, x => 1/x );
+            CollectionAssert.Contains(collection, 1/1);
+            CollectionAssert.Contains(collection, 1/2);
+            CollectionAssert.Contains(collection, 1/3);
+            CollectionAssert.Contains(collection, 1/4);
+            CollectionAssert.Contains(collection, 1/5);
+            CollectionAssert.DoesNotContain(collection,1/6);
+        }
     }
 }
