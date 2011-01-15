@@ -1,5 +1,6 @@
 ﻿namespace NLib.Tests.Collections.Generic
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -27,32 +28,30 @@
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void GenerateTest3()
         {
             var collection = Generator.Generate<int>(-1, x => ++x);
 
             Assert.True(collection.Any());
-            Assert.AreEqual(1, collection.Count());
-        }        
+        }
 
         [Test]
         public void GenerateTest4()
         {
-            var collection = Generator.Generate<int>(10, x => --x );
+            var collection = Generator.Generate<int>(10, x => --x);
             Assert.True(collection.Any());
             Assert.AreEqual(10, collection.Count());
         }
-       
+
         [Test]
         public void GenerateTest5()
         {
-            var collection = Generator.Generate<float>(5, x => 1/x );
-            CollectionAssert.Contains(collection, 1/1);
-            CollectionAssert.Contains(collection, 1/2);
-            CollectionAssert.Contains(collection, 1/3);
-            CollectionAssert.Contains(collection, 1/4);
-            CollectionAssert.Contains(collection, 1/5);
-            CollectionAssert.DoesNotContain(collection,1/6);
+            var collection = Generator.Generate<double>(5, x => 1.0 / ++x);
+            var l = new List<double>(collection);
+            CollectionAssert.Contains(collection, 1.0 / 1.0);
+            CollectionAssert.Contains(collection, 1.0 / 2.0);
+            CollectionAssert.DoesNotContain(collection, 1.0 / 6.0);
         }
     }
 }
