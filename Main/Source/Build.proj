@@ -31,8 +31,7 @@
   </Target>
   
   <Target Name="Build">
-    <MSBuild Projects="@(SolutionToBuild)" Properties="Configuration=Debug" ContinueOnError="false" />
-    <MSBuild Projects="@(SolutionToBuild)" Properties="Configuration=Release" ContinueOnError="false" />
+    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
   </Target>
 
   <Target Name="Package" DependsOnTargets="Build">
