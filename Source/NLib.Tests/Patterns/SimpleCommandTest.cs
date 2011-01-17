@@ -48,15 +48,29 @@
         public void Test2()
         {
             var i = 1;
-            var sc = new SimpleCommand(() => i++, () => i--);
+            var sc = new SimpleCommand(() => i++, () => i--, () => i*=3);
 
             sc.Execute();
-            sc.Execute();
-
-            sc.Clear();
-
-            Assert.False(sc.CanUndo);
+            Assert.AreEqual(2, i);
+            Assert.True(sc.CanUndo);
             Assert.False(sc.CanRedo);
+
+            sc.Execute();
+            Assert.AreEqual(3, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
+
+            sc.Undo();
+            sc.Undo();
+            Assert.AreEqual(1, i);
+            Assert.False(sc.CanUndo);
+            Assert.True(sc.CanRedo);
+            
+            sc.Redo();
+            sc.Redo();
+            sc.Redo();
+            Assert.True(sc.CanRedo);
+
         }
     }
 }
