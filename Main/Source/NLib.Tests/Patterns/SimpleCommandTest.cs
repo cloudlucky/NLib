@@ -68,9 +68,8 @@
             
             sc.Redo();
             sc.Redo();
-            sc.Redo();
-            Assert.True(sc.CanRedo);
-
+            Assert.False(sc.CanRedo);
+            Assert.True(sc.CanUndo);
         }
     }
 }
