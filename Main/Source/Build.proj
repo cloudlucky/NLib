@@ -92,11 +92,12 @@
   </Target>
 
   <Target Name="PackageBinariesWithDoc">
+    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;"/>
+
     <ItemGroup>
       <Chm Include="$(HtmlHelp1Output)\*.chm"/>
     </ItemGroup>
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;"/>
-
+    
     <Copy SourceFiles="@(NLibDll);@(NLibXml);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(ReleaseFolder)\NLibWithDoc.zip"/>
   </Target>
