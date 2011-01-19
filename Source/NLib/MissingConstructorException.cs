@@ -66,7 +66,7 @@ namespace NLib
         public MissingConstructorException(string message, string className)
             : base(message)
         {
-            this.ClassName = className;
+            this.className = className;
         }
 
         /// <summary>

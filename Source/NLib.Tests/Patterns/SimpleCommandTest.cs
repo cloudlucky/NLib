@@ -71,5 +71,25 @@
             Assert.False(sc.CanRedo);
             Assert.True(sc.CanUndo);
         }
+
+        [Test]
+        public void Test3()
+        {
+            var i = 1;
+            var sc = new SimpleCommand(() => i++, () => i--);
+
+            sc.Execute();
+            sc.Execute();
+            sc.Execute();
+
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
+
+            sc.Undo();
+            sc.Clear();
+
+            Assert.False(sc.CanUndo);
+            Assert.False(sc.CanRedo);
+        }
     }
 }
