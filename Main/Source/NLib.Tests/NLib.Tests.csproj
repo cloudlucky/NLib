@@ -57,11 +57,13 @@
     <Compile Include="EventArgsTest.cs" />
     <Compile Include="Extensions\ArrayExtensionTest.cs" />
     <Compile Include="MathHelperTest.cs" />
+    <Compile Include="MissingConstructorExceptionTest.cs" />
     <Compile Include="Patterns\SimpleCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
+    <Compile Include="TypeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />
