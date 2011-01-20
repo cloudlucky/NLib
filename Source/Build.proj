@@ -75,15 +75,10 @@
   <Target Name="Build">
     <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
   </Target>
-
-  <Target Name="GenerateDocumentation">
-    <!-- shfbproj does not support MSBuild 4. Using MSBuild 3.5 instead -->    
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;"/>
-  </Target>
   
   <Target Name="Package" DependsOnTargets="Build">
     <RemoveDir Directories="$(ReleaseFolder)"/>
-    <CallTarget Targets="PackageBinaries;PackageBinariesWithDoc;PackageNuGet;PackageWithSources"/>
+    <CallTarget Targets="PackageBinaries;PackageBinariesWithDoc;PackageNuGet;PackageWithSources;PackageDocumentationWebsite"/>
   </Target>
 
   <Target Name="PackageBinaries">
@@ -111,6 +106,11 @@
     
     <Copy SourceFiles="@(NLibDll);@(NLibXml);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(ReleaseFolder)\NLibWithDoc.zip"/>
+  </Target>
+
+  <Target Name="PackageDocumentationWebsite">
+    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\DocumentationWebsite.zip"/>
   </Target>
 
   <Target Name="PackageNuGet" DependsOnTargets="PackageBinaries">
