@@ -15,12 +15,12 @@
   </PropertyGroup>
 
   <!-- NLib Files -->
-  <ItemGroup>
-    <NLibDll Include="$(MSBuildProjectDirectory)\**\NLib*.dll"
-             Exclude="$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*"/>
-    <NLibXml Include="$(MSBuildProjectDirectory)\**\NLib*.XML"
-             Exclude="$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*"/>
-  </ItemGroup>
+  <PropertyGroup>
+    <NLibDllInclude>$(MSBuildProjectDirectory)\**\NLib*.dll</NLibDllInclude>
+    <NLibDllExclude>$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*</NLibDllExclude>
+    <NLibXmlInclude>$(MSBuildProjectDirectory)\**\NLib*.XML</NLibXmlInclude>
+    <NLibXmlExclude>$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*</NLibXmlExclude>
+  </PropertyGroup>
 
   <!-- Release -->
   <PropertyGroup>
@@ -87,6 +87,13 @@
   </Target>
 
   <Target Name="PackageBinaries">
+    <ItemGroup>
+      <NLibDll Include="$(NLibDllInclude)"
+               Exclude="$(NLibDllExclude)"/>
+      <NLibXml Include="$(NLibXmlInclude)"
+               Exclude="$(NLibXmlExclude)"/>
+    </ItemGroup>
+    
     <Copy SourceFiles="@(NLibDll);@(NLibXml)" DestinationFolder="$(BinariesFolder)"/>
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(ReleaseFolder)\NLib.zip"/>
   </Target>
@@ -95,6 +102,10 @@
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;"/>
 
     <ItemGroup>
+      <NLibDll Include="$(NLibDllInclude)"
+               Exclude="$(NLibDllExclude)"/>
+      <NLibXml Include="$(NLibXmlInclude)"
+               Exclude="$(NLibXmlExclude)"/>
       <Chm Include="$(HtmlHelp1Output)\*.chm"/>
     </ItemGroup>
     
