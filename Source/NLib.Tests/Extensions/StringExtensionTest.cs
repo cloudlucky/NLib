@@ -46,7 +46,7 @@
             var s = "Lorem ipsum DolOr sIt amet, consectetur adipiscing elit";
             var b = s.Contains(string.Empty, StringComparison.CurrentCulture);
 
-            Assert.False(b);
+            Assert.True(b);
         }
     }
 }
