@@ -110,7 +110,7 @@
 
   <Target Name="PackageDocumentationWebsite">
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\DocumentationWebsite.zip"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\NLibDocumentationWebsite.zip"/>
   </Target>
 
   <Target Name="PackageNuGet" DependsOnTargets="PackageBinaries">
