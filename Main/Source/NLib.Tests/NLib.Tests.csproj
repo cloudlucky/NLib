@@ -57,6 +57,10 @@
     <Compile Include="Collections\Generic\SortedBagTest.cs" />
     <Compile Include="EventArgsTest.cs" />
     <Compile Include="Extensions\ArrayExtensionTest.cs" />
+    <Compile Include="Extensions\ConvertExtensionTest.cs" />
+    <Compile Include="Extensions\ComparisonExtensionTest.cs" />
+    <Compile Include="Extensions\EventHandlerExtensionTest.cs" />
+    <Compile Include="Extensions\StringExtensionTest.cs" />
     <Compile Include="MathHelperTest.cs" />
     <Compile Include="MissingConstructorExceptionTest.cs" />
     <Compile Include="Patterns\SimpleCommandTest.cs" />

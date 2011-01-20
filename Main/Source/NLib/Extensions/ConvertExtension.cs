@@ -31,7 +31,7 @@ namespace NLib.Extensions
         /// -or-
         /// <paramref name="value"/> is null and <typeparamref name="T"/> is a value type.
         /// </exception>
-        public static T ChangeType<T>(object value) where T : IConvertible
+        public static T ChangeType<T>(this object value) where T : IConvertible
         {
             return ChangeType<T>(value, CultureInfo.CurrentCulture);
         }
@@ -51,7 +51,7 @@ namespace NLib.Extensions
         /// -or-
         /// <paramref name="value"/> is null and <typeparamref name="T"/> is a value type.
         /// </exception>
-        public static T ChangeType<T>(object value, IFormatProvider provider) where T : IConvertible
+        public static T ChangeType<T>(this object value, IFormatProvider provider) where T : IConvertible
         {
             return (T)Convert.ChangeType(value, typeof(T), provider);
         }
