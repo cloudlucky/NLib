@@ -25,5 +25,15 @@
 
             Assert.AreEqual(3, t.Compare(1, 2));
         }
+
+        [Test]
+        public void Test3()
+        {
+            Comparison<int> ec = (i1, i2) => i1 - i2;
+            var t = ec.ToComparer();
+
+            Assert.AreEqual(-1, t.Compare(0, 1));
+
+        }
     }
 }

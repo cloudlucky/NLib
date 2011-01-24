@@ -48,5 +48,13 @@
 
             Assert.True(b);
         }
+
+        [Test]
+        public void ContainsTest5()
+        {
+            var s = "";
+            var b = s.Contains(string.Empty, StringComparison.CurrentCulture);
+            Assert.True(b);
+        }
     }
 }

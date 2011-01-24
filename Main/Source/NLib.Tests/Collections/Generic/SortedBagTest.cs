@@ -19,7 +19,7 @@
         [Test]
         public void AddTest2()
         {
-            var bag = new SortedBag<int> { 1, 2, 3 };
+            var bag = new SortedBag<int> {1, 2, 3};
 
             Assert.AreEqual(3, bag.Count);
             Assert.AreEqual(1, bag.GetCount(1));
