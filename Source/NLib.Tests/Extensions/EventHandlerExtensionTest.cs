@@ -60,5 +60,17 @@
 
             Assert.AreEqual(3, i);
         }
+
+        [Test]
+        public void RaiseEventTest5()
+        {
+            var i = 1;
+            this.Event1 += (sender, e) => i--;
+            this.Event2 += (sender, e) => i += e.Value;
+            this.Event1.RaiseEvent(this);
+            this.Event2.RaiseEvent(this, new EventArgs<int>(2));
+
+            Assert.AreEqual(2,i);
+        }
     }
 }

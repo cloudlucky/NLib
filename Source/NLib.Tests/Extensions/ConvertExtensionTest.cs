@@ -25,5 +25,14 @@
 
             Assert.AreEqual(s, i.ToString());
         }
+
+        [Test]    
+        public void Test3()
+        {
+            var s = "46";
+            var i = s.ChangeType<string>();
+
+            Assert.AreEqual(s, i);
+        }
     }
 }
