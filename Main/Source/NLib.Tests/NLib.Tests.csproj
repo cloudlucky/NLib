@@ -69,6 +69,7 @@
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
     <Compile Include="TypeTest.cs" />
+    <Compile Include="Xml\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />
@@ -78,9 +79,6 @@
       <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
       <Name>NLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
