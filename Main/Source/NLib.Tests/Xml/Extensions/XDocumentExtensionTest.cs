@@ -15,13 +15,25 @@ namespace NLib.Tests.Xml.Extensions
            [Test]
            public void ToXdocumentTest1()
            {
-                XDocument xdoc = new XDocument();
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml("<data></data>");
-                xdoc = xmlDoc.ToXDocument();
-
+                XDocument xdoc = xmlDoc.ToXDocument();
                 Assert.AreEqual(xdoc.ToString(), "<data></data>");
            }
+
+           [Test]
+           public void ToXdocumentTest2()
+           {
+               XmlDocument doc = new XmlDocument();
+               doc.LoadXml("<parent><child>text1</child></parent>");
+               XDocument xdoc = doc.ToXDocument();
+               var children = xdoc.Document.Element("parent").Elements("child");
+               foreach (var child in children)
+               {
+                   Assert.AreEqual(child.Value,"text"); 
+               }
+           }
+           
 
         
     }
