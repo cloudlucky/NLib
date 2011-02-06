@@ -13,6 +13,22 @@
     public class MemberInfoExtensionTest
     {
         [Test]
+        public void GetCustomAttribute1()
+        {
+            var c = new CustomAttributesTest();
+
+            Assert.IsNull(c.GetType().GetProperty("P1").GetCustomAttribute<CustomAttributeAttribute>(false));
+        }
+
+        [Test]
+        public void GetCustomAttribute2()
+        {
+            var c = new CustomAttributesTest();
+
+            Assert.NotNull(c.GetType().GetProperty("P2").GetCustomAttribute<CustomAttributeAttribute>(false));
+        }
+
+        [Test]
         public void GetCustomAttributes1()
         {
             var c = new CustomAttributesTest();
@@ -47,8 +63,32 @@
             Assert.AreEqual(2, x.Length);
         }
 
+        [Test]
+        public void GetMemberTypeTest1()
+        {
+            var c = new CustomAttributesTest();
+
+            Assert.AreEqual(typeof(string), c.GetType().GetProperty("P1").GetMemberType());
+            Assert.AreEqual(typeof(int), c.GetType().GetProperty("P5").GetMemberType());
+            Assert.AreEqual(typeof(CustomAttributesTest), c.GetType().GetProperty("P6").GetMemberType());
+            Assert.AreEqual(typeof(string), c.GetType().GetField("M1").GetMemberType());
+        }
+
+        [Test]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void GetMemberTypeTest2()
+        {
+            var c = new CustomAttributesTest();
+
+            var f = c.GetType().GetMemberType();
+
+            Assert.Fail();
+        }
+
         public class CustomAttributesTest
         {
+            public string M1;
+
             public string P1 { get; set; }
 
             [CustomAttribute]
@@ -60,6 +100,10 @@
             [CustomAttribute]
             [CustomAttribute(Name = "Foo")]
             public string P4 { get; set; }
+
+            public int P5 { get; set; }
+
+            public CustomAttributesTest P6 { get; set; }
         }
 
         [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
