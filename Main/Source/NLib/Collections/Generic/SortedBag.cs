@@ -105,7 +105,7 @@ namespace NLib.Collections.Generic
         /// <returns>
         /// true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.
         /// </returns>
-        public bool IsReadOnly
+        bool ICollection<T>.IsReadOnly
         {
             get { return false; }
         }
@@ -122,36 +122,6 @@ namespace NLib.Collections.Generic
         /// Gets the implementation model.
         /// </summary>
         protected IDictionary<T, int> Model { get; private set; }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>1</filterpriority>
-        public IEnumerator<T> GetEnumerator()
-        {
-            foreach (var n in this.Model)
-            {
-                for (var i = 0; i < n.Value; ++i)
-                {
-                    yield return n.Key;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerator{T}"/> object that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
 
         /// <summary>
         /// Adds an item to the <see cref="ICollection{T}"/>.
@@ -218,6 +188,7 @@ namespace NLib.Collections.Generic
         public virtual void Clear()
         {
             this.Model.Clear();
+            this.Count = 0;
         }
 
         /// <summary>
@@ -253,22 +224,12 @@ namespace NLib.Collections.Generic
         {
             CheckError.ArgumentNullException(array, "array");
             Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, SortedBagResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex >= array.Length || arrayIndex + this.Count >= array.Length, SortedBagResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, SortedBagResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
                 this.ForEach(i => array[arrayIndex++] = i);
             }
-        }
-
-        /// <summary>
-        /// Removes one occurrence of all elements in the specified collection from the current <see cref="IBag{T}"/> object.
-        /// </summary>
-        /// <param name="other">The collection of items to remove from the <see cref="IBag{T}"/> object.</param>
-        /// <exception cref="ArgumentNullException">other is null.</exception>
-        public void ExceptWith(IEnumerable<T> other)
-        {
-            other.ForEach(i => this.Remove(i));
         }
 
         /// <summary>
@@ -282,6 +243,16 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
+        /// Removes one occurrence of all elements in the specified collection from the current <see cref="IBag{T}"/> object.
+        /// </summary>
+        /// <param name="other">The collection of items to remove from the <see cref="IBag{T}"/> object.</param>
+        /// <exception cref="ArgumentNullException">other is null.</exception>
+        public void ExceptWith(IEnumerable<T> other)
+        {
+            other.ForEach(i => this.Remove(i));
+        }
+
+        /// <summary>
         /// Gets the number of occurrences (cardinality) of the given object currently in the bag.
         /// </summary>
         /// <param name="item">The item to search for.</param>
@@ -289,6 +260,36 @@ namespace NLib.Collections.Generic
         public int GetCount(T item)
         {
             return this.Model.ContainsKey(item) ? this.Model[item] : 0;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (var n in this.Model)
+            {
+                for (var i = 0; i < n.Value; ++i)
+                {
+                    yield return n.Key;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="IEnumerator{T}"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         /// <summary>
@@ -300,7 +301,7 @@ namespace NLib.Collections.Generic
         public void IntersectWith(IEnumerable<T> other)
         {
             CheckError.ArgumentNullException(other, "other");
-
+            
             foreach (var t in other)
             {
                 if (!this.Contains(t))
@@ -310,7 +311,28 @@ namespace NLib.Collections.Generic
                 else
                 {
                     var t1 = t;
-                    this.Model[t] = other.Count(x => this.currentComparer(x, t1) == 0);
+                    var count = other.Count(x => this.currentComparer(x, t1) == 0);
+                    var total = this.GetCount(t);
+
+                    if (total > count)
+                    {
+                        this.Model[t] = count;
+                        this.Count -= total - count;
+                    }
+                }
+            }
+
+            var i = 0;
+            while (i < this.Model.Keys.Count)
+            {
+                var key = this.Model.Keys.ElementAt(i);
+                if (!other.Contains(key))
+                {
+                    this.RemoveAll(key);
+                }
+                else
+                {
+                    ++i;
                 }
             }
         }
@@ -325,7 +347,8 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public bool IsProperSubBagOf(IEnumerable<T> other)
         {
-            return this.IsSubBagOf(other);
+            return this.IsSubBagOf(other)
+                   && this.All(x => other.Contains(x));
         }
 
         /// <summary>
