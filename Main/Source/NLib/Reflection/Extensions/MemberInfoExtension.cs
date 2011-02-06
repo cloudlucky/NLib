@@ -11,6 +11,7 @@ namespace NLib.Reflection.Extensions
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -18,6 +19,27 @@ namespace NLib.Reflection.Extensions
     /// </summary>
     public static class MemberInfoExtension
     {
+        /// <summary>
+        /// When overridden in a derived class, returns the first of custom attributes identified by <see cref="Type"/>.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of attribute to search for. 
+        /// Only attributes that are assignable to this type are returned.
+        /// </typeparam>
+        /// <param name="memberInfo">The member info.</param>
+        /// <param name="inherit">Specifies whether to search this member's inheritance chain to find the attributes.</param>
+        /// <returns>The first attribute or null.</returns>
+        /// <exception cref="TypeLoadException">A custom attribute type cannot be loaded.</exception>
+        /// <exception cref="ArgumentNullException">The member info is null.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// This member belongs to a type that is loaded into the reflection-only context. 
+        /// See How to: Load Assemblies into the Reflection-Only Context.
+        /// </exception>
+        public static T GetCustomAttribute<T>(this MemberInfo memberInfo, bool inherit) where T : Attribute
+        {
+            return GetCustomAttributes<T>(memberInfo, inherit).FirstOrDefault();
+        }
+
         /// <summary>
         /// When overridden in a derived class, returns an array of custom attributes identified by <see cref="Type"/>.
         /// </summary>

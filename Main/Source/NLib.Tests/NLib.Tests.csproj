@@ -61,6 +61,7 @@
     <Compile Include="Extensions\ComparisonExtensionTest.cs" />
     <Compile Include="Extensions\EventHandlerExtensionTest.cs" />
     <Compile Include="Extensions\StringExtensionTest.cs" />
+    <Compile Include="Linq\Extensions\IQueryableExtensionTest.cs" />
     <Compile Include="MathHelperTest.cs" />
     <Compile Include="MissingConstructorExceptionTest.cs" />
     <Compile Include="Patterns\SimpleCommandTest.cs" />
@@ -68,8 +69,8 @@
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
-    <Compile Include="TypeTest.cs" />
     <Compile Include="Xml\Extensions\XDocumentExtensionTest.cs" />
+    <Compile Include="Xml\Linq\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />
