@@ -93,6 +93,7 @@
     <Compile Include="Linq\Extensions\IQueryableExtension.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />
+    <Compile Include="Patterns\LazySingleton.cs" />
     <Compile Include="Patterns\Resources\SimpleCommandResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
