@@ -5,7 +5,7 @@
 
   <!-- Version -->
   <PropertyGroup>
-    <AssemblyMajorVersion>1</AssemblyMajorVersion>
+    <AssemblyMajorVersion>2</AssemblyMajorVersion>
     <AssemblyMinorVersion>0</AssemblyMinorVersion>
     <!-- Setted by CI -->
     <AssemblyBuildNumber>1</AssemblyBuildNumber>
