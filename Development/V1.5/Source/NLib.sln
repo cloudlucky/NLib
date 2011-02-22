@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib", "NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{232265D9-1455-4721-82CC-49A4B5952D0B}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		FxCop.CustomDictionary.xml = FxCop.CustomDictionary.xml
+		License.txt = License.txt
+		NLib.Doc.shfbproj = NLib.Doc.shfbproj
+		NLib.nuspec = NLib.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Tests", "NLib.Tests\NLib.Tests.csproj", "{A21B94A7-4C3C-4BBC-A617-452912C8F38D}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs19
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = NLib.Tests\\NLib.Tests.csproj
+		SccProjectTopLevelParentUniqueName1 = NLib.sln
+		SccProjectName1 = NLib.Tests
+		SccLocalPath1 = NLib.Tests
+		SccProjectUniqueName2 = NLib\\NLib.csproj
+		SccProjectName2 = NLib
+		SccLocalPath2 = NLib
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A21B94A7-4C3C-4BBC-A617-452912C8F38D} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>nlib</id>
+    <version>1.0.0.0</version><!-- Setted by Build.proj -->
+    <authors>Cloudlucky</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.Net Library Helper</description>
+    <projectUrl>http://nlib.codeplex.com/</projectUrl>
+    <licenseUrl>http://nlib.codeplex.com/license</licenseUrl>
+  </metadata>
+  <files>
+    <file src="Binaries\*.dll" target="lib" /><!-- Setted by Build.proj -->
+  </files>
+</package>
