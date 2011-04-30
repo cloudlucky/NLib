@@ -97,5 +97,115 @@
                 Assert.AreEqual("foo is null\r\nParameter name: foo", ex.Message);
             }
         }
+
+        [Test]
+        public void ArgumentNullOrEmptyException1()
+        {
+            CheckError.ArgumentNullOrEmptyException("Test", "foo");
+            Assert.Pass();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrEmptyException2()
+        {
+            CheckError.ArgumentNullOrEmptyException(null, "foo");
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ArgumentNullOrEmptyException3()
+        {
+            CheckError.ArgumentNullOrEmptyException("Test", "foo", "foo is null or empty");
+            Assert.Pass();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrEmptyException4()
+        {
+            CheckError.ArgumentNullOrEmptyException(string.Empty, "foo", "foo is null or empty");
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ArgumentNullOrEmptyException5()
+        {
+            try
+            {
+                CheckError.ArgumentNullOrEmptyException(null, "foo", "foo is null");
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("foo is null\r\nParameter name: foo", ex.Message);
+            }
+        }
+
+        [Test]
+        public void ArgumentNullOrWhiteSpaceException1()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException("Test", "foo");
+            Assert.Pass();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrWhiteSpaceException2()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException(null, "foo");
+            Assert.Fail();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrWhiteSpaceException3()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException("    ", "foo");
+            Assert.Fail();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrWhiteSpaceException4()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException(string.Empty, "foo");
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ArgumentNullOrWhiteSpaceException5()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException("Test", "foo", "foo is null or empty");
+            Assert.Pass();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrWhiteSpaceException6()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException(string.Empty, "foo", "foo is null or empty");
+            Assert.Fail();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ArgumentNullOrWhiteSpaceException7()
+        {
+            CheckError.ArgumentNullOrWhiteSpaceException("     ", "foo", "foo is null or empty");
+            Assert.Fail();
+        }
+
+        [Test]
+        public void ArgumentNullOrWhiteSpaceException8()
+        {
+            try
+            {
+                CheckError.ArgumentNullOrWhiteSpaceException(null, "foo", "foo is null");
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("foo is null\r\nParameter name: foo", ex.Message);
+            }
+        }
     }
 }
