@@ -107,7 +107,7 @@ namespace NLib.Web.Hosting
 
                 if (fileName != null)
                 {
-                    File.Copy(file, Path.Combine(this.BinDirectory, fileName));
+                    File.Copy(file, Path.Combine(this.BinDirectory, fileName), true);
                 }
             }
         }
