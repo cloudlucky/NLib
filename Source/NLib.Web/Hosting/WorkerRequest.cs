@@ -38,6 +38,8 @@ namespace NLib.Web.Hosting
                 HttpRuntime.ProcessRequest(request);
                 writer.Flush();
 
+                request.cl
+
                 return writer;
             }
         }
