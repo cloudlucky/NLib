@@ -73,15 +73,13 @@ namespace NLib.Web.Hosting
         /// </summary>
         public virtual void Dispose()
         {
-            ApplicationManager.GetApplicationManager().ShutdownAll();
-            HostingEnvironment.InitiateShutdown();
             this.WorkerProcess.Dispose();
             this.workerRequest = null;
 
-            if (Directory.Exists(this.BinDirectory))
+            /*if (Directory.Exists(this.BinDirectory))
             {
                 Directory.Delete(this.BinDirectory, true);
-            }
+            }*/
         }
 
         /// <summary>
@@ -111,7 +109,11 @@ namespace NLib.Web.Hosting
                 if (fileName != null)
                 {
                     var destination = Path.Combine(this.BinDirectory, fileName);
-                    File.Copy(file, destination);
+
+                    if (!File.Exists(destination))
+                    {
+                        File.Copy(file, destination);
+                    }
                 }
             }
         }
