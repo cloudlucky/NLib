@@ -74,6 +74,7 @@ namespace NLib.Web.Hosting
         public virtual void Dispose()
         {
             this.WorkerProcess.Dispose();
+            this.workerRequest = null;
 
             if (Directory.Exists(this.BinDirectory))
             {
@@ -108,11 +109,7 @@ namespace NLib.Web.Hosting
                 if (fileName != null)
                 {
                     var destination = Path.Combine(this.BinDirectory, fileName);
-
-                    if (!File.Exists(destination))
-                    {
-                        File.Copy(file, Path.Combine(this.BinDirectory, fileName));
-                    }
+                    File.Copy(file, destination);
                 }
             }
         }
@@ -125,7 +122,7 @@ namespace NLib.Web.Hosting
         {
             this.CopyBinaries();
 
-            this.workerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/MyTestVirtualDir", this.BaseDirectory);
+            this.workerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", this.BaseDirectory);
         }
     }
 }
