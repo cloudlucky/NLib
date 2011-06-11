@@ -73,6 +73,8 @@ namespace NLib.Web.Hosting
         /// </summary>
         public virtual void Dispose()
         {
+            ApplicationManager.GetApplicationManager().ShutdownAll();
+            HostingEnvironment.InitiateShutdown();
             this.WorkerProcess.Dispose();
             this.workerRequest = null;
 
