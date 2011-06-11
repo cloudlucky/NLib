@@ -55,9 +55,9 @@ namespace NLib.Practices.Unity
         /// </summary>
         public static void DisposeAll()
         {
-            var keys = HttpContext.Current.Application.AllKeys;
+            var keys = HttpContext.Current.Session.Keys;
 
-            foreach (var httpSessionLifetimeManager in keys.Select(key => HttpContext.Current.Session[key]).OfType<HttpSessionLifetimeManager>())
+            foreach (var httpSessionLifetimeManager in keys.Cast<string>().Select(key => HttpContext.Current.Session[key]).OfType<HttpSessionLifetimeManager>())
             {
                 httpSessionLifetimeManager.Dispose();
             }

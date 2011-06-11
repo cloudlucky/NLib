@@ -16,7 +16,9 @@
             var container = new UnityContainer();
 
             container.RegisterType<IService, Service>("HttpRequestLifetimeManager", new HttpRequestLifetimeManager(), new InjectionFactory(c => new Service(HttpContext.Current.Request.QueryString["Name"])))
-                     .RegisterType<IService, Service>("ContainerControlledLifetimeManager", new ContainerControlledLifetimeManager(), new InjectionFactory(c => new Service(HttpContext.Current.Request.QueryString["Name"])));
+                     .RegisterType<IService, Service>("ContainerControlledLifetimeManager", new ContainerControlledLifetimeManager(), new InjectionFactory(c => new Service(HttpContext.Current.Request.QueryString["Name"])))
+                     .RegisterType<IService, Service>("HttpApplicationLifetimeManager", new HttpApplicationLifetimeManager(), new InjectionFactory(c => new Service(HttpContext.Current.Request.QueryString["Name"])))
+                     .RegisterType<IService, Service>("HttpSessionLifetimeManager", new HttpSessionLifetimeManager(), new InjectionFactory(c => new Service(HttpContext.Current.Request.QueryString["Name"])));
 
             var locator = new UnityServiceLocator(container);
 
@@ -34,15 +36,11 @@
         protected void Application_End()
         {
             HttpApplicationLifetimeManager.DisposeAll();
-
-            // TODO : Vérifier qu'il n'y a plus de Lifetime manager dans l'application
         }
 
         protected void Session_End()
         {
             HttpSessionLifetimeManager.DisposeAll();
-
-            // TODO : Vérifier qu'il n'y a plus de Lifetime manager dans la session
         }
     }
 }
