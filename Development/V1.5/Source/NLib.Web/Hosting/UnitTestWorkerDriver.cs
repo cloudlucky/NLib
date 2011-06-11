@@ -21,11 +21,6 @@ namespace NLib.Web.Hosting
     public class UnitTestWorkerDriver : IWorkerDriver
     {
         /// <summary>
-        /// The worker request.
-        /// </summary>
-        private IWorkerRequest workerRequest;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="UnitTestWorkerDriver"/> class.
         /// </summary>
         public UnitTestWorkerDriver()
@@ -45,12 +40,9 @@ namespace NLib.Web.Hosting
         }
 
         /// <summary>
-        /// Gets the worker process.
+        /// Gets the worker request.
         /// </summary>
-        protected IWorkerRequest WorkerProcess
-        {
-            get { return this.workerRequest; }
-        }
+        protected IWorkerRequest WorkerRequest { get; private set; }
 
         /// <summary>
         /// Gets the base directory.
@@ -73,13 +65,8 @@ namespace NLib.Web.Hosting
         /// </summary>
         public virtual void Dispose()
         {
-            this.WorkerProcess.Dispose();
-            this.workerRequest = null;
-
-            /*if (Directory.Exists(this.BinDirectory))
-            {
-                Directory.Delete(this.BinDirectory, true);
-            }*/
+            this.WorkerRequest.Dispose();
+            this.WorkerRequest = null;
         }
 
         /// <summary>
@@ -90,7 +77,7 @@ namespace NLib.Web.Hosting
         /// <returns>The response</returns>
         public virtual HttpResponse GetResponse(string page, string queryString)
         {
-            return new HttpResponse(this.WorkerProcess.ProcessRequest(page, queryString));
+            return new HttpResponse(this.WorkerRequest.ProcessRequest(page, queryString));
         }
 
         /// <summary>
@@ -126,7 +113,7 @@ namespace NLib.Web.Hosting
         {
             this.CopyBinaries();
 
-            this.workerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", this.BaseDirectory);
+            this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", this.BaseDirectory);
         }
     }
 }

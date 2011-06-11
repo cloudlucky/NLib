@@ -40,26 +40,26 @@ namespace NLib.Practices.Unity
         }
 
         /// <summary>
-        /// Disposes all object in the application context.
-        /// If this class (<see cref="HttpRequestLifetimeManager"/>) as not been registered as a HttpModule, use this method in the Application_EndRequest event of the Global.asax.
-        /// </summary>
-        public static void DisposeAll()
-        {
-            var keys = HttpContext.Current.Application.AllKeys;
-
-            foreach (var httpRequestLifetimeManager in keys.Select(key => HttpContext.Current.Items[key]).OfType<HttpRequestLifetimeManager>())
-            {
-                httpRequestLifetimeManager.Dispose();
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="HttpRequestLifetimeManager"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
         public HttpRequestLifetimeManager(object key)
         {
             this.key = key;
+        }
+
+        /// <summary>
+        /// Disposes all object in the application context.
+        /// If this class (<see cref="HttpRequestLifetimeManager"/>) as not been registered as a HttpModule, use this method in the Application_EndRequest event of the Global.asax.
+        /// </summary>
+        public static void DisposeAll()
+        {
+            var keys = HttpContext.Current.Items.Keys;
+
+            foreach (var httpRequestLifetimeManager in keys.Cast<string>().Select(key => HttpContext.Current.Items[key]).OfType<HttpRequestLifetimeManager>())
+            {
+                httpRequestLifetimeManager.Dispose();
+            }
         }
 
         /// <summary>

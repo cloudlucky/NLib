@@ -57,7 +57,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="LifetimeManagerTests\HttpRequestLifetimeManagerTest.cs" />
+    <Compile Include="LifetimeManagerTests\LifetimeManagerTest.cs" />
     <Compile Include="LifetimeManagerTests\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,8 +75,9 @@
     <Content Include="Global.asax">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HttpRequestLifetimeManagerTest.aspx">
+    <Content Include="LifetimeManagerTest.aspx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>ASPXCodeBehind</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
