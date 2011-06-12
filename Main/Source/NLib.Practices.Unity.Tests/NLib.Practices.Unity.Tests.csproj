@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A21B94A7-4C3C-4BBC-A617-452912C8F38D}</ProjectGuid>
+    <ProjectGuid>{28C77648-304B-4186-A21D-BA894BFB245A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NLib.Tests</RootNamespace>
-    <AssemblyName>NLib.Tests</AssemblyName>
+    <RootNamespace>NLib.Practices.Unity.Tests</RootNamespace>
+    <AssemblyName>NLib.Practices.Unity.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -35,12 +35,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\UnityApplicationBlock\2.0\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\Lib\UnityApplicationBlock\2.0\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,41 +54,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckErrorTest.cs" />
-    <Compile Include="CheckTest.cs" />
-    <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtensionTest.cs" />
-    <Compile Include="Collections\Generic\Extensions\IEnumerableExtensionTest.cs" />
-    <Compile Include="Collections\Generic\Extensions\IListExtensionTest.cs" />
-    <Compile Include="Collections\Generic\GeneratorTest.cs" />
-    <Compile Include="Collections\Generic\SortedBagTest.cs" />
-    <Compile Include="EventArgsTest.cs" />
-    <Compile Include="Extensions\ArrayExtensionTest.cs" />
-    <Compile Include="Extensions\ConvertExtensionTest.cs" />
-    <Compile Include="Extensions\ComparisonExtensionTest.cs" />
-    <Compile Include="Extensions\EventHandlerExtensionTest.cs" />
-    <Compile Include="Extensions\StringExtensionTest.cs" />
-    <Compile Include="Linq\Extensions\IQueryableExtensionTest.cs" />
-    <Compile Include="MathHelperTest.cs" />
-    <Compile Include="MissingConstructorExceptionTest.cs" />
-    <Compile Include="Patterns\LazySingletonTest.cs" />
-    <Compile Include="Patterns\SimpleCommandTest.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="LifetimeManagerTests\LifetimeManagerTest.cs" />
+    <Compile Include="LifetimeManagerTests\Service.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RationalNumberTest.cs" />
-    <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
-    <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
-    <Compile Include="Xml\Extensions\XDocumentExtensionTest.cs" />
-    <Compile Include="Xml\Linq\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NLib\NLib.csproj">
-      <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
-      <Name>NLib</Name>
+    <ProjectReference Include="..\NLib.Practices.Unity\NLib.Practices.Unity.csproj">
+      <Project>{966C6F13-031A-4D05-8AB3-0ED68D688FDB}</Project>
+      <Name>NLib.Practices.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NLib.Web\NLib.Web.csproj">
+      <Project>{3EBCC361-90EB-4807-9F21-44A34F163ED8}</Project>
+      <Name>NLib.Web</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LifetimeManagerTest.aspx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
