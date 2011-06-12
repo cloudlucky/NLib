@@ -16,9 +16,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Tests", "NLib.Tests\NLib.Tests.csproj", "{A21B94A7-4C3C-4BBC-A617-452912C8F38D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity", "NLib.Practices.Unity\NLib.Practices.Unity.csproj", "{966C6F13-031A-4D05-8AB3-0ED68D688FDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Tests", "NLib.Practices.Unity.Tests\NLib.Practices.Unity.Tests.csproj", "{28C77648-304B-4186-A21D-BA894BFB245A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web", "NLib.Web\NLib.Web.csproj", "{3EBCC361-90EB-4807-9F21-44A34F163ED8}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs19
 		SccLocalPath0 = .
@@ -29,6 +35,16 @@ Global
 		SccProjectUniqueName2 = NLib\\NLib.csproj
 		SccProjectName2 = NLib
 		SccLocalPath2 = NLib
+		SccProjectUniqueName3 = NLib.Practices.Unity\\NLib.Practices.Unity.csproj
+		SccProjectName3 = NLib.Practices.Unity
+		SccLocalPath3 = NLib.Practices.Unity
+		SccProjectUniqueName4 = NLib.Practices.Unity.Tests\\NLib.Practices.Unity.Tests.csproj
+		SccProjectTopLevelParentUniqueName4 = NLib.sln
+		SccProjectName4 = NLib.Practices.Unity.Tests
+		SccLocalPath4 = NLib.Practices.Unity.Tests
+		SccProjectUniqueName5 = NLib.Web\\NLib.Web.csproj
+		SccProjectName5 = NLib.Web
+		SccLocalPath5 = NLib.Web
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,11 +59,24 @@ Global
 		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A21B94A7-4C3C-4BBC-A617-452912C8F38D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{966C6F13-031A-4D05-8AB3-0ED68D688FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{966C6F13-031A-4D05-8AB3-0ED68D688FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{966C6F13-031A-4D05-8AB3-0ED68D688FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{966C6F13-031A-4D05-8AB3-0ED68D688FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28C77648-304B-4186-A21D-BA894BFB245A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28C77648-304B-4186-A21D-BA894BFB245A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C77648-304B-4186-A21D-BA894BFB245A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28C77648-304B-4186-A21D-BA894BFB245A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EBCC361-90EB-4807-9F21-44A34F163ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EBCC361-90EB-4807-9F21-44A34F163ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EBCC361-90EB-4807-9F21-44A34F163ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EBCC361-90EB-4807-9F21-44A34F163ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A21B94A7-4C3C-4BBC-A617-452912C8F38D} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
+		{28C77648-304B-4186-A21D-BA894BFB245A} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 	EndGlobalSection
 EndGlobal

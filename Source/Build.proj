@@ -6,60 +6,61 @@
   <!-- Version -->
   <PropertyGroup>
     <AssemblyMajorVersion>1</AssemblyMajorVersion>
-    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <AssemblyMinorVersion>5</AssemblyMinorVersion>
     <!-- Setted by CI -->
-    <AssemblyBuildNumber>1</AssemblyBuildNumber>
+    <AssemblyBuildNumber>0</AssemblyBuildNumber>
     <!-- Setted by CI -->
-    <AssemblyRevision>2</AssemblyRevision>
+    <AssemblyRevision>0</AssemblyRevision>
     <Version>$(AssemblyMajorVersion).$(AssemblyMinorVersion).$(AssemblyBuildNumber).$(AssemblyRevision)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootFolder>$(MSBuildProjectDirectory)\..</RootFolder>
+    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
+    <ToolsFolder>$(RootFolder)\Tools</ToolsFolder>
+    <LibFolder>$(RootFolder)\Lib</LibFolder>
   </PropertyGroup>
 
   <!-- NLib Files -->
   <PropertyGroup>
-    <NLibDllInclude>$(MSBuildProjectDirectory)\**\NLib*.dll</NLibDllInclude>
-    <NLibDllExclude>$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*</NLibDllExclude>
-    <NLibXmlInclude>$(MSBuildProjectDirectory)\**\NLib*.XML</NLibXmlInclude>
-    <NLibXmlExclude>$(MSBuildProjectDirectory)\**\obj\**\*;$(MSBuildProjectDirectory)\**\Debug\**\*;$(MSBuildProjectDirectory)\**\*.Tests\**\*</NLibXmlExclude>
+    <NLibDllInclude>$(SourceFolder)\**\NLib*.dll</NLibDllInclude>
+    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
+    <NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
+    <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>
   </PropertyGroup>
 
   <!-- Release -->
   <PropertyGroup>
-    <ReleaseFolder>$(MSBuildProjectDirectory)\Release</ReleaseFolder>
+    <ReleaseFolder>$(RootFolder)\Release</ReleaseFolder>
     <BinariesFolder>$(ReleaseFolder)\Binaries</BinariesFolder>
     <BinariesWithDocFolder>$(ReleaseFolder)\BinariesDoc</BinariesWithDocFolder>
-    <SourceFolder>$(ReleaseFolder)\Sources</SourceFolder>
+    <ReleaseSourceFolder>$(ReleaseFolder)\Sources</ReleaseSourceFolder>
   </PropertyGroup>
 
   <!-- Documentation -->
   <PropertyGroup>
-    <SHFBproj>$(MSBuildProjectDirectory)\NLib.Doc.shfbproj</SHFBproj>
+    <SHFBproj>$(SourceFolder)\NLib.Doc.shfbproj</SHFBproj>
     <HtmlHelp1Output>$(ReleaseFolder)\Doc\HtmlHelp1</HtmlHelp1Output>
     <WebsiteOutput>$(ReleaseFolder)\Doc\Website</WebsiteOutput>
   </PropertyGroup>
   
   <PropertyGroup>
-    <Nuspec>$(MSBuildProjectDirectory)\NLib.nuspec</Nuspec>
+    <Nuspec>$(SourceFolder)\NLib.nuspec</Nuspec>
   </PropertyGroup>
   
   <!-- Tools -->
   <PropertyGroup>
-    <Tools>$(MSBuildProjectDirectory)\..\Tools</Tools>
-    <NuGetTool>$(Tools)\NuGet\NuGet.exe</NuGetTool>
-  </PropertyGroup>
-  
-  <!-- Libraries -->
-  <PropertyGroup>
-    <Lib>$(MSBuildProjectDirectory)\..\Lib</Lib>
+    <NuGetTool>$(ToolsFolder)\NuGet\NuGet.exe</NuGetTool>
   </PropertyGroup>
   
   <!-- Solutions to build-->
   <ItemGroup>
-    <SolutionToBuild Include="$(MSBuildProjectDirectory)\NLib.sln" />
+    <SolutionToBuild Include="$(SourceFolder)\NLib.sln" />
   </ItemGroup>
 
   <Target Name="SetVersion" BeforeTargets="Build">
     <ItemGroup>
-      <AssemblyInfoFiles Include="**\AssemblyInfo.*"/>
+      <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*"/>
     </ItemGroup>
     <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
                                                   AssemblyMajorVersion="$(AssemblyMajorVersion)"
@@ -94,8 +95,8 @@
   </Target>
 
   <Target Name="PackageBinariesWithDoc">
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;"/>
-
+    <Exec Command="msbuild &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;" />
+    
     <ItemGroup>
       <NLibDll Include="$(NLibDllInclude)"
                Exclude="$(NLibDllExclude)"/>
@@ -109,7 +110,7 @@
   </Target>
 
   <Target Name="PackageDocumentationWebsite">
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\3.5', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;"/>
+    <Exec Command="msbuild &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;" />
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\NLibDocumentationWebsite.zip"/>
   </Target>
 
@@ -128,15 +129,15 @@
 
   <Target Name="PackageWithSources">
     <ItemGroup>
-      <Sources Include="$(MSBuildProjectDirectory)\**"
-               Exclude="$(MSBuildProjectDirectory)\**\*.vssscc;$(MSBuildProjectDirectory)\**\*.vspscc;$(MSBuildProjectDirectory)\**\*.user;$(MSBuildProjectDirectory)\*.suo;$(MSBuildProjectDirectory)\_ReSharper*\**\*;$(ReleaseFolder)\**;$(MSBuildProjectDirectory)\**\bin\**;$(MSBuildProjectDirectory)\**\obj\**"/>
-      <Tools Include="$(Tools)\**"/>
-      <Lib Include="$(Lib)\**"/>
+      <Sources Include="$(SourceFolder)\**"
+               Exclude="$(SourceFolder)\**\*.vssscc;$(SourceFolder)\**\*.vspscc;$(SourceFolder)\**\*.user;$(SourceFolder)\*.suo;$(SourceFolder)\_ReSharper*\**\*;$(ReleaseFolder)\**;$(SourceFolder)\**\bin\**;$(SourceFolder)\**\obj\**;$(SourceFolder)\**\*.dotCover;$(SourceFolder)\**\*.docstates"/>
+      <Tools Include="$(ToolsFolder)\**"/>
+      <Lib Include="$(LibFolder)\**"/>
     </ItemGroup>
 
-    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(SourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <Copy SourceFiles="@(Tools)" DestinationFiles="@(Tools->'$(SourceFolder)\Tools\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <Copy SourceFiles="@(Lib)" DestinationFiles="@(Lib->'$(SourceFolder)\Lib\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(SourceFolder)" ZipFileName="$(ReleaseFolder)\NLibSources.zip"/>
+    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ReleaseSourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <Copy SourceFiles="@(Tools)" DestinationFiles="@(Tools->'$(ReleaseSourceFolder)\Tools\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <Copy SourceFiles="@(Lib)" DestinationFiles="@(Lib->'$(ReleaseSourceFolder)\Lib\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(ReleaseFolder)\NLibSources.zip"/>
   </Target>
 </Project>
