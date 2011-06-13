@@ -2,7 +2,8 @@
 <package>
   <metadata>
     <id>nlib</id>
-    <version>1.0.0.0</version><!-- Setted by Build.proj -->
+    <version>1.5.0.0</version>
+    <!-- Setted by Build.proj -->
     <authors>Cloudlucky</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.Net Library Helper</description>
@@ -10,6 +11,7 @@
     <licenseUrl>http://nlib.codeplex.com/license</licenseUrl>
   </metadata>
   <files>
-    <file src="Binaries\*.dll" target="lib" /><!-- Setted by Build.proj -->
+    <file src="C:\Projects\NLib\Main\Source\..\Release\Binaries\*" target="lib" />
+    <!-- Setted by Build.proj -->
   </files>
 </package>
