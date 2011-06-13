@@ -17,6 +17,27 @@ namespace NLib
     public static class CheckError
     {
         /// <summary>
+        /// Throws <see cref="System.ArgumentException"/> if the <paramref name="condition"/> is false.
+        /// </summary>
+        /// <param name="condition">The condition to check.</param>
+        /// <param name="paramName">Name of the param.</param>
+        public static void ArgumentException(bool condition, string paramName)
+        {
+            ArgumentException(condition, paramName, string.Empty);
+        }
+
+        /// <summary>
+        /// Throws <see cref="System.ArgumentException"/> if the <paramref name="condition"/> is false.
+        /// </summary>
+        /// <param name="condition">The condition to check.</param>
+        /// <param name="paramName">Name of the param.</param>
+        /// <param name="message">The message.</param>
+        public static void ArgumentException(bool condition, string paramName, string message)
+        {
+            Check.Requires<ArgumentException>(condition, message, new { paramName });
+        }
+
+        /// <summary>
         /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null.
         /// </summary>
         /// <param name="param">The param to check if it's null.</param>
@@ -35,6 +56,48 @@ namespace NLib
         public static void ArgumentNullException(object param, string paramName, string message)
         {
             Check.Requires<ArgumentNullException>(param != null, message, new { paramName });
+        }
+
+        /// <summary>
+        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrEmpty(string)"/>.
+        /// </summary>
+        /// <param name="param">The param to check if it's null.</param>
+        /// <param name="paramName">Name of the param.</param>
+        public static void ArgumentNullOrEmptyException(string param, string paramName)
+        {
+            ArgumentNullOrEmptyException(param, paramName, null);
+        }
+
+        /// <summary>
+        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrEmpty(string)"/>.
+        /// </summary>
+        /// <param name="param">The param to check if it's null.</param>
+        /// <param name="paramName">Name of the param.</param>
+        /// <param name="message">The message.</param>
+        public static void ArgumentNullOrEmptyException(string param, string paramName, string message)
+        {
+            Check.Requires<ArgumentNullException>(!string.IsNullOrEmpty(param), message, new { paramName });
+        }
+
+        /// <summary>
+        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrWhiteSpace(string)"/>.
+        /// </summary>
+        /// <param name="param">The param to check if it's null.</param>
+        /// <param name="paramName">Name of the param.</param>
+        public static void ArgumentNullOrWhiteSpaceException(string param, string paramName)
+        {
+            ArgumentNullOrWhiteSpaceException(param, paramName, null);
+        }
+
+        /// <summary>
+        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or  <see cref="string.IsNullOrWhiteSpace(string)"/>.
+        /// </summary>
+        /// <param name="param">The param to check if it's null.</param>
+        /// <param name="paramName">Name of the param.</param>
+        /// <param name="message">The message.</param>
+        public static void ArgumentNullOrWhiteSpaceException(string param, string paramName, string message)
+        {
+            Check.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(param), message, new { paramName });
         }
     }
 }
