@@ -641,7 +641,7 @@
         }
 
         [Test]
-        public void OperatorLesserThan()
+        public void OperatorLessThan()
         {
             var r1 = new RationalNumber(2.5);
             var r2 = new RationalNumber(3.5);
@@ -652,7 +652,7 @@
         }
 
         [Test]
-        public void OperatorLesserThanOrEqual()
+        public void OperatorLessThanOrEqual()
         {
             var r1 = new RationalNumber(2.5);
             var r2 = new RationalNumber(3.5);
