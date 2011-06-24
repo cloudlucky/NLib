@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{339A9B10-F035-44B9-98AC-21F438A857F6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NLib.Web.Mvc</RootNamespace>
+    <AssemblyName>NLib.Web.Mvc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationCompareRuleBase.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationNotEqualsToRule.cs" />
+    <Compile Include="AttributeAdapters\NotEqualsToAttributeAdapter.cs" />
+    <Compile Include="AttributeAdapters\LessThanOrEqualsToAttributeAdapter.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationLessThanOrEqualsToRule.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationLessThanRule.cs" />
+    <Compile Include="AttributeAdapters\LessThanAttributeAdapter.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationGreaterThanOrEqualsToRule.cs" />
+    <Compile Include="AttributeAdapters\GreaterThanOrEqualsToAttributeAdapter.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationGreaterThanRule.cs" />
+    <Compile Include="AttributeAdapters\GreaterThanAttributeAdapter.cs" />
+    <Compile Include="EmbeddedResourceController.cs" />
+    <Compile Include="AttributeAdapters\EqualsToAttributeAdapter.cs" />
+    <Compile Include="Extensions\RouteCollectionExtension.cs" />
+    <Compile Include="Extensions\UrlHelperExtension.cs" />
+    <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationEqualsToRule.cs" />
+    <Compile Include="NLibDataAnnotationsModelValidatorRegister.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\FxCop.CustomDictionary.xml">
+      <Link>Properties\FxCop.CustomDictionary.xml</Link>
+    </Content>
+    <EmbeddedResource Include="NLib.validate.js" />
+    <EmbeddedResource Include="NLib.validate.unobstrusive.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">
+      <Project>{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}</Project>
+      <Name>NLib.ComponentModel.DataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NLib\NLib.csproj">
+      <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
+      <Name>NLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
