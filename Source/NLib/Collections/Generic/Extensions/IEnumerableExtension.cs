@@ -82,9 +82,9 @@ namespace NLib.Collections.Generic.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is null.</exception>
         public static IEnumerable<TSource> Between<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, TKey min, TKey max, IComparer<TKey> comparer)
         {
-            CheckError.ArgumentNullException(source, "source");
-            CheckError.ArgumentNullException(keySelector, "keySelector");
-            CheckError.ArgumentNullException(comparer, "comparer");
+            Check.ArgumentNullException(source, "source");
+            Check.ArgumentNullException(keySelector, "keySelector");
+            Check.ArgumentNullException(comparer, "comparer");
 
             return source.Where(x => comparer.Compare(keySelector(x), min) >= 0 && comparer.Compare(keySelector(x), max) <= 0);
         }
@@ -102,8 +102,8 @@ namespace NLib.Collections.Generic.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
         public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> collection, Action<TSource> action)
         {
-            CheckError.ArgumentNullException(collection, "collection");
-            CheckError.ArgumentNullException(action, "action");
+            Check.ArgumentNullException(collection, "collection");
+            Check.ArgumentNullException(action, "action");
             
             var list = collection as List<TSource>;
             if (list != null)
@@ -131,7 +131,7 @@ namespace NLib.Collections.Generic.Extensions
         /// <returns>The subset of the collection.</returns>
         public static IEnumerable<T> Paginate<T>(this IEnumerable<T> collection, int page, int pageSize)
         {
-            CheckError.ArgumentNullException(collection, "collection");
+            Check.ArgumentNullException(collection, "collection");
 
             var skip = Math.Max(pageSize * page, 0);
 

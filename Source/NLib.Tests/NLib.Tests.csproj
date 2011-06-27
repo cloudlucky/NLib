@@ -48,8 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckErrorTest.cs" />
     <Compile Include="CheckTest.cs" />
+    <Compile Include="Collections\Generic\HashBagTest.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtensionTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtensionTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtensionTest.cs" />

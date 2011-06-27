@@ -23,7 +23,7 @@ namespace NLib.Web.Mvc.Extensions
         /// <param name="routes">The routes.</param>
         public static void MapEmbeddedResourceRoute(this RouteCollection routes)
         {
-            CheckError.ArgumentNullException(routes, "routes");
+            Check.ArgumentNullException(routes, "routes");
 
             routes.MapRoute(
                 "NLibEmbeddedResourceRoute", 

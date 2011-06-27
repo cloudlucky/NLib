@@ -23,7 +23,7 @@ namespace NLib.Web.Mvc.AttributeAdapters.ModelClientValidationRules
         /// <returns>The property formatted for client validation.</returns>
         public static string FormatPropertyForClientValidation(string property)
         {
-            CheckError.ArgumentNullOrWhiteSpaceException(property, property);
+            Check.ArgumentNullOrWhiteSpaceException(property, property);
 
             return "*." + property;
         }
