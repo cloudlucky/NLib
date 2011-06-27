@@ -31,7 +31,7 @@ namespace NLib.Xml.Linq.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static XmlDocument ToXmlDocument(this XDocument xdocument)
         {
-            CheckError.ArgumentNullException(xdocument, "xdocument");
+            Check.ArgumentNullException(xdocument, "xdocument");
 
             using (var reader = xdocument.CreateReader())
             {

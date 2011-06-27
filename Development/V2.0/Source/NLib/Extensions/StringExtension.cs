@@ -30,7 +30,7 @@ namespace NLib.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static bool Contains(this string text, string value, StringComparison comparisonType)
         {
-            CheckError.ArgumentNullException(text, "text");
+            Check.ArgumentNullException(text, "text");
 
             if (string.IsNullOrEmpty(value))
             { 

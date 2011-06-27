@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="Check.cs" />
     <Compile Include="CheckError.cs" />
+    <Compile Include="Collections\Generic\BagBase.cs" />
+    <Compile Include="Collections\Generic\BagBaseDebugView.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtension.cs" />
@@ -66,21 +68,19 @@
       <DependentUpon>IListExtensionResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
+    <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
+    <Compile Include="Collections\Generic\Resources\BagBaseResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BagBaseResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Collections\Generic\Resources\GeneratorResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GeneratorResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Generic\Resources\SortedBagResource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SortedBagResource.resx</DependentUpon>
-    </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
-    <Compile Include="Collections\Generic\SortedBagDebugView.cs">
-      <DependentUpon>SortedBag.cs</DependentUpon>
-    </Compile>
     <Compile Include="EqualityComparison.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\ComparisonExtension.cs" />
@@ -124,13 +124,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IListExtensionResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Collections\Generic\Resources\BagBaseResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BagBaseResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Collections\Generic\Resources\GeneratorResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneratorResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Collections\Generic\Resources\SortedBagResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SortedBagResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Patterns\Resources\SimpleCommandResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

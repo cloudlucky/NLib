@@ -14,6 +14,7 @@ namespace NLib
     /// <summary>
     /// Helper methodes for <see cref="Check"/>.
     /// </summary>
+    [Obsolete("Use NLib.Check class instead", true)]
     public static class CheckError
     {
         /// <summary>
@@ -21,6 +22,7 @@ namespace NLib
         /// </summary>
         /// <param name="condition">The condition to check.</param>
         /// <param name="paramName">Name of the param.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentException(bool condition, string paramName)
         {
             ArgumentException(condition, paramName, string.Empty);
@@ -32,6 +34,7 @@ namespace NLib
         /// <param name="condition">The condition to check.</param>
         /// <param name="paramName">Name of the param.</param>
         /// <param name="message">The message.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentException(bool condition, string paramName, string message)
         {
             Check.Requires<ArgumentException>(condition, message, new { paramName });
@@ -42,6 +45,7 @@ namespace NLib
         /// </summary>
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullException(object param, string paramName)
         {
             ArgumentNullException(param, paramName, null);
@@ -53,6 +57,7 @@ namespace NLib
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
         /// <param name="message">The message.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullException(object param, string paramName, string message)
         {
             Check.Requires<ArgumentNullException>(param != null, message, new { paramName });
@@ -63,6 +68,7 @@ namespace NLib
         /// </summary>
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullOrEmptyException(string param, string paramName)
         {
             ArgumentNullOrEmptyException(param, paramName, null);
@@ -74,6 +80,7 @@ namespace NLib
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
         /// <param name="message">The message.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullOrEmptyException(string param, string paramName, string message)
         {
             Check.Requires<ArgumentNullException>(!string.IsNullOrEmpty(param), message, new { paramName });
@@ -84,6 +91,7 @@ namespace NLib
         /// </summary>
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullOrWhiteSpaceException(string param, string paramName)
         {
             ArgumentNullOrWhiteSpaceException(param, paramName, null);
@@ -95,6 +103,7 @@ namespace NLib
         /// <param name="param">The param to check if it's null.</param>
         /// <param name="paramName">Name of the param.</param>
         /// <param name="message">The message.</param>
+        [Obsolete("Use NLib.Check.ArgumentException method instead", true)]
         public static void ArgumentNullOrWhiteSpaceException(string param, string paramName, string message)
         {
             Check.Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(param), message, new { paramName });

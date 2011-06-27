@@ -85,7 +85,7 @@ namespace NLib.ComponentModel.DataAnnotations
         /// <exception cref="ValidationException">The <see cref="MustBeSameType"/> is true and the type of <paramref name="value"/> and <see cref="OtherPropertyName"/> are different.</exception>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            CheckError.ArgumentNullException(validationContext, "validationContext");
+            Check.ArgumentNullException(validationContext, "validationContext");
 
             var otherValue = this.GetOtherProperty(validationContext);
 

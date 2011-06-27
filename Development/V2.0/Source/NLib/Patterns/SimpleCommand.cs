@@ -67,8 +67,8 @@ namespace NLib.Patterns
         public SimpleCommand(Action execute, Action undo, Action redo)
             : this()
         {
-            CheckError.ArgumentNullException(execute, "execute");
-            CheckError.ArgumentNullException(undo, "undo");
+            Check.ArgumentNullException(execute, "execute");
+            Check.ArgumentNullException(undo, "undo");
 
             this.execute = execute;
             this.undo = undo;

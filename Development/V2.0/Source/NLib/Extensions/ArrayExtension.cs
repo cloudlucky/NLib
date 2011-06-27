@@ -30,7 +30,7 @@ namespace NLib.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static void SwapValues<T>(this T[] array, int index1, int index2)
         {
-            CheckError.ArgumentNullException(array, "array");
+            Check.ArgumentNullException(array, "array");
             Check.Requires<IndexOutOfRangeException>(index1 >= 0 && index1 < array.Length, IListExtensionResource.SwapValues_IndexOutOfRangeException_Index1);
             Check.Requires<IndexOutOfRangeException>(index2 >= 0 && index2 < array.Length, IListExtensionResource.SwapValues_IndexOutOfRangeException_Index2);
 
