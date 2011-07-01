@@ -58,7 +58,9 @@
     <Compile Include="Check.cs" />
     <Compile Include="CheckError.cs" />
     <Compile Include="Collections\Generic\BagBase.cs" />
-    <Compile Include="Collections\Generic\BagBaseDebugView.cs" />
+    <Compile Include="Collections\Generic\BagBaseDebugView.cs">
+      <DependentUpon>BagBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtension.cs" />
