@@ -2,11 +2,8 @@ namespace NLib.Tests.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-
     using NLib.Collections.Generic;
-
     using NUnit.Framework;
 
     [TestFixture]
@@ -16,7 +13,7 @@ namespace NLib.Tests.Collections.Generic
         public void GenerateTest1()
         {
             Graph<string> graph = new Graph<string>();
-
+            
             graph.AddNode("one");
             graph.AddNode("two");
             graph.AddNode("three");
@@ -45,9 +42,10 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void GenerateTest2()
         {
-            var graph = new Graph<string>();
+            Graph<string> graph = new Graph<string>();
             graph.AddNode("one");
             graph.AddNode("two");
+            
 
             Node<string> nodeOne = graph.Nodes.FindByValue("one");
             Node<string> nodeTwo = graph.Nodes.FindByValue("two");
@@ -59,25 +57,11 @@ namespace NLib.Tests.Collections.Generic
 
             IEnumerator<string> enumGraph = graph.GetEnumerator();
 
-            while (enumGraph.MoveNext())
-            {
-                Assert.IsTrue((enumGraph.Current.Contains("one") || enumGraph.Current.Contains("two")));
-            }
+               while (enumGraph.MoveNext())
+               {
+                  Assert.IsTrue((enumGraph.Current.Contains("one") || enumGraph.Current.Contains("two")));          
+               }
 
-            graph = null;
-        }
-
-        [Test]
-        public void GenerateTest3()
-        {
-            var graph = new Graph<string>();
-            graph.AddNode("one");
-
-            IEnumerator<string> node = graph.GetEnumerator();
-            node.MoveNext();
-
-            Assert.IsTrue(node.Current.Contains("one"));
-     
         }
 
     }
