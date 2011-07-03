@@ -11,29 +11,29 @@ namespace NLib.Collections.Generic
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     /// http://msdn.microsoft.com/en-us/library/ms379574(VS.80).aspx
     /// 
-    public class Graph<T> : IEnumerable<T>
+    public class Graph<T> : IEnumerable<GraphNode<T>>
     {
 
-        private NodeList<T> nodeSet;        // the set of nodes in the graph
+        private GraphNodeList<T> nodeSet;        // the set of nodes in the graph
 
         public Graph() : this(null) {}
-        public Graph(NodeList<T> nodeSet)
+        public Graph(GraphNodeList<T> nodeSet)
         {
            if (nodeSet == null)
-             this.nodeSet = new NodeList<T>();
+               this.nodeSet = new GraphNodeList<T>();
             else
-             this.nodeSet = nodeSet;
+               this.nodeSet = nodeSet;
          }
 
-     /// <summary>
-     /// Adds a new GraphNode instance to the Graph
-     /// </summary>
-     /// <param name="node">The GraphNode instance to add.</param>
-     public void AddNode(GraphNode<T> node)
-     {
-         // adds a node to the graph
-         nodeSet.Add(node);
-     }
+        /// <summary>
+        /// Adds a new GraphNode instance to the Graph
+        /// </summary>
+        /// <param name="node">The GraphNode instance to add.</param>
+        public void AddNode(GraphNode<T> node)
+        {
+            // adds a node to the graph
+            nodeSet.Add(node);
+        }
 
      /// <summary>
      /// Adds a new value to the graph.
@@ -100,21 +100,6 @@ namespace NLib.Collections.Generic
      }
 
      /// <summary>
-     /// Adds an undirected edge from one GraphNode to another with an associated cost.
-     /// </summary>
-     /// <param name="from">One of the GraphNodes that is joined by the edge.</param>
-     /// <param name="to">One of the GraphNodes that is joined by the edge.</param>
-     /// <param name="cost">The cost of the undirected edge.</param>
-     public void AddUndirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
-     {
-         from.Neighbors.Add(to);
-         from.Costs.Add(cost);
-
-         to.Neighbors.Add(from);
-         to.Costs.Add(cost);
-     }
-
-     /// <summary>
      /// Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
      /// with an associated cost.
      /// </summary>
@@ -123,11 +108,12 @@ namespace NLib.Collections.Generic
      /// <param name="cost">The cost of the undirected edge.</param>
      public void AddUndirectedEdge(T from, T to, int cost)
      {
-         ((GraphNode<T>) nodeSet.FindByValue(from)).Neighbors.Add(nodeSet.FindByValue(to));
-         ((GraphNode<T>) nodeSet.FindByValue(from)).Costs.Add(cost);
-
-         ((GraphNode<T>) nodeSet.FindByValue(to)).Neighbors.Add(nodeSet.FindByValue(from));
-         ((GraphNode<T>) nodeSet.FindByValue(to)).Costs.Add(cost);
+         GraphNode<T> nodeFrom = this.nodeSet.FindByValue(from);
+         GraphNode<T> nodeTo = this.nodeSet.FindByValue(to);
+         nodeTo.Costs.Add(cost);
+         nodeFrom.Costs.Add(cost);
+         nodeFrom.Neighbors.Add(nodeTo);
+         nodeTo.Neighbors.Add(nodeFrom);
      }
 
      /// <summary>
@@ -184,10 +170,10 @@ namespace NLib.Collections.Generic
 
      /// <summary>
      /// Returns an enumerator that allows for iterating through the contents of the graph.
-     public IEnumerator<T> GetEnumerator()
+     public IEnumerator<GraphNode<T>> GetEnumerator()
      {
-         foreach (GraphNode<T> gnode in nodeSet)
-             yield return gnode.Value;
+         foreach (GraphNode<T> node in nodeSet)
+             yield return node;
      }
 
      IEnumerator IEnumerable.GetEnumerator()
@@ -198,7 +184,7 @@ namespace NLib.Collections.Generic
      /// <summary>
      /// Returns the set of nodes in the graph.
      /// </summary>
-     public NodeList<T> Nodes
+     public GraphNodeList<T> Nodes
      {
          get
          {

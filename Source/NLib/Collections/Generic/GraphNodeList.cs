@@ -1,17 +1,18 @@
-﻿
-using System.Collections.ObjectModel;
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
-    public class NodeList<T> : Collection<Node<T>>
-    {
-        public NodeList() : base() { }
+    using System.Collections.ObjectModel;
 
-        public NodeList(int initialSize)
+    public class GraphNodeList<T> : Collection<GraphNode<T>>
+    {
+        public GraphNodeList()
+        {
+        }
+
+        public GraphNodeList(int initialSize)
         {
             // Add the specified number of items
             for (int i = 0; i < initialSize; i++)
-                base.Items.Add(default(Node<T>));
+                base.Items.Add(default(GraphNode<T>));
         }
 
         /// <summary>
@@ -19,16 +20,15 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <param name="value">The value to search for.</param>
         /// <returns>The Node in the NodeList, if it exists; null otherwise.</returns>
-        public Node<T> FindByValue(T value)
+        public GraphNode<T> FindByValue(T value)
         {
             // search the list for the value
-            foreach (Node<T> node in Items)
+            foreach (GraphNode<T> node in Items)
                 if (node.Value.Equals(value))
                     return node;
 
             // if we reached here, we didn't find a matching node
             return null;
         }
-
     }
 }
