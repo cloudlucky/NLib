@@ -1,65 +1,98 @@
-﻿// TODO fluent version API Next vesion
-//// --------------------------------------------------------------------------------------------------------------------
-//// <copyright file="TypeExtension.cs" company=".">
-////   Copyright (c) Cloudlucky. All rights reserved.
-////   http://www.cloudlucky.com
-////   This code is licensed under the Microsoft Public License (Ms-PL)
-////   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-//// </copyright>
-//// --------------------------------------------------------------------------------------------------------------------
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TypeExtension.cs" company=".">
+//   Copyright (c) Cloudlucky. All rights reserved.
+//   http://www.cloudlucky.com
+//   This code is licensed under the Microsoft Public License (Ms-PL)
+//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
-//namespace NLib.Extensions
-//{
-//    using System;
-//    using System.Diagnostics.CodeAnalysis;
-//    using System.Linq.Expressions;
-//    using System.Reflection;
+namespace NLib.Extensions
+{
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;
+    using System.Reflection;
 
-//    /// <summary>
-//    /// Defines extensions methods for <see cref="Type"/>.
-//    /// </summary>
-//    public static class TypeExtension
-//    {
-//        /// <summary>
-//        /// Searches for the public property with the specified name.
-//        /// </summary>
-//        /// <typeparam name="T">The type of the elements of source.</typeparam>
-//        /// <typeparam name="TKey">The type of the key returned by keySelector.</typeparam>
-//        /// <param name="type">The type  .</param>
-//        /// <param name="keySelector">The selector of the public property to get.</param>
-//        /// <returns>
-//        /// A <see cref="PropertyInfo"/> object representing the public property with the specified name, if found; otherwise, null.
-//        /// </returns>
-//        /// <exception cref="AmbiguousMatchException">More than one property is found with the specified name.</exception>
-//        /// <exception cref="ArgumentNullException"><paramref name="type"/> is null.</exception>
-//        /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
-//        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
-//        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
-//        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
-//        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Reviewed. It's ok.")]
-//        public static PropertyInfo GetProperty<T, TKey>(this Type<T> type, Expression<Func<T, TKey>> keySelector)
-//        {
-//            CheckError.ArgumentNullException(type, "type");
-//            CheckError.ArgumentNullException(keySelector, "keySelector");
+    /// <summary>
+    /// Defines extensions methods for <see cref="Type"/>.
+    /// </summary>
+    public static class TypeExtension
+    {
+        public static FieldInfo GetField(this Type type, string name)
+        {
+            while (type != null && type != typeof(object))
+            {
+                var fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
 
-//            MemberExpression memberExpression = null;
+                if (fieldInfo != null)
+                {
+                    return fieldInfo;
+                }
 
-//            switch (keySelector.Body.NodeType)
-//            {
-//                case ExpressionType.Convert:
-//                    memberExpression = ((UnaryExpression)keySelector.Body).Operand as MemberExpression;
-//                    break;
-//                case ExpressionType.MemberAccess:
-//                    memberExpression = keySelector.Body as MemberExpression;
-//                    break;
-//            }
+                type = type.BaseType;
+            }
 
-//            if (memberExpression == null)
-//            {
-//                throw new ArgumentException("Not a member access", "keySelector");
-//            }
+            return null;
+        }
 
-//            return memberExpression.Member as PropertyInfo;
-//        } 
-//    }
-//}
+        public static PropertyInfo GetProperty(this Type type, string name)
+        {
+            while (type != null && type != typeof(object))
+            {
+                var propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+
+                if (propertyInfo != null)
+                {
+                    return propertyInfo;
+                }
+
+                type = type.BaseType;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Searches for the public property with the specified name.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of source.</typeparam>
+        /// <typeparam name="TKey">The type of the key returned by keySelector.</typeparam>
+        /// <param name="type">The type  .</param>
+        /// <param name="keySelector">The selector of the public property to get.</param>
+        /// <returns>
+        /// A <see cref="PropertyInfo"/> object representing the public property with the specified name, if found; otherwise, null.
+        /// </returns>
+        /// <exception cref="AmbiguousMatchException">More than one property is found with the specified name.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Check class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "Check class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Reviewed. It's ok.")]
+        public static MemberInfo GetMemberInfo<T, TKey>(this Type type, Expression<Func<T, TKey>> keySelector)
+        {
+            Check.ArgumentNullException(type, "type");
+            Check.ArgumentNullException(keySelector, "keySelector");
+
+            MemberExpression memberExpression = null;
+
+            switch (keySelector.Body.NodeType)
+            {
+                case ExpressionType.Convert:
+                    memberExpression = ((UnaryExpression)keySelector.Body).Operand as MemberExpression;
+                    break;
+                case ExpressionType.MemberAccess:
+                    memberExpression = keySelector.Body as MemberExpression;
+                    break;
+            }
+
+            if (memberExpression == null)
+            {
+                throw new ArgumentException("Not a member access", "keySelector");
+            }
+
+            return memberExpression.Member;
+        }
+    }
+}
