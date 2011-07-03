@@ -71,6 +71,7 @@
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
+    <Compile Include="Reflection\ReflectionHelperTest.cs" />
     <Compile Include="Xml\Extensions\XDocumentExtensionTest.cs" />
     <Compile Include="Xml\Linq\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
