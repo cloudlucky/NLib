@@ -17,7 +17,7 @@ namespace NLib.Collections.Generic
         {
             this.Value = value;
             this.Neighbors = neighbors ?? new GraphNodeList<T>();
-            this.Costs = new List<int>();
+            this.Costs = new List<int?>();
         }
 
         public T Value { get; set; }
@@ -33,6 +33,7 @@ namespace NLib.Collections.Generic
         /// represented by its k<sup>th</sup> neighbor (Neighbors[k]).
         /// </summary>
         /// <value></value>
-        public List<int> Costs { get; set; }
+        public List<int?> Costs { get; set; } 
+  
     }
 }
