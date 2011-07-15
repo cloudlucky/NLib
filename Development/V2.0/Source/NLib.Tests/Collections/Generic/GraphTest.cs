@@ -113,13 +113,54 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsNull(node.Neighbors.FindByValue("one"));
 
             node = node.Neighbors.FindByValue("three");
-            Assert.AreEqual( "one" , node.Neighbors.FindByValue("one").Value);
+            Assert.AreEqual("one", node.Neighbors.FindByValue("one").Value);
             Assert.IsNull(node.Neighbors.FindByValue("three"));
             Assert.IsNull(node.Neighbors.FindByValue("two"));
 
         }
 
-        // TODO The cost of each edge
-        // TODO An edge for the same node 
+        [Test]
+        public void GenerateTest5()
+        {
+            var graph = new Graph<string>();
+            graph.AddNode("one");
+            graph.AddNode("two");
+            graph.AddNode("three");
+
+            graph.AddDirectedEdge("one", "two", 1);
+            graph.AddDirectedEdge("two", "three", 2);
+            graph.AddUndirectedEdge("three", "one", 3);
+
+            GraphNode<string> node = graph.Nodes.FindByValue("one");
+
+            Assert.AreEqual("two", node.Neighbors.FindByValue("two").Value);
+            Assert.AreEqual(1, node.Costs[0]);
+
+            node = node.Neighbors.FindByValue("two");
+            Assert.AreEqual("three", node.Neighbors.FindByValue("three").Value);
+            Assert.AreEqual(2, node.Costs[0]);
+
+            node = node.Neighbors.FindByValue("three");
+            Assert.AreEqual("one", node.Neighbors.FindByValue("one").Value);
+            Assert.AreEqual(3, node.Costs[0]);
+      
+        }
+
+        [Test]
+        public void GenerateTest6()
+        {
+           var graph = new Graph<string>();
+           graph.AddNode("one");
+           graph.AddDirectedEdge("one", "one", 1);
+           GraphNode<string> node;
+
+           for (int i = 0; i < 10; i++)
+           {
+               node = graph.Nodes.ElementAt(0);
+               Assert.AreEqual("one", node.Neighbors.ElementAt(0).Value);
+           }
+
+        }
+       
     }
 }
