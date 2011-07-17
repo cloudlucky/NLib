@@ -30,7 +30,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsTrue(graphNotNull.Nodes.Contains(graphNotNull.Nodes.FindByValue("two")));
 
 
-
         }
 
         [Test]
@@ -199,6 +198,14 @@ namespace NLib.Tests.Collections.Generic
 
            Assert.IsTrue(graph.Remove("one"));
 
+        }
+
+        [Test]
+        public void GenerateTest7()
+        {
+            var node = new GraphNode<bool>();
+            var nodes = new GraphNodeList<bool>();
+          
         }
 
        
