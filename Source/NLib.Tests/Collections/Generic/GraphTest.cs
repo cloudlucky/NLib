@@ -25,6 +25,10 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsTrue(graphNotNull.Contains("one"));
             Assert.IsTrue(graphNotNull.Remove("one"));
             Assert.IsEmpty(graphNotNull.Nodes);
+
+            graphNotNull.AddNode(new GraphNode<string>("two"));
+            Assert.IsTrue(graphNotNull.Nodes.Contains(graphNotNull.Nodes.FindByValue("two")));
+
         }
 
         [Test]
@@ -78,7 +82,6 @@ namespace NLib.Tests.Collections.Generic
             graph.AddNode("one");
             graph.AddNode("two");
             graph.AddNode("three");
-
             graph.AddUndirectedEdge("one", "two");
             graph.AddUndirectedEdge("two", "three");
             graph.AddUndirectedEdge("three", "one");
@@ -107,17 +110,20 @@ namespace NLib.Tests.Collections.Generic
         {
              var graph = new Graph<string>();
 
-             graph.AddNode("one");
-             graph.AddNode("two");
              graph.AddNode("three");
              graph.AddNode("four");
              graph.AddNode("five");
              graph.AddNode("six");
 
-             graph.AddDirectedEdge("one", "two");
-             graph.AddDirectedEdge("two", "three");
-             graph.AddDirectedEdge("three", "one");
+            var node1 = new GraphNode<string>("one");
+            var node2 = new GraphNode<string>("two");
             
+            graph.AddNode(node1);
+            graph.AddNode(node2);
+
+            graph.AddDirectedEdge(node1, node2);
+            graph.AddDirectedEdge("two", "three");
+            graph.AddDirectedEdge("three", "one");
 
             GraphNode<string> node = graph.Nodes.FindByValue("one");
 
@@ -134,7 +140,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("one", node.Neighbors.FindByValue("one").Value);
             Assert.IsNull(node.Neighbors.FindByValue("three"));
             Assert.IsNull(node.Neighbors.FindByValue("two"));
-
+            
         }
 
         [Test]
@@ -179,6 +185,7 @@ namespace NLib.Tests.Collections.Generic
            }
 
         }
+
        
     }
 }
