@@ -10,6 +10,24 @@ namespace NLib.Tests.Collections.Generic
     public class GraphTest
     {
         [Test]
+        public void GenerateTest0()
+        {
+            var graph = new Graph<string>(null);
+            Assert.IsNotNull(graph.Nodes);
+
+            var setNodes = new GraphNodeList<string>();
+            var nodes = new GraphNode<string>("one");
+            setNodes.Add(nodes);
+            Assert.AreEqual("one", setNodes.FindByValue("one").Value);
+
+            var graphNotNull = new Graph<string>(setNodes);
+            Assert.IsNotNull(graphNotNull.Nodes);
+            Assert.IsTrue(graphNotNull.Contains("one"));
+            Assert.IsTrue(graphNotNull.Remove("one"));
+            Assert.IsEmpty(graphNotNull.Nodes);
+        }
+
+        [Test]
         public void GenerateTest1()
         {
             Graph<string> graph = new Graph<string>();
