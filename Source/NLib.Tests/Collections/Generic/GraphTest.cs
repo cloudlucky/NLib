@@ -19,7 +19,7 @@ namespace NLib.Tests.Collections.Generic
             var nodes = new GraphNode<string>("one");
             setNodes.Add(nodes);
             Assert.AreEqual("one", setNodes.FindByValue("one").Value);
-
+            Assert.AreEqual(1, setNodes.Count());
             var graphNotNull = new Graph<string>(setNodes);
             Assert.IsNotNull(graphNotNull.Nodes);
             Assert.IsTrue(graphNotNull.Contains("one"));
@@ -28,6 +28,8 @@ namespace NLib.Tests.Collections.Generic
 
             graphNotNull.AddNode(new GraphNode<string>("two"));
             Assert.IsTrue(graphNotNull.Nodes.Contains(graphNotNull.Nodes.FindByValue("two")));
+
+
 
         }
 
@@ -43,6 +45,13 @@ namespace NLib.Tests.Collections.Generic
             graph.AddNode("five");
             graph.AddNode("six");
 
+            var enumNodes = graph.GetEnumerator();
+            int nbNode = 0; 
+            while (enumNodes.MoveNext() )
+            {
+                nbNode++;
+            }
+            Assert.AreEqual(6, nbNode);
             Assert.AreEqual(6, graph.Count());
 
             Assert.IsTrue(graph.Contains("one"));
@@ -54,6 +63,8 @@ namespace NLib.Tests.Collections.Generic
 
             Assert.IsTrue(graph.Remove("three"));
             Assert.AreEqual(5, graph.Count());
+
+            Assert.IsFalse(graph.Remove("seven"));
 
             graph.Clear();
             Assert.AreEqual(0, graph.Count());
@@ -167,6 +178,8 @@ namespace NLib.Tests.Collections.Generic
             node = node.Neighbors.FindByValue("three");
             Assert.AreEqual("one", node.Neighbors.FindByValue("one").Value);
             Assert.AreEqual(3, node.Costs[0]);
+
+            Assert.IsTrue(graph.Remove("three"));
       
         }
 
@@ -183,6 +196,8 @@ namespace NLib.Tests.Collections.Generic
                node = graph.Nodes.ElementAt(0);
                Assert.AreEqual("one", node.Neighbors.ElementAt(0).Value);
            }
+
+           Assert.IsTrue(graph.Remove("one"));
 
         }
 
