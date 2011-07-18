@@ -13,7 +13,6 @@ namespace NLib.Collections.Generic
     /// 
     public class Graph<T> : IEnumerable<GraphNode<T>>
     {
-
         private GraphNodeList<T> nodeSet;        // the set of nodes in the graph
 
         public Graph() : this(null) { }
@@ -180,7 +179,7 @@ namespace NLib.Collections.Generic
         {
             return this.GetEnumerator();
         }
-
+        
         /// <summary>
         /// Returns the set of nodes in the graph.
         /// </summary>

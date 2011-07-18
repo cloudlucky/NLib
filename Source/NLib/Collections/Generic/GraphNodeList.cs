@@ -8,13 +8,6 @@
         {
         }
 
-        public GraphNodeList(int initialSize)
-        {
-            // Add the specified number of items
-            for (int i = 0; i < initialSize; i++)
-                base.Items.Add(default(GraphNode<T>));
-        }
-
         /// <summary>
         /// Searches the NodeList for a Node containing a particular value.
         /// </summary>
