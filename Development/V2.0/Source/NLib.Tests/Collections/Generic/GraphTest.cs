@@ -27,7 +27,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsEmpty(graphNotNull.Nodes);
 
             graphNotNull.AddNode(new GraphNode<string>("two"));
-            Assert.AreEqual(1, graphNotNull.Count());
+            Assert.AreEqual(1, graphNotNull.Count);
             Assert.IsTrue(graphNotNull.Nodes.Contains(graphNotNull.Nodes.FindByValue("two")));
         }
 
