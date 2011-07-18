@@ -53,27 +53,6 @@ namespace NLib.Collections.Generic
             AddDirectedEdge(from, to, null);
         }
 
-        /// <summary>
-        /// Adds a directed edge from one GraphNode (from) to another (to).
-        /// </summary>
-        /// <param name="from">The GraphNode from which the directed edge eminates.</param>
-        /// <param name="to">The GraphNode to which the edge leads.</param>
-        public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to)
-        {
-            AddDirectedEdge(from, to, null);
-        }
-          
-        /// <summary>
-        /// Adds a directed edge from one GraphNode (from) to another (to) with an associated cost.
-        /// </summary>
-        /// <param name="from">The GraphNode from which the directed edge eminates.</param>
-        /// <param name="to">The GraphNode to which the edge leads.</param>
-        /// <param name="cost">The cost of the edge from "from" to "to".</param>
-        public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int? cost)
-        {
-            from.Neighbors.Add(to);
-            from.Costs.Add(cost);
-        }
 
         /// <summary>
         /// Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
@@ -84,8 +63,12 @@ namespace NLib.Collections.Generic
         /// <param name="cost">The cost of the edge from "from" to "to".</param>
         public void AddDirectedEdge(T from, T to, int? cost)
         {
-            ((GraphNode<T>)nodeSet.FindByValue(from)).Neighbors.Add(nodeSet.FindByValue(to));
-            ((GraphNode<T>)nodeSet.FindByValue(from)).Costs.Add(cost);
+            GraphNode<T> nodeTo = nodeSet.FindByValue(to);
+            if (nodeTo.Value != null)
+            {
+                ((GraphNode<T>)this.nodeSet.FindByValue(from)).Neighbors.Add(nodeTo);
+                ((GraphNode<T>)nodeSet.FindByValue(from)).Costs.Add(cost);
+            }
         }
 
         /// <summary>
@@ -109,6 +92,7 @@ namespace NLib.Collections.Generic
         {
             GraphNode<T> nodeFrom = this.nodeSet.FindByValue(from);
             GraphNode<T> nodeTo = this.nodeSet.FindByValue(to);
+
             nodeTo.Costs.Add(cost);
             nodeFrom.Costs.Add(cost);
             nodeFrom.Neighbors.Add(nodeTo);
