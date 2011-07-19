@@ -76,10 +76,11 @@
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
     <Compile Include="Collections\Generic\IGraph.cs" />
-    <Compile Include="Collections\Generic\Resources\BagBaseResource.Designer.cs">
+    <Compile Include="Collections\Generic\RedBlackTree.cs" />
+    <Compile Include="Collections\Generic\Resources\CollectionResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BagBaseResource.resx</DependentUpon>
+      <DependentUpon>CollectionResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\Resources\GeneratorResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -140,9 +141,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IListExtensionResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Collections\Generic\Resources\BagBaseResource.resx">
+    <EmbeddedResource Include="Collections\Generic\Resources\CollectionResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>BagBaseResource.Designer.cs</LastGenOutput>
+      <LastGenOutput>CollectionResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Collections\Generic\Resources\GeneratorResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -171,8 +172,6 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="NLib.Sign.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

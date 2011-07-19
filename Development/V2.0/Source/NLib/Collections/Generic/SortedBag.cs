@@ -101,7 +101,7 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentNullException"><paramref name="comparer"/> and <paramref name="comparison"/> are null.</exception>
         protected SortedBag(IEnumerable<T> collection, Comparison<T> comparison, IComparer<T> comparer)
         {
-            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, BagBaseResource.Initialize_ArgumentNullException_ComparerAndComparison);
+            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
 
             this.currentComparer = comparison ?? comparer.Compare;
             this.equalityComparer = (T x, T y) => this.currentComparer(x, y) == 0;

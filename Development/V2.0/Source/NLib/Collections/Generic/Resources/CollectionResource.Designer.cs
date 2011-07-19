@@ -22,14 +22,14 @@ namespace NLib.Collections.Generic.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class BagBaseResource {
+    internal class CollectionResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal BagBaseResource() {
+        internal CollectionResource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace NLib.Collections.Generic.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Collections.Generic.Resources.BagBaseResource", typeof(BagBaseResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Collections.Generic.Resources.CollectionResource", typeof(CollectionResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -84,6 +84,24 @@ namespace NLib.Collections.Generic.Resources {
         internal static string Initialize_ArgumentNullException_ComparerAndComparison {
             get {
                 return ResourceManager.GetString("Initialize_ArgumentNullException_ComparerAndComparison", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum value cannot be determined..
+        /// </summary>
+        internal static string MaxValue_CollectionEmpty {
+            get {
+                return ResourceManager.GetString("MaxValue_CollectionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The minimum value cannot be determined..
+        /// </summary>
+        internal static string MinValue_CollectionEmpty {
+            get {
+                return ResourceManager.GetString("MinValue_CollectionEmpty", resourceCulture);
             }
         }
     }

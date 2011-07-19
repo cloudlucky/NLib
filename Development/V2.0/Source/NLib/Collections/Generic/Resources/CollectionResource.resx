@@ -126,4 +126,10 @@
   <data name="Initialize_ArgumentNullException_ComparerAndComparison" xml:space="preserve">
     <value>comparer and comparison are null.</value>
   </data>
+  <data name="MaxValue_CollectionEmpty" xml:space="preserve">
+    <value>The maximum value cannot be determined.</value>
+  </data>
+  <data name="MinValue_CollectionEmpty" xml:space="preserve">
+    <value>The minimum value cannot be determined.</value>
+  </data>
 </root>

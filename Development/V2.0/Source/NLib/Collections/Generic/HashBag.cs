@@ -96,7 +96,7 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentNullException"><paramref name="comparer"/> and <paramref name="comparison"/> are null.</exception>
         protected HashBag(IEnumerable<T> collection, EqualityComparison<T> comparison, IEqualityComparer<T> comparer)
         {
-            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, BagBaseResource.Initialize_ArgumentNullException_ComparerAndComparison);
+            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
 
             this.equalityComparer = comparison ?? comparer.Equals;
             this.Model = new Dictionary<T, int>(comparer ?? comparison.ToEqualityComparer());

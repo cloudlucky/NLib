@@ -55,6 +55,7 @@
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtensionTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtensionTest.cs" />
     <Compile Include="Collections\Generic\GeneratorTest.cs" />
+    <Compile Include="Collections\Generic\RedBlackTreeTest.cs" />
     <Compile Include="Collections\Generic\SortedBagTest.cs" />
     <Compile Include="EventArgsTest.cs" />
     <Compile Include="Extensions\ArrayExtensionTest.cs" />
