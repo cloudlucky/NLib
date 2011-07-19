@@ -160,8 +160,8 @@ namespace NLib.Collections.Generic
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
             Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, BagBaseResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, BagBaseResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
+            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
