@@ -19,68 +19,262 @@ namespace NLib.Collections.Generic
     using NLib.Collections.Generic.Resources;
     using NLib.Extensions;
 
-    public interface IRedBlackTreeNode<T>
+    public interface IBinaryTreeNode<T>
     {
-        RedBlackTreeNode<T> Parent { get; }
-
-        RedBlackTreeNode<T> Left { get; }
-
-        RedBlackTreeNode<T> Right { get; }
-
-        T Value { get; }
-
-        bool IsRed { get; }
-
-        bool IsBlack { get; }
-
+        /// <summary>
+        /// Gets a value indicating whether this instance is leaf; has no child node.
+        /// </summary>
         bool IsLeaf { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is root; has no parent node.
+        /// </summary>
         bool IsRoot { get; }
+
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        IBinaryTreeNode<T> Left { get; }
+
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        IBinaryTreeNode<T> Parent { get; }
+
+        /// <summary>
+        /// Gets the right.
+        /// </summary>
+        IBinaryTreeNode<T> Right { get; }
+    }
+
+    public interface IRedBlackTreeNode<T> : IBinaryTreeNode<T>
+    {
+        /// <summary>
+        /// Gets a value indicating whether this instance is black.
+        /// </summary>
+        bool IsBlack { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is red.
+        /// </summary>
+        bool IsRed { get; }
+
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        new IRedBlackTreeNode<T> Left { get; }
+
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        new IRedBlackTreeNode<T> Parent { get; }
+
+        /// <summary>
+        /// Gets the right.
+        /// </summary>
+        new IRedBlackTreeNode<T> Right { get; }
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        T Value { get; }
     }
 
     public class RedBlackTreeNode<T> : IRedBlackTreeNode<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RedBlackTreeNode&lt;T&gt;"/> class.
+        /// </summary>
         protected RedBlackTreeNode()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RedBlackTreeNode&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public RedBlackTreeNode(T value)
         {
             this.Value = value;
             this.IsRed = true;
         }
 
-        public RedBlackTreeNode<T> Parent { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether this instance is leaf; has no child node.
+        /// </summary>
+        public bool IsLeaf
+        {
+            get { return this.Right == null && this.Left == null; }
+        }
 
-        public RedBlackTreeNode<T> Left { get; set; }
-
-        public RedBlackTreeNode<T> Right { get; set; }
-
-        public T Value { get; protected set; }
-
-        public bool IsRed { get; set; }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is black.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is black; otherwise, <c>false</c>.
+        /// </value>
         public bool IsBlack
         {
             get { return !this.IsRed; }
             set { this.IsRed = !value; }
         }
 
-        public bool IsLeaf
-        {
-            get { return this.Right == null && this.Left == null; }
-        }
-
+        /// <summary>
+        /// Gets a value indicating whether this instance is root; has no parent node.
+        /// </summary>
         public bool IsRoot
         {
             get { return this.Parent == null; }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is red.
+        /// </summary>
+        public bool IsRed { get; set; }
+
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Left
+        {
+            get { return this.Left; }
+        }
+
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Left
+        {
+            get { return this.Left; }
+        }
+
+        /// <summary>
+        /// Gets the left.
+        /// </summary>
+        public RedBlackTreeNode<T> Left { get; set; }
+
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        /// <summary>
+        /// Gets the parent.
+        /// </summary>
+        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        public RedBlackTreeNode<T> Parent { get; set; }
+
+        /// <summary>
+        /// Gets the right.
+        /// </summary>
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Right
+        {
+            get { return this.Right; }
+        }
+
+        /// <summary>
+        /// Gets the right.
+        /// </summary>
+        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Right
+        {
+            get { return this.Right; }
+        }
+
+        /// <summary>
+        /// Gets or sets the right.
+        /// </summary>
+        public RedBlackTreeNode<T> Right { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public T Value { get; protected set; }
     }
 
-    // http://en.wikipedia.org/wiki/Red-black_tree
-    public class RedBlackTree<T> : ICollection<T>
+    public interface IBinaryTree<T> : ICollection<T>
     {
+        /// <summary>
+        /// Gets a value indicating whether allow duplicates is enabled or not.
+        /// </summary>
+        /// <value>
+        /// If true, the tree will add duplicates; otherwise the duplicates won't be added.
+        /// </value>
+        bool AllowDuplicates { get; }
+
+        /// <summary>
+        /// Gets the root.
+        /// </summary>
+        IBinaryTreeNode<T> RootNode { get; }
+
+        /// <summary>
+        /// Gets the maximum value of the <see cref="ICollection{T}"/>.
+        /// </summary>
+        T MaxValue { get; }
+
+        /// <summary>
+        /// Gets the minimum value of the <see cref="ICollection{T}"/>.
+        /// </summary>
+        T MinValue { get; }
+
+        /// <summary>
+        /// Adds the elements of the specified collection in the tree.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        void AddRange(IEnumerable<T> collection);
+
+        /// <summary>
+        /// Iterates throught a collection from minimum value to maximum value.
+        /// </summary>
+        /// <returns>Returns the collection from minimum value to maximum value.</returns>
+        IEnumerable<T> InOrderTraversal();
+
+        /// <summary>
+        /// Iterates throught a collection by level.
+        /// </summary>
+        /// <returns>Returns the collection by level.</returns>
+        IEnumerable<T> LevelOrderTraversal();
+
+        /// <summary>
+        /// Iterates throught a collection from maximum value to minimum value.
+        /// </summary>
+        /// <returns>Returns the collection from maximum value to minimum value.</returns>
+        IEnumerable<T> PostOrderTraversal();
+
+        /// <summary>
+        /// Iterates throught a collection from root to leaves.
+        /// </summary>
+        /// <returns>Returns the collection from root to leaves.</returns>
+        IEnumerable<T> PreOrderTraversal();
+    }
+
+    public interface IRedBlackTree<T> : IBinaryTree<T>
+    {
+        /// <summary>
+        /// Gets the root.
+        /// </summary>
+        new IRedBlackTreeNode<T> RootNode { get; }
+    }
+
+    public class RedBlackTree<T> : IRedBlackTree<T>
+    {
+        /// <summary>
+        /// The comparison.
+        /// </summary>
         private readonly Comparison<T> currentComparer;
+
+        /// <summary>
+        /// Indicates whether allow duplicates is enabled or not.
+        /// </summary>
         private readonly bool allowDuplicates;
 
         /// <summary>
@@ -113,7 +307,7 @@ namespace NLib.Collections.Generic
         /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
-        /// <param name="allowDuplicates">If true, the tree will add duplcates; otherwise the duplicates won't be added.</param>
+        /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
         public RedBlackTree(IEnumerable<T> collection, bool allowDuplicates)
             : this(collection, Comparer<T>.Default, allowDuplicates)
         {
@@ -222,7 +416,7 @@ namespace NLib.Collections.Generic
         /// <value>
         /// If true, the tree will add duplicates; otherwise the duplicates won't be added.
         /// </value>
-        public bool AllowDuplicates
+        public virtual bool AllowDuplicates
         {
             get { return this.allowDuplicates; }
         }
@@ -230,50 +424,54 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets the number of elements contained in the <see cref="ICollection{T}"/>.
         /// </summary>
-        public int Count { get; protected set; }
+        public virtual int Count { get; protected set; }
 
         /// <summary>
-        /// Gets the maximum value.
+        /// Gets the root.
         /// </summary>
-        public T MaxValue
+        IBinaryTreeNode<T> IBinaryTree<T>.RootNode
+        {
+            get { return this.RootNode; }
+        }
+
+        /// <summary>
+        /// Gets the root.
+        /// </summary>
+        public virtual IRedBlackTreeNode<T> RootNode
+        {
+            get { return this.Root; }
+        }
+
+        /// <summary>
+        /// Gets the maximum value of the <see cref="ICollection{T}"/>.
+        /// </summary>
+        public virtual T MaxValue
         {
             get
             {
-                var node = this.MaxNode(this.Root);
-
-                if (node == null)
+                if (this.Count == 0)
                 {
                     throw new NotSupportedException(CollectionResource.MaxValue_CollectionEmpty);
                 }
 
-                return node.Value;
+                return this.GetMaxNode(this.Root).Value;
             }
         }
 
         /// <summary>
-        /// Gets the minimum value.
+        /// Gets the minimum value of the <see cref="ICollection{T}"/>.
         /// </summary>
-        public T MinValue
+        public virtual T MinValue
         {
             get
             {
-                var node = this.MaxNode(this.Root);
-
-                if (node == null)
+                if (this.Count == 0)
                 {
                     throw new NotSupportedException(CollectionResource.MinValue_CollectionEmpty);
                 }
-
-                return this.MinNode(this.Root).Value;
+                
+                return this.GetMaxNode(this.Root).Value;
             }
-        }
-
-        /// <summary>
-        /// Gets the root node.
-        /// </summary>
-        public IRedBlackTreeNode<T> RootNode
-        {
-            get { return this.Root; }
         }
 
         /// <summary>
@@ -288,12 +486,12 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets the root.
         /// </summary>
-        protected RedBlackTreeNode<T> Root { get; set; }
+        protected virtual RedBlackTreeNode<T> Root { get; set; }
 
         /// <summary>
         /// Gets the comparer.
         /// </summary>
-        protected Comparison<T> Comparer
+        protected virtual Comparison<T> Comparer
         {
             get { return this.currentComparer; }
         }
@@ -302,8 +500,8 @@ namespace NLib.Collections.Generic
         /// Adds an item to the <see cref="ICollection{T}"/>.
         /// </summary>
         /// <param name="item">The object to add to the <see cref="ICollection{T}"/>.</param>
-        /// <exception cref="System.NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
-        public void Add(T item)
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        public virtual void Add(T item)
         {
             var node = new RedBlackTreeNode<T>(item);
 
@@ -373,23 +571,23 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// Removes all items from the <see cref="ICollection{T}"></see>.
         /// </summary>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only. </exception>
-        public void Clear()
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"></see> is read-only. </exception>
+        public virtual void Clear()
         {
             this.Root = null;
             this.Count = 0;
         }
 
         /// <summary>
-        /// Determines whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> contains a specific value.
+        /// Determines whether the <see cref="ICollection{T}"></see> contains a specific value.
         /// </summary>
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
+        /// <param name="item">The object to locate in the <see cref="ICollection{T}"></see>.</param>
         /// <returns>
-        /// true if item is found in the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false.
+        /// true if item is found in the <see cref="ICollection{T}"></see>; otherwise, false.
         /// </returns>
-        public bool Contains(T item)
+        public virtual bool Contains(T item)
         {
             RedBlackTreeNode<T> node;
 
@@ -413,7 +611,7 @@ namespace NLib.Collections.Generic
         ///     -or-
         ///     Type <paramref name="array"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
         /// </exception>
-        public void CopyTo(T[] array, int arrayIndex)
+        public virtual void CopyTo(T[] array, int arrayIndex)
         {
             Check.ArgumentNullException(array, "array");
             Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
@@ -426,12 +624,12 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        /// Returns an enumerator that iterates through the collection in <see cref="RedBlackTree{T}.InOrderTraversal"/>.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"></see> that can be used to iterate through the collection.
+        /// A <see cref="IEnumerator{T}"></see> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             return this.InOrderTraversal().GetEnumerator();
         }
@@ -440,42 +638,58 @@ namespace NLib.Collections.Generic
         /// Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// An <see cref="IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        public IEnumerable<T> InOrderTraversal()
+        /// <summary>
+        /// Iterates throught a collection from minimum value to maximum value.
+        /// </summary>
+        /// <returns>Returns the collection from minimum value to maximum value.</returns>
+        public virtual IEnumerable<T> InOrderTraversal()
         {
             return this.InOrderTraversal(this.Root).Select(node => node.Value);
         }
 
-        public IEnumerable<T> LevelOrderTraversal()
+        /// <summary>
+        /// Iterates throught a collection by level.
+        /// </summary>
+        /// <returns>Returns the collection by level.</returns>
+        public virtual IEnumerable<T> LevelOrderTraversal()
         {
             return this.LevelOrderTraversal(this.Root).Select(node => node.Value);
         }
 
-        public IEnumerable<T> PostOrderTraversal()
+        /// <summary>
+        /// Iterates throught a collection from maximum value to minimum value.
+        /// </summary>
+        /// <returns>Returns the collection from maximum value to minimum value.</returns>
+        public virtual IEnumerable<T> PostOrderTraversal()
         {
             return this.PostOrderTraversal(this.Root).Select(node => node.Value);
         }
 
-        public IEnumerable<T> PreOrderTraversal()
+        /// <summary>
+        /// Iterates throught a collection from root to leaves.
+        /// </summary>
+        /// <returns>Returns the collection from root to leaves.</returns>
+        public virtual IEnumerable<T> PreOrderTraversal()
         {
             return this.PreOrderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"></see>.
         /// </summary>
-        /// <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.</param>
+        /// <param name="item">The object to remove from the <see cref="ICollection{T}"></see>.</param>
         /// <returns>
-        /// true if item was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"></see>; otherwise, false. This method also returns false if item is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// true if item was successfully removed from the <see cref="ICollection{T}"></see>; otherwise, false. This method also returns false if item is not found in the original <see cref="ICollection{T}"></see>.
         /// </returns>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.</exception>
-        public bool Remove(T item)
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"></see> is read-only.</exception>
+        public virtual bool Remove(T item)
         {
             RedBlackTreeNode<T> node;
 
@@ -489,7 +703,15 @@ namespace NLib.Collections.Generic
             return false;
         }
 
-        protected bool Contains(T item, out RedBlackTreeNode<T> nodeFound)
+        /// <summary>
+        /// Determines whether the <see cref="ICollection{T}"></see> contains a specific value.
+        /// </summary>
+        /// <param name="item">The object to locate in the <see cref="ICollection{T}"></see>.</param>
+        /// <param name="nodeFound">Contains the node if found; otherwise is null.</param>
+        /// <returns>
+        /// true if item is found in the <see cref="ICollection{T}"></see>; otherwise, false.
+        /// </returns>
+        protected virtual bool Contains(T item, out RedBlackTreeNode<T> nodeFound)
         {
             var node = this.Root;
 
@@ -517,7 +739,7 @@ namespace NLib.Collections.Generic
             return false;
         }
 
-        protected void DeleteOneChild(RedBlackTreeNode<T> node)
+        protected virtual void DeleteOneChild(RedBlackTreeNode<T> node)
         {
             RedBlackTreeNode<T> successor = null;
             if (node.Left != null || node.Right != null)
@@ -580,85 +802,27 @@ namespace NLib.Collections.Generic
             }
         }
 
-        protected RedBlackTreeNode<T> GetSuccessorOrPredecessor(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Gets the grand parent.
+        /// </summary>
+        /// <param name="node">The node to get the grand parent.</param>
+        /// <returns>The node's grand parent.</returns>
+        protected virtual RedBlackTreeNode<T> GetGrandParent(RedBlackTreeNode<T> node)
         {
-            var successor = this.GetSuccessor(node);
-            if (successor == null)
+            if (node != null && node.Parent != null)
             {
-                successor = this.GetPredecessor(node);
-            }
-            else
-            {
-                if (!successor.IsRed && (!successor.IsRed || !successor.IsLeaf))
-                {
-                    var predecessor = this.GetPredecessor(node);
-
-                    if (predecessor != null)
-                    {
-                        successor = predecessor;
-                    }
-                }
-            }
-
-            return successor;
-        }
-
-        protected RedBlackTreeNode<T> GetSuccessor(RedBlackTreeNode<T> node)
-        {
-            if (node.Right != null)
-            {
-                return this.MinNode(node.Right);
+                return node.Parent.Parent;
             }
 
             return null;
         }
 
-        protected RedBlackTreeNode<T> GetPredecessor(RedBlackTreeNode<T> node)
-        {
-            if (node.Left != null)
-            {
-                return this.MaxNode(node.Left);
-            }
-
-            return null;
-        }
-
-        protected IEnumerable<RedBlackTreeNode<T>> InOrderTraversal(RedBlackTreeNode<T> node)
-        {
-            if (node != null)
-            {
-                node = this.MinNode(node);
-                do
-                {
-                    yield return node;
-
-                    if (node.Right != null)
-                    {
-                        node = node.Right;
-
-                        node = this.MinNode(node);
-                    }
-                    else
-                    {
-                        // TODO le root est le node en parametre et non le root du tree
-                        while (!node.IsRoot && node == node.Parent.Right)
-                        {
-                            node = node.Parent;
-                        }
-
-                        node = node.Parent;
-                    }
-                }
-                while (node != null);
-            }
-        }
-
-        protected IEnumerable<RedBlackTreeNode<T>> LevelOrderTraversal(RedBlackTreeNode<T> node)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected RedBlackTreeNode<T> MaxNode(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Gets the maximum node of the <see cref="ICollection{T}"/>.
+        /// </summary>
+        /// <param name="node">The node to start.</param>
+        /// <returns>The maximum node.</returns>
+        protected virtual RedBlackTreeNode<T> GetMaxNode(RedBlackTreeNode<T> node)
         {
             if (node == null)
             {
@@ -673,7 +837,12 @@ namespace NLib.Collections.Generic
             return node;
         }
 
-        protected RedBlackTreeNode<T> MinNode(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Gets the minimum node of the <see cref="ICollection{T}"/>.
+        /// </summary>
+        /// <param name="node">The node to start.</param>
+        /// <returns>The minimum node.</returns>
+        protected virtual RedBlackTreeNode<T> GetMinNode(RedBlackTreeNode<T> node)
         {
             if (node == null)
             {
@@ -688,25 +857,131 @@ namespace NLib.Collections.Generic
             return node;
         }
 
-        protected IEnumerable<RedBlackTreeNode<T>> PostOrderTraversal(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Gets the predecessor.
+        /// </summary>
+        /// <param name="node">The node to gets the predecessor.</param>
+        /// <returns>The predecessor of the <paramref name="node"/>.</returns>
+        protected virtual RedBlackTreeNode<T> GetPredecessor(RedBlackTreeNode<T> node)
+        {
+            if (node.Left != null)
+            {
+                return this.GetMaxNode(node.Left);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the successor.
+        /// </summary>
+        /// <param name="node">The node to gets the successor.</param>
+        /// <returns>The successor of the <paramref name="node"/>.</returns>
+        protected virtual RedBlackTreeNode<T> GetSuccessor(RedBlackTreeNode<T> node)
+        {
+            if (node.Right != null)
+            {
+                return this.GetMinNode(node.Right);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the successor if exists; otherwise gets the predecessor.
+        /// Gets the predecessor if the successor is a black leaf.
+        /// </summary>
+        /// <param name="node">The node to gets the sucessor or predecessor.</param>
+        /// <returns>The successor or the predecessor of the <paramref name="node"/>.</returns>
+        protected virtual RedBlackTreeNode<T> GetSuccessorOrPredecessor(RedBlackTreeNode<T> node)
+        {
+            var successor = this.GetSuccessor(node);
+            if (successor == null)
+            {
+                successor = this.GetPredecessor(node);
+            }
+            else
+            {
+                if (!successor.IsRed || !successor.IsLeaf)
+                {
+                    var predecessor = this.GetPredecessor(node);
+
+                    if (predecessor != null)
+                    {
+                        successor = predecessor;
+                    }
+                }
+            }
+
+            return successor;
+        }
+
+        /// <summary>
+        /// Gets the sibling.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns>The node's sibling.</returns>
+        protected virtual RedBlackTreeNode<T> GetSibling(RedBlackTreeNode<T> node)
+        {
+            if (node.IsRoot)
+            {
+                return null;
+            }
+
+            if (node == node.Parent.Left)
+            {
+                return node.Parent.Right;
+            }
+
+            return node.Parent.Left;
+        }
+
+        /// <summary>
+        /// Gets the uncle.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns>The node's uncle.</returns>
+        protected virtual RedBlackTreeNode<T> GetUncle(RedBlackTreeNode<T> node)
+        {
+            var grandparent = this.GetGrandParent(node);
+
+            if (grandparent == null)
+            {
+                return null;
+            }
+
+            if (node.Parent == grandparent.Left)
+            {
+                return grandparent.Right;
+            }
+
+            return grandparent.Left;
+        }
+
+        /// <summary>
+        /// Iterates throught a collection from minimum node to maximum node.
+        /// </summary>
+        /// <param name="node">The node to start the iteration.</param>
+        /// <returns>Returns the collection from minimum node to maximum node.</returns>
+        protected virtual IEnumerable<RedBlackTreeNode<T>> InOrderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
             {
-                node = this.MaxNode(node);
+                var root = node;
+                node = this.GetMinNode(node);
                 do
                 {
                     yield return node;
 
-                    if (node.Left != null)
+                    if (node.Right != null)
                     {
-                        node = node.Left;
+                        node = node.Right;
 
-                        node = this.MaxNode(node);
+                        node = this.GetMinNode(node);
                     }
                     else
                     {
-                        // TODO le root est le node en parametre et non le root du tree
-                        while (!node.IsRoot && node == node.Parent.Left)
+                        while ((!node.IsRoot || node != root) && node == node.Parent.Right)
                         {
                             node = node.Parent;
                         }
@@ -718,8 +993,82 @@ namespace NLib.Collections.Generic
             }
         }
 
-        protected IEnumerable<RedBlackTreeNode<T>> PreOrderTraversal(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Iterates throught a collection by level.
+        /// </summary>
+        /// <param name="node">The node to start the iteration.</param>
+        /// <returns>Returns the collection by level.</returns>
+        protected virtual IEnumerable<RedBlackTreeNode<T>> LevelOrderTraversal(RedBlackTreeNode<T> node)
         {
+            if (node != null)
+            {
+                var q = new Queue<RedBlackTreeNode<T>>(this.Count);
+
+                q.Enqueue(node);
+
+                while (q.Count > 0)
+                {
+                    var n = q.Dequeue();
+
+                    yield return n;
+
+                    if (n.Left != null)
+                    {
+                        q.Enqueue(n.Left);
+                    }
+
+                    if (n.Right != null)
+                    {
+                        q.Enqueue(n.Right);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Iterates throught a collection from node value to minimum node.
+        /// </summary>
+        /// <param name="node">The node to start the iteration.</param>
+        /// <returns>Returns the collection from node value to node value.</returns>
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PostOrderTraversal(RedBlackTreeNode<T> node)
+        {
+            if (node != null)
+            {
+                var root = node;
+                node = this.GetMaxNode(node);
+
+                do
+                {
+                    yield return node;
+
+                    if (node.Left != null)
+                    {
+                        node = node.Left;
+
+                        node = this.GetMaxNode(node);
+                    }
+                    else
+                    {
+                        while ((!node.IsRoot || node != root) && node == node.Parent.Left)
+                        {
+                            node = node.Parent;
+                        }
+
+                        node = node.Parent;
+                    }
+                }
+                while (node != null);
+            }
+        }
+
+        /// <summary>
+        /// Iterates throught a collection from root to leaves.
+        /// </summary>
+        /// <param name="node">The node to start the iteration.</param>
+        /// <returns>Returns the collection from root to leaves.</returns>
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PreOrderTraversal(RedBlackTreeNode<T> node)
+        {
+            var root = node;
             while (node != null)
             {
                 yield return node;
@@ -734,8 +1083,7 @@ namespace NLib.Collections.Generic
                 }
                 else
                 {
-                    // TODO le root est le node en parametre et non le root du tree
-                    while (!node.IsRoot && (node == node.Parent.Right || node.Parent.Right == null))
+                    while ((!node.IsRoot || node != root) && (node == node.Parent.Right || node.Parent.Right == null))
                     {
                         node = node.Parent;
                     }
@@ -745,7 +1093,12 @@ namespace NLib.Collections.Generic
             }
         }
 
-        protected void ReplaceNode(RedBlackTreeNode<T> oldNode, RedBlackTreeNode<T> newNode)
+        /// <summary>
+        /// Replaces the <paramref name="oldNode"/> by the <paramref name="newNode"/>.
+        /// </summary>
+        /// <param name="oldNode">The old node.</param>
+        /// <param name="newNode">The new node.</param>
+        protected virtual void ReplaceNode(RedBlackTreeNode<T> oldNode, RedBlackTreeNode<T> newNode)
         {
             var newNodeParent = newNode.Parent;
             var newNodeLeft = newNode.Left;
@@ -767,6 +1120,7 @@ namespace NLib.Collections.Generic
                     oldNodeParent.Right = newNode;
                 }
             }
+
             oldNode.Parent = oldNode == newNodeParent ? newNode : newNodeParent;
             if (newNodeParent != null)
             {
@@ -785,6 +1139,7 @@ namespace NLib.Collections.Generic
             {
                 oldNodeLeft.Parent = newNode;
             }
+
             oldNode.Left = oldNode == newNodeLeft ? newNode : newNodeLeft;
             if (oldNode != newNodeLeft && newNodeLeft != null)
             {
@@ -796,66 +1151,19 @@ namespace NLib.Collections.Generic
             {
                 oldNodeRight.Parent = newNode;
             }
+
             oldNode.Right = oldNode == newNodeRight ? newNode : newNodeRight;
             if (oldNode != newNodeRight && newNodeRight != null)
             {
                 newNodeRight.Parent = oldNodeRight;
             }
-
-            //var newNodeParent = newNode.Parent;
-            //newNode.Parent.Right = oldNode;
-            //newNode.Parent.Right = oldNode;
-            //newNode.Parent = oldNode.Parent;
-
-            //var newNodeLeft = newNode.Left;
-            //newNode.Left = oldNode.Left;
-            //if (oldNode.Left != null)
-            //{
-            //    oldNode.Left.Parent = newNode;
-            //}
-            //oldNode.Left = null;
-
-            //var newNodeRight = newNode.Right;
-            //newNode.Right = oldNode.Right;
-            //if (oldNode.Right != null)
-            //{
-            //    oldNode.Right.Parent = newNode;
-            //}
-            //oldNode.Right = null;
-
-            //if (oldNode.Parent != null)
-            //{
-            //    if (oldNode.Parent.Left == oldNode)
-            //    {
-            //        oldNode.Parent.Left = newNode;
-            //    }
-            //    else
-            //    {
-            //        oldNode.Parent.Right = newNode;
-            //    }
-            //}
-
-            //oldNode.Parent = newNodeParent;
-            //oldNode.Left = newNodeLeft;
-            //oldNode.Right = newNodeRight;
         }
 
-        protected RedBlackTreeNode<T> Sibling(RedBlackTreeNode<T> node)
-        {
-            if (node.IsRoot)
-            {
-                return null;
-            }
-
-            if (node == node.Parent.Left)
-            {
-                return node.Parent.Right;
-            }
-
-            return node.Parent.Left;
-        }
-
-        protected void RotateLeft(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Rotates the left.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        protected virtual void RotateLeft(RedBlackTreeNode<T> node)
         {
             var parent = node.Parent;
             var right = node.Right;
@@ -888,7 +1196,11 @@ namespace NLib.Collections.Generic
             right.Left = node;
         }
 
-        protected void RotateRight(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// Rotates the right.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        protected virtual void RotateRight(RedBlackTreeNode<T> node)
         {
             var parent = node.Parent;
             var left = node.Left;
@@ -921,33 +1233,6 @@ namespace NLib.Collections.Generic
             left.Right = node;
         }
 
-        protected RedBlackTreeNode<T> GrandParent(RedBlackTreeNode<T> node)
-        {
-            if (node != null && node.Parent != null)
-            {
-                return node.Parent.Parent;
-            }
-
-            return null;
-        }
-
-        protected RedBlackTreeNode<T> Uncle(RedBlackTreeNode<T> node)
-        {
-            var grandparent = this.GrandParent(node);
-
-            if (grandparent == null)
-            {
-                return null;
-            }
-
-            if (node.Parent == grandparent.Left)
-            {
-                return grandparent.Right;
-            }
-
-            return grandparent.Left;
-        }
-
         private void DeleteCase1(RedBlackTreeNode<T> node)
         {
             if (node.Parent != null)
@@ -958,7 +1243,7 @@ namespace NLib.Collections.Generic
 
         private void DeleteCase2(RedBlackTreeNode<T> node)
         {
-            var sibling = this.Sibling(node);
+            var sibling = this.GetSibling(node);
 
             if (sibling.IsRed)
             {
@@ -980,7 +1265,7 @@ namespace NLib.Collections.Generic
 
         private void DeleteCase3(RedBlackTreeNode<T> node)
         {
-            var sibling = this.Sibling(node);
+            var sibling = this.GetSibling(node);
 
             if (node.Parent.IsBlack && sibling.IsBlack && (sibling.Left == null || sibling.Left.IsBlack) && (sibling.Right == null || sibling.Right.IsBlack))
             {
@@ -995,7 +1280,7 @@ namespace NLib.Collections.Generic
 
         private void DeleteCase4(RedBlackTreeNode<T> node)
         {
-            var sibling = this.Sibling(node);
+            var sibling = this.GetSibling(node);
 
             if (node.Parent.IsRed && sibling.IsBlack && (sibling.Left == null || sibling.Left.IsBlack) && (sibling.Right == null || sibling.Right.IsBlack))
             {
@@ -1010,7 +1295,7 @@ namespace NLib.Collections.Generic
 
         private void DeleteCase5(RedBlackTreeNode<T> node)
         {
-            var sibling = this.Sibling(node);
+            var sibling = this.GetSibling(node);
 
             if (sibling.IsBlack)
             {
@@ -1033,7 +1318,7 @@ namespace NLib.Collections.Generic
 
         private void DeleteCase6(RedBlackTreeNode<T> node)
         {
-            var sibling = this.Sibling(node);
+            var sibling = this.GetSibling(node);
 
             sibling.IsRed = node.Parent.IsRed;
             node.Parent.IsBlack = true;
@@ -1073,13 +1358,13 @@ namespace NLib.Collections.Generic
 
         private void InsertCase3(RedBlackTreeNode<T> node)
         {
-            var uncle = this.Uncle(node);
+            var uncle = this.GetUncle(node);
 
             if (uncle != null && uncle.IsRed)
             {
                 node.Parent.IsBlack = true;
                 uncle.IsBlack = true;
-                var grandparent = this.GrandParent(node);
+                var grandparent = this.GetGrandParent(node);
                 grandparent.IsRed = true;
                 this.InsertCase1(grandparent);
             }
@@ -1091,7 +1376,7 @@ namespace NLib.Collections.Generic
 
         private void InsertCase4(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GrandParent(node);
+            var grandparent = this.GetGrandParent(node);
 
             if (node == node.Parent.Right && node.Parent == grandparent.Left)
             {
@@ -1109,7 +1394,7 @@ namespace NLib.Collections.Generic
 
         private void InsertCase5(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GrandParent(node);
+            var grandparent = this.GetGrandParent(node);
             node.Parent.IsBlack = true;
             grandparent.IsRed = true;
 
