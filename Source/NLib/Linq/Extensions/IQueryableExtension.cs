@@ -74,7 +74,7 @@ namespace NLib.Linq.Extensions
         /// <returns>The subset of the collection.</returns>
         public static IQueryable<T> Paginate<T>(this IQueryable<T> collection, int page, int pageSize)
         {
-            Check.Requires<ArgumentNullException>(collection != null, new { paramName = "collection" });
+            Check.ArgumentNullException(collection != null, "collection");
 
             var skip = Math.Max(pageSize * page, 0);
 

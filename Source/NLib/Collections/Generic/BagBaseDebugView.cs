@@ -31,7 +31,7 @@ namespace NLib.Collections.Generic
         /// <param name="bag">The bag  .</param>
         public BagBaseDebugView(BagBase<T> bag)
         {
-            Check.Requires<ArgumentNullException>(bag != null, new { paramName = "bag" });
+            Check.ArgumentNullException(bag != null, "bag");
             this.bag = bag;
         }
 
