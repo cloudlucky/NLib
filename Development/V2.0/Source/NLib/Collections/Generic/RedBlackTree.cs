@@ -13,258 +13,19 @@ namespace NLib.Collections.Generic
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using NLib.Collections.Generic.Extensions;
     using NLib.Collections.Generic.Resources;
-    using NLib.Extensions;
 
-    public interface IBinaryTreeNode<T>
-    {
-        /// <summary>
-        /// Gets a value indicating whether this instance is leaf; has no child node.
-        /// </summary>
-        bool IsLeaf { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is root; has no parent node.
-        /// </summary>
-        bool IsRoot { get; }
-
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        IBinaryTreeNode<T> Left { get; }
-
-        /// <summary>
-        /// Gets the parent.
-        /// </summary>
-        IBinaryTreeNode<T> Parent { get; }
-
-        /// <summary>
-        /// Gets the right.
-        /// </summary>
-        IBinaryTreeNode<T> Right { get; }
-    }
-
-    public interface IRedBlackTreeNode<T> : IBinaryTreeNode<T>
-    {
-        /// <summary>
-        /// Gets a value indicating whether this instance is black.
-        /// </summary>
-        bool IsBlack { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is red.
-        /// </summary>
-        bool IsRed { get; }
-
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        new IRedBlackTreeNode<T> Left { get; }
-
-        /// <summary>
-        /// Gets the parent.
-        /// </summary>
-        new IRedBlackTreeNode<T> Parent { get; }
-
-        /// <summary>
-        /// Gets the right.
-        /// </summary>
-        new IRedBlackTreeNode<T> Right { get; }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        T Value { get; }
-    }
-
-    public class RedBlackTreeNode<T> : IRedBlackTreeNode<T>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTreeNode&lt;T&gt;"/> class.
-        /// </summary>
-        protected RedBlackTreeNode()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTreeNode&lt;T&gt;"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        public RedBlackTreeNode(T value)
-        {
-            this.Value = value;
-            this.IsRed = true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is leaf; has no child node.
-        /// </summary>
-        public bool IsLeaf
-        {
-            get { return this.Right == null && this.Left == null; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is black.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is black; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsBlack
-        {
-            get { return !this.IsRed; }
-            set { this.IsRed = !value; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is root; has no parent node.
-        /// </summary>
-        public bool IsRoot
-        {
-            get { return this.Parent == null; }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is red.
-        /// </summary>
-        public bool IsRed { get; set; }
-
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Left
-        {
-            get { return this.Left; }
-        }
-
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Left
-        {
-            get { return this.Left; }
-        }
-
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        public RedBlackTreeNode<T> Left { get; set; }
-
-        /// <summary>
-        /// Gets the parent.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Parent
-        {
-            get { return this.Parent; }
-        }
-
-        /// <summary>
-        /// Gets the parent.
-        /// </summary>
-        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Parent
-        {
-            get { return this.Parent; }
-        }
-
-        /// <summary>
-        /// Gets or sets the parent.
-        /// </summary>
-        public RedBlackTreeNode<T> Parent { get; set; }
-
-        /// <summary>
-        /// Gets the right.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Right
-        {
-            get { return this.Right; }
-        }
-
-        /// <summary>
-        /// Gets the right.
-        /// </summary>
-        IRedBlackTreeNode<T> IRedBlackTreeNode<T>.Right
-        {
-            get { return this.Right; }
-        }
-
-        /// <summary>
-        /// Gets or sets the right.
-        /// </summary>
-        public RedBlackTreeNode<T> Right { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        public T Value { get; protected set; }
-    }
-
-    public interface IBinaryTree<T> : ICollection<T>
-    {
-        /// <summary>
-        /// Gets a value indicating whether allow duplicates is enabled or not.
-        /// </summary>
-        /// <value>
-        /// If true, the tree will add duplicates; otherwise the duplicates won't be added.
-        /// </value>
-        bool AllowDuplicates { get; }
-
-        /// <summary>
-        /// Gets the root.
-        /// </summary>
-        IBinaryTreeNode<T> RootNode { get; }
-
-        /// <summary>
-        /// Gets the maximum value of the <see cref="ICollection{T}"/>.
-        /// </summary>
-        T MaxValue { get; }
-
-        /// <summary>
-        /// Gets the minimum value of the <see cref="ICollection{T}"/>.
-        /// </summary>
-        T MinValue { get; }
-
-        /// <summary>
-        /// Adds the elements of the specified collection in the tree.
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        void AddRange(IEnumerable<T> collection);
-
-        /// <summary>
-        /// Iterates throught a collection from minimum value to maximum value.
-        /// </summary>
-        /// <returns>Returns the collection from minimum value to maximum value.</returns>
-        IEnumerable<T> InOrderTraversal();
-
-        /// <summary>
-        /// Iterates throught a collection by level.
-        /// </summary>
-        /// <returns>Returns the collection by level.</returns>
-        IEnumerable<T> LevelOrderTraversal();
-
-        /// <summary>
-        /// Iterates throught a collection from maximum value to minimum value.
-        /// </summary>
-        /// <returns>Returns the collection from maximum value to minimum value.</returns>
-        IEnumerable<T> PostOrderTraversal();
-
-        /// <summary>
-        /// Iterates throught a collection from root to leaves.
-        /// </summary>
-        /// <returns>Returns the collection from root to leaves.</returns>
-        IEnumerable<T> PreOrderTraversal();
-    }
-
-    public interface IRedBlackTree<T> : IBinaryTree<T>
-    {
-        /// <summary>
-        /// Gets the root.
-        /// </summary>
-        new IRedBlackTreeNode<T> RootNode { get; }
-    }
-
+    /// <summary>
+    /// Represents a strongly typed tree of objects. 
+    /// Provides methods to search and manipulate the tree.
+    /// </summary>
+    /// <remarks>
+    /// For more information about Red-black tree, see <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&oldid=437925585]]>.
+    /// The null/empty leaves are not represented in this implementation. The children are null if there's any.
+    /// </remarks>
+    /// <typeparam name="T">The type of elements in the tree.</typeparam>
     public class RedBlackTree<T> : IRedBlackTree<T>
     {
         /// <summary>
@@ -418,7 +179,10 @@ namespace NLib.Collections.Generic
         /// </value>
         public virtual bool AllowDuplicates
         {
-            get { return this.allowDuplicates; }
+            get
+            {
+                return this.allowDuplicates;
+            }
         }
 
         /// <summary>
@@ -431,7 +195,10 @@ namespace NLib.Collections.Generic
         /// </summary>
         IBinaryTreeNode<T> IBinaryTree<T>.RootNode
         {
-            get { return this.RootNode; }
+            get
+            {
+                return this.RootNode;
+            }
         }
 
         /// <summary>
@@ -439,7 +206,10 @@ namespace NLib.Collections.Generic
         /// </summary>
         public virtual IRedBlackTreeNode<T> RootNode
         {
-            get { return this.Root; }
+            get
+            {
+                return this.Root;
+            }
         }
 
         /// <summary>
@@ -469,8 +239,8 @@ namespace NLib.Collections.Generic
                 {
                     throw new NotSupportedException(CollectionResource.MinValue_CollectionEmpty);
                 }
-                
-                return this.GetMaxNode(this.Root).Value;
+
+                return this.GetMinNode(this.Root).Value;
             }
         }
 
@@ -480,7 +250,10 @@ namespace NLib.Collections.Generic
         /// <returns>true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.</returns>
         bool ICollection<T>.IsReadOnly
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -493,7 +266,10 @@ namespace NLib.Collections.Generic
         /// </summary>
         protected virtual Comparison<T> Comparer
         {
-            get { return this.currentComparer; }
+            get
+            {
+                return this.currentComparer;
+            }
         }
 
         /// <summary>
@@ -695,7 +471,7 @@ namespace NLib.Collections.Generic
 
             if (this.Contains(item, out node))
             {
-                this.DeleteOneChild(node);
+                this.DeleteOneNode(node);
                 this.Count--;
                 return true;
             }
@@ -739,7 +515,14 @@ namespace NLib.Collections.Generic
             return false;
         }
 
-        protected virtual void DeleteOneChild(RedBlackTreeNode<T> node)
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The nodes to delete.</param>
+        protected virtual void DeleteOneNode(RedBlackTreeNode<T> node)
         {
             RedBlackTreeNode<T> successor = null;
             if (node.Left != null || node.Right != null)
@@ -766,40 +549,7 @@ namespace NLib.Collections.Generic
                 }
             }
 
-            if (node.Parent.Left == node)
-            {
-                if (node.Left != null)
-                {
-                    node.Parent.Left = node.Left;
-                    node.Left.Parent = node.Parent;
-                }
-                else if (node.Right != null)
-                {
-                    node.Parent.Left = node.Right;
-                    node.Right.Parent = node.Parent;
-                }
-                else
-                {
-                    node.Parent.Left = null;
-                }
-            }
-            else
-            {
-                if (node.Left != null)
-                {
-                    node.Parent.Right = node.Left;
-                    node.Left.Parent = node.Parent;
-                }
-                else if (node.Right != null)
-                {
-                    node.Parent.Right = node.Right;
-                    node.Right.Parent = node.Parent;
-                }
-                else
-                {
-                    node.Parent.Right = null;
-                }
-            }
+            UnlinkDeletedNode(node);
         }
 
         /// <summary>
@@ -981,7 +731,7 @@ namespace NLib.Collections.Generic
                     }
                     else
                     {
-                        while ((!node.IsRoot || node != root) && node == node.Parent.Right)
+                        while (node != root && node == node.Parent.Right)
                         {
                             node = node.Parent;
                         }
@@ -1049,7 +799,7 @@ namespace NLib.Collections.Generic
                     }
                     else
                     {
-                        while ((!node.IsRoot || node != root) && node == node.Parent.Left)
+                        while (node != root && node == node.Parent.Left)
                         {
                             node = node.Parent;
                         }
@@ -1069,6 +819,7 @@ namespace NLib.Collections.Generic
         protected virtual IEnumerable<RedBlackTreeNode<T>> PreOrderTraversal(RedBlackTreeNode<T> node)
         {
             var root = node;
+
             while (node != null)
             {
                 yield return node;
@@ -1083,12 +834,14 @@ namespace NLib.Collections.Generic
                 }
                 else
                 {
-                    while ((!node.IsRoot || node != root) && (node == node.Parent.Right || node.Parent.Right == null))
+                    while (node != root && (node == node.Parent.Right || node.Parent.Right == null))
                     {
                         node = node.Parent;
                     }
 
-                    node = node.IsRoot ? null : node.Parent.Right;
+                    node = node.IsRoot 
+                             ? null 
+                             : node.Parent.Right;
                 }
             }
         }
@@ -1233,6 +986,55 @@ namespace NLib.Collections.Generic
             left.Right = node;
         }
 
+        /// <summary>
+        /// Unlinks the deleted node from its parent and children.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        private static void UnlinkDeletedNode(RedBlackTreeNode<T> node)
+        {
+            if (node.Parent.Left == node)
+            {
+                if (node.Left != null)
+                {
+                    node.Parent.Left = node.Left;
+                    node.Left.Parent = node.Parent;
+                }
+                else if (node.Right != null)
+                {
+                    node.Parent.Left = node.Right;
+                    node.Right.Parent = node.Parent;
+                }
+                else
+                {
+                    node.Parent.Left = null;
+                }
+            }
+            else
+            {
+                if (node.Left != null)
+                {
+                    node.Parent.Right = node.Left;
+                    node.Left.Parent = node.Parent;
+                }
+                else if (node.Right != null)
+                {
+                    node.Parent.Right = node.Right;
+                    node.Right.Parent = node.Parent;
+                }
+                else
+                {
+                    node.Parent.Right = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase1(RedBlackTreeNode<T> node)
         {
             if (node.Parent != null)
@@ -1241,6 +1043,14 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// Sibling node is red. 
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase2(RedBlackTreeNode<T> node)
         {
             var sibling = this.GetSibling(node);
@@ -1263,6 +1073,13 @@ namespace NLib.Collections.Generic
             this.DeleteCase3(node);
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code came from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase3(RedBlackTreeNode<T> node)
         {
             var sibling = this.GetSibling(node);
@@ -1278,6 +1095,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase4(RedBlackTreeNode<T> node)
         {
             var sibling = this.GetSibling(node);
@@ -1293,6 +1117,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase5(RedBlackTreeNode<T> node)
         {
             var sibling = this.GetSibling(node);
@@ -1305,17 +1136,27 @@ namespace NLib.Collections.Generic
                     sibling.Left.IsBlack = true;
                     this.RotateRight(sibling);
                 }
-                else if (node == node.Parent.Right && (sibling.Left == null || sibling.Left.IsBlack) && sibling.Right.IsRed)
+                else if (sibling.Right != null)
                 {
-                    sibling.IsRed = true;
-                    sibling.Right.IsBlack = true;
-                    this.RotateLeft(sibling);
+                    if (node == node.Parent.Right && (sibling.Left == null || sibling.Left.IsBlack) && sibling.Right.IsRed)
+                    {
+                        sibling.IsRed = true;
+                        sibling.Right.IsBlack = true;
+                        this.RotateLeft(sibling);
+                    }
                 }
             }
 
             this.DeleteCase6(node);
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to delete.</param>
         private void DeleteCase6(RedBlackTreeNode<T> node)
         {
             var sibling = this.GetSibling(node);
@@ -1335,6 +1176,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to insert.</param>
         private void InsertCase1(RedBlackTreeNode<T> node)
         {
             if (node.Parent == null)
@@ -1348,6 +1196,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to insert.</param>
         private void InsertCase2(RedBlackTreeNode<T> node)
         {
             if (node.Parent.IsRed)
@@ -1356,6 +1211,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to insert.</param>
         private void InsertCase3(RedBlackTreeNode<T> node)
         {
             var uncle = this.GetUncle(node);
@@ -1374,6 +1236,13 @@ namespace NLib.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to insert.</param>
         private void InsertCase4(RedBlackTreeNode<T> node)
         {
             var grandparent = this.GetGrandParent(node);
@@ -1392,6 +1261,13 @@ namespace NLib.Collections.Generic
             this.InsertCase5(node);
         }
 
+        /// <summary>
+        /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
+        /// </summary>
+        /// <remarks>
+        /// Documentation and the code come from <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]>.
+        /// </remarks>
+        /// <param name="node">The node to insert.</param>
         private void InsertCase5(RedBlackTreeNode<T> node)
         {
             var grandparent = this.GetGrandParent(node);

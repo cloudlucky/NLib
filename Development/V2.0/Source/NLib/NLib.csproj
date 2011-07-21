@@ -75,8 +75,12 @@
     <Compile Include="Collections\Generic\GraphNodeList.cs" />
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
+    <Compile Include="Collections\Generic\IBinaryTree.cs" />
+    <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\IGraph.cs" />
+    <Compile Include="Collections\Generic\IRedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
+    <Compile Include="Collections\Generic\RedBlackTreeNode.cs" />
     <Compile Include="Collections\Generic\Resources\CollectionResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -88,6 +92,7 @@
       <DependentUpon>GeneratorResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
+    <Compile Include="Collections\Generic\IRedBlackTreeNode.cs" />
     <Compile Include="EqualityComparison.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\ComparisonExtension.cs" />
