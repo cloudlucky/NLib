@@ -71,8 +71,6 @@
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
     <Compile Include="Collections\Generic\Graph.cs" />
-    <Compile Include="Collections\Generic\GraphNode.cs" />
-    <Compile Include="Collections\Generic\GraphNodeList.cs" />
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
     <Compile Include="Collections\Generic\IBinaryTree.cs" />

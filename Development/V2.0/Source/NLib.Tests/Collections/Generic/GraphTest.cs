@@ -1,7 +1,6 @@
 namespace NLib.Tests.Collections.Generic
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using NLib.Collections.Generic;
     using NUnit.Framework;
@@ -10,11 +9,10 @@ namespace NLib.Tests.Collections.Generic
     public class GraphTest
     {
         [Test]
-        public void GenerateTest0()
+        public void AddNodeTest0()
         {
-            var graph = new Graph<string>(null);
+            var graph = new Graph<string>();
             Assert.IsNotNull(graph.Nodes);
-
             var setNodes = new GraphNodeList<string>();
             var nodes = new GraphNode<string>("one");
             setNodes.Add(nodes);
@@ -32,7 +30,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest1()
+        public void CountTest1()
         {
             Graph<string> graph = new Graph<string>();
 
@@ -70,7 +68,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest2()
+        public void FindByValueTest2()
         {
             var graph = new Graph<string>();
             graph.AddNode("one");
@@ -84,7 +82,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest3()
+        public void AddUnidirectedEdgeTest3()
         {
             var graph = new Graph<string>();
 
@@ -115,7 +113,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest4()
+        public void AddDirectEdgeTest4()
         {
              var graph = new Graph<string>();
 
@@ -152,14 +150,14 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest5()
+        public void AddDirectEdgeTest5()
         {
             var graph = new Graph<string>();
             graph.AddNode("one");
             graph.AddNode("two");
             graph.AddNode("three");
 
-            graph.AddDirectedEdge("one", "two", 1);
+            graph.AddDirectedEdge("one", "two",1);
             graph.AddDirectedEdge("two", "three", 2);
             graph.AddUndirectedEdge("three", "one", 3);
 
@@ -181,7 +179,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest6()
+        public void AddDirectEdgeTest6()
         {
            var graph = new Graph<string>();
            graph.AddNode("one");
@@ -199,7 +197,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest7()
+        public void GraphNodeTest7()
         {
             var node = new GraphNode<object>();
             var nodes = new GraphNodeList<object>();
@@ -208,7 +206,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void GenerateTest8()
+        public void NodeTest8()
         {
            var graph = new Graph<string>();
            graph.AddNode("a");
@@ -217,8 +215,9 @@ namespace NLib.Tests.Collections.Generic
            try
            {
                 graph.AddDirectedEdge("a", "b");
-                Assert.IsTrue(false);
-           } catch(Exception e)
+                Assert.Fail();
+           } 
+           catch
            {
                Assert.IsTrue(true);
            }
@@ -226,8 +225,9 @@ namespace NLib.Tests.Collections.Generic
            try
            {
                graph.AddDirectedEdge("b", "a");
-               Assert.IsTrue(false);
-           } catch (Exception e)
+               Assert.Fail();
+           } 
+           catch
            {
                Assert.IsTrue(true);
            }
@@ -235,9 +235,9 @@ namespace NLib.Tests.Collections.Generic
            try
            {
                graph.AddDirectedEdge("b", "b");
-               Assert.IsTrue(false);
+               Assert.Fail();
            }
-           catch (Exception e)
+           catch
            {
                Assert.IsTrue(true);
            }
@@ -247,11 +247,30 @@ namespace NLib.Tests.Collections.Generic
                graph.AddDirectedEdge("a", "a");
                Assert.IsTrue(true);
            }
-           catch (Exception e)
+           catch
            {
-               Assert.IsTrue(false);
+               Assert.Fail();
            }
+        }
 
+        [Test]
+        public void RemoveTest9()
+        {
+            var graph = new Graph<string>();
+            graph.AddNode("one");
+            graph.AddNode("two");
+            graph.AddNode("three");
+
+            graph.AddDirectedEdge("one", "one");
+            graph.AddDirectedEdge("two", "one");
+            graph.AddDirectedEdge("three", "one");
+
+            Assert.IsTrue(graph.Contains("one"));
+            Assert.IsTrue(graph.Contains("two"));
+            Assert.IsTrue(graph.Contains("three"));
+
+            graph.Remove("one");
+            Assert.IsFalse(graph.Contains("one"));
         }
     }
 }
