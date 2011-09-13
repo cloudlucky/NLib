@@ -34,12 +34,12 @@ namespace NLib.Tests.Collections.Generic
         {
             Graph<string> graph = new Graph<string>();
 
-            graph.AddNode("one");
-            graph.AddNode("two");
-            graph.AddNode("three");
-            graph.AddNode("four");
-            graph.AddNode("five");
-            graph.AddNode("six");
+            graph.Add("one");
+            graph.Add("two");
+            graph.Add("three");
+            graph.Add("four");
+            graph.Add("five");
+            graph.Add("six");
 
             var enumNodes = graph.GetEnumerator();
             int nbNode = 0; 
@@ -48,7 +48,7 @@ namespace NLib.Tests.Collections.Generic
                 nbNode++;
             }
             Assert.AreEqual(6, nbNode);
-            Assert.AreEqual(6, graph.Count());
+            Assert.AreEqual(6, graph.Count);
 
             Assert.IsTrue(graph.Contains("one"));
             Assert.IsTrue(graph.Contains("two"));
@@ -58,12 +58,12 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsTrue(graph.Contains("six"));
 
             Assert.IsTrue(graph.Remove("three"));
-            Assert.AreEqual(5, graph.Count());
+            Assert.AreEqual(5, graph.Count);
 
             Assert.IsFalse(graph.Remove("seven"));
 
             graph.Clear();
-            Assert.AreEqual(0, graph.Count());
+            Assert.AreEqual(0, graph.Count);
 
         }
 
@@ -71,8 +71,8 @@ namespace NLib.Tests.Collections.Generic
         public void FindByValueTest2()
         {
             var graph = new Graph<string>();
-            graph.AddNode("one");
-            graph.AddNode("two");
+            graph.Add("one");
+            graph.Add("two");
 
             var nodeOne = graph.Nodes.FindByValue("one");
             var nodeTwo = graph.Nodes.FindByValue("two");
@@ -86,9 +86,9 @@ namespace NLib.Tests.Collections.Generic
         {
             var graph = new Graph<string>();
 
-            graph.AddNode("one");
-            graph.AddNode("two");
-            graph.AddNode("three");
+            graph.Add("one");
+            graph.Add("two");
+            graph.Add("three");
             graph.AddUndirectedEdge("one", "two");
             graph.AddUndirectedEdge("two", "three");
             graph.AddUndirectedEdge("three", "one");
@@ -117,10 +117,10 @@ namespace NLib.Tests.Collections.Generic
         {
              var graph = new Graph<string>();
 
-             graph.AddNode("three");
-             graph.AddNode("four");
-             graph.AddNode("five");
-             graph.AddNode("six");
+             graph.Add("three");
+             graph.Add("four");
+             graph.Add("five");
+             graph.Add("six");
 
             var node1 = new GraphNode<string>("one");
             var node2 = new GraphNode<string>("two");
@@ -153,11 +153,11 @@ namespace NLib.Tests.Collections.Generic
         public void AddDirectEdgeTest5()
         {
             var graph = new Graph<string>();
-            graph.AddNode("one");
-            graph.AddNode("two");
-            graph.AddNode("three");
+            graph.Add("one");
+            graph.Add("two");
+            graph.Add("three");
 
-            graph.AddDirectedEdge("one", "two",1);
+            graph.AddDirectedEdge("one", "two", 1);
             graph.AddDirectedEdge("two", "three", 2);
             graph.AddUndirectedEdge("three", "one", 3);
 
@@ -182,7 +182,7 @@ namespace NLib.Tests.Collections.Generic
         public void AddDirectEdgeTest6()
         {
            var graph = new Graph<string>();
-           graph.AddNode("one");
+           graph.Add("one");
            graph.AddDirectedEdge("one", "one", 1);
            GraphNode<string> node;
 
@@ -209,7 +209,7 @@ namespace NLib.Tests.Collections.Generic
         public void NodeTest8()
         {
            var graph = new Graph<string>();
-           graph.AddNode("a");
+           graph.Add("a");
            Assert.AreEqual(0, (graph.Nodes.FindByValue("a")).Neighbors.Count);
 
            try
@@ -257,9 +257,9 @@ namespace NLib.Tests.Collections.Generic
         public void RemoveTest9()
         {
             var graph = new Graph<string>();
-            graph.AddNode("one");
-            graph.AddNode("two");
-            graph.AddNode("three");
+            graph.Add("one");
+            graph.Add("two");
+            graph.Add("three");
 
             graph.AddDirectedEdge("one", "one");
             graph.AddDirectedEdge("two", "one");
@@ -272,5 +272,6 @@ namespace NLib.Tests.Collections.Generic
             graph.Remove("one");
             Assert.IsFalse(graph.Contains("one"));
         }
+ 
     }
 }
