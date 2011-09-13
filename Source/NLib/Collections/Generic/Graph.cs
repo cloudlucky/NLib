@@ -1,6 +1,6 @@
-﻿
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ namespace NLib.Collections.Generic
     /// </remarks>
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     /// 
-    public class Graph<T> : IGraph<T> 
+    public class Graph<T> : IGraph<T>,  IEnumerable<T>, ICollection<T>
     {
         /// <summary>
         /// The set of nodes in the graph
@@ -55,7 +55,7 @@ namespace NLib.Collections.Generic
         /// Adds a new value to the graph.
         /// </summary>
         /// <param name="value">The value to add to the graph</param>
-        public void AddNode(T value)
+        public void Add(T value)
         {
             this.nodeSet.Add(new GraphNode<T>(value));
         }
@@ -134,6 +134,23 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
+        /// It takes two arguments. The first argument is the array that will receive the items.
+        /// The second argument is the index of the item from where the copying operation will begin.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            var size = this.nodeSet.Count();
+            var values = new T[size];
+            for (int i = 0; i < size; i++)
+            {
+                values[i++] = this.nodeSet.ElementAt(i).Value;
+            }
+
+        }
+
+        /// <summary>
         /// Attempts to remove a node from a graph.
         /// </summary>
         /// <param name="value">The value that is to be removed from the graph.</param>
@@ -170,16 +187,25 @@ namespace NLib.Collections.Generic
 
         /// <summary>
         /// Returns an enumerator that allows for iterating through the contents of the graph.
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            return (IEnumerator<T>)this.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that allows for iterating through the contents of the graph.
         public IEnumerator<GraphNode<T>> GetEnumerator()
         {
             return this.nodeSet.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that allows for iterating through the contents of the graph.
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
-        
+
         /// <summary>
         /// Returns the set of nodes in the graph.
         /// </summary>
@@ -192,15 +218,19 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Returns the number of vertices in the graph.
+        /// Gets the number of nodes
         /// </summary>
         public int Count
         {
-            get
-            {
-                return this.nodeSet.Count;
-            }
+            get { return this.nodeSet.Count; }
         }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public T[] graphNode { get; set; }
     }
 
     /// <summary>
@@ -261,7 +291,6 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <value></value>
         public List<object> Costs { get; set; }
-
     }
 
     /// <summary>

@@ -62,6 +62,7 @@
       <DependentUpon>BagBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
+    <Compile Include="Collections\Generic\Extensions\GraphFlot.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\Resources\IListExtensionResource.Designer.cs">

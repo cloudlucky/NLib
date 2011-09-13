@@ -23,7 +23,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Adds a new GraphNode with value to the graph.
         /// </summary>
-        void AddNode(T value);
+        void Add(T value);
         
         /// <summary>
         /// Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to).
@@ -67,6 +67,6 @@ namespace NLib.Collections.Generic
         /// Return true if the node is removed.
         /// </returns>
         bool Remove(T value);
-         
+
     }
 }
