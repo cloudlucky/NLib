@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRedBlackTreeNode.cs" company=".">
+// <copyright file="IGraph.cs" company=".">
 //   Copyright (c) Cloudlucky. All rights reserved.
 //   http://www.cloudlucky.com
 //   This code is licensed under the Microsoft Public License (Ms-PL)
@@ -11,20 +11,10 @@ namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
 
-    public interface IGraph<T> : IEnumerable<GraphNode<T>>
-    {   
-        
+    public interface IGraph<T, TCost> : ICollection<T>
+    {
+        GraphNode<T, TCost> this[T item] { get; }
 
-        /// <summary>
-        /// Adds a new GraphNode instance to the Graph
-        /// </summary>
-        void AddNode(GraphNode<T> node);
-
-        /// <summary>
-        /// Adds a new GraphNode with value to the graph.
-        /// </summary>
-        void Add(T value);
-        
         /// <summary>
         /// Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
@@ -34,7 +24,7 @@ namespace NLib.Collections.Generic
          /// Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         /// with an associated cost.
         /// </summary>
-        void AddDirectedEdge(T from, T to, object cost);
+        void AddDirectedEdge(T from, T to, TCost cost);
         
         /// <summary>
         /// Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
@@ -45,28 +35,10 @@ namespace NLib.Collections.Generic
         /// Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         /// with an associated cost.
         /// </summary>
-        void AddUndirectedEdge(T from, T to, object cost);
+        void AddUndirectedEdge(T from, T to, TCost cost);
 
-        /// <summary>
-        /// Clears out the contents of the Graph.
-        /// </summary>
-        void Clear();
+        GraphNode<T, TCost> GetNodeByValue(T value);
 
-        /// <summary>
-        /// Returns a Boolean, indicating if a particular value exists within the graph.
-        /// </summary>
-        bool Contains(T value);
-
-        /// <summary>
-        /// Attempts to remove a node from a graph.
-        /// </summary>
-        /// <param name="value">
-        /// The name of the node.
-        /// </param>
-        /// <returns>
-        /// Return true if the node is removed.
-        /// </returns>
-        bool Remove(T value);
-
+        bool TryGetNode(T item, out GraphNode<T, TCost> node);
     }
 }

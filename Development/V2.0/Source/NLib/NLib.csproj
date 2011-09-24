@@ -48,6 +48,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,6 +62,10 @@
     <Compile Include="Collections\Generic\BagBaseDebugView.cs">
       <DependentUpon>BagBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
+    <Compile Include="Collections\Generic\GraphEdge.cs" />
+    <Compile Include="Collections\Generic\GraphNode.Complex.cs" />
+    <Compile Include="Collections\Generic\Graph.Complex.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\GraphFlot.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
@@ -72,11 +77,13 @@
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
     <Compile Include="Collections\Generic\Graph.cs" />
+    <Compile Include="Collections\Generic\GraphNode.cs" />
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
     <Compile Include="Collections\Generic\IBinaryTree.cs" />
     <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\IGraph.cs" />
+    <Compile Include="Collections\Generic\INode.cs" />
     <Compile Include="Collections\Generic\IRedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTreeNode.cs" />
