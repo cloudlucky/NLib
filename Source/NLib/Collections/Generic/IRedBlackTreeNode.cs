@@ -39,10 +39,5 @@ namespace NLib.Collections.Generic
         /// Gets the right.
         /// </summary>
         new IRedBlackTreeNode<T> Right { get; }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        T Value { get; }
     }
 }

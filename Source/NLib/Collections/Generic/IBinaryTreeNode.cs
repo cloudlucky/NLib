@@ -13,7 +13,7 @@ namespace NLib.Collections.Generic
     /// Provides the base interface for the abstraction of binary tree's nodes.
     /// </summary>
     /// <typeparam name="T">The type of elements in the node.</typeparam>
-    public interface IBinaryTreeNode<T>
+    public interface IBinaryTreeNode<T> : INode<T>
     {
         /// <summary>
         /// Gets a value indicating whether this instance is leaf; has no child node.
