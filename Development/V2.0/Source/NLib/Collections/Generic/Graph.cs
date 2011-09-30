@@ -28,6 +28,7 @@ namespace NLib.Collections.Generic
     /// <typeparam name="TCost">The type of cost.</typeparam>
     public class Graph<T, TCost> : IGraph<T, TCost>
     {
+
         /// <summary>
         /// The set of nodes in the graph
         /// </summary>
@@ -104,6 +105,7 @@ namespace NLib.Collections.Generic
             this.equalityComparer = comparer ?? comparison.ToEqualityComparer();
             this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
             this.AddRange(collection);
+         
         }
 
         private class GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
@@ -241,7 +243,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
-        /// <param name="from">The value of one of the GraphNodes that is joined by the edge.</param>
+        /// <param name="from">The value of one of the GraphNodetraversee es that is joined by the edge.</param>
         /// <param name="to">The value of one of the GraphNodes that is joined by the edge.</param>
         public void AddUndirectedEdge(T from, T to)
         {
@@ -420,5 +422,120 @@ namespace NLib.Collections.Generic
         {
             return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, value));
         }
+
+        /// <summary>
+        /// selecting some node as the root and explores as far as possible along each branch before backtracking.
+        /// </summary>
+        /// <param name="item">
+        /// The some node for start iteration
+        /// </param>
+        /// <returns>
+        /// Iterates throught a collection of nodes.
+        /// </returns>
+        public IEnumerable<GraphNode<T, TCost>> DepthFirstTraversal(GraphNode<T, TCost> item)
+        {
+            if (item.marker)
+            {
+                this.nodeSet.ForEach(node => node.marker = false);
+            }
+
+            var stack = new Stack<GraphNode<T, TCost>>();
+            stack.Push(item);
+            item.marker = true;
+            var unmarked = this.Count - 1;
+            yield return item;
+            
+            do
+            {
+                var useEdge = item.Edges.FirstOrDefault(x => !x.To.marker);
+                
+                if (useEdge == null)
+                {
+                      stack.Pop();
+                      item = stack.Peek();
+                }
+                else
+                {
+                    item = useEdge.To;
+                    stack.Push(item);
+                    item.marker = true;
+                    unmarked--;
+                    yield return item;
+                }
+            }
+            while (unmarked > 0);
+        }
+
+        /// <summary>
+        /// Selecting some node as the root and explores as far as possible along each branch before backtracking.
+        /// </summary>
+        /// <param name="item">
+        /// The value of some root node for start iteration
+        /// </param>
+        /// <returns>
+        /// Iterates throught a collection of nodes.
+        /// </returns>
+        public IEnumerable<GraphNode<T, TCost>> DepthFirstTraversal(T item)
+        {
+            return this.DepthFirstTraversal(this.GetNodeByValue(item));
+        }
+
+        /// <summary>
+        /// Selecting some node as the root and to go through them level-by-level. 
+        /// </summary>
+        /// <param name="item">
+        /// The some root node for start iteration
+        /// </param>
+        /// <returns>
+        /// Iterates throught a collection of nodes.
+        /// </returns>
+        public IEnumerable<GraphNode<T, TCost>> BreathFirstTraversal(GraphNode<T, TCost> item)
+        {
+            if (item.marker)
+            {
+                this.nodeSet.ForEach(node => node.marker = false);
+            }
+
+            item.marker = true;
+            var unmarked = this.Count - 1;
+            yield return item;
+
+            var queue = new Queue<GraphNode<T, TCost>>();
+
+            while (unmarked > 0)
+            {
+
+                foreach (var useEdge in item.Edges)
+                {
+                    if (!useEdge.To.marker)
+                    {
+                        useEdge.To.marker = true;
+                        unmarked--;
+                        yield return useEdge.To;
+                        queue.Enqueue(useEdge.To);
+                    }
+                }
+                item = queue.Dequeue();
+
+            }
+
+        }
+
+        /// <summary>
+        /// Selecting some node as the root and to go through them level-by-level. 
+        /// </summary>
+        /// <param name="item">
+        /// The value of some root node for start iteration
+        /// </param>
+        /// <returns>
+        /// Iterates throught a collection of nodes.
+        /// </returns>
+        public IEnumerable<GraphNode<T, TCost>> BreathFirstTraversal(T item)
+        {
+            return this.BreathFirstTraversal(this.GetNodeByValue(item));
+        }
+
+
+
     }
 }

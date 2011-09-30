@@ -26,6 +26,7 @@ namespace NLib.Collections.Generic
         {
             this.Value = value;
             this.Edges = new GraphEdgeSet<T, TCost>();
+            this.marker = false;
         }
 
         public GraphEdgeSet<T, TCost> Edges { get; protected set; }
@@ -37,5 +38,7 @@ namespace NLib.Collections.Generic
             get { return this.Edges[to]; }
             set { this.Edges[to] = value; }
         }
+
+        public bool marker { get; set; }
     }
 }
