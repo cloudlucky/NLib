@@ -76,6 +76,55 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Value));
         }
 
+        [Test]
+        public void DepthFirstTraversalTest()
+        {
+            var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
+
+            graph.AddUndirectedEdge("A", "B", 0);
+            graph.AddUndirectedEdge("A", "H", 0);
+            graph.AddUndirectedEdge("H", "H", 0);
+            graph.AddUndirectedEdge("H", "G", 0);
+            graph.AddUndirectedEdge("B", "C", 0);
+            graph.AddUndirectedEdge("C", "D", 0);
+            graph.AddUndirectedEdge("C", "E", 0);
+            graph.AddUndirectedEdge("C", "F", 0);
+            graph.AddUndirectedEdge("F", "G", 0);
+            graph.AddUndirectedEdge("G", "A", 0);
+
+            string strSequence = string.Empty;
+            foreach (var node in graph.DepthFirstTraversal("A"))
+            {
+              strSequence = strSequence + node.Value;
+            }
+            Assert.AreEqual("ABCDEFGH", strSequence);
+        }
+
+        [Test]
+        public void BreadthFirstTraversal()
+        {
+            var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
+
+            graph.AddUndirectedEdge("A", "B", 0);
+            graph.AddUndirectedEdge("A", "H", 0);
+            graph.AddUndirectedEdge("H", "H", 0);
+            graph.AddUndirectedEdge("H", "G", 0);
+            graph.AddUndirectedEdge("B", "C", 0);
+            graph.AddUndirectedEdge("C", "D", 0);
+            graph.AddUndirectedEdge("C", "E", 0);
+            graph.AddUndirectedEdge("C", "F", 0);
+            graph.AddUndirectedEdge("F", "G", 0);
+            graph.AddUndirectedEdge("G", "A", 0);
+
+            string strSequence = string.Empty;
+            foreach (var node in graph.BreathFirstTraversal("A"))
+            {
+                strSequence = strSequence + node.Value;
+            }
+            Assert.AreEqual("ABHGCFDE", strSequence);
+
+        }
+
         //[Test]
         //public void AddNode()
         //{
