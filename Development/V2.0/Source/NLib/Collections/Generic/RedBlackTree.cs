@@ -338,7 +338,7 @@ namespace NLib.Collections.Generic
         /// Adds the elements of the specified collection in the tree.
         /// </summary>
         /// <param name="collection">The collection.</param>
-        public virtual void AddRange(IEnumerable<T> collection)
+        public void AddRange(IEnumerable<T> collection)
         {
             if (collection != null)
             {

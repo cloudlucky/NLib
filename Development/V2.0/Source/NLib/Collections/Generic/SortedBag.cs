@@ -104,7 +104,7 @@ namespace NLib.Collections.Generic
             Check.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
 
             this.currentComparer = comparison ?? comparer.Compare;
-            this.equalityComparer = (T x, T y) => this.currentComparer(x, y) == 0;
+            this.equalityComparer = (x, y) => this.currentComparer(x, y) == 0;
             this.Model = new SortedDictionary<T, int>(comparer ?? comparison.ToComparer());
             this.AddRange(collection);
         }

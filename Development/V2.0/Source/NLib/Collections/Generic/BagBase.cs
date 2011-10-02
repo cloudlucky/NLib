@@ -58,7 +58,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets the implementation model.
         /// </summary>
-        protected virtual IDictionary<T, int> Model { get; set; }
+        protected IDictionary<T, int> Model { get; set; }
 
         /// <summary>
         /// Adds an item to the <see cref="ICollection{T}"/>.
@@ -93,7 +93,7 @@ namespace NLib.Collections.Generic
         /// Adds the elements of the specified collection in the bag.
         /// </summary>
         /// <param name="collection">The collection.</param>
-        public virtual void AddRange(IEnumerable<T> collection)
+        public void AddRange(IEnumerable<T> collection)
         {
             if (collection != null)
             {

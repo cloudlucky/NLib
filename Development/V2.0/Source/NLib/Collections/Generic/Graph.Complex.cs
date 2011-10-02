@@ -12,6 +12,11 @@ namespace NLib.Collections.Generic
     using System.Collections.Generic;
     using System.Numerics;
 
+    /// <summary>
+    /// Represents a graph with an arbitrary collection of GraphNode instances. 
+    /// Provides methods to search and manipulate the tree.
+    /// </summary>
+    /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     public class Graph<T> : Graph<T, Complex>
     {
         /// <summary>

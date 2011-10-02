@@ -31,7 +31,7 @@ namespace NLib.Tests.Collections.Generic
 
             Assert.IsNotNull(graph["A"]);
             Assert.IsNotNull(graph["B"]);
-            Assert.AreEqual(12, graph["A"]["B"]);
+            Assert.AreEqual(12, graph["A", "B"]);
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace NLib.Tests.Collections.Generic
             graph.Add("B");
 
             graph.AddDirectedEdge("A", "B");
-            graph["A"]["B"] = 20;
+            graph["A", "B"] = 20;
 
-            Assert.AreEqual(20, graph["A"]["B"]);
+            Assert.AreEqual(20, graph["A", "B"]);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NLib.Tests.Collections.Generic
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
 
-            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.GetAllNodes().Select(x => x.Value));
+            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.Nodes.Select(x => x.Value));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NLib.Tests.Collections.Generic
             graph.AddDirectedEdge("A", "B", 5);
             graph.AddDirectedEdge("A", "C", 10);
 
-            Assert.AreEqual(2, graph["A"].Edges.Count);
+            Assert.AreEqual(2, graph["A"].Edges.Count());
             Assert.AreEqual(5, graph["A"].Edges.Min(x => x.Value));
             Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Value));
         }

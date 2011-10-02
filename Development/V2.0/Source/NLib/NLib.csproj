@@ -64,7 +64,6 @@
     </Compile>
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\GraphEdge.cs" />
-    <Compile Include="Collections\Generic\GraphNode.Complex.cs" />
     <Compile Include="Collections\Generic\Graph.Complex.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\GraphFlot.cs" />
@@ -83,6 +82,8 @@
     <Compile Include="Collections\Generic\IBinaryTree.cs" />
     <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\IGraph.cs" />
+    <Compile Include="Collections\Generic\IGraphEdge.cs" />
+    <Compile Include="Collections\Generic\IGraphNode.cs" />
     <Compile Include="Collections\Generic\INode.cs" />
     <Compile Include="Collections\Generic\IRedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
