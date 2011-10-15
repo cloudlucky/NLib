@@ -32,9 +32,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Mvc.Ui.Tests", "NL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Mvc.Tests", "NLib.Web.Mvc.Tests\NLib.Web.Mvc.Tests.csproj", "{3D2DD692-66D8-4251-9DBE-AEF8B8467303}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception", "NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj", "{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception.Tests", "NLib.Practices.Unity.Interception.Tests\NLib.Practices.Unity.Interception.Tests.csproj", "{408C9F5D-2B16-403D-82AC-D72D7888A998}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs19
 		SccLocalPath0 = .
@@ -73,6 +77,13 @@ Global
 		SccProjectTopLevelParentUniqueName10 = NLib.sln
 		SccProjectName10 = NLib.Web.Mvc.Tests
 		SccLocalPath10 = NLib.Web.Mvc.Tests
+		SccProjectUniqueName11 = NLib.Practices.Unity.Interception\\NLib.Practices.Unity.Interception.csproj
+		SccProjectName11 = NLib.Practices.Unity.Interception
+		SccLocalPath11 = NLib.Practices.Unity.Interception
+		SccProjectUniqueName12 = NLib.Practices.Unity.Interception.Tests\\NLib.Practices.Unity.Interception.Tests.csproj
+		SccProjectTopLevelParentUniqueName12 = NLib.sln
+		SccProjectName12 = NLib.Practices.Unity.Interception.Tests
+		SccLocalPath12 = NLib.Practices.Unity.Interception.Tests
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +194,26 @@ Global
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|x86.ActiveCfg = Release|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}.Release|x86.ActiveCfg = Release|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{408C9F5D-2B16-403D-82AC-D72D7888A998}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,5 +224,6 @@ Global
 		{401806B6-785B-4F3A-8C8F-353D1568D770} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 		{5889463C-2544-4D22-AE68-3C676AAD5F6D} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
+		{408C9F5D-2B16-403D-82AC-D72D7888A998} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 	EndGlobalSection
 EndGlobal
