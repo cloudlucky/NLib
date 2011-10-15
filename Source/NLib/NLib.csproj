@@ -144,6 +144,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RationalNumberResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Text\Extensions\StringBuilderExtension.cs" />
     <Compile Include="Type.cs" />
     <Compile Include="Xml\Extensions\XmlDocumentExtension.cs" />
     <Compile Include="Xml\Linq\Extensions\XDocumentExtension.cs" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <None Include="NLib.Sign.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
