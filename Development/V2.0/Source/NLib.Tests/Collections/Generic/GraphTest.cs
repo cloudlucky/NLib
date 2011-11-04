@@ -1,10 +1,14 @@
 namespace NLib.Tests.Collections.Generic
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using NLib.Collections.Generic;
+    using NLib.Collections.Generic.Extensions;
+
     using NUnit.Framework;
+using System.Collections;
 
     [TestFixture]
     public class GraphTest
@@ -101,7 +105,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void BreadthFirstTraversal()
+        public void BreadthFirstTraversalTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
 
@@ -124,6 +128,29 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("ABHGCFDE", strSequence);
 
         }
+
+        [Test]
+        public void FordFulkersonAlgorithmTest()
+        {
+            var graph = new Graph<int, int> { 1, 2, 3, 4, 5, 6 };
+            graph.AddDirectedEdge(1, 2, 8);
+            graph.AddDirectedEdge(1, 3, 6);
+            graph.AddDirectedEdge(2, 4, 4);
+            graph.AddDirectedEdge(2, 5, 8);
+            graph.AddDirectedEdge(3, 5, 6);
+            graph.AddDirectedEdge(5, 4, 2);
+            graph.AddDirectedEdge(5, 6, 8);
+            graph.AddDirectedEdge(4, 6, 6);
+
+            var start = graph.GetNode(1);
+            var terminated = graph.GetNode(6);
+
+            var r = graph.FordFulkersonAlgorithm(start, terminated);
+
+
+        }
+
+
 
         //[Test]
         //public void AddNode()
