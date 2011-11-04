@@ -26,7 +26,7 @@ namespace NLib.Collections.Generic
     /// </remarks>
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     /// <typeparam name="TCost">The type of cost.</typeparam>
-    public class Graph<T, TCost> : IGraph<T, TCost>
+    public class Graph<T, TCost> : IGraph<T, TCost> 
     {
         /// <summary>
         /// The set of nodes in the graph

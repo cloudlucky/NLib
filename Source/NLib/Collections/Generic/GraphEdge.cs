@@ -43,7 +43,7 @@ namespace NLib.Collections.Generic
         /// Initializes a new instance of the <see cref="GraphEdge{T, TCost}"/> class.
         /// </summary>
         protected GraphEdge()
-        {
+        { 
         }
 
         /// <summary>
@@ -73,8 +73,13 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Gets or sets the value.
+        /// Gets or sets capacity
         /// </summary>
         public TCost Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets flow
+        /// </summary>
+        public TCost Flow { get; set; }
     }
 }

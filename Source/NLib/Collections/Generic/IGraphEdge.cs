@@ -9,6 +9,8 @@
 
 namespace NLib.Collections.Generic
 {
+    using System;
+
     /// <summary>
     /// Provides the base interface for the abstraction of a graph edge.
     /// </summary>
@@ -27,8 +29,14 @@ namespace NLib.Collections.Generic
         IGraphNode<T, TCost> To { get; }
 
         /// <summary>
-        /// Gets the value.
+        /// Gets or sets capacity
         /// </summary>
         TCost Value { get; }
+
+        /// <summary>
+        /// Gets or sets flow
+        /// </summary>
+        TCost Flow { get; set; }
+
     }
 }
