@@ -31,7 +31,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets capacity
         /// </summary>
-        TCost Value { get; }
+        TCost Capacity { get; }
 
         /// <summary>
         /// Gets or sets flow

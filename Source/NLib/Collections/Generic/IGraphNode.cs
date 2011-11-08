@@ -23,6 +23,7 @@ namespace NLib.Collections.Generic
         /// </summary>
         IEnumerable<IGraphEdge<T, TCost>> Edges { get; }
 
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="GraphNode{T, TCost}"/> is marker.
         /// </summary>
