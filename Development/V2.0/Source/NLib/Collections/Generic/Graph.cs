@@ -174,7 +174,7 @@ namespace NLib.Collections.Generic
                     throw new Exception();
                 }
 
-                return edge.Value;
+                return edge.Capacity;
             }
 
             set
@@ -522,7 +522,7 @@ namespace NLib.Collections.Generic
 
             if (edge != null)
             {
-                edge.Value = cost;
+                edge.Capacity = cost;
             }
             else
             {
@@ -610,5 +610,6 @@ namespace NLib.Collections.Generic
                 return obj.Value.GetHashCode();
             }
         }
+
     }
 }
