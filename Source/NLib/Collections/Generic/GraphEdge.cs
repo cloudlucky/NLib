@@ -24,6 +24,7 @@ namespace NLib.Collections.Generic
         public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
             : this(from, to, default(TCost))
         {
+
         }
 
         /// <summary>
@@ -94,5 +95,6 @@ namespace NLib.Collections.Generic
         /// Gets or sets flow
         /// </summary>
         public TCost Flow { get; set; }
+
     }
 }

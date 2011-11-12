@@ -63,6 +63,7 @@ namespace NLib.Collections.Generic.Extensions
                 return this.comparer(x, y);
             }
 
+
             /// <summary>
             /// Returns a hash code for the specified object.
             /// </summary>
