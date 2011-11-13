@@ -66,9 +66,9 @@ namespace NLib.Collections.Generic.Extensions
             graph.Nodes.ForEach(node => node.Edges.ForEach(edge => edge.Flow = 0));
             var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
 
-            while (currentEdge != default(IGraphEdge<T, Number>))
+            while (currentEdge != null)
             {
-                while (comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
+                while (comparerValue.Compare(currentNode.Value, terminated.Value) != 0 && currentEdge != null)
                 {
                     if ((currentEdge.Value - currentEdge.Flow) > 0)
                     {
