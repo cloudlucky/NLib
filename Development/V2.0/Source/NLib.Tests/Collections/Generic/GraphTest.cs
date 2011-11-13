@@ -8,7 +8,7 @@ namespace NLib.Tests.Collections.Generic
     using NLib.Collections.Generic.Extensions;
 
     using NUnit.Framework;
-using System.Collections;
+    using System.Collections;
 
     [TestFixture]
     public class GraphTest
@@ -76,8 +76,8 @@ using System.Collections;
             graph.AddDirectedEdge("A", "C", 10);
 
             Assert.AreEqual(2, graph["A"].Edges.Count());
-            Assert.AreEqual(5, graph["A"].Edges.Min(x => x.Capacity));
-            Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Capacity));
+            Assert.AreEqual(5, graph["A"].Edges.Min(x => x.Value));
+            Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Value));
         }
 
         [Test]
@@ -99,7 +99,7 @@ using System.Collections;
             string strSequence = string.Empty;
             foreach (var node in graph.DepthFirstTraversal("A"))
             {
-              strSequence = strSequence + node.Value;
+                strSequence = strSequence + node.Value;
             }
             Assert.AreEqual("ABCDEFGH", strSequence);
         }
@@ -132,7 +132,7 @@ using System.Collections;
         [Test]
         public void FordFulkersonAlgorithmTest()
         {
-            var graph = new Graph<ulong, ulong> { 1, 2, 3, 4, 5, 6 };
+            var graph = new Graph<long> { 1, 2, 3, 4, 5, 6 };
             graph.AddDirectedEdge(1, 2, 8);
             graph.AddDirectedEdge(1, 3, 6);
             graph.AddDirectedEdge(2, 4, 4);
@@ -146,13 +146,33 @@ using System.Collections;
             var terminated = graph.GetNode(6);
 
             var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
-            Assert.AreEqual(14, flowMax);
+            Assert.AreEqual(new Number(14), flowMax);
+        }
+
+        [Test]
+        public void FordFulkersonAlgorithmTest2()
+        {
+            var graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
+            graph.AddDirectedEdge(1, 2, 8);
+            graph.AddDirectedEdge(1, 3, 6);
+            graph.AddDirectedEdge(2, 4, 4);
+            graph.AddDirectedEdge(2, 5, 8);
+            graph.AddDirectedEdge(3, 5, 6);
+            graph.AddDirectedEdge(5, 4, 2);
+            graph.AddDirectedEdge(5, 6, 8);
+            graph.AddDirectedEdge(4, 6, 6);
+
+            var start = graph.GetNode(1);
+            var terminated = graph.GetNode(6);
+
+            var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
+            Assert.AreEqual(new Number(14), flowMax);
         }
 
         [Test]
         public void FordFulkersonAlgorithmTestType()
         {
-            var graph = new Graph<string, ulong> { "a", "b", "c", "d", "e", "f" };
+            var graph = new Graph<string> { "a", "b", "c", "d", "e", "f" };
             graph.AddDirectedEdge("a", "b", 8);
             graph.AddDirectedEdge("a", "c", 6);
             graph.AddDirectedEdge("b", "d", 4);
@@ -166,24 +186,24 @@ using System.Collections;
             var terminated = graph.GetNode("f");
             var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
 
-            Assert.AreEqual(14, flowMax);
+            Assert.AreEqual(new Number(14), flowMax);
         }
 
         [Test]
         public void FordFulkersonAlgorithmTestBottleneck()
         {
-            var graph = new Graph<string, ulong> { "s", "a", "b", "t" };
+            var graph = new Graph<string> { "s", "a", "b", "t" };
             graph.AddDirectedEdge("s", "a", 20);
             graph.AddDirectedEdge("s", "b", 10);
             graph.AddDirectedEdge("a", "t", 10);
             graph.AddDirectedEdge("a", "b", 30);
             graph.AddDirectedEdge("b", "t", 20);
-           
+
             var start = graph.GetNode("s");
             var terminated = graph.GetNode("t");
             var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
 
-            Assert.AreEqual(30, flowMax);
+            Assert.AreEqual(new Number(30), flowMax);
         }
 
 

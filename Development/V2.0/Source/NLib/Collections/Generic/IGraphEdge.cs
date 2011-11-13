@@ -29,14 +29,13 @@ namespace NLib.Collections.Generic
         IGraphNode<T, TCost> To { get; }
 
         /// <summary>
-        /// Gets or sets capacity
+        /// Gets value
         /// </summary>
-        TCost Capacity { get; }
+        TCost Value { get; }
 
         /// <summary>
         /// Gets or sets flow
         /// </summary>
         TCost Flow { get; set; }
-
     }
 }

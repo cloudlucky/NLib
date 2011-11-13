@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\GraphEdge.cs" />
-    <Compile Include="Collections\Generic\Graph.Complex.cs" />
+    <Compile Include="Collections\Generic\Graph.Number.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\GraphFlot.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Linq\Extensions\IQueryableExtension.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />
+    <Compile Include="Number.cs" />
     <Compile Include="Patterns\LazySingleton.cs" />
     <Compile Include="Patterns\Resources\SimpleCommandResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -138,6 +139,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MathHelperResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\NumberResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\RationalNumberResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -173,6 +179,10 @@
     <EmbeddedResource Include="Resources\MathHelperResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MathHelperResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\NumberResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NumberResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\RationalNumberResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

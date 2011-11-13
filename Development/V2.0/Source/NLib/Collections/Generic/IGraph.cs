@@ -21,7 +21,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets the nodes of the graph.
         /// </summary>
-        IEnumerable<GraphNode<T, TCost>> Nodes { get; }
+        IEnumerable<IGraphNode<T, TCost>> Nodes { get; }
 
         /// <summary>
         /// Gets the <see cref="IGraphNode{T, TCost}"/> with the specified item.
