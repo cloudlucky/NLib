@@ -58,6 +58,7 @@
     <Compile Include="Collections\Generic\GeneratorTest.cs" />
     <Compile Include="Collections\Generic\RedBlackTreeTest.cs" />
     <Compile Include="Collections\Generic\SortedBagTest.cs" />
+    <Compile Include="NumberTest.cs" />
     <Compile Include="EventArgsTest.cs" />
     <Compile Include="Extensions\ArrayExtensionTest.cs" />
     <Compile Include="Extensions\ConvertExtensionTest.cs" />

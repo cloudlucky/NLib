@@ -133,6 +133,14 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets the nodes of the graph.
         /// </summary>
+        IEnumerable<IGraphNode<T, TCost>> IGraph<T, TCost>.Nodes
+        {
+            get { return this.Nodes; }
+        }
+
+        /// <summary>
+        /// Gets the nodes of the graph.
+        /// </summary>
         public IEnumerable<GraphNode<T, TCost>> Nodes
         {
             get { return this.nodeSet; }
@@ -174,7 +182,7 @@ namespace NLib.Collections.Generic
                     throw new Exception();
                 }
 
-                return edge.Capacity;
+                return edge.Value;
             }
 
             set
@@ -522,7 +530,7 @@ namespace NLib.Collections.Generic
 
             if (edge != null)
             {
-                edge.Capacity = cost;
+                edge.Value = cost;
             }
             else
             {

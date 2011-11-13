@@ -14,6 +14,7 @@ namespace NLib.Collections.Generic.Extensions
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Numerics;
     using System.Text;
 
     using NLib.Collections.Generic;
@@ -23,71 +24,74 @@ namespace NLib.Collections.Generic.Extensions
     /// </summary>
     public static class GraphFlot
     {
-        public static ulong FordFulkersonAlgorithm<T>(this IGraph<T, ulong> graph, IGraphNode<T, ulong> start, IGraphNode<T, ulong> terminated)
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
-            return FordFulkersonAlgorithm<T>(graph, start, terminated, Comparer<T>.Default);
+            var startNode = graph[start];
+            var terminatedNode = graph[terminated];
+
+            return FordFulkersonAlgorithm(graph, startNode, terminatedNode, Comparer<T>.Default);
+        }
+
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
+        {
+            return FordFulkersonAlgorithm(graph, start, terminated, Comparer<T>.Default);
+        }
+
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
+        {
+            var startNode = graph[start];
+            var terminatedNode = graph[terminated];
+
+            return FordFulkersonAlgorithm(graph, startNode, terminatedNode, comparerValue);
         }
 
         /// <summary>
         /// As long as there an open path through the residual graph, 
-        ///  send the minimum of the residual capacities on the path.
-        ///  The algorithm works only if all weights are integers.
+        /// send the minimum of the residual capacities on the path.
+        /// The algorithm works only if all weights are integers.
         /// </summary>
-        /// <typeparam name="T">
-        ///  Type for the name of node
-        /// </typeparam>
-        /// <param name="graph">
-        /// The graph to evaluate
-        /// </param>
-        /// <param name="start">
-        /// some root node
-        /// </param>
-        /// <param name="terminated">
-        /// some end node
-        /// </param>
-        /// <param name="comparerValue">
-        /// comparer Value.
-        /// </param>
-        /// <returns>
-        /// maximum flot  
-        /// </returns>
-       
-        public static ulong FordFulkersonAlgorithm<T>(this IGraph<T, ulong> graph, IGraphNode<T, ulong> start, IGraphNode<T, ulong> terminated, IComparer<T> comparerValue)
+        /// <typeparam name="T">Type for the name of node</typeparam>
+        /// <param name="graph">The graph to evaluate</param>
+        /// <param name="start">some root node</param>
+        /// <param name="terminated">some end node</param>
+        /// <param name="comparerValue">comparer Value.</param>
+        /// <returns>maximum flot</returns>
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
-            ulong flowMax = 0;
-            ulong bottleneck = ulong.MaxValue;
-            var stack = new Stack<IGraphEdge<T, ulong>>();
+            Number flowMax = 0;
+            var bottleneck = Number.MaxValue;
+            var stack = new Stack<IGraphEdge<T, Number>>();
             var currentNode = start;
 
-            IGraphEdge<T, ulong> currentEdge = currentNode.Edges.Where(e => (e.Capacity - e.Flow) > 0).FirstOrDefault();
             graph.Nodes.ForEach(node => node.Edges.ForEach(edge => edge.Flow = 0));
+            var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
 
-            while (currentEdge != default(IGraphEdge<T, ulong>))
+            while (currentEdge != default(IGraphEdge<T, Number>))
             {
                 while (comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
                 {
-                    if ((currentEdge.Capacity - currentEdge.Flow) > 0)
+                    if ((currentEdge.Value - currentEdge.Flow) > 0)
                     {
-                        if (bottleneck > (currentEdge.Capacity - currentEdge.Flow))
+                        if (bottleneck > (currentEdge.Value - currentEdge.Flow))
                         {
-                            bottleneck = currentEdge.Capacity - currentEdge.Flow;
+                            bottleneck = currentEdge.Value - currentEdge.Flow;
                         }
 
                         stack.Push(currentEdge);
                         currentNode = currentEdge.To;
                     }
 
-                    currentEdge = currentNode.Edges.Where(e => (e.Capacity - e.Flow) > 0).FirstOrDefault();
+                    currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
                 }
 
-                stack.ForEach(e => e.Flow = e.Flow + bottleneck);
+                stack.ForEach(e => e.Flow += bottleneck);
                 stack.Clear();
 
-                flowMax = flowMax + bottleneck;
+                flowMax += bottleneck;
                 currentNode = start;
-                currentEdge = currentNode.Edges.Where(e => (e.Capacity - e.Flow) > 0).FirstOrDefault();
+                currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
 
-                bottleneck = ulong.MaxValue;
+                bottleneck = Number.MaxValue;
             }
 
             return flowMax;

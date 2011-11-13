@@ -17,7 +17,7 @@ namespace NLib.Collections.Generic
     /// Provides methods to search and manipulate the tree.
     /// </summary>
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
-    public class Graph<T> : Graph<T, Complex>
+    public class Graph<T> : Graph<T, Number>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Graph{T}"/> class.
