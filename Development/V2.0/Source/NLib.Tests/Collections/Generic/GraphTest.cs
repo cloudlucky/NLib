@@ -170,6 +170,23 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
+        public void FordFulkersonAlgorithmTest3()
+        {
+            var graph = new Graph<char> { 's', 'o', 'p', 'r', 'q', 't' };
+            graph.AddDirectedEdge('s', 'o', 3);
+            graph.AddDirectedEdge('s', 'p', 3);
+            graph.AddDirectedEdge('o', 'p', 2);
+            graph.AddDirectedEdge('o', 'q', 3);
+            graph.AddDirectedEdge('p', 'r', 2);
+            graph.AddDirectedEdge('r', 't', 3);
+            graph.AddDirectedEdge('q', 'r', 4);
+            graph.AddDirectedEdge('q', 't', 2);
+
+            var flowMax = graph.FordFulkersonAlgorithm('s', 't');
+            Assert.AreEqual(new Number(5), flowMax);
+        }
+
+        [Test]
         public void FordFulkersonAlgorithmTestType()
         {
             var graph = new Graph<string> { "a", "b", "c", "d", "e", "f" };
