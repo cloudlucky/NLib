@@ -233,6 +233,68 @@ namespace NLib
         }
 
         /// <summary>
+        /// Converts the string representation of a number to its number equivalent.
+        /// </summary>
+        /// <param name="s">A string containing a number to convert. </param>
+        /// <returns>A number equivalent to the number contained in <paramref name="s"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        public static Number Parse(string s)
+        {
+            return Parse(s, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a number to its number equivalent.
+        /// </summary>
+        /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
+        /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
+        /// <returns>A number equivalent to the number contained in <paramref name="s"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        public static Number Parse(string s, IFormatProvider provider)
+        {
+            Check.ArgumentNullException(s, "s");
+
+            return new Number(s, provider);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a number to its number equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
+        /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns></returns>
+        public static bool TryParse(string s, out Number result)
+        {
+            return TryParse(s, CultureInfo.CurrentCulture, out result);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a number to its number equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
+        /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
+        /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns></returns>
+        public static bool TryParse(string s, IFormatProvider provider, out Number result)
+        {
+            result = Zero;
+
+            if (s != null)
+            {
+                try
+                {
+                    result = new Number(s, provider);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Returns the value of the <see cref="Number"/> operand (the sign of the operand is unchanged).
         /// </summary>
         /// <param name="r">The <see cref="Number"/> operand.</param>
@@ -337,7 +399,7 @@ namespace NLib
         /// <summary>
         /// Performs an implicit conversion from <see cref="ulong"/> to <see cref="Number"/>.
         /// </summary>
-        /// <param name="value">The <see cref="int"/> to convert.</param>
+        /// <param name="value">The <see cref="ulong"/> to convert.</param>
         /// <returns>The result of the conversion.</returns>
         public static explicit operator Number(ulong value)
         {
