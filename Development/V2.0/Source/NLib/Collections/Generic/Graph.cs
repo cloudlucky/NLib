@@ -535,7 +535,18 @@ namespace NLib.Collections.Generic
             else
             {
                 from.Edges.Add(new GraphEdge<T, TCost>(from, to, cost));
+                
             }
+        }
+
+        public virtual void RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
+        {
+                 var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
+                 if (from != null)
+                 {
+                   var edgeDeleted =   from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value));
+                   from.Edges.Remove(edgeDeleted);
+                 }
         }
 
         /// <summary>

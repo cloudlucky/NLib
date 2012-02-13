@@ -31,11 +31,12 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets value
         /// </summary>
-        TCost Value { get; }
+        TCost Value { get; set; }
 
         /// <summary>
-        /// Gets or sets flow
+        /// Gets or sets Marked
         /// </summary>
-        TCost Flow { get; set; }
+        bool Marked { get; set; }
+
     }
 }
