@@ -58,46 +58,40 @@ namespace NLib.Collections.Generic.Extensions
         /// <returns>maximum flot</returns>
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
-            var path = new Stack<IGraphEdge<T, Number>>();
-            var markedEdge = new Stack<IGraphEdge<T, Number>>();
+            var path = FindPath(graph, start, terminated, comparerValue);
             Number flowMax = 0;
 
-            do
+            while (path.Count > 0) 
             {
-                path.ForEach(edge => edge.Marked = false);
-                path = FindPath(graph, markedEdge, start, terminated, comparerValue);
+                Number bottleneck = path.Min(edge => edge.Value);
 
-                 if(path.Count > 0)
-                 {
-                     Number bottleneck = path.Min(edge => edge.Value);
+                flowMax += bottleneck;
+                foreach (var edge in path)
+                {
+                    graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value - bottleneck);
+                    var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
 
-                     flowMax += bottleneck;
-                     foreach (var edge in path)
-                     {
-                            graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value-bottleneck);
+                    if (edgeReversed == null)
+                        graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
+                    else
+                        edgeReversed.Value += bottleneck;
 
-                            var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
-
-                            if (edgeReversed == null)
-                                graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
-                            else
-                                edgeReversed.Value += bottleneck;
-
-                            if (edge.Value == 0)
-                                graph.RemoveDirectedEdge(edge);
-                     }
+                    if (edge.Value == 0)
+                        graph.RemoveDirectedEdge(edge);
                  }
 
-            } while (path.Count > 0);
+                 path = FindPath(graph, start, terminated, comparerValue);
+            } 
 
             return flowMax;
         }
 
-        private static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, Stack<IGraphEdge<T, Number>> markedEdge, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        private static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
+            var markedEdge = new Stack<IGraphEdge<T, Number>>();
             var path = new Stack<IGraphEdge<T, Number>>();
-
             var currentNode = start;
+          
             while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
             {
                 var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Marked != true && !(path.Contains(e) || markedEdge.Contains(e)));
@@ -117,10 +111,13 @@ namespace NLib.Collections.Generic.Extensions
                         currentNode = null;
             }
 
-            if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0) 
+            if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
                 path.Clear();
+
+            path.ForEach(edge => edge.Marked = false);
             
             return path;
         }
+
     }
 }
