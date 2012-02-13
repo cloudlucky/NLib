@@ -58,41 +58,65 @@ namespace NLib.Collections.Generic.Extensions
         /// <returns>maximum flot</returns>
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
+            var path = new Stack<IGraphEdge<T, Number>>();
+            var markedEdge = new Stack<IGraphEdge<T, Number>>();
             Number flowMax = 0;
-            var bottleneck = Number.MaxValue;
-            var stack = new Stack<IGraphEdge<T, Number>>();
-            var currentNode = start;
 
-            graph.Nodes.ForEach(node => node.Edges.ForEach(edge => edge.Flow = 0));
-            var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
-
-            while (currentEdge != null)
+            do
             {
-                while (comparerValue.Compare(currentNode.Value, terminated.Value) != 0 && currentEdge != null)
-                {
-                    if ((currentEdge.Value - currentEdge.Flow) > 0)
-                    {
-                        if (bottleneck > (currentEdge.Value - currentEdge.Flow))
-                        {
-                            bottleneck = currentEdge.Value - currentEdge.Flow;
-                        }
+                path.ForEach(edge => edge.Marked = false);
+                markedEdge.ForEach(edge => edge.Marked = false);
+                path.Clear();
+                markedEdge.Clear();
 
-                        stack.Push(currentEdge);
+                var currentNode = start;
+                
+                while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
+                {
+                    var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Marked != true && !(path.Contains(e) || markedEdge.Contains(e)));
+                    if (currentEdge != null)
+                    {
+                        currentEdge.Marked = true;
+                        path.Push(currentEdge);
                         currentNode = currentEdge.To;
                     }
-
-                    currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
+                    else
+                    {
+                        if (path.Count > 0)
+                        {
+                            currentNode = path.Peek().From;
+                            markedEdge.Push(path.Pop());
+                        }
+                        else
+                            currentNode = null;
+                    }
                 }
 
-                stack.ForEach(e => e.Flow += bottleneck);
-                stack.Clear();
+                if (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) == 0)
+                {
+                    Number bottleneck = path.Min(edge => edge.Value);
 
-                flowMax += bottleneck;
-                currentNode = start;
-                currentEdge = currentNode.Edges.FirstOrDefault(e => e.Value - e.Flow > 0);
+                    if (path.Count > 0)
+                    {
+                        flowMax += bottleneck;
+                        foreach (var edge in path)
+                        {
+                            graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value-bottleneck);
 
-                bottleneck = Number.MaxValue;
-            }
+                            var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
+                            if (edgeReversed == null)
+                                graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
+                            else
+                                edgeReversed.Value += bottleneck;
+
+                            if (edge.Value == 0)
+                                graph.RemoveDirectedEdge(edge);
+                        }
+                    }
+
+                }
+
+            } while (path.Count > 0);
 
             return flowMax;
         }

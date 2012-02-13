@@ -71,6 +71,12 @@ namespace NLib.Collections.Generic
         void AddUndirectedEdge(T from, T to, TCost cost);
 
         /// <summary>
+        /// Remove an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
+        /// </summary>
+        /// <param name="edge">The direct edge that we must removed from the graph.</param>
+        void RemoveDirectedEdge(IGraphEdge<T, TCost> edge);
+
+        /// <summary>
         /// Adds the elements of the specified collection in the bag.
         /// </summary>
         /// <param name="collection">The collection.</param>

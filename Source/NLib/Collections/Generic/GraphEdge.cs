@@ -32,24 +32,12 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <param name="from">The from node.</param>
         /// <param name="to">The to node.</param>
-        /// <param name="value">The value of the cost.</param>
-        public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value) 
-            : this(from, to,  value, default(TCost))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GraphEdge{T, TCost}"/> class.
-        /// </summary>
-        /// <param name="from">The from node.</param>
-        /// <param name="to">The to node.</param>
         /// <param name="value">The value of the value.</param>
-        public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value, TCost flow)
+        public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
         {
             this.From = from;
-            this.To = to;
+           this.To = to;
             this.Value = value;
-            this.Flow = flow;
         }
 
         /// <summary>
@@ -91,9 +79,9 @@ namespace NLib.Collections.Generic
         public TCost Value { get; set; }
 
         /// <summary>
-        /// Gets or sets flow
+        /// Gets or sets Marked
         /// </summary>
-        public TCost Flow { get; set; }
+        public bool Marked { get; set; }
 
     }
 }
