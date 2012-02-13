@@ -51,7 +51,7 @@ namespace NLib.Collections.Generic.Extensions
         /// The algorithm works only if all weights are integers.
         /// </summary>
         /// <typeparam name="T">Type for the name of node</typeparam>
-        /// <param name="graph">The graph to evaluate</param>
+        /// <param name="graph">The residual graph</param>
         /// <param name="start">some root node</param>
         /// <param name="terminated">some end node</param>
         /// <param name="comparerValue">comparer Value.</param>
@@ -64,21 +64,16 @@ namespace NLib.Collections.Generic.Extensions
 
             do
             {
-                
                 path.ForEach(edge => edge.Marked = false);
-                markedEdge.ForEach(edge => edge.Marked = false);
-                path.Clear();
-                markedEdge.Clear();
-
                 path = FindPath(graph, markedEdge, start, terminated, comparerValue);
 
                  if(path.Count > 0)
                  {
-                    Number bottleneck = path.Min(edge => edge.Value);
+                     Number bottleneck = path.Min(edge => edge.Value);
 
-                        flowMax += bottleneck;
-                        foreach (var edge in path)
-                        {
+                     flowMax += bottleneck;
+                     foreach (var edge in path)
+                     {
                             graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value-bottleneck);
 
                             var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
@@ -90,9 +85,8 @@ namespace NLib.Collections.Generic.Extensions
 
                             if (edge.Value == 0)
                                 graph.RemoveDirectedEdge(edge);
-                        }
-
-                }
+                     }
+                 }
 
             } while (path.Count > 0);
 
@@ -102,11 +96,6 @@ namespace NLib.Collections.Generic.Extensions
         private static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, Stack<IGraphEdge<T, Number>> markedEdge, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
             var path = new Stack<IGraphEdge<T, Number>>();
-
-            path.ForEach(edge => edge.Marked = false);
-            markedEdge.ForEach(edge => edge.Marked = false);
-            path.Clear();
-            markedEdge.Clear();
 
             var currentNode = start;
             while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
@@ -119,7 +108,6 @@ namespace NLib.Collections.Generic.Extensions
                     currentNode = currentEdge.To;
                 }
                 else
-                {
                     if (path.Count > 0)
                     {
                         currentNode = path.Peek().From;
@@ -127,10 +115,9 @@ namespace NLib.Collections.Generic.Extensions
                     }
                     else
                         currentNode = null;
-                }
             }
 
-            if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
+            if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0) 
                 path.Clear();
             
             return path;
