@@ -64,46 +64,25 @@ namespace NLib.Collections.Generic.Extensions
 
             do
             {
+                
                 path.ForEach(edge => edge.Marked = false);
                 markedEdge.ForEach(edge => edge.Marked = false);
                 path.Clear();
                 markedEdge.Clear();
 
-                var currentNode = start;
-                
-                while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
-                {
-                    var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Marked != true && !(path.Contains(e) || markedEdge.Contains(e)));
-                    if (currentEdge != null)
-                    {
-                        currentEdge.Marked = true;
-                        path.Push(currentEdge);
-                        currentNode = currentEdge.To;
-                    }
-                    else
-                    {
-                        if (path.Count > 0)
-                        {
-                            currentNode = path.Peek().From;
-                            markedEdge.Push(path.Pop());
-                        }
-                        else
-                            currentNode = null;
-                    }
-                }
+                path = FindPath(graph, markedEdge, start, terminated, comparerValue);
 
-                if (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) == 0)
-                {
+                 if(path.Count > 0)
+                 {
                     Number bottleneck = path.Min(edge => edge.Value);
 
-                    if (path.Count > 0)
-                    {
                         flowMax += bottleneck;
                         foreach (var edge in path)
                         {
                             graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value-bottleneck);
 
                             var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
+
                             if (edgeReversed == null)
                                 graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
                             else
@@ -112,13 +91,49 @@ namespace NLib.Collections.Generic.Extensions
                             if (edge.Value == 0)
                                 graph.RemoveDirectedEdge(edge);
                         }
-                    }
 
                 }
 
             } while (path.Count > 0);
 
             return flowMax;
+        }
+
+        private static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, Stack<IGraphEdge<T, Number>> markedEdge, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        {
+            var path = new Stack<IGraphEdge<T, Number>>();
+
+            path.ForEach(edge => edge.Marked = false);
+            markedEdge.ForEach(edge => edge.Marked = false);
+            path.Clear();
+            markedEdge.Clear();
+
+            var currentNode = start;
+            while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
+            {
+                var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Marked != true && !(path.Contains(e) || markedEdge.Contains(e)));
+                if (currentEdge != null)
+                {
+                    currentEdge.Marked = true;
+                    path.Push(currentEdge);
+                    currentNode = currentEdge.To;
+                }
+                else
+                {
+                    if (path.Count > 0)
+                    {
+                        currentNode = path.Peek().From;
+                        markedEdge.Push(path.Pop());
+                    }
+                    else
+                        currentNode = null;
+                }
+            }
+
+            if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
+                path.Clear();
+            
+            return path;
         }
     }
 }

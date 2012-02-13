@@ -52,6 +52,20 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
+        public void RemoveUndirectedEdgeTest()
+        {
+            var graph = new Graph<string, int>();
+            graph.Add("A");
+            graph.Add("B");
+
+            graph.AddUndirectedEdge("A","B",0);
+            Assert.NotNull(graph.GetEdge("A", "B"));
+            Assert.AreEqual(0, graph.GetEdge("A", "B").Value);
+            graph.RemoveDirectedEdge(graph.GetEdge("A","B"));
+            Assert.Null(graph.GetEdge("A","B"));
+        }
+
+        [Test]
         public void EnumerableTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
