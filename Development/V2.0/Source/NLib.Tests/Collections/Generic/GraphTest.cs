@@ -1,14 +1,11 @@
 namespace NLib.Tests.Collections.Generic
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
 
     using NUnit.Framework;
-    using System.Collections;
 
     [TestFixture]
     public class GraphTest
@@ -235,6 +232,55 @@ namespace NLib.Tests.Collections.Generic
             var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
 
             Assert.AreEqual(new Number(30), flowMax);
+        }
+
+        [Test]
+        public void FordFulkersonAlgorithmTestBottleneck2()
+        {
+            var graph = new Graph<string> { "s", "a", "b","c","d","e","f","g","h","i", "t" };
+            graph.AddDirectedEdge("s", "a", 100);
+            graph.AddDirectedEdge("a", "b", 100);
+            graph.AddDirectedEdge("c", "d", 30);
+            graph.AddDirectedEdge("d", "f", 30);
+            graph.AddDirectedEdge("e", "f", 40);
+            graph.AddDirectedEdge("f", "s", 40);
+            graph.AddDirectedEdge("b", "g", 50);
+            graph.AddDirectedEdge("g", "h", 60);
+            graph.AddDirectedEdge("h", "i", 50);
+            graph.AddDirectedEdge("b", "c", 60);
+            graph.AddDirectedEdge("b", "e", 70);
+            graph.AddDirectedEdge("i", "t", 80);
+
+            var start = graph.GetNode("s");
+            var terminated = graph.GetNode("t");
+            var flowMax = graph.FordFulkersonAlgorithm(start, terminated);
+
+            Assert.AreEqual(new Number(50), flowMax);
+        }
+
+        [Test]
+        public void FindPathTest()
+        {
+            var graph = new Graph<string> { "s", "a", "b", "c", "t" };
+            graph.AddDirectedEdge("s","a");
+            graph.AddDirectedEdge("a","b");
+            graph.AddDirectedEdge("b", "c");
+            graph.AddDirectedEdge("a", "t");
+
+            var start = graph.GetNode("s");
+            var terminated = graph.GetNode("t");
+            var path = graph.FindPath(start, terminated);
+
+            Assert.AreEqual(2, path.Count());
+            
+            Assert.AreEqual("a", path.Peek().From.Value);
+            Assert.AreEqual("t", path.Peek().To.Value);
+            path.Pop();
+
+            Assert.AreEqual("s", path.Peek().From.Value);
+            Assert.AreEqual("a", path.Peek().To.Value);
+            path.Pop();
+
         }
 
 

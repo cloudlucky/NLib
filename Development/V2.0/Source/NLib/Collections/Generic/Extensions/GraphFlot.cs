@@ -9,13 +9,8 @@
 
 namespace NLib.Collections.Generic.Extensions
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Numerics;
-    using System.Text;
 
     using NLib.Collections.Generic;
 
@@ -32,9 +27,22 @@ namespace NLib.Collections.Generic.Extensions
             return FordFulkersonAlgorithm(graph, startNode, terminatedNode, Comparer<T>.Default);
         }
 
+        public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated)
+        {
+                var startNode = graph[start];
+                var terminatedNode = graph[terminated];
+
+                return FindPath(graph, startNode, terminatedNode, Comparer<T>.Default);
+        }
+
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
         {
             return FordFulkersonAlgorithm(graph, start, terminated, Comparer<T>.Default);
+        }
+
+        public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
+        {
+            return FindPath(graph, start, terminated, Comparer<T>.Default);
         }
 
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
@@ -45,6 +53,14 @@ namespace NLib.Collections.Generic.Extensions
             return FordFulkersonAlgorithm(graph, startNode, terminatedNode, comparerValue);
         }
 
+
+        public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
+        {
+            var startNode = graph[start];
+            var terminatedNode = graph[terminated];
+
+            return FindPath(graph, startNode, terminatedNode, comparerValue);
+        }
         /// <summary>
         /// As long as there an open path through the residual graph, 
         /// send the minimum of the residual capacities on the path.
@@ -86,7 +102,16 @@ namespace NLib.Collections.Generic.Extensions
             return flowMax;
         }
 
-        private static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        /// <summary>
+        /// Find a path  
+        /// </summary>
+        /// <typeparam name="T">Type for the name of node</typeparam>
+        /// <param name="graph">The graph</param>
+        /// <param name="start">some root node</param>
+        /// <param name="terminated">some end node</param>
+        /// <param name="comparerValue">comparer Value.</param>
+        /// <returns>path or null</returns>
+        public static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
             var markedEdge = new Stack<IGraphEdge<T, Number>>();
             var path = new Stack<IGraphEdge<T, Number>>();
@@ -115,9 +140,12 @@ namespace NLib.Collections.Generic.Extensions
                 path.Clear();
 
             path.ForEach(edge => edge.Marked = false);
+            markedEdge.ForEach(edge => edge.Marked = false);
             
             return path;
         }
+
+   
 
     }
 }
