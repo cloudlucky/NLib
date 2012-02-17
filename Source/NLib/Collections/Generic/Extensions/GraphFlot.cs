@@ -1,12 +1,14 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GraphFlot.cs" company="">
-//   
+// <copyright file="GraphFlot.cs" company=".">
+//   Copyright (c) Cloudlucky. All rights reserved.
+//   http://www.cloudlucky.com
+//   This code is licensed under the Microsoft Public License (Ms-PL)
+//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
 // </copyright>
 // <summary>
 //   It's a set of algorithms for resolve the circulations problems for graphs.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace NLib.Collections.Generic.Extensions
 {
     using System.Collections.Generic;
@@ -145,7 +147,37 @@ namespace NLib.Collections.Generic.Extensions
             return path;
         }
 
-   
+        // djkstra's algorithm
+        //  function Dijkstra(Graph, source)
+        //  Begin
+        //   for each vertex v in Graph
+        //       dist[v] <- infinity
+        //       previous[v] <- undefined;
+        //   end for  
+        //   dist[source] <- 0
+        //   Q <- all nodes in graph
+        //   while Q is not empty
+        //       u <- vertex in Q with smallest
+        //       if dist[u] = infinity then
+        //              break
+        //       end if
+        //       remove u from Q
+        //       
+        //       for each neighbor v of u do
+        //           alt <- dist[u] + dist_between(u,v)
+        //           if alt < dist[v] then
+        //                dist[v] <- alt
+        //                previous[v] <- u
+        //                decrease-key v in Q
+        //            end if
+        //        end for
+        //   end while
+        //   return dist[]
+        // end 
+        public static Stack<IGraphEdge<T, Number>> Djkstra<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        {
+            return null;
+        }
 
     }
 }
