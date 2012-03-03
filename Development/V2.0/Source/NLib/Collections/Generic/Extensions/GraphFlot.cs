@@ -16,24 +16,6 @@ namespace NLib.Collections.Generic.Extensions
     /// </summary>
     public static class GraphFlot
     {
-        #region Public Methods
-
-        public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
-        {
-            var startNode = graph[start];
-            Djkstra(graph, startNode, distance, previous, Comparer<T>.Default);
-        }
-
-        public static void Djkstra<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
-        {
-            Djkstra(graph, start, distance, previous, Comparer<T>.Default);
-        }
-
-        public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
-        {
-            var startNode = graph[start];
-            Djkstra(graph, startNode, distance, previous, comparerValue);
-        }
 
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
@@ -170,9 +152,22 @@ namespace NLib.Collections.Generic.Extensions
             return flowMax;
         }
 
-        #endregion
+        public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
+        {
+            var startNode = graph[start];
+            Djkstra(graph, startNode, distance, previous, Comparer<T>.Default);
+        }
 
-        #region Methods
+        public static void Djkstra<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
+        {
+            Djkstra(graph, start, distance, previous, Comparer<T>.Default);
+        }
+
+        public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
+        {
+            var startNode = graph[start];
+            Djkstra(graph, startNode, distance, previous, comparerValue);
+        }
 
         /// <summary>
         ///   Given a digraph with nonnegative weights on its edges and vertices Start, 
@@ -218,6 +213,5 @@ namespace NLib.Collections.Generic.Extensions
             }
         }
 
-        #endregion
     }
 }

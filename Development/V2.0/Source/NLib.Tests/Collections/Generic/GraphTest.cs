@@ -286,7 +286,7 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
-        public void Djkstra()
+        public void DjkstraTest1()
         {
             var graph = new Graph<string> {"A","B","C","D","E","F","G","H"};
             graph.AddDirectedEdge("B", "A", 3);
@@ -332,6 +332,25 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("H", previous["F"]);
             Assert.AreEqual("D", previous["G"]);
             Assert.AreEqual("G", previous["H"]);
+
+        }
+
+
+        [Test]
+        public void DjkstraTest2()
+        {
+            var graph = new Graph<string> { "A" };
+            graph.AddDirectedEdge("A", "A", -2);
+
+            var start = graph.GetNode("A");
+
+            IDictionary<string, Number> distance = new Dictionary<string, Number>();
+            IDictionary<string, string> previous = new Dictionary<string, string>();
+
+            graph.Djkstra(start, distance, previous);
+
+            Assert.AreEqual(new Number(-2),distance["A"]);
+            Assert.AreEqual("A", previous["A"]);
 
         }
 
