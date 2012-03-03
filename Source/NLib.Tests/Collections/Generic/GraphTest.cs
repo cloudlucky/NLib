@@ -1,5 +1,7 @@
 namespace NLib.Tests.Collections.Generic
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
     using NLib.Collections.Generic;
@@ -280,6 +282,56 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("s", path.Peek().From.Value);
             Assert.AreEqual("a", path.Peek().To.Value);
             path.Pop();
+
+        }
+
+        [Test]
+        public void Djkstra()
+        {
+            var graph = new Graph<string> {"A","B","C","D","E","F","G","H"};
+            graph.AddDirectedEdge("B", "A", 3);
+            graph.AddDirectedEdge("B", "D", 6);
+            graph.AddDirectedEdge("B", "C", 2);
+            graph.AddDirectedEdge("A", "D", 2);
+            graph.AddDirectedEdge("A", "E", 5);
+            graph.AddDirectedEdge("A", "C", 8);
+            graph.AddDirectedEdge("D", "C", 4);
+            graph.AddDirectedEdge("D", "F", 4);
+            graph.AddDirectedEdge("D", "H", 2);
+            graph.AddDirectedEdge("D", "G", 0);
+            graph.AddDirectedEdge("E", "C", 3);
+            graph.AddDirectedEdge("E", "F", 3);
+            graph.AddDirectedEdge("F", "E", 2);
+            graph.AddDirectedEdge("G", "H", 1);
+            graph.AddDirectedEdge("G", "E", 2);
+            graph.AddDirectedEdge("H", "G", 2);
+            graph.AddDirectedEdge("H", "F", 1);
+            graph.AddDirectedEdge("H", "C", 2);
+
+            var start = graph.GetNode("B");
+ 
+            IDictionary<string, Number> distance = new Dictionary<string, Number>();
+            IDictionary<string, string> previous = new Dictionary<string, string>();
+
+            graph.Djkstra(start, distance, previous);
+
+            Assert.AreEqual(new Number(3), distance["A"]);
+            Assert.AreEqual(new Number(0), distance["B"]);
+            Assert.AreEqual(new Number(2), distance["C"]);
+            Assert.AreEqual(new Number(5), distance["D"]);
+            Assert.AreEqual(new Number(7), distance["E"]);
+            Assert.AreEqual(new Number(7), distance["F"]);
+            Assert.AreEqual(new Number(5), distance["G"]);
+            Assert.AreEqual(new Number(6), distance["H"]);
+
+            Assert.AreEqual("B", previous["A"]);
+            Assert.AreEqual("B", previous["B"]);
+            Assert.AreEqual("B", previous["C"]);
+            Assert.AreEqual("A", previous["D"]);
+            Assert.AreEqual("G", previous["E"]);
+            Assert.AreEqual("H", previous["F"]);
+            Assert.AreEqual("D", previous["G"]);
+            Assert.AreEqual("G", previous["H"]);
 
         }
 
