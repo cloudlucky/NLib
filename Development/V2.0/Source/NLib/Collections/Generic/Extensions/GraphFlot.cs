@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace NLib.Collections.Generic.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -49,6 +50,11 @@ namespace NLib.Collections.Generic.Extensions
         /// <returns>path or null</returns>
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
+            Check.ArgumentNullException(graph, "graph");
+            Check.ArgumentNullException(start, "start");
+            Check.ArgumentNullException(terminated, "terminated");
+            Check.ArgumentNullException(comparerValue, "comparerValue");
+
             var markedEdge = new Stack<IGraphEdge<T, Number>>();
             var path = new Stack<IGraphEdge<T, Number>>();
             var currentNode = start;
@@ -116,8 +122,15 @@ namespace NLib.Collections.Generic.Extensions
         /// <param name = "terminated">some end node</param>
         /// <param name = "comparerValue">comparer Value</param>
         /// <returns>maximum flot</returns>
+        /// <exception cref="ArgumentNullException">If graph , start or terminated is
+        /// null.</exception>
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
+            Check.ArgumentNullException(graph, "graph");
+            Check.ArgumentNullException(start, "start");
+            Check.ArgumentNullException(terminated, "terminated");
+            Check.ArgumentNullException(comparerValue, "comparerValue");
+
             var path = FindPath(graph, start, terminated, comparerValue);
             Number flowMax = 0;
 
@@ -179,8 +192,16 @@ namespace NLib.Collections.Generic.Extensions
         /// <param name = "distance">Shortest distance of start from a node</param>
         /// <param name = "previous">Previous visited node</param>
         /// <param name = "comparerValue">comparer Value.</param>
+        /// <exception cref="ArgumentNullException">If graph , start, distance, previous or comparerValue is
+        /// null.</exception>
         private static void Djkstra<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
         {
+            Check.ArgumentNullException(graph, "graph");
+            Check.ArgumentNullException(start, "start");
+            Check.ArgumentNullException(distance, "distance");
+            Check.ArgumentNullException(previous, "previous");
+            Check.ArgumentNullException(comparerValue, "comparerValue");
+
             foreach (var node in graph.Nodes)
             {
                 distance.Add(node.Value, comparerValue.Compare(start.Value, node.Value) == 0 ? 0 : Number.MaxValue);
