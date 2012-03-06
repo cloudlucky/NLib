@@ -36,7 +36,7 @@ namespace NLib.Collections.Generic
         public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
         {
             this.From = from;
-           this.To = to;
+            this.To = to;
             this.Value = value;
         }
 
@@ -82,6 +82,5 @@ namespace NLib.Collections.Generic
         /// Gets or sets Marked
         /// </summary>
         public bool Marked { get; set; }
-
     }
 }

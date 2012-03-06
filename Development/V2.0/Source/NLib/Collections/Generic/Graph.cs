@@ -26,7 +26,7 @@ namespace NLib.Collections.Generic
     /// </remarks>
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     /// <typeparam name="TCost">The type of cost.</typeparam>
-    public class Graph<T, TCost> : IGraph<T, TCost> 
+    public class Graph<T, TCost> : IGraph<T, TCost>, ICloneable 
     {
         /// <summary>
         /// The set of nodes in the graph
@@ -630,5 +630,36 @@ namespace NLib.Collections.Generic
             }
         }
 
+        #region ICloneable Members
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary> 
+        /// <returns>
+        /// 
+        /// </returns>
+        public object Clone()
+        {
+            var graphClone = new Graph<T, TCost>();
+            
+            foreach (var node in (HashSet<GraphNode<T, TCost>>)this.nodeSet)
+            {
+                var cloneNode = new GraphNode<T, TCost>(node.Value) { Marker = node.Marker };
+                graphClone.Add(cloneNode);
+            }
+           
+            foreach (var node in (HashSet<GraphNode<T, TCost>>)this.nodeSet)
+            {
+                foreach (var edge in node.Edges )
+                {
+                    graphClone.AddDirectedEdge(edge.From.Value, edge.To.Value, edge.Value);
+                    graphClone.GetEdge(edge.From.Value, edge.To.Value).Marked = edge.Marked;
+                }
+            }
+
+            return graphClone;
+        }
+
+        #endregion
     }
 }

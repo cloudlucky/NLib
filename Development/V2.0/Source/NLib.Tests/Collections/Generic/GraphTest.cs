@@ -64,6 +64,22 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
+        public void ValueUndirectedEdgeTest2()
+        {
+            var graph = new Graph<string, int>();
+            graph.Add("A");
+            graph.Add("B");
+
+            graph.AddUndirectedEdge("A", "B", 0);
+            Assert.NotNull(graph.GetEdge("A", "B"));
+            Assert.AreEqual(0, graph.GetEdge("A", "B").Value);
+            graph.GetEdge("B", "A").Value = 10;
+
+            Assert.AreEqual(10, graph.GetEdge("A","B"));
+
+        }
+
+        [Test]
         public void EnumerableTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
@@ -184,7 +200,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void FordFulkersonAlgorithmTest3()
         {
-            var graph = new Graph<char> { 's', 'o', 'p', 'r', 'q', 't' };
+            var graph = new Graph<char, Number> { 's', 'o', 'p', 'r', 'q', 't' };
             graph.AddDirectedEdge('s', 'o', 3);
             graph.AddDirectedEdge('s', 'p', 3);
             graph.AddDirectedEdge('o', 'p', 2);
@@ -201,7 +217,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void FordFulkersonAlgorithmTestType()
         {
-            var graph = new Graph<string> { "a", "b", "c", "d", "e", "f" };
+            var graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
             graph.AddDirectedEdge("a", "b", 8);
             graph.AddDirectedEdge("a", "c", 6);
             graph.AddDirectedEdge("b", "d", 4);
@@ -221,7 +237,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void FordFulkersonAlgorithmTestBottleneck()
         {
-            var graph = new Graph<string> { "s", "a", "b", "t" };
+            var graph = new Graph<string, Number> { "s", "a", "b", "t" };
             graph.AddDirectedEdge("s", "a", 20);
             graph.AddDirectedEdge("s", "b", 10);
             graph.AddDirectedEdge("a", "t", 10);
@@ -238,7 +254,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void FordFulkersonAlgorithmTestBottleneck2()
         {
-            var graph = new Graph<string> { "s", "a", "b","c","d","e","f","g","h","i", "t" };
+            var graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
             graph.AddDirectedEdge("s", "a", 100);
             graph.AddDirectedEdge("a", "b", 100);
             graph.AddDirectedEdge("c", "d", 30);
@@ -262,7 +278,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void FindPathTest()
         {
-            var graph = new Graph<string> { "s", "a", "b", "c", "t" };
+            var graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
             graph.AddDirectedEdge("s","a");
             graph.AddDirectedEdge("a","b");
             graph.AddDirectedEdge("b", "c");
@@ -287,7 +303,7 @@ namespace NLib.Tests.Collections.Generic
         [Test]
         public void DjkstraTest1()
         {
-            var graph = new Graph<string> {"A","B","C","D","E","F","G","H"};
+            var graph = new Graph<string, Number> { "A", "B", "C", "D", "E", "F", "G", "H" };
             graph.AddDirectedEdge("B", "A", 3);
             graph.AddDirectedEdge("B", "D", 6);
             graph.AddDirectedEdge("B", "C", 2);
@@ -334,11 +350,10 @@ namespace NLib.Tests.Collections.Generic
 
         }
 
-
         [Test]
         public void DjkstraTest2()
         {
-            var graph = new Graph<string> { "A" };
+            var graph = new Graph<string, Number> { "A" };
             graph.AddDirectedEdge("A", "A", -2);
 
             var start = graph.GetNode("A");
@@ -350,6 +365,34 @@ namespace NLib.Tests.Collections.Generic
 
             Assert.AreEqual(new Number(-2),distance["A"]);
             Assert.AreEqual("A", previous["A"]);
+
+        }
+
+        [Test]
+        public void CloneGraphTest()
+        {
+            var graph = new Graph<string, Number> { "A", "B","C"};
+            graph.AddDirectedEdge("A","B",1);
+            graph.AddDirectedEdge("B","A",-1);
+            graph.GetEdge("B", "A").Marked = false;
+            graph["A"].Marker = false;
+            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
+            Assert.AreEqual(new Number(-1), graph.GetEdge("B","A").Value);
+            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
+            Assert.AreEqual(false, graph["A"].Marker);
+            var graph2 = (Graph<string, Number>)graph.Clone();
+            graph2.AddUndirectedEdge("B", "B", 100);
+            graph2.GetEdge("B", "A").Marked = true;
+
+            graph2["A"].Marker = true;
+
+            Assert.AreEqual(new Number(100), graph2.GetEdge("B", "B").Value);
+            Assert.AreEqual(true, graph2.GetEdge("B", "A").Marked);
+            Assert.AreEqual(true, graph2["A"].Marker);
+            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
+            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
+            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
+            Assert.AreEqual(false, graph["A"].Marker);
 
         }
     }
