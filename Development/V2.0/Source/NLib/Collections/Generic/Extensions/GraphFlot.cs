@@ -124,7 +124,7 @@ namespace NLib.Collections.Generic.Extensions
         /// <returns>maximum flot</returns>
         /// <exception cref="ArgumentNullException">If graph , start or terminated is
         /// null.</exception>
-        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph2, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
             Check.ArgumentNullException(graph, "graph");
             Check.ArgumentNullException(start, "start");
