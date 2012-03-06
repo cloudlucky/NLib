@@ -71,5 +71,6 @@ namespace NLib.Collections.Generic
         ///   <c>true</c> if marker; otherwise, <c>false</c>.
         /// </value>
         public bool Marker { get; set; }
+
     }
 }
