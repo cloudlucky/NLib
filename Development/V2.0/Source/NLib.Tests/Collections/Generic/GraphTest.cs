@@ -3,7 +3,6 @@ namespace NLib.Tests.Collections.Generic
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
@@ -154,6 +153,23 @@ namespace NLib.Tests.Collections.Generic
             graph["FROM", "TO"] = 1;
             Assert.AreEqual(1, graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
+        }
+
+        [Test]
+        [Category("Serie Graph Add")]
+        [Ignore("Not Implemented")]
+        public void AddEdgeTest11()
+        {
+            var graph = new Graph<string, int> { "TO", "FROM" };
+            graph.AddUndirectedEdge("TO", "FROM", 1);
+            Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
+            Assert.AreEqual(1, graph.GetEdge("FROM", "TO").Value);
+
+            graph.GetEdge("TO", "FROM").Value = 10;
+            
+            Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
+            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
+
         }
 
         [Test]

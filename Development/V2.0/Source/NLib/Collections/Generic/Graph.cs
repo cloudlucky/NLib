@@ -608,16 +608,16 @@ namespace NLib.Collections.Generic
             {
                 var to = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.To.Value));
 
-                if (to == null) throw new Exception("Node not found");
-                    to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
+                Check.ArgumentNullException(to, "Node not found");
+                to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
             }
 
             if (type.Contains("DirectedEdge") || type.Contains("UndirectedEdge"))
             {
                 var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
                 
-                if (from == null) throw new Exception("Node not found");
-                    from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
+                Check.ArgumentNullException(from, "Node not found");
+                from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
             }
             else
                 throw new Exception("Edge Type not found");
@@ -631,9 +631,6 @@ namespace NLib.Collections.Generic
         /// <returns>The edge between the two nodes; otherwise null;</returns>
         protected virtual GraphEdge<T, TCost> GetEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
         {
-            Check.ArgumentNullException(from, "from");
-            Check.ArgumentNullException(to, "to");
-
             return from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, to.Value));
         }
 
@@ -644,6 +641,7 @@ namespace NLib.Collections.Generic
         /// <returns>The node; otherwise null.</returns>
         protected virtual GraphNode<T, TCost> GetNodeByItem(T item)
         {
+            Check.ArgumentNullException(item,"item");
             return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
         }
 
