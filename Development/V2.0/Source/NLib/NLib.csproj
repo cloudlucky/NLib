@@ -63,6 +63,7 @@
       <DependentUpon>BagBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
+    <Compile Include="Collections\Generic\GraphEdgeFactory.cs" />
     <Compile Include="Collections\Generic\GraphEdge.cs" />
     <Compile Include="Collections\Generic\Graph.Number.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
