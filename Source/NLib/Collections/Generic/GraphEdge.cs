@@ -33,7 +33,7 @@ namespace NLib.Collections.Generic
         /// <param name="from">The from node.</param>
         /// <param name="to">The to node.</param>
         /// <param name="value">The value of the value.</param>
-        public GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+        public  GraphEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
         {
             this.From = from;
             this.To = to;

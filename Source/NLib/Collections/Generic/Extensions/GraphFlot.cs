@@ -141,12 +141,12 @@ namespace NLib.Collections.Generic.Extensions
                 flowMax += bottleneck;
                 foreach (var edge in path)
                 {
-                    graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, edge.Value - bottleneck);
+                    edge.Value -=  bottleneck;
                     var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
 
                     if (edgeReversed == null)
                     {
-                        graph.AddUndirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
+                        graph.AddDirectedEdge(edge.To.Value, edge.From.Value, bottleneck);
                     }
                     else
                     {
@@ -155,7 +155,7 @@ namespace NLib.Collections.Generic.Extensions
 
                     if (edge.Value == 0)
                     {
-                        graph.RemoveDirectedEdge(edge);
+                        graph.RemoveEdge(edge);
                     }
                 }
 
@@ -233,5 +233,6 @@ namespace NLib.Collections.Generic.Extensions
                 }
             }
         }
+
     }
 }
