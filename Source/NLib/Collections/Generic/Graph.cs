@@ -51,6 +51,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Graph{T, TCost}"/> class.
         /// </summary>
@@ -189,8 +190,9 @@ namespace NLib.Collections.Generic
             {
                 var edge = this.GetEdge(from, to);
                 edge.Value = value;
-                InsertEdge(this, edge);
+                AddEdge(this, edge);
             }
+
         }
 
         /// <summary>
@@ -221,13 +223,7 @@ namespace NLib.Collections.Generic
         /// <param name="cost">The cost of the edge from "from" to "to".</param>
         public virtual void AddDirectedEdge(T from, T to, TCost cost)
         {
-            var nodeFrom = this.GetNodeByItem(from);
-            var nodeTo = this.GetNodeByItem(to);
-
-            if (nodeTo != null && nodeFrom != null)
-            {
-                this.AddDirectedEdge(nodeFrom, nodeTo, cost);
-            }
+            this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);        
         }
 
         /// <summary>
@@ -249,21 +245,38 @@ namespace NLib.Collections.Generic
         /// <param name="cost">The cost of the undirected edge.</param>
         public virtual void AddUndirectedEdge(T from, T to, TCost cost)
         {
-                AddUndirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
+             AddUndirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
         }
 
 
         /// <summary>
-        /// Adds an from a GraphNode with one value edge
+        /// Add an from a GraphNode with one value edge
         /// </summary>
         /// <param name="edge">An edge from a GraphNodes.</param>
         public virtual void AddEdge(IGraphEdge<T, TCost> edge)
         {
-            InsertEdge(this, edge);
+            AddEdge(this, edge);
         }
 
         /// <summary>
-        /// Adds a undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
+        /// Add an edge in Graph
+        /// </summary>
+        /// <param name="graph">The graph that is joined by the edge.</param>
+        /// <param name="edge">The edge.</param>
+        private static void AddEdge(Graph<T, TCost> graph, IGraphEdge<T, TCost> edge)
+        {
+            var type = edge.GetType().Name;
+
+            if (type.Contains("DirectedEdge"))
+                graph.AddDirectedEdge(edge.From.Value, edge.To.Value, edge.Value);
+            else if (type.Contains("UndirectedEdge"))
+                graph.AddUndirectedEdge(edge.From.Value, edge.To.Value, edge.Value);
+            else
+                throw new Exception("Edge Type not found");
+        }
+
+        /// <summary>
+        /// Add a undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         /// with an associated cost.
         /// </summary>
         /// <param name="from">The value of the GraphNode from which the undirected edge eminates.</param>
@@ -277,10 +290,13 @@ namespace NLib.Collections.Generic
             var factory = GraphEdgeFactory
                 .GetFactory("NLib.Collections.Generic.UndirectedEdgeFactory");
 
+
             var edge = this.GetEdge(to, from);
+           
             if (edge == null)
             {
                 to.Edges.Add(factory.Create<T, TCost>(to, from, cost));
+                from.Edges.Add(factory.Create<T, TCost>(from, to, cost)); 
             }
             else
             {
@@ -289,26 +305,12 @@ namespace NLib.Collections.Generic
                     "edge", "It is not a undirected edge.");
                 
                 edge.Value = cost;
+                ((UndirectedEdge<T, TCost>)edge).InvValue = cost;
             }
-
-            edge = this.GetEdge(from, to);
-            if (edge == null)
-            {
-                 from.Edges.Add(factory.Create<T, TCost>(from, to, cost));
-            }
-            else
-            {
-                Check.ArgumentException(edge.GetType()
-                     .Name.Contains("UndirectedEdge"), 
-                     "edge", "It is not a undirected edge.");
-                
-                edge.Value = cost;
-            }  
         }
 
-
         /// <summary>
-        /// Adds the elements of the specified collection in the bag.
+        /// Add the elements of the specified collection in the bag.
         /// </summary>
         /// <param name="collection">The collection.</param>
         public void AddRange(IEnumerable<T> collection)
@@ -721,32 +723,12 @@ namespace NLib.Collections.Generic
             {
                 foreach (var edge in node.Edges )
                 {
-                    InsertEdge(graphClone, edge);
-                    graphClone.GetEdge(edge.From.Value, edge.To.Value).Marked = edge.Marked;
+                    AddEdge(graphClone, edge);
+                    graphClone.GetEdge(edge.From, edge.To).Marked = edge.Marked;
                 }
             }
 
             return graphClone;
-        }
-
-        /// <summary>
-        /// Insert an edge in Graph
-        /// </summary>
-        /// <param name="graph">The graph that is joined by the edge.</param>
-        /// <param name="edge">The edge.</param>
-        private static void InsertEdge(Graph<T, TCost> graph, IGraphEdge<T, TCost> edge)
-        {
-            Check.ArgumentNullException(graph, "graph");
-            Check.ArgumentNullException(edge, "edge");
-
-            var type = edge.GetType().Name;
-
-            if (type.Contains("DirectedEdge"))
-                graph.AddDirectedEdge(edge.From.Value, edge.To.Value, edge.Value);
-            else if (type.Contains("UndirectedEdge"))
-                graph.AddUndirectedEdge(edge.From.Value, edge.To.Value, edge.Value);
-            else
-                throw new Exception("Edge Type not found");
         }
 
     }
