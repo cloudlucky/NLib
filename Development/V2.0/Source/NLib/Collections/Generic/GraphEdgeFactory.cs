@@ -85,7 +85,7 @@
             {
                 get
                 {
-                    return this.Value;
+                    return this.To.Edges.FirstOrDefault(e => e.To == this.From).Value;
                 }
 
                 set
