@@ -51,7 +51,6 @@ namespace NLib.Collections.Generic
         {
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Graph{T, TCost}"/> class.
         /// </summary>
@@ -284,12 +283,12 @@ namespace NLib.Collections.Generic
         /// <param name="cost">The cost of the edge from "from" to "to".</param>
         public virtual void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
         {
+
             Check.ArgumentNullException(from, "Require argument 'from' ");
             Check.ArgumentNullException(to, "Require argument 'to' ");
 
             var factory = GraphEdgeFactory
                 .GetFactory("NLib.Collections.Generic.UndirectedEdgeFactory");
-
 
             var edge = this.GetEdge(to, from);
            
@@ -305,8 +304,8 @@ namespace NLib.Collections.Generic
                     "edge", "It is not a undirected edge.");
                 
                 edge.Value = cost;
-                ((UndirectedEdge<T, TCost>)edge).InvValue = cost;
             }
+
         }
 
         /// <summary>
@@ -315,10 +314,7 @@ namespace NLib.Collections.Generic
         /// <param name="collection">The collection.</param>
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection != null)
-            {
-                collection.ForEach(this.Add);
-            }
+            if (collection != null) collection.ForEach(this.Add);
         }
 
         /// <summary>
@@ -332,11 +328,8 @@ namespace NLib.Collections.Generic
         /// </returns>
         public virtual IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(IGraphNode<T, TCost> item)
         {
-            if (item.Marker)
-            {
-                this.nodeSet.ForEach(node => node.Marker = false);
-            }
-
+            if (item.Marker) this.nodeSet.ForEach(node => node.Marker = false);
+            
             item.Marker = true;
             var unmarked = this.Count - 1;
             yield return item;
@@ -355,7 +348,6 @@ namespace NLib.Collections.Generic
                         queue.Enqueue(useEdge.To);
                     }
                 }
-
                 item = queue.Dequeue();
             }
         }
@@ -415,10 +407,7 @@ namespace NLib.Collections.Generic
             Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
             Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
-            if (this.Count > 0)
-            {
-                this.ForEach(i => array[arrayIndex++] = i);
-            }
+            if (this.Count > 0) this.ForEach(i => array[arrayIndex++] = i);
         }
 
         /// <summary>
@@ -432,11 +421,8 @@ namespace NLib.Collections.Generic
         /// </returns>
         public virtual IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(IGraphNode<T, TCost> item)
         {
-            if (item.Marker)
-            {
-                this.nodeSet.ForEach(node => node.Marker = false);
-            }
-
+            if (item.Marker) this.nodeSet.ForEach(node => node.Marker = false);
+            
             var stack = new Stack<IGraphNode<T, TCost>>();
             stack.Push(item);
             item.Marker = true;
@@ -534,20 +520,14 @@ namespace NLib.Collections.Generic
         public virtual bool Remove(T item)
         {
             var nodeToRemove = this.GetNodeByItem(item);
-            if (nodeToRemove == null)
-            {
-                return false;
-            }
-
+            if (nodeToRemove == null) return false;
+            
             this.nodeSet.Remove(nodeToRemove);
 
             foreach (var gnode in this.nodeSet)
             {
                 var edge = this.GetEdge(gnode, nodeToRemove);
-                if (edge != null)
-                {
-                    gnode.Edges.Remove(edge);
-                }
+                if (edge != null) gnode.Edges.Remove(edge);
             }
 
             nodeToRemove.Edges.Clear();
@@ -563,10 +543,7 @@ namespace NLib.Collections.Generic
         {
             Check.ArgumentNullException(item, "item");
 
-            if (!this.Contains(item.Value))
-            {
-                this.nodeSet.Add(item);
-            }
+            if (!this.Contains(item.Value)) this.nodeSet.Add(item);
         }
 
         /// <summary>
@@ -595,35 +572,56 @@ namespace NLib.Collections.Generic
             
         }
 
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
+        /// </summary>
+        /// <param name="edge">The object to remove from the <see cref="ICollection{T}"/>.</param>
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        public virtual bool RemoveEdge(IGraphEdge<T, TCost> edge)
+        {
+            Check.ArgumentNullException(edge,"edge");
+            var type = edge.GetType().Name;
+
+            if (type.Contains("UndirectedEdge")) return RemoveUndirectedEdge(edge);
+            else if (type.Contains("DirectedEdge")) return RemoveDirectedEdge(edge);
+            else return false;
+               
+        }
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
         /// </summary>
         /// <param name="edge">The object to remove from the <see cref="ICollection{T}"/>.</param>
         /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
-        public virtual void RemoveEdge(IGraphEdge<T, TCost> edge)
+        public bool RemoveUndirectedEdge(IGraphEdge<T, TCost> edge)
         {
-            Check.ArgumentNullException(edge,"edge");
-            var type = edge.GetType().Name;
+            var to = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.To.Value));
 
-            if (type.Contains("UndirectedEdge"))
-            {
-                var to = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.To.Value));
+            Check.ArgumentNullException(to, "Node not found");
+            to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
 
-                Check.ArgumentNullException(to, "Node not found");
-                to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
-            }
 
-            if (type.Contains("DirectedEdge") || type.Contains("UndirectedEdge"))
-            {
-                var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
-                
-                Check.ArgumentNullException(from, "Node not found");
-                from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
-            }
-            else
-                throw new Exception("Edge Type not found");
+            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
+
+            Check.ArgumentNullException(from, "Node not found");
+            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
+            return true;
         }
+
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
+        /// </summary>
+        /// <param name="edge">The object to remove from the <see cref="ICollection{T}"/>.</param>
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        public bool RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
+        {
+            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
+
+            Check.ArgumentNullException(from, "Node not found");
+            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
+            return true;
+        }
+
 
         /// <summary>
         /// Gets the edge between the two nodes.
@@ -730,6 +728,7 @@ namespace NLib.Collections.Generic
 
             return graphClone;
         }
+
 
     }
 }

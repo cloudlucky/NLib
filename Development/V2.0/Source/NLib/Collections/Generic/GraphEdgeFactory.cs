@@ -10,7 +10,7 @@
              public static GraphEdgeFactory GetFactory(string typeName)
              {
                 Type type = Type.GetType(typeName);
-                 // To Do null object
+
                 Object objEdgeFactory = type.InvokeMember(null,
                                                BindingFlags.DeclaredOnly |
                                                BindingFlags.Public | 
@@ -46,7 +46,6 @@
                 return (new UndirectedEdge<T, TCost>(from, to, value));
             }
 
-
         }
 
         class DirectEdgeFactory : GraphEdgeFactory
@@ -71,39 +70,42 @@
 
         public class UndirectedEdge<T, TCost> :  GraphEdge<T, TCost>
         {
+
             public UndirectedEdge() { }
 
-            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to):base(from, to) { }
+            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to) : base(from, to) { }
 
-            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value):base(from, to, value) { }
+            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value) : base(from, to, value) { }
 
-
-            /// <summary>
-            /// Gets or sets value.
-            /// </summary>
-            public TCost InvValue
+            private byte inverter;
+            public override TCost Value
             {
                 get
                 {
-                    return this.To.Edges.FirstOrDefault(e => e.To == this.From).Value;
+                    return base.Value;
                 }
-
                 set
                 {
-                     this.To.Edges.FirstOrDefault(e => e.To == this.From).Value = value;
+                    if (inverter == 0)
+                    {
+                        inverter = 1;
+                        base.Value = value;
+                    }
+                    else
+                    {
+                        inverter = 0;
+                        base.Value = value;
+                        this.To.Edges.FirstOrDefault(e => e.To == this.From).Value = value;
+                    }
                 }
             }
-            
-
         }
 
         public class DirectedEdge<T, TCost> :  GraphEdge<T, TCost>
         {    
-            public DirectedEdge(){ }
-
+            public DirectedEdge() { }
             public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to) : base(from, to) { }
-
-            public DirectedEdge(GraphNode<T,TCost> from, GraphNode<T,TCost> to, TCost value) : base(from, to, value){ }
-
+            public DirectedEdge(GraphNode<T,TCost> from, GraphNode<T,TCost> to, TCost value) : base(from, to, value) { }
         }
+
 }

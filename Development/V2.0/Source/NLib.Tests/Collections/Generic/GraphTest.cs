@@ -190,14 +190,14 @@ namespace NLib.Tests.Collections.Generic
 
             graph.AddUndirectedEdge("A", "B", 10);
             Assert.NotNull(graph.GetEdge("A", "B"));
-            Assert.AreEqual(10, graph.GetEdge("A", "B").Value);
+            Assert.IsTrue( graph.GetEdge("A", "B").Value == 10);
 
             var edge = graph.GetEdge("B", "A");
             edge.Value = 20;
-         
-            Assert.AreNotEqual(20, graph.GetEdge("A","B").Value);
-            graph.AddEdge(edge);
-            Assert.AreEqual(20, graph.GetEdge("A", "B").Value);
+
+            Assert.IsTrue(graph.GetEdge("A", "B").Value == 20);
+
+           
             
         }
 
@@ -559,19 +559,25 @@ namespace NLib.Tests.Collections.Generic
         [Category("Serie Graph Add")]
         public void AddEdgeValueTest()
         {
-            var graph = new Graph<String, Number> { "FROM", "TO", "A", "B", "C", "D" };
+            var graph = new Graph<String, Number> { "FROM", "TO" };
 
-            graph.AddUndirectedEdge("TO", "FROM", 0);
-            graph.AddUndirectedEdge("FROM","TO", 0);
+            graph.AddUndirectedEdge("FROM", "TO", 50);
 
-            var edge = (UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO");
+            var edge = graph.GetEdge("FROM", "TO");
 
-            edge.InvValue = 50;
-            edge.Value = 50;
+            edge.Value = 20;
        
-            Assert.AreEqual(new Number(50), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
-            Assert.AreEqual(new Number(50), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);            
+            Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
+            Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
+
+            edge.Value = 5;
+
+            Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
+            Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
+
         }
+
+
 
     }
 }

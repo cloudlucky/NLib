@@ -76,7 +76,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets value.
         /// </summary>
-        public TCost Value { get; set; }
+        public virtual TCost Value { get; set; }
 
         /// <summary>
         /// Gets or sets Marked
