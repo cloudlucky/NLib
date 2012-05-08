@@ -149,27 +149,10 @@ namespace NLib.Tests.Collections.Generic
            
             Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
-
+            
             graph["FROM", "TO"] = 1;
             Assert.AreEqual(1, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
-        }
-
-        [Test]
-        [Category("Serie Graph Add")]
-        [Ignore("Not Implemented")]
-        public void AddEdgeTest11()
-        {
-            var graph = new Graph<string, int> { "TO", "FROM" };
-            graph.AddUndirectedEdge("TO", "FROM", 1);
-            Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
-            Assert.AreEqual(1, graph.GetEdge("FROM", "TO").Value);
-
-            graph.GetEdge("TO", "FROM").Value = 10;
-            
-            Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
-
+            Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value); 
         }
 
         [Test]
@@ -570,6 +553,24 @@ namespace NLib.Tests.Collections.Generic
 
             edge = factory.Create(nodeA, nodeB, 12345);
             Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
+        }
+
+        [Test]
+        [Category("Serie Graph Add")]
+        public void AddEdgeValueTest()
+        {
+            var graph = new Graph<String, Number> { "FROM", "TO", "A", "B", "C", "D" };
+
+            graph.AddUndirectedEdge("TO", "FROM", 0);
+            graph.AddUndirectedEdge("FROM","TO", 0);
+
+            var edge = (UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO");
+
+            edge.InvValue = 50;
+            edge.Value = 50;
+       
+            Assert.AreEqual(new Number(50), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
+            Assert.AreEqual(new Number(50), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);            
         }
 
     }

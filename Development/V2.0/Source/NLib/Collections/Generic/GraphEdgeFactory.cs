@@ -1,6 +1,8 @@
 ﻿namespace NLib.Collections.Generic
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
         public abstract class GraphEdgeFactory
@@ -49,6 +51,7 @@
 
         class DirectEdgeFactory : GraphEdgeFactory
         {
+
             public override GraphEdge<T, TCost> Create<T, TCost>()
             {
                 return (new DirectedEdge<T, TCost>());
@@ -74,6 +77,24 @@
 
             public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value):base(from, to, value) { }
 
+
+            /// <summary>
+            /// Gets or sets value.
+            /// </summary>
+            public TCost InvValue
+            {
+                get
+                {
+                    return this.Value;
+                }
+
+                set
+                {
+                     this.To.Edges.FirstOrDefault(e => e.To == this.From).Value = value;
+                }
+            }
+            
+
         }
 
         public class DirectedEdge<T, TCost> :  GraphEdge<T, TCost>
@@ -83,5 +104,6 @@
             public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to) : base(from, to) { }
 
             public DirectedEdge(GraphNode<T,TCost> from, GraphNode<T,TCost> to, TCost value) : base(from, to, value){ }
+
         }
 }
