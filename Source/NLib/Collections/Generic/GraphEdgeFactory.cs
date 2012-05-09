@@ -1,4 +1,13 @@
-﻿namespace NLib.Collections.Generic
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GraphEdge.cs" company=".">
+//   Copyright (c) Cloudlucky. All rights reserved.
+//   http://www.cloudlucky.com
+//   This code is licensed under the Microsoft Public License (Ms-PL)
+//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -77,28 +86,30 @@
 
             public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value) : base(from, to, value) { }
 
-            private byte inverter;
+
+            private TCost UndirectedEdgeValue;
             public override TCost Value
             {
                 get
                 {
-                    return base.Value;
+                        return this.UndirectedEdgeValue;
                 }
+
                 set
                 {
-                    if (inverter == 0)
-                    {
-                        inverter = 1;
-                        base.Value = value;
-                    }
-                    else
-                    {
-                        inverter = 0;
-                        base.Value = value;
-                        this.To.Edges.FirstOrDefault(e => e.To == this.From).Value = value;
-                    }
+              
+                            this.UndirectedEdgeValue = value;
+
+                            var reverse = this.To.Edges.FirstOrDefault(e => e.To == this.From);
+                            if (reverse != null && Comparer<TCost>.Default.Compare(reverse.Value,value) != 0)
+                            {
+                                reverse.Value = value;
+                            }
+
+
                 }
             }
+
         }
 
         public class DirectedEdge<T, TCost> :  GraphEdge<T, TCost>
