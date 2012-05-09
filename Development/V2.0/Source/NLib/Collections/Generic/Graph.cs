@@ -189,7 +189,8 @@ namespace NLib.Collections.Generic
             {
                 var edge = this.GetEdge(from, to);
                 edge.Value = value;
-                AddEdge(this, edge);
+      
+                //      AddEdge(this, edge);
             }
 
         }
