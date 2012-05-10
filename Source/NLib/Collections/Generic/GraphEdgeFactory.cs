@@ -14,109 +14,112 @@ namespace NLib.Collections.Generic
     using System.Linq;
     using System.Reflection;
 
-        public abstract class GraphEdgeFactory
+    public abstract class GraphEdgeFactory
+    {
+        public static GraphEdgeFactory GetFactory(string typeName)
         {
-             public static GraphEdgeFactory GetFactory(string typeName)
-             {
-                Type type = Type.GetType(typeName);
+            Type type = Type.GetType("NLib.Collections.Generic." + typeName);
 
-                Object objEdgeFactory = type.InvokeMember(null,
-                                               BindingFlags.DeclaredOnly |
-                                               BindingFlags.Public | 
-                                               BindingFlags.NonPublic |
-                                               BindingFlags.Instance |
-                                               BindingFlags.CreateInstance,
-                                               null,null, null);
+            Object objEdgeFactory = type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
-                return ((GraphEdgeFactory)objEdgeFactory);
-             }
-            
-             public abstract GraphEdge<T, TCost> Create<T, TCost>();
-             public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to);
-             public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value);
-              
+            return ((GraphEdgeFactory)objEdgeFactory);
         }
 
-        class UndirectedEdgeFactory : GraphEdgeFactory
+        public abstract GraphEdge<T, TCost> Create<T, TCost>();
+
+        public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to);
+
+        public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value);
+    }
+
+    internal class UndirectedEdgeFactory : GraphEdgeFactory
+    {
+        public override GraphEdge<T, TCost> Create<T, TCost>()
         {
-
-            public override GraphEdge<T, TCost> Create<T, TCost>()
-            {
-                return (new UndirectedEdge<T, TCost>());
-            }
-
-            public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
-            {
-                return (new UndirectedEdge<T, TCost>(from, to));
-            }
-
-            public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
-            {
-                return (new UndirectedEdge<T, TCost>(from, to, value));
-            }
-
+            return (new UndirectedEdge<T, TCost>());
         }
 
-        class DirectEdgeFactory : GraphEdgeFactory
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
         {
-
-            public override GraphEdge<T, TCost> Create<T, TCost>()
-            {
-                return (new DirectedEdge<T, TCost>());
-            }
-
-            public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
-            {
-                return (new DirectedEdge<T, TCost>(from, to));
-            }
-
-            public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
-            {
-                return ( new DirectedEdge<T, TCost>(from, to, value) );
-            }
-
+            return (new UndirectedEdge<T, TCost>(from, to));
         }
 
-        public class UndirectedEdge<T, TCost> :  GraphEdge<T, TCost>
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
         {
+            return (new UndirectedEdge<T, TCost>(from, to, value));
+        }
+    }
 
-            public UndirectedEdge() { }
+    internal class DirectedEdgeFactory : GraphEdgeFactory
+    {
+        public override GraphEdge<T, TCost> Create<T, TCost>()
+        {
+            return (new DirectedEdge<T, TCost>());
+        }
 
-            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to) : base(from, to) { }
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+        {
+            return (new DirectedEdge<T, TCost>(from, to));
+        }
 
-            public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value) : base(from, to, value) { }
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+        {
+            return (new DirectedEdge<T, TCost>(from, to, value));
+        }
+    }
 
+    public class UndirectedEdge<T, TCost> : GraphEdge<T, TCost>
+    {
+        public UndirectedEdge()
+        {
+        }
 
-            private TCost UndirectedEdgeValue;
-            public override TCost Value
+        public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+            : base(from, to)
+        {
+        }
+
+        public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+            : base(from, to, value)
+        {
+        }
+
+        private TCost undirectedEdgeValue;
+
+        public override TCost Value
+        {
+            get
             {
-                get
+                return this.undirectedEdgeValue;
+            }
+
+            set
+            {
+                this.undirectedEdgeValue = value;
+
+                var reverse = this.To.Edges.FirstOrDefault(e => e.To == this.From);
+                if (reverse != null && Comparer<TCost>.Default.Compare(reverse.Value, value) != 0)
                 {
-                        return this.UndirectedEdgeValue;
-                }
-
-                set
-                {
-              
-                            this.UndirectedEdgeValue = value;
-
-                            var reverse = this.To.Edges.FirstOrDefault(e => e.To == this.From);
-                            if (reverse != null && Comparer<TCost>.Default.Compare(reverse.Value,value) != 0)
-                            {
-                                reverse.Value = value;
-                            }
-
-
+                    reverse.Value = value;
                 }
             }
+        }
+    }
 
+    public class DirectedEdge<T, TCost> : GraphEdge<T, TCost>
+    {
+        public DirectedEdge()
+        {
         }
 
-        public class DirectedEdge<T, TCost> :  GraphEdge<T, TCost>
-        {    
-            public DirectedEdge() { }
-            public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to) : base(from, to) { }
-            public DirectedEdge(GraphNode<T,TCost> from, GraphNode<T,TCost> to, TCost value) : base(from, to, value) { }
+        public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+            : base(from, to)
+        {
         }
 
+        public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+            : base(from, to, value)
+        {
+        }
+    }
 }
