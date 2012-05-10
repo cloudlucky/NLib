@@ -58,11 +58,10 @@ namespace NLib.Tests.Collections.Generic
             graph.AddUndirectedEdge("FROM", "TO", 10);
             Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
-           
+
             graph.AddUndirectedEdge("FROM", "TO", 20);
             Assert.AreEqual(20, graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(20, graph.GetEdge("TO", "FROM").Value);
-             
         }
 
         [Test]
@@ -79,7 +78,6 @@ namespace NLib.Tests.Collections.Generic
             graph.AddDirectedEdge("FROM", "TO", 20);
             Assert.AreEqual(20, graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
-            
         }
 
         [Test]
@@ -87,9 +85,9 @@ namespace NLib.Tests.Collections.Generic
         public void AddEdgeTest5()
         {
             var graph = new Graph<string, int> { "FROM", "TO" };
-            graph.AddDirectedEdge("FROM","TO", 1);
+            graph.AddDirectedEdge("FROM", "TO", 1);
             Assert.Pass();
-            graph.AddUndirectedEdge("TO","FROM",10);
+            graph.AddUndirectedEdge("TO", "FROM", 10);
             Assert.Fail();
         }
 
@@ -130,11 +128,11 @@ namespace NLib.Tests.Collections.Generic
         [Category("Serie Graph Add")]
         public void AddEdgeTest9()
         {
-           var graph = new Graph<string, int> { "TO", "FROM" };
-           graph.AddDirectedEdge("TO", "FROM", 1);
-           Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
-           graph.AddDirectedEdge("TO", "FROM", 10);
-           Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value); 
+            var graph = new Graph<string, int> { "TO", "FROM" };
+            graph.AddDirectedEdge("TO", "FROM", 1);
+            Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
+            graph.AddDirectedEdge("TO", "FROM", 10);
+            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
         }
 
         [Test]
@@ -145,12 +143,12 @@ namespace NLib.Tests.Collections.Generic
             graph.AddUndirectedEdge("TO", "FROM", 1);
             Assert.AreEqual(new Number(1), graph.GetEdge("TO", "FROM").Value);
             Assert.AreEqual(new Number(1), graph.GetEdge("FROM", "TO").Value);
-            
+
             graph["TO", "FROM"] = 10;
-           
+
             Assert.AreEqual(new Number(10), graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(new Number(10), graph.GetEdge("TO", "FROM").Value);
-            
+
             graph["FROM", "TO"] = 1;
             Assert.AreEqual(new Number(1), graph.GetEdge("FROM", "TO").Value);
             Assert.AreEqual(new Number(1), graph.GetEdge("TO", "FROM").Value);
@@ -163,11 +161,11 @@ namespace NLib.Tests.Collections.Generic
             var graph = new Graph<string, int>();
             graph.Add("A");
             graph.Add("B");
-            graph.AddUndirectedEdge("A","B",0);
+            graph.AddUndirectedEdge("A", "B", 0);
             Assert.NotNull(graph.GetEdge("A", "B"));
             Assert.AreEqual(0, graph.GetEdge("A", "B").Value);
-            graph.RemoveEdge(graph.GetEdge("A","B"));
-            Assert.Null(graph.GetEdge("A","B"));
+            graph.RemoveEdge(graph.GetEdge("A", "B"));
+            Assert.Null(graph.GetEdge("A", "B"));
         }
 
         [Test]
@@ -182,7 +180,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.Null(graph.GetEdge("B", "A"));
         }
 
-
         [Test]
         [Category("Serie Graph Other")]
         public void ValueUndirectedEdgeTest2()
@@ -191,13 +188,12 @@ namespace NLib.Tests.Collections.Generic
 
             graph.AddUndirectedEdge("A", "B", 10);
             Assert.NotNull(graph.GetEdge("A", "B"));
-            Assert.IsTrue( graph.GetEdge("A", "B").Value == 10);
+            Assert.IsTrue(graph.GetEdge("A", "B").Value == 10);
 
             var edge = graph.GetEdge("B", "A");
             edge.Value = 20;
 
             Assert.IsTrue(graph.GetEdge("A", "B").Value == 20);
-
         }
 
         [Test]
@@ -280,7 +276,6 @@ namespace NLib.Tests.Collections.Generic
                 strSequence = strSequence + node.Value;
             }
             Assert.AreEqual("ABHGCFDE", strSequence);
-
         }
 
         [Test]
@@ -412,8 +407,8 @@ namespace NLib.Tests.Collections.Generic
         public void FindPathTest()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
-            graph.AddDirectedEdge("s","a");
-            graph.AddDirectedEdge("a","b");
+            graph.AddDirectedEdge("s", "a");
+            graph.AddDirectedEdge("a", "b");
             graph.AddDirectedEdge("b", "c");
             graph.AddDirectedEdge("a", "t");
 
@@ -422,7 +417,7 @@ namespace NLib.Tests.Collections.Generic
             var path = graph.FindPath(start, terminated);
 
             Assert.AreEqual(2, path.Count());
-            
+
             Assert.AreEqual("a", path.Peek().From.Value);
             Assert.AreEqual("t", path.Peek().To.Value);
             path.Pop();
@@ -430,7 +425,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("s", path.Peek().From.Value);
             Assert.AreEqual("a", path.Peek().To.Value);
             path.Pop();
-
         }
 
         [Test]
@@ -458,7 +452,7 @@ namespace NLib.Tests.Collections.Generic
             graph.AddDirectedEdge("H", "C", 2);
 
             var start = graph.GetNode("B");
- 
+
             IDictionary<string, Number> distance = new Dictionary<string, Number>();
             IDictionary<string, string> previous = new Dictionary<string, string>();
 
@@ -481,7 +475,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("H", previous["F"]);
             Assert.AreEqual("D", previous["G"]);
             Assert.AreEqual("G", previous["H"]);
-
         }
 
         [Test]
@@ -498,24 +491,25 @@ namespace NLib.Tests.Collections.Generic
 
             graph.Djkstra(start, distance, previous);
 
-            Assert.AreEqual(new Number(-2),distance["A"]);
+            Assert.AreEqual(new Number(-2), distance["A"]);
             Assert.AreEqual("A", previous["A"]);
-
         }
 
         [Test]
         [Category("Serie Graph Other")]
         public void CloneGraphTest()
         {
-            var graph = new Graph<string, Number> { "A", "B","C"};
-            graph.AddDirectedEdge("A","B",1);
-            graph.AddDirectedEdge("B","A",-1);
+            var graph = new Graph<string, Number> { "A", "B", "C" };
+            graph.AddDirectedEdge("A", "B", 1);
+            graph.AddDirectedEdge("B", "A", -1);
             graph.GetEdge("B", "A").Marked = false;
             graph["A"].Marker = false;
             Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
-            Assert.AreEqual(new Number(-1), graph.GetEdge("B","A").Value);
+            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
             Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
+
             Assert.AreEqual(false, graph["A"].Marker);
+
             var graph2 = (Graph<string, Number>)graph.Clone();
             graph2.AddUndirectedEdge("B", "B", 100);
             graph2.GetEdge("B", "A").Marked = true;
@@ -529,7 +523,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
             Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
             Assert.AreEqual(false, graph["A"].Marker);
-
         }
 
         [Test]
@@ -539,14 +532,14 @@ namespace NLib.Tests.Collections.Generic
             var nodeA = new GraphNode<string, Number>("NodeA");
             var nodeB = new GraphNode<string, Number>("NodeB");
 
-            var factory = GraphEdgeFactory.GetFactory("NLib.Collections.Generic.UndirectedEdgeFactory");
+            var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
             var edge = factory.Create<string, Number>();
             Assert.IsTrue(edge.GetType().Name.Contains("UndirectedEdge"));
 
             edge = factory.Create(nodeA, nodeB, 12345);
             Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
 
-            factory = GraphEdgeFactory.GetFactory("NLib.Collections.Generic.DirectEdgeFactory");
+            factory = GraphEdgeFactory.GetFactory("DirectedEdgeFactory");
             edge = factory.Create<string, Number>();
             Assert.IsTrue(edge.GetType().Name.Contains("DirectedEdge"));
 
@@ -565,7 +558,7 @@ namespace NLib.Tests.Collections.Generic
             var edge = graph.GetEdge("FROM", "TO");
 
             edge.Value = 20;
-       
+
             Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
             Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
 
@@ -573,7 +566,6 @@ namespace NLib.Tests.Collections.Generic
 
             Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
             Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
-
         }
 
         [Test]
@@ -582,17 +574,26 @@ namespace NLib.Tests.Collections.Generic
         {
             var graph = new Graph<String, Number> { "FROM", "TO" };
             graph.AddUndirectedEdge("FROM", "TO", 50);
-           
+
             var edge = graph.GetEdge("FROM", "TO");
             edge.Value = 20;
-           
+
             edge = graph.GetEdge("TO", "FROM");
             edge.Value = 5;
-            
+
             Assert.AreEqual(new Number(5), (graph.GetEdge("TO", "FROM")).Value);
             Assert.AreEqual(new Number(5), (graph.GetEdge("FROM", "TO")).Value);
-            
         }
 
+        [Test]
+        public void AddEdgeValueTest3()
+        {
+            var graph = new Graph<String, Number> { "FROM", "TO" };
+            graph.AddUndirectedEdge("FROM", "TO", 50);
+
+            Assert.IsNotNull(graph.GetEdge("FROM", "TO"));
+            Assert.IsTrue(graph.RemoveEdge(graph.GetEdge("FROM", "TO")));
+            Assert.IsNull(graph.GetEdge("FROM", "TO"));
+        }
     }
 }
