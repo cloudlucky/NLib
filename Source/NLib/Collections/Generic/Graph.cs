@@ -17,7 +17,7 @@ namespace NLib.Collections.Generic
 
     using NLib.Collections.Generic.Extensions;
     using NLib.Collections.Generic.Resources;
-
+    //Todo refactoring class Graph
     /// <summary>
     ///   Represents a graph with an arbitrary collection of GraphNode instances. 
     ///   Provides methods to search and manipulate the tree.
@@ -30,22 +30,25 @@ namespace NLib.Collections.Generic
     [Serializable]
     public class Graph<T, TCost> : IGraph<T, TCost>, ICloneable
     {
-
+        //Todo test equality Comparer test
         /// <summary>
         ///   The equality comparer.
         /// </summary>
         private readonly IEqualityComparer<T> equalityComparer;
 
+        //Todo test equalityComparison test
         /// <summary>
         ///   The equality comparer.
         /// </summary>
         private readonly EqualityComparison<T> equalityComparison;
 
+        //Todo test nodeSet test
         /// <summary>
         ///   The set of nodes in the graph
         /// </summary>
         private readonly HashSet<GraphNode<T, TCost>> nodeSet;
 
+        //Todo test Graph() Constructor
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -54,6 +57,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+        //Todo test Graph(IEqualityComparer<T> comparer) 
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -63,6 +67,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+        //Todo test Graph(EqualityComparison<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -72,6 +77,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+        //Todo test Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -82,6 +88,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+        //Todo test Graph(IEnumerable<T> collection, EqualityComparison<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -92,6 +99,7 @@ namespace NLib.Collections.Generic
         {
         }
 
+        //Todo test Graph(IEnumerable<T> collection, EqualityComparison<T> comparison, IEqualityComparer<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -109,6 +117,7 @@ namespace NLib.Collections.Generic
             this.AddRange(collection);
         }
 
+        //Todo test IEqualityComparer<T> Comparer
         /// <summary>
         ///   Gets the <see cref = "IEqualityComparer{T}" /> object that is used to determine equality for the values in the set.
         /// </summary>
@@ -120,6 +129,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test Comparison
         /// <summary>
         ///   Gets the <see cref = "EqualityComparison{T}" /> object that is used to determine equality for the values in the set.
         /// </summary>
@@ -131,6 +141,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test Count
         /// <summary>
         ///   Gets the number of nodes
         /// </summary>
@@ -142,6 +153,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test Nodes
         /// <summary>
         ///   Gets the nodes of the graph.
         /// </summary>
@@ -153,6 +165,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test ICollection<T>.IsReadOnly
         /// <summary>
         ///   Gets a value indicating whether the <see cref = "ICollection{T}" /> is read-only.
         /// </summary>
@@ -164,6 +177,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test IEnumerable<IGraphNode<T, TCost>> IGraph<T, TCost>.Nodes
         /// <summary>
         ///   Gets the nodes of the graph.
         /// </summary>
@@ -175,6 +189,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test IGraphNode<T, TCost> this[T item]
         /// <summary>
         ///   Gets the <see cref = "IGraphNode{T, TCost}" /> with the specified item.
         /// </summary>
@@ -188,6 +203,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test TCost this[T from, T to]
         /// <summary>
         ///   Gets or sets the <see cref = "TCost" /> with the specified from.
         /// </summary>
@@ -215,15 +231,17 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test void Add(T item)
         /// <summary>
         ///   Adds a new value to the graph.
         /// </summary>
         /// <param name = "item">The value to add to the graph</param>
         public virtual void Add(T item)
         {
-            this.Add(new GraphNode<T, TCost>(item));
+            this.Add(GraphNodeFactory.GetFactory("GraphNodeMarkedFactory").Create<T,TCost>(item));
         }
 
+        //Todo test void AddDirectedEdge(T from, T to)
         /// <summary>
         ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
@@ -234,6 +252,7 @@ namespace NLib.Collections.Generic
             this.AddDirectedEdge(from, to, default(TCost));
         }
 
+        //Todo test void AddDirectedEdge(T from, T to, TCost cost)
         /// <summary>
         ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
@@ -246,6 +265,7 @@ namespace NLib.Collections.Generic
             this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
         }
 
+        //Todo test void AddEdge(IGraphEdge<T, TCost> edge)
         /// <summary>
         ///   Add an from a GraphNode with one value edge
         /// </summary>
@@ -255,6 +275,7 @@ namespace NLib.Collections.Generic
             this.AddEdge(this, edge);
         }
 
+        //Todo test void AddRange(IEnumerable<T> collection)
         /// <summary>
         ///   Add the elements of the specified collection in the bag.
         /// </summary>
@@ -267,6 +288,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test void AddUndirectedEdge(T from, T to) 
         /// <summary>
         ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
@@ -277,6 +299,7 @@ namespace NLib.Collections.Generic
             this.AddUndirectedEdge(from, to, default(TCost));
         }
 
+        //Todo test void AddUndirectedEdge(T from, T to, TCost cost)
         /// <summary>
         ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
@@ -289,6 +312,7 @@ namespace NLib.Collections.Generic
             this.AddUndirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
         }
 
+        //Todo test void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
         /// <summary>
         ///   Add a undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
@@ -318,6 +342,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(T item)
         /// <summary>
         ///   Selecting some node as the root and to go through them level-by-level.
         /// </summary>
@@ -332,6 +357,7 @@ namespace NLib.Collections.Generic
             return this.BreathFirstTraversal(this.GetNode(item));
         }
 
+        //Todo test IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(IGraphNode<T, TCost> item)
         /// <summary>
         ///   Selecting some node as the root and to go through them level-by-level.
         /// </summary>
@@ -368,8 +394,10 @@ namespace NLib.Collections.Generic
                 }
                 item = queue.Dequeue();
             }
-        }
 
+        }
+        
+        //Todo test Clear()
         /// <summary>
         ///   Clears out the contents of the Graph.
         /// </summary>
@@ -378,6 +406,8 @@ namespace NLib.Collections.Generic
             this.nodeSet.Clear();
         }
 
+        //Todo Use Clone of Edge and node  
+        //Todo test Clone()
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -406,6 +436,7 @@ namespace NLib.Collections.Generic
             return graphClone;
         }
 
+        //Todo test bool Contains(T item)
         /// <summary>
         ///   Returns a Boolean, indicating if a particular value exists within the graph.
         /// </summary>
@@ -416,6 +447,7 @@ namespace NLib.Collections.Generic
             return this.GetNodeByItem(item) != null;
         }
 
+        //Todo test CopyTo(T[] array, int arrayIndex)
         /// <summary>
         ///   Copies the elements of the <see cref = "ICollection{T}" /> to an <see cref = "Array" />, starting at a particular <see cref = "Array" /> index.
         /// </summary>
@@ -445,6 +477,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(T item)
         /// <summary>
         ///   Selecting some node as the root and explores as far as possible along each branch before backtracking.
         /// </summary>
@@ -459,6 +492,7 @@ namespace NLib.Collections.Generic
             return this.DepthFirstTraversal(this.GetNode(item));
         }
 
+        //Todo test IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(IGraphNode<T, TCost> item)
         /// <summary>
         ///   selecting some node as the root and explores as far as possible along each branch before backtracking.
         /// </summary>
@@ -502,6 +536,7 @@ namespace NLib.Collections.Generic
             while (unmarked > 0);
         }
 
+        //Todo test IGraphEdge<T, TCost> GetEdge(T from, T to)
         /// <summary>
         ///   Gets the edge between the two nodes.
         /// </summary>
@@ -513,6 +548,7 @@ namespace NLib.Collections.Generic
             return this.GetEdge(this.GetNodeByItem(from), this.GetNodeByItem(to));
         }
 
+        //Todo test IEnumerator<T> GetEnumerator()
         /// <summary>
         ///   Returns an enumerator that iterates through a collection.
         /// </summary>
@@ -525,6 +561,7 @@ namespace NLib.Collections.Generic
             return this.Nodes.Select(x => x.Value).GetEnumerator();
         }
 
+        //Todo test IGraphNode<T, TCost> GetNode(T item)
         /// <summary>
         ///   Gets the node.
         /// </summary>
@@ -535,6 +572,7 @@ namespace NLib.Collections.Generic
             return this.GetNodeByItem(item);
         }
 
+        //Todo test Remove
         /// <summary>
         ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
         /// </summary>
@@ -567,6 +605,7 @@ namespace NLib.Collections.Generic
             return true;
         }
 
+        //Todo test RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
         /// <summary>
         ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
         /// </summary>
@@ -581,6 +620,7 @@ namespace NLib.Collections.Generic
             return true;
         }
 
+        //Todo test RemoveEdge(IGraphEdge<T, TCost> edge)
         /// <summary>
         ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
         /// </summary>
@@ -591,6 +631,7 @@ namespace NLib.Collections.Generic
             return (bool)this.GetType().InvokeMember("Remove" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, this, new object[] { edge });
         }
 
+        //Todo test RemoveUndirectedEdge(IGraphEdge<T, TCost> edge)
         /// <summary>
         ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
         /// </summary>
@@ -610,6 +651,7 @@ namespace NLib.Collections.Generic
             return true;
         }
 
+        //Todo test IEnumerable.GetEnumerator()
         /// <summary>
         ///   Returns an enumerator that iterates through a collection.
         /// </summary>
@@ -622,6 +664,7 @@ namespace NLib.Collections.Generic
             return this.GetEnumerator();
         }
 
+        //Todo test Add(GraphNode<T, TCost> item)
         /// <summary>
         ///   Adds a new GraphNode instance to the Graph
         /// </summary>
@@ -636,6 +679,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
         /// <summary>
         ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
@@ -661,6 +705,7 @@ namespace NLib.Collections.Generic
             }
         }
 
+        //Todo test GraphEdge<T, TCost> GetEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
         /// <summary>
         ///   Gets the edge between the two nodes.
         /// </summary>
@@ -672,6 +717,7 @@ namespace NLib.Collections.Generic
             return from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, to.Value));
         }
 
+        //Todo test GraphNode<T, TCost> GetNodeByItem(T item)
         /// <summary>
         ///   Gets the node.
         /// </summary>
@@ -683,6 +729,7 @@ namespace NLib.Collections.Generic
             return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
         }
 
+        //Todo test AddEdge(Graph<T, TCost> graph, IGraphEdge<T, TCost> edge)
         /// <summary>
         ///   Add an edge in Graph
         /// </summary>
@@ -695,6 +742,7 @@ namespace NLib.Collections.Generic
                 null, graph, new object[] { edge.From.Value, edge.To.Value, edge.Value });
         }
 
+        //Todo test GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
         /// <summary>
         ///   Graph node equality comparer
         /// </summary>
@@ -752,4 +800,6 @@ namespace NLib.Collections.Generic
 
         }
     }
+
+     
 }
