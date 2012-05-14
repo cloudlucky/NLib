@@ -20,9 +20,7 @@ namespace NLib.Collections.Generic
         {
             Type type = Type.GetType("NLib.Collections.Generic." + typeName);
 
-            Object objEdgeFactory = type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
-
-            return ((GraphEdgeFactory)objEdgeFactory);
+            return (GraphEdgeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
         }
 
         public abstract GraphEdge<T, TCost> Create<T, TCost>();
@@ -105,7 +103,8 @@ namespace NLib.Collections.Generic
             }
         }
     }
-
+    
+    
     public class DirectedEdge<T, TCost> : GraphEdge<T, TCost>
     {
         public DirectedEdge()

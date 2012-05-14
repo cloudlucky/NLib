@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GraphFlot.cs" company=".">
+// <copyright file="GraphExtension.cs" company=".">
 //   Copyright (c) Cloudlucky. All rights reserved.
 //   http://www.cloudlucky.com
 //   This code is licensed under the Microsoft Public License (Ms-PL)
@@ -15,9 +15,8 @@ namespace NLib.Collections.Generic.Extensions
     /// <summary>
     ///   It's a set of algorithms for resolve the circulations problems for graphs.
     /// </summary>
-    public static class GraphFlot
+    public static class GraphExtension
     {
-
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
             var startNode = graph[start];
@@ -122,8 +121,8 @@ namespace NLib.Collections.Generic.Extensions
         /// <param name = "terminated">some end node</param>
         /// <param name = "comparerValue">comparer Value</param>
         /// <returns>maximum flot</returns>
-        /// <exception cref="ArgumentNullException">If graph , start or terminated is
-        /// null.</exception>
+        /// <exception cref = "ArgumentNullException">If graph , start or terminated is
+        ///   null.</exception>
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
             Check.ArgumentNullException(graph, "graph");
@@ -141,7 +140,7 @@ namespace NLib.Collections.Generic.Extensions
                 flowMax += bottleneck;
                 foreach (var edge in path)
                 {
-                    edge.Value -=  bottleneck;
+                    edge.Value -= bottleneck;
                     var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
 
                     if (edgeReversed == null)
@@ -192,8 +191,8 @@ namespace NLib.Collections.Generic.Extensions
         /// <param name = "distance">Shortest distance of start from a node</param>
         /// <param name = "previous">Previous visited node</param>
         /// <param name = "comparerValue">comparer Value.</param>
-        /// <exception cref="ArgumentNullException">If graph , start, distance, previous or comparerValue is
-        /// null.</exception>
+        /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is
+        ///   null.</exception>
         private static void Djkstra<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
         {
             Check.ArgumentNullException(graph, "graph");
@@ -233,6 +232,5 @@ namespace NLib.Collections.Generic.Extensions
                 }
             }
         }
-
     }
 }

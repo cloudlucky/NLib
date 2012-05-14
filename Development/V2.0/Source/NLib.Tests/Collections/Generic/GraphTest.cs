@@ -548,6 +548,14 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test]
+        [Category("Serie Graph other")]
+        public void GraphNodeFactoryTest()
+        {
+            var node = GraphNodeFactory.GetFactory("GraphNodeMarkedFactory").Create<string, Number>("NodeName");
+            Assert.AreEqual("NodeName", node.Value);
+        }
+
+        [Test]
         [Category("Serie Graph Add")]
         public void AddEdgeValueTest()
         {

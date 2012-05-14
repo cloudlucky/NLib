@@ -67,7 +67,7 @@
     <Compile Include="Collections\Generic\GraphEdge.cs" />
     <Compile Include="Collections\Generic\Graph.Number.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
-    <Compile Include="Collections\Generic\Extensions\GraphFlot.cs" />
+    <Compile Include="Collections\Generic\Extensions\GraphExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\Resources\IListExtensionResource.Designer.cs">
@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
     <Compile Include="Collections\Generic\IRedBlackTreeNode.cs" />
+    <Compile Include="Collections\Generic\GraphNodeFactory.cs" />
     <Compile Include="EqualityComparison.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\ComparisonExtension.cs" />
