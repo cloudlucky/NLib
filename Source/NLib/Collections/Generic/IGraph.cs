@@ -40,13 +40,6 @@ namespace NLib.Collections.Generic
         TCost this[T from, T to] { get; }
 
         /// <summary>
-        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to).
-        /// </summary>
-        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
-        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
-        void AddDirectedEdge(T from, T to);
-
-        /// <summary>
         ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
         /// </summary>
@@ -60,13 +53,6 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <param name = "collection">The collection.</param>
         void AddRange(IEnumerable<T> collection);
-
-        /// <summary>
-        ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
-        /// </summary>
-        /// <param name = "from">The value of one of the GraphNodetraversee es that is joined by the edge.</param>
-        /// <param name = "to">The value of one of the GraphNodes that is joined by the edge.</param>
-        void AddUndirectedEdge(T from, T to);
 
         /// <summary>
         ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
@@ -140,7 +126,8 @@ namespace NLib.Collections.Generic
         ///   Remove an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
         /// <param name = "edge">The direct edge that we must removed from the graph.</param>
-        bool RemoveEdge(IGraphEdge<T, TCost> edge);
+        /// <param name="graph">The name of graph to remove</param>
+        void RemoveEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null);
 
     }
 }

@@ -17,7 +17,7 @@ namespace NLib.Collections.Generic
 
     using NLib.Collections.Generic.Extensions;
     using NLib.Collections.Generic.Resources;
-    //Todo refactoring class Graph
+
     /// <summary>
     ///   Represents a graph with an arbitrary collection of GraphNode instances. 
     ///   Provides methods to search and manipulate the tree.
@@ -28,27 +28,13 @@ namespace NLib.Collections.Generic
     /// <typeparam name = "T">The type of data stored in the graph's nodes.</typeparam>
     /// <typeparam name = "TCost">The type of cost.</typeparam>
     [Serializable]
-    public class Graph<T, TCost> : IGraph<T, TCost>, ICloneable
+    public partial class Graph<T, TCost> : IGraph<T, TCost>, ICloneable
     {
-        //Todo test equality Comparer test
-        /// <summary>
-        ///   The equality comparer.
-        /// </summary>
-        private readonly IEqualityComparer<T> equalityComparer;
-
-        //Todo test equalityComparison test
-        /// <summary>
-        ///   The equality comparer.
-        /// </summary>
-        private readonly EqualityComparison<T> equalityComparison;
-
-        //Todo test nodeSet test
         /// <summary>
         ///   The set of nodes in the graph
         /// </summary>
         private readonly HashSet<GraphNode<T, TCost>> nodeSet;
 
-        //Todo test Graph() Constructor
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -57,7 +43,6 @@ namespace NLib.Collections.Generic
         {
         }
 
-        //Todo test Graph(IEqualityComparer<T> comparer) 
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -67,7 +52,6 @@ namespace NLib.Collections.Generic
         {
         }
 
-        //Todo test Graph(EqualityComparison<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
@@ -77,119 +61,123 @@ namespace NLib.Collections.Generic
         {
         }
 
-        //Todo test Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer)
         /// <summary>
         ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
         /// <param name = "collection">The collection.</param>
         /// <param name = "comparer">The comparer.</param>
         public Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer)
-            : this(collection, null, comparer)
         {
-        }
+            this.equalityComparison = comparer.Equals;
+            this.equalityComparer = comparer;
 
-        //Todo test Graph(IEnumerable<T> collection, EqualityComparison<T> comparer)
-        /// <summary>
-        ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
-        /// </summary>
-        /// <param name = "collection">The collection.</param>
-        /// <param name = "comparer">The comparer.</param>
-        public Graph(IEnumerable<T> collection, EqualityComparison<T> comparer)
-            : this(collection, comparer, null)
-        {
-        }
-
-        //Todo test Graph(IEnumerable<T> collection, EqualityComparison<T> comparison, IEqualityComparer<T> comparer)
-        /// <summary>
-        ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
-        /// </summary>
-        /// <param name = "collection">The collection.</param>
-        /// <param name = "comparison">The comparer. If null <paramref name = "comparer" /> will be use.</param>
-        /// <param name = "comparer">The comparer. If null <paramref name = "comparison" /> will be use.</param>
-        /// <exception cref = "ArgumentNullException"><paramref name = "comparer" /> and <paramref name = "comparison" /> are null.</exception>
-        protected Graph(IEnumerable<T> collection, EqualityComparison<T> comparison, IEqualityComparer<T> comparer)
-        {
-            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
-
-            this.equalityComparison = comparison ?? comparer.Equals;
-            this.equalityComparer = comparer ?? comparison.ToEqualityComparer();
             this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
             this.AddRange(collection);
         }
 
-        //Todo test IEqualityComparer<T> Comparer
         /// <summary>
-        ///   Gets the <see cref = "IEqualityComparer{T}" /> object that is used to determine equality for the values in the set.
+        ///   Initializes a new instance of the <see cref = "Graph{T, TCost}" /> class.
         /// </summary>
-        public IEqualityComparer<T> Comparer
+        /// <param name = "collection">The collection.</param>
+        /// <param name = "comparison">The comparer</param>
+        /// <exception cref = "ArgumentNullException"><paramref name = "comparison" /> is null.</exception>
+        protected Graph(IEnumerable<T> collection, EqualityComparison<T> comparison)
         {
-            get
+            this.equalityComparison = comparison ?? EqualityComparer<T>.Default.Equals;
+            this.equalityComparer = comparison != null ? comparison.ToEqualityComparer() : EqualityComparer<T>.Default;
+
+            this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
+            this.AddRange(collection);
+        }
+
+        /// <summary>
+        ///   Adds a new value to the graph.
+        /// </summary>
+        /// <param name = "item">The value to add to the graph</param>
+        public virtual void Add(T item)
+        {
+            this.Add(GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<T, TCost>(item));
+        }
+
+        /// <summary>
+        ///   Adds a new GraphNode instance to the Graph
+        /// </summary>
+        /// <param name = "item">The GraphNode instance to add.</param>
+        protected virtual void Add(GraphNode<T, TCost> item)
+        {
+            Check.ArgumentNullException(item, "item");
+            if (!this.Contains(item.Value))
             {
-                return this.equalityComparer;
+                this.nodeSet.Add(item);
             }
         }
 
-        //Todo test Comparison
         /// <summary>
-        ///   Gets the <see cref = "EqualityComparison{T}" /> object that is used to determine equality for the values in the set.
+        ///   Add the elements of the specified collection in the bag.
         /// </summary>
-        public EqualityComparison<T> Comparison
+        /// <param name = "collection">The collection.</param>
+        public void AddRange(IEnumerable<T> collection)
         {
-            get
+            if (collection != null)
             {
-                return this.equalityComparison;
+                collection.ForEach(this.Add);
             }
         }
 
-        //Todo test Count
         /// <summary>
-        ///   Gets the number of nodes
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
         /// </summary>
-        public int Count
+        /// <param name = "item">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <returns>
+        ///   true if <paramref name = "item" /> was successfully removed from the <see cref = "ICollection{T}" />; otherwise, false. This method also returns false if <paramref name = "item" /> is not found in the original <see cref = "ICollection{T}" />.
+        /// </returns>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        public virtual bool Remove(T item)
         {
-            get
-            {
-                return this.nodeSet.Count;
-            }
-        }
-
-        //Todo test Nodes
-        /// <summary>
-        ///   Gets the nodes of the graph.
-        /// </summary>
-        public IEnumerable<GraphNode<T, TCost>> Nodes
-        {
-            get
-            {
-                return this.nodeSet;
-            }
-        }
-
-        //Todo test ICollection<T>.IsReadOnly
-        /// <summary>
-        ///   Gets a value indicating whether the <see cref = "ICollection{T}" /> is read-only.
-        /// </summary>
-        bool ICollection<T>.IsReadOnly
-        {
-            get
+            var nodeToRemove = this.GetNodeByItem(item);
+            if (nodeToRemove == null)
             {
                 return false;
             }
-        }
+            this.nodeSet.Remove(nodeToRemove);
 
-        //Todo test IEnumerable<IGraphNode<T, TCost>> IGraph<T, TCost>.Nodes
-        /// <summary>
-        ///   Gets the nodes of the graph.
-        /// </summary>
-        IEnumerable<IGraphNode<T, TCost>> IGraph<T, TCost>.Nodes
-        {
-            get
+            foreach (var gnode in this.nodeSet)
             {
-                return this.Nodes;
+                var edge = this.GetEdge(gnode, nodeToRemove);
+                if (edge != null)
+                {
+                    gnode.Edges.Remove(edge);
+                }
             }
+
+            nodeToRemove.Edges.Clear();
+
+            return true;
         }
 
-        //Todo test IGraphNode<T, TCost> this[T item]
+        /// <summary>
+        ///   Add an edge in Graph
+        /// </summary>
+        /// <param name = "edge">The edge.</param>
+        /// <param name = "graph">The graph that is joined by the edge.</param>
+        protected void AddEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null)
+        {
+            var obj = graph ?? this;
+            obj.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, obj, new object[] { edge.From.Value, edge.To.Value, edge.Value });
+        }
+
+        /// <summary>
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
+        /// </summary>
+        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <param name = "graph"></param>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        public virtual void RemoveEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null)
+        {
+            var obj = graph ?? this;
+            obj.GetType().InvokeMember("Remove" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, obj, new object[] { edge });
+        }
+
         /// <summary>
         ///   Gets the <see cref = "IGraphNode{T, TCost}" /> with the specified item.
         /// </summary>
@@ -203,7 +191,6 @@ namespace NLib.Collections.Generic
             }
         }
 
-        //Todo test TCost this[T from, T to]
         /// <summary>
         ///   Gets or sets the <see cref = "TCost" /> with the specified from.
         /// </summary>
@@ -231,118 +218,27 @@ namespace NLib.Collections.Generic
             }
         }
 
-        //Todo test void Add(T item)
         /// <summary>
-        ///   Adds a new value to the graph.
+        ///   Gets the edge between the two nodes.
         /// </summary>
-        /// <param name = "item">The value to add to the graph</param>
-        public virtual void Add(T item)
+        /// <param name = "from">The from node.</param>
+        /// <param name = "to">The to node.</param>
+        /// <returns>The edge between the two nodes; otherwise null;</returns>
+        protected IGraphEdge<T, TCost> GetEdge(IGraphNode<T, TCost> from, IGraphNode<T, TCost> to)
         {
-            this.Add(GraphNodeFactory.GetFactory("GraphNodeMarkedFactory").Create<T,TCost>(item));
+            return from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, to.Value));
         }
 
-        //Todo test void AddDirectedEdge(T from, T to)
         /// <summary>
-        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to).
+        ///   Gets the node.
         /// </summary>
-        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
-        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
-        public virtual void AddDirectedEdge(T from, T to)
+        /// <param name = "item">The item.</param>
+        /// <returns>The node; otherwise null.</returns>
+        protected GraphNode<T, TCost> GetNodeByItem(T item)
         {
-            this.AddDirectedEdge(from, to, default(TCost));
+            return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
         }
 
-        //Todo test void AddDirectedEdge(T from, T to, TCost cost)
-        /// <summary>
-        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
-        ///   with an associated cost.
-        /// </summary>
-        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
-        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
-        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
-        public virtual void AddDirectedEdge(T from, T to, TCost cost)
-        {
-            this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
-        }
-
-        //Todo test void AddEdge(IGraphEdge<T, TCost> edge)
-        /// <summary>
-        ///   Add an from a GraphNode with one value edge
-        /// </summary>
-        /// <param name = "edge">An edge from a GraphNodes.</param>
-        public virtual void AddEdge(IGraphEdge<T, TCost> edge)
-        {
-            this.AddEdge(this, edge);
-        }
-
-        //Todo test void AddRange(IEnumerable<T> collection)
-        /// <summary>
-        ///   Add the elements of the specified collection in the bag.
-        /// </summary>
-        /// <param name = "collection">The collection.</param>
-        public void AddRange(IEnumerable<T> collection)
-        {
-            if (collection != null)
-            {
-                collection.ForEach(this.Add);
-            }
-        }
-
-        //Todo test void AddUndirectedEdge(T from, T to) 
-        /// <summary>
-        ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
-        /// </summary>
-        /// <param name = "from">The value of one of the GraphNodetraversee es that is joined by the edge.</param>
-        /// <param name = "to">The value of one of the GraphNodes that is joined by the edge.</param>
-        public virtual void AddUndirectedEdge(T from, T to)
-        {
-            this.AddUndirectedEdge(from, to, default(TCost));
-        }
-
-        //Todo test void AddUndirectedEdge(T from, T to, TCost cost)
-        /// <summary>
-        ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
-        ///   with an associated cost.
-        /// </summary>
-        /// <param name = "from">The from value of one of the GraphNodes that is joined by the edge.</param>
-        /// <param name = "to">The to value of one of the GraphNodes that is joined by the edge.</param>
-        /// <param name = "cost">The cost of the undirected edge.</param>
-        public virtual void AddUndirectedEdge(T from, T to, TCost cost)
-        {
-            this.AddUndirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
-        }
-
-        //Todo test void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
-        /// <summary>
-        ///   Add a undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
-        ///   with an associated cost.
-        /// </summary>
-        /// <param name = "from">The value of the GraphNode from which the undirected edge eminates.</param>
-        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
-        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
-        public virtual void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
-        {
-            Check.ArgumentNullException(from, "Require argument 'from' ");
-            Check.ArgumentNullException(to, "Require argument 'to' ");
-
-            var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
-
-            var edge = this.GetEdge(to, from);
-
-            if (edge == null)
-            {
-                to.Edges.Add(factory.Create<T, TCost>(to, from, cost));
-                from.Edges.Add(factory.Create<T, TCost>(from, to, cost));
-            }
-            else
-            {
-                Check.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not a undirected edge.");
-
-                edge.Value = cost;
-            }
-        }
-
-        //Todo test IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(T item)
         /// <summary>
         ///   Selecting some node as the root and to go through them level-by-level.
         /// </summary>
@@ -352,12 +248,11 @@ namespace NLib.Collections.Generic
         /// <returns>
         ///   Iterates throught a collection of nodes.
         /// </returns>
-        public virtual IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(T item)
+        public IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(T item)
         {
             return this.BreathFirstTraversal(this.GetNode(item));
         }
 
-        //Todo test IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(IGraphNode<T, TCost> item)
         /// <summary>
         ///   Selecting some node as the root and to go through them level-by-level.
         /// </summary>
@@ -367,14 +262,14 @@ namespace NLib.Collections.Generic
         /// <returns>
         ///   Iterates throught a collection of nodes.
         /// </returns>
-        public virtual IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(IGraphNode<T, TCost> item)
+        public IEnumerable<IGraphNode<T, TCost>> BreathFirstTraversal(IGraphNode<T, TCost> item)
         {
-            if (item.Marker)
+            if (item.Marked)
             {
-                this.nodeSet.ForEach(node => node.Marker = false);
+                this.nodeSet.ForEach(node => node.Marked = false);
             }
 
-            item.Marker = true;
+            item.Marked = true;
             var unmarked = this.Count - 1;
             yield return item;
 
@@ -382,102 +277,17 @@ namespace NLib.Collections.Generic
 
             while (unmarked > 0)
             {
-                foreach (var useEdge in item.Edges)
+                foreach (var useEdge in item.Edges.Where(useEdge => !useEdge.To.Marked))
                 {
-                    if (!useEdge.To.Marker)
-                    {
-                        useEdge.To.Marker = true;
-                        unmarked--;
-                        yield return useEdge.To;
-                        queue.Enqueue(useEdge.To);
-                    }
+                    useEdge.To.Marked = true;
+                    unmarked--;
+                    yield return useEdge.To;
+                    queue.Enqueue(useEdge.To);
                 }
                 item = queue.Dequeue();
             }
-
-        }
-        
-        //Todo test Clear()
-        /// <summary>
-        ///   Clears out the contents of the Graph.
-        /// </summary>
-        public virtual void Clear()
-        {
-            this.nodeSet.Clear();
         }
 
-        //Todo Use Clone of Edge and node  
-        //Todo test Clone()
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// 
-        /// </returns>
-        public object Clone()
-        {
-            var graphClone = new Graph<T, TCost>();
-
-            foreach (var node in (HashSet<GraphNode<T, TCost>>)this.nodeSet)
-            {
-                var cloneNode = new GraphNode<T, TCost>(node.Value) { Marker = node.Marker };
-                graphClone.Add(cloneNode);
-            }
-
-            foreach (var node in (HashSet<GraphNode<T, TCost>>)this.nodeSet)
-            {
-                foreach (var edge in node.Edges)
-                {
-                    this.AddEdge(graphClone, edge);
-                    graphClone.GetEdge(edge.From, edge.To).Marked = edge.Marked;
-                }
-            }
-
-            return graphClone;
-        }
-
-        //Todo test bool Contains(T item)
-        /// <summary>
-        ///   Returns a Boolean, indicating if a particular value exists within the graph.
-        /// </summary>
-        /// <param name = "item">The value to search for.</param>
-        /// <returns>True if the value exist in the graph; false otherwise.</returns>
-        public virtual bool Contains(T item)
-        {
-            return this.GetNodeByItem(item) != null;
-        }
-
-        //Todo test CopyTo(T[] array, int arrayIndex)
-        /// <summary>
-        ///   Copies the elements of the <see cref = "ICollection{T}" /> to an <see cref = "Array" />, starting at a particular <see cref = "Array" /> index.
-        /// </summary>
-        /// <param name = "array">The one-dimensional <see cref = "Array" /> that is the destination of the elements copied from <see cref = "ICollection{T}" />. The <see cref = "Array" /> must have zero-based indexing.</param>
-        /// <param name = "arrayIndex">The zero-based index in <paramref name = "array" /> at which copying begins.</param>
-        /// <exception cref = "ArgumentNullException"><paramref name = "array" /> is null.</exception>
-        /// <exception cref = "ArgumentOutOfRangeException">
-        ///   <paramref name = "arrayIndex" /> is less than 0.</exception>
-        /// <exception cref = "ArgumentException">
-        ///   <paramref name = "array" /> is multidimensional.
-        ///   -or-
-        ///   <paramref name = "arrayIndex" /> is equal to or greater than the length of <paramref name = "array" />.
-        ///   -or-
-        ///   The number of elements in the source <see cref = "ICollection{T}" /> is greater than the available space from <paramref name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.
-        ///   -or-
-        ///   Type <paramref name = "array" /> cannot be cast automatically to the type of the destination <paramref name = "array" />.
-        /// </exception>
-        public virtual void CopyTo(T[] array, int arrayIndex)
-        {
-            Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
-
-            if (this.Count > 0)
-            {
-                this.ForEach(i => array[arrayIndex++] = i);
-            }
-        }
-
-        //Todo test IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(T item)
         /// <summary>
         ///   Selecting some node as the root and explores as far as possible along each branch before backtracking.
         /// </summary>
@@ -487,12 +297,11 @@ namespace NLib.Collections.Generic
         /// <returns>
         ///   Iterates throught a collection of nodes.
         /// </returns>
-        public virtual IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(T item)
+        public IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(T item)
         {
             return this.DepthFirstTraversal(this.GetNode(item));
         }
 
-        //Todo test IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(IGraphNode<T, TCost> item)
         /// <summary>
         ///   selecting some node as the root and explores as far as possible along each branch before backtracking.
         /// </summary>
@@ -502,22 +311,22 @@ namespace NLib.Collections.Generic
         /// <returns>
         ///   Iterates throught a collection of nodes.
         /// </returns>
-        public virtual IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(IGraphNode<T, TCost> item)
+        public IEnumerable<IGraphNode<T, TCost>> DepthFirstTraversal(IGraphNode<T, TCost> item)
         {
-            if (item.Marker)
+            if (item.Marked)
             {
-                this.nodeSet.ForEach(node => node.Marker = false);
+                this.nodeSet.ForEach(node => node.Marked = false);
             }
 
             var stack = new Stack<IGraphNode<T, TCost>>();
             stack.Push(item);
-            item.Marker = true;
+            item.Marked = true;
             var unmarked = this.Count - 1;
             yield return item;
 
             do
             {
-                var useEdge = item.Edges.FirstOrDefault(x => !x.To.Marker);
+                var useEdge = item.Edges.FirstOrDefault(x => !x.To.Marked);
 
                 if (useEdge == null)
                 {
@@ -528,7 +337,7 @@ namespace NLib.Collections.Generic
                 {
                     item = useEdge.To;
                     stack.Push(item);
-                    item.Marker = true;
+                    item.Marked = true;
                     unmarked--;
                     yield return item;
                 }
@@ -536,213 +345,38 @@ namespace NLib.Collections.Generic
             while (unmarked > 0);
         }
 
-        //Todo test IGraphEdge<T, TCost> GetEdge(T from, T to)
         /// <summary>
-        ///   Gets the edge between the two nodes.
+        ///   Gets the <see cref = "IEqualityComparer{T}" /> object that is used to determine equality for the values in the set.
         /// </summary>
-        /// <param name = "from">The from node.</param>
-        /// <param name = "to">The to node.</param>
-        /// <returns>The edge between the two nodes; otherwise null;</returns>
-        public virtual IGraphEdge<T, TCost> GetEdge(T from, T to)
+        public IEqualityComparer<T> Comparer
         {
-            return this.GetEdge(this.GetNodeByItem(from), this.GetNodeByItem(to));
-        }
-
-        //Todo test IEnumerator<T> GetEnumerator()
-        /// <summary>
-        ///   Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        ///   An <see cref = "IEnumerator{T}" /> object that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public virtual IEnumerator<T> GetEnumerator()
-        {
-            return this.Nodes.Select(x => x.Value).GetEnumerator();
-        }
-
-        //Todo test IGraphNode<T, TCost> GetNode(T item)
-        /// <summary>
-        ///   Gets the node.
-        /// </summary>
-        /// <param name = "item">The item.</param>
-        /// <returns>The node; otherwise null.</returns>
-        public virtual IGraphNode<T, TCost> GetNode(T item)
-        {
-            return this.GetNodeByItem(item);
-        }
-
-        //Todo test Remove
-        /// <summary>
-        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
-        /// </summary>
-        /// <param name = "item">The object to remove from the <see cref = "ICollection{T}" />.</param>
-        /// <returns>
-        ///   true if <paramref name = "item" /> was successfully removed from the <see cref = "ICollection{T}" />; otherwise, false. This method also returns false if <paramref name = "item" /> is not found in the original <see cref = "ICollection{T}" />.
-        /// </returns>
-        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
-        public virtual bool Remove(T item)
-        {
-            var nodeToRemove = this.GetNodeByItem(item);
-            if (nodeToRemove == null)
+            get
             {
-                return false;
-            }
-
-            this.nodeSet.Remove(nodeToRemove);
-
-            foreach (var gnode in this.nodeSet)
-            {
-                var edge = this.GetEdge(gnode, nodeToRemove);
-                if (edge != null)
-                {
-                    gnode.Edges.Remove(edge);
-                }
-            }
-
-            nodeToRemove.Edges.Clear();
-
-            return true;
-        }
-
-        //Todo test RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
-        /// <summary>
-        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
-        /// </summary>
-        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
-        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
-        public bool RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
-        {
-            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
-
-            Check.ArgumentNullException(from, "Node not found");
-            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
-            return true;
-        }
-
-        //Todo test RemoveEdge(IGraphEdge<T, TCost> edge)
-        /// <summary>
-        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
-        /// </summary>
-        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
-        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
-        public virtual bool RemoveEdge(IGraphEdge<T, TCost> edge)
-        {
-            return (bool)this.GetType().InvokeMember("Remove" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, this, new object[] { edge });
-        }
-
-        //Todo test RemoveUndirectedEdge(IGraphEdge<T, TCost> edge)
-        /// <summary>
-        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
-        /// </summary>
-        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
-        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
-        public bool RemoveUndirectedEdge(IGraphEdge<T, TCost> edge)
-        {
-            var to = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.To.Value));
-
-            Check.ArgumentNullException(to, "Node not found");
-            to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
-
-            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
-
-            Check.ArgumentNullException(from, "Node not found");
-            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
-            return true;
-        }
-
-        //Todo test IEnumerable.GetEnumerator()
-        /// <summary>
-        ///   Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        ///   An <see cref = "IEnumerator{T}" /> object that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        //Todo test Add(GraphNode<T, TCost> item)
-        /// <summary>
-        ///   Adds a new GraphNode instance to the Graph
-        /// </summary>
-        /// <param name = "item">The GraphNode instance to add.</param>
-        protected virtual void Add(GraphNode<T, TCost> item)
-        {
-            Check.ArgumentNullException(item, "item");
-
-            if (!this.Contains(item.Value))
-            {
-                this.nodeSet.Add(item);
+                return this.equalityComparer;
             }
         }
 
-        //Todo test AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
         /// <summary>
-        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
-        ///   with an associated cost.
+        ///   Gets the <see cref = "EqualityComparison{T}" /> object that is used to determine equality for the values in the set.
         /// </summary>
-        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
-        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
-        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
-        protected virtual void AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost)
+        public EqualityComparison<T> Comparison
         {
-            Check.ArgumentNullException(from, "Require argument 'from' ");
-            Check.ArgumentNullException(to, "Require argument 'to' ");
-
-            var edge = this.GetEdge(from, to);
-
-            if (edge != null)
+            get
             {
-                Check.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", "It is not an undirected edge.");
-                edge.Value = cost;
-            }
-            else
-            {
-                from.Edges.Add((GraphEdgeFactory.GetFactory("DirectedEdgeFactory")).Create<T, TCost>(from, to, cost));
+                return this.equalityComparison;
             }
         }
 
-        //Todo test GraphEdge<T, TCost> GetEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
         /// <summary>
-        ///   Gets the edge between the two nodes.
+        ///   The equality comparer.
         /// </summary>
-        /// <param name = "from">The from node.</param>
-        /// <param name = "to">The to node.</param>
-        /// <returns>The edge between the two nodes; otherwise null;</returns>
-        protected virtual GraphEdge<T, TCost> GetEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
-        {
-            return from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, to.Value));
-        }
+        private readonly IEqualityComparer<T> equalityComparer;
 
-        //Todo test GraphNode<T, TCost> GetNodeByItem(T item)
         /// <summary>
-        ///   Gets the node.
+        ///   The equality comparer.
         /// </summary>
-        /// <param name = "item">The item.</param>
-        /// <returns>The node; otherwise null.</returns>
-        protected virtual GraphNode<T, TCost> GetNodeByItem(T item)
-        {
-            Check.ArgumentNullException(item, "item");
-            return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
-        }
+        private readonly EqualityComparison<T> equalityComparison;
 
-        //Todo test AddEdge(Graph<T, TCost> graph, IGraphEdge<T, TCost> edge)
-        /// <summary>
-        ///   Add an edge in Graph
-        /// </summary>
-        /// <param name = "graph">The graph that is joined by the edge.</param>
-        /// <param name = "edge">The edge.</param>
-        private void AddEdge(Graph<T, TCost> graph, IGraphEdge<T, TCost> edge)
-        {
-            this.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), 
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, 
-                null, graph, new object[] { edge.From.Value, edge.To.Value, edge.Value });
-        }
-
-        //Todo test GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
         /// <summary>
         ///   Graph node equality comparer
         /// </summary>
@@ -797,9 +431,705 @@ namespace NLib.Collections.Generic
                 Check.ArgumentNullException(obj, "obj");
                 return obj.Value.GetHashCode();
             }
+        }
 
+        /// <summary>
+        ///   Gets the number of nodes
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return this.nodeSet.Count;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the nodes of the graph.
+        /// </summary>
+        public IEnumerable<GraphNode<T, TCost>> Nodes
+        {
+            get
+            {
+                return this.nodeSet;
+            }
+        }
+
+        /// <summary>
+        ///   Gets a value indicating whether the <see cref = "ICollection{T}" /> is read-only.
+        /// </summary>
+        bool ICollection<T>.IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the nodes of the graph.
+        /// </summary>
+        IEnumerable<IGraphNode<T, TCost>> IGraph<T, TCost>.Nodes
+        {
+            get
+            {
+                return this.Nodes;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the node.
+        /// </summary>
+        /// <param name = "item">The item.</param>
+        /// <returns>The node; otherwise null.</returns>
+        public IGraphNode<T, TCost> GetNode(T item)
+        {
+            return this.GetNodeByItem(item);
+        }
+
+        /// <summary>
+        ///   Gets the edge between the two nodes.
+        /// </summary>
+        /// <param name = "from">The from node.</param>
+        /// <param name = "to">The to node.</param>
+        /// <returns>The edge between the two nodes; otherwise null;</returns>
+        public IGraphEdge<T, TCost> GetEdge(T from, T to)
+        {
+            return this.GetEdge(this.GetNodeByItem(from), this.GetNodeByItem(to));
+        }
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        ///   An <see cref = "IEnumerator{T}" /> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        ///   An <see cref = "IEnumerator{T}" /> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this.Nodes.Select(x => x.Value).GetEnumerator();
+        }
+
+        /// <summary>
+        ///   Returns a Boolean, indicating if a particular value exists within the graph.
+        /// </summary>
+        /// <param name = "item">The value to search for.</param>
+        /// <returns>True if the value exist in the graph; false otherwise.</returns>
+        public bool Contains(T item)
+        {
+            return this.GetNodeByItem(item) != null;
+        }
+
+        /// <summary>
+        ///   Copies the elements of the <see cref = "ICollection{T}" /> to an <see cref = "Array" />, starting at a particular <see cref = "Array" /> index.
+        /// </summary>
+        /// <param name = "array">The one-dimensional <see cref = "Array" /> that is the destination of the elements copied from <see cref = "ICollection{T}" />. The <see cref = "Array" /> must have zero-based indexing.</param>
+        /// <param name = "arrayIndex">The zero-based index in <paramref name = "array" /> at which copying begins.</param>
+        /// <exception cref = "ArgumentNullException"><paramref name = "array" /> is null.</exception>
+        /// <exception cref = "ArgumentOutOfRangeException">
+        ///   <paramref name = "arrayIndex" /> is less than 0.</exception>
+        /// <exception cref = "ArgumentException">
+        ///   <paramref name = "array" /> is multidimensional.
+        ///   -or-
+        ///   <paramref name = "arrayIndex" /> is equal to or greater than the length of <paramref name = "array" />.
+        ///   -or-
+        ///   The number of elements in the source <see cref = "ICollection{T}" /> is greater than the available space from <paramref name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.
+        ///   -or-
+        ///   Type <paramref name = "array" /> cannot be cast automatically to the type of the destination <paramref name = "array" />.
+        /// </exception>
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            Check.ArgumentNullException(array, "array");
+            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
+            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+
+            if (this.Count > 0)
+            {
+                this.ForEach(i => array[arrayIndex++] = i);
+            }
+        }
+
+        /// <summary>
+        ///   Clears out the contents of the Graph.
+        /// </summary>
+        public void Clear()
+        {
+            this.nodeSet.Clear();
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// 
+        /// </returns>
+        public virtual object Clone()
+        {
+            var graphClone = new Graph<T, TCost>();
+
+            foreach (var nodeClone in this.nodeSet.Select(node => new GraphNode<T, TCost>(node.Value) { Marked = node.Marked }))
+            {
+                graphClone.Add(nodeClone);
+            }
+
+            foreach (var edge in this.nodeSet.SelectMany(node => node.Edges))
+            {
+                graphClone.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, graphClone, new object[] { edge.From.Value, edge.To.Value, edge.Value });
+                graphClone.GetEdge(edge.From, edge.To).Marked = edge.Marked;
+            }
+
+            return graphClone;
         }
     }
 
-     
+    /// <summary>
+    ///   Add and Remove Edge Directed Graph
+    /// </summary>
+    public partial class Graph<T, TCost>
+    {
+        /// <summary>
+        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
+        ///   with an associated cost.
+        /// </summary>
+        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
+        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
+        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
+        public void AddDirectedEdge(T from, T to, TCost cost = default(TCost))
+        {
+            this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
+        }
+
+        /// <summary>
+        ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
+        ///   with an associated cost.
+        /// </summary>
+        /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
+        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
+        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
+        /// <param name = "marked">The value is true for a marked edge.</param>
+        protected void AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
+        {
+            Check.ArgumentNullException(from, "Require argument 'from' ");
+            Check.ArgumentNullException(to, "Require argument 'to' ");
+
+            var edge = this.GetEdge(from, to);
+
+            if (edge != null)
+            {
+                Check.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", "It is not an undirected edge.");
+                edge.Value = cost;
+                edge.Marked = marked;
+            }
+            else
+            {
+                edge = (GraphEdgeFactory.GetFactory("DirectedEdgeFactory")).Create<T, TCost>(from, to, cost);
+                edge.Marked = marked;
+                from.Edges.Add(edge);
+            }
+        }
+
+        /// <summary>
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
+        /// </summary>
+        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        protected void RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
+        {
+            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
+            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
+        }
+    }
+
+    /// <summary>
+    ///   Add and Remove Edge Undirected Graph
+    /// </summary>
+    public partial class Graph<T, TCost>
+    {
+        /// <summary>
+        ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
+        ///   with an associated cost.
+        /// </summary>
+        /// <param name = "from">The from value of one of the GraphNodes that is joined by the edge.</param>
+        /// <param name = "to">The to value of one of the GraphNodes that is joined by the edge.</param>
+        /// <param name = "cost">The cost of the undirected edge.</param>
+        public void AddUndirectedEdge(T from, T to, TCost cost = default(TCost))
+        {
+            this.AddUndirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
+        }
+
+        /// <summary>
+        ///   Add a undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
+        ///   with an associated cost.
+        /// </summary>
+        /// <param name = "from">The value of the GraphNode from which the undirected edge eminates.</param>
+        /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
+        /// <param name = "cost">The cost of the edge from "from" to "to".</param>
+        /// <param name = "marked">The value is true for a marked edge</param>
+        protected void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
+        {
+            Check.ArgumentNullException(from, "Require argument 'from' ");
+            Check.ArgumentNullException(to, "Require argument 'to' ");
+
+            var edge = this.GetEdge(from, to);
+
+            if (edge != null)
+            {
+                Check.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not a undirected edge.");
+                edge.Value = cost;
+                edge.Marked = marked;
+            }
+            else
+            {
+                var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
+                edge = factory.Create<T, TCost>(to, from, cost);
+                edge.Marked = marked;
+                to.Edges.Add(edge);
+
+                edge = factory.Create<T, TCost>(from, to, cost);
+                edge.Marked = marked;
+                from.Edges.Add(edge);
+            }
+        }
+
+        /// <summary>
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
+        /// </summary>
+        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        protected void RemoveUndirectedEdge(IGraphEdge<T, TCost> edge)
+        {
+            var to = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.To.Value));
+            to.Edges.Remove(to.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.From.Value)));
+            var from = this.Nodes.FirstOrDefault(x => this.Comparison(x.Value, edge.From.Value));
+            from.Edges.Remove(from.Edges.FirstOrDefault(x => this.Comparison(x.To.Value, edge.To.Value)));
+        }
+    }
+
+    /// <summary>
+    ///   Represents a graph with an arbitrary collection of GraphNode instances. 
+    ///   Provides methods to search and manipulate the tree.
+    /// </summary>
+    /// <typeparam name = "T">The type of data stored in the graph's nodes.</typeparam>
+    public class Graph<T> : Graph<T, Number>
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "Graph{T}" /> class.
+        /// </summary>
+        public Graph()
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "Graph{T}" /> class.
+        /// </summary>
+        /// <param name = "comparer">The comparer.</param>
+        public Graph(IEqualityComparer<T> comparer)
+            : base(comparer)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "Graph{T}" /> class.
+        /// </summary>
+        /// <param name = "comparer">The comparer.</param>
+        public Graph(EqualityComparison<T> comparer)
+            : base(comparer)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "Graph{T}" /> class.
+        /// </summary>
+        /// <param name = "collection">The collection.</param>
+        /// <param name = "comparer">The comparer.</param>
+        public Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer)
+            : base(collection, comparer)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "Graph{T}" /> class.
+        /// </summary>
+        /// <param name = "collection">The collection.</param>
+        /// <param name = "comparer">The comparer.</param>
+        public Graph(IEnumerable<T> collection, EqualityComparison<T> comparer)
+            : base(collection, comparer)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   Represents a node in a graph.  A graph node contains some piece of data, along with a set of
+    ///   neighbors. There can be an optional cost between a graph node and each of its neighbors.
+    /// </summary>
+    /// <typeparam name = "T">The type of data stored in the graph node.</typeparam>
+    /// ///
+    /// <typeparam name = "TCost">The type of cost.</typeparam>
+    public class GraphNode<T, TCost> : IGraphNode<T, TCost>
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "GraphNode{T, TCost}" /> class.
+        /// </summary>
+        /// <param name = "value">The value.</param>
+        public GraphNode(T value)
+        {
+            this.Value = value;
+            this.Edges = new List<IGraphEdge<T, TCost>>();
+            this.Marked = false;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "GraphNode{T, TCost}" /> class.
+        /// </summary>
+        protected GraphNode()
+        {
+        }
+
+        /// <summary>
+        ///   Gets or sets the edges.
+        /// </summary>
+        public ICollection<IGraphEdge<T, TCost>> Edges { get; protected set; }
+
+        /// <summary>
+        ///   Gets the edges.
+        /// </summary>
+        IEnumerable<IGraphEdge<T, TCost>> IGraphNode<T, TCost>.Edges
+        {
+            get
+            {
+                return this.Edges;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the neighbors.
+        /// </summary>
+        IEnumerable<INode<T>> INode<T>.Neighbors
+        {
+            get
+            {
+                return this.Edges.Select(x => x.To);
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the value.
+        /// </summary>
+        public T Value { get; protected set; }
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether this <see cref = "GraphNode{T, TCost}" /> is marker.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if marker; otherwise, <c>false</c>.
+        /// </value>
+        public bool Marked { get; set; }
+    }
+
+    /// <summary>
+    ///   Represents an edge between two nodes.
+    /// </summary>
+    /// <typeparam name = "T">The type of the item.</typeparam>
+    /// <typeparam name = "TCost">The type of the cost.</typeparam>
+    public class GraphEdge<T, TCost> : IGraphEdge<T, TCost>
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "GraphEdge{T, TCost}" /> class.
+        /// </summary>
+        /// <param name = "from">The from node.</param>
+        /// <param name = "to">The to node.</param>
+        public GraphEdge(IGraphNode<T, TCost> from, IGraphNode<T, TCost> to)
+            : this(from, to, default(TCost))
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "GraphEdge{T, TCost}" /> class.
+        /// </summary>
+        /// <param name = "from">The from node.</param>
+        /// <param name = "to">The to node.</param>
+        /// <param name = "value">The value of the value.</param>
+        public GraphEdge(IGraphNode<T, TCost> from, IGraphNode<T, TCost> to, TCost value)
+        {
+            this.From = from;
+            this.To = to;
+            this.Value = value;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "GraphEdge{T, TCost}" /> class.
+        /// </summary>
+        protected GraphEdge()
+        {
+        }
+
+        /// <summary>
+        ///   Gets or sets the from node.
+        /// </summary>
+        public IGraphNode<T, TCost> From { get; protected set; }
+
+        /// <summary>
+        ///   Gets the from node.
+        /// </summary>
+        IGraphNode<T, TCost> IGraphEdge<T, TCost>.From
+        {
+            get
+            {
+                return this.From;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the to node.
+        /// </summary>
+        public IGraphNode<T, TCost> To { get; protected set; }
+
+        /// <summary>
+        ///   Gets the to node.
+        /// </summary>
+        IGraphNode<T, TCost> IGraphEdge<T, TCost>.To
+        {
+            get
+            {
+                return this.To;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets value.
+        /// </summary>
+        public virtual TCost Value { get; set; }
+
+        /// <summary>
+        ///   Gets or sets Marked
+        /// </summary>
+        public bool Marked { get; set; }
+    }
+
+    /// <summary>
+    ///   A factory for the edges
+    /// </summary>
+    public abstract class GraphEdgeFactory
+    {
+        public static GraphEdgeFactory GetFactory(string typeName)
+        {
+            Type type = Type.GetType("NLib.Collections.Generic." + typeName);
+
+            return (GraphEdgeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+        }
+
+        public abstract GraphEdge<T, TCost> Create<T, TCost>();
+
+        public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to);
+
+        public abstract GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value);
+    }
+
+    /// <summary>
+    ///   The factory for undirected edges
+    /// </summary>
+    internal sealed class UndirectedEdgeFactory : GraphEdgeFactory
+    {
+        public override GraphEdge<T, TCost> Create<T, TCost>()
+        {
+            return (new UndirectedEdge<T, TCost>());
+        }
+
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+        {
+            return (new UndirectedEdge<T, TCost>(from, to));
+        }
+
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+        {
+            return (new UndirectedEdge<T, TCost>(from, to, value));
+        }
+    }
+
+    /// <summary>
+    ///   The factory for directed edges
+    /// </summary>
+    internal sealed class DirectedEdgeFactory : GraphEdgeFactory
+    {
+        public override GraphEdge<T, TCost> Create<T, TCost>()
+        {
+            return (new DirectedEdge<T, TCost>());
+        }
+
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+        {
+            return (new DirectedEdge<T, TCost>(from, to));
+        }
+
+        public override GraphEdge<T, TCost> Create<T, TCost>(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+        {
+            return (new DirectedEdge<T, TCost>(from, to, value));
+        }
+    }
+
+    /// <summary>
+    ///   Represents an undirected edge
+    /// </summary>
+    /// <typeparam name = "T">The type of the item.</typeparam>
+    /// <typeparam name = "TCost">The type of the cost.</typeparam>
+    public sealed class UndirectedEdge<T, TCost> : GraphEdge<T, TCost>
+    {
+        public UndirectedEdge()
+        {
+        }
+
+        public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+            : base(from, to)
+        {
+        }
+
+        public UndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+            : base(from, to, value)
+        {
+        }
+
+        private TCost undirectedEdgeValue;
+
+        public override TCost Value
+        {
+            get
+            {
+                return this.undirectedEdgeValue;
+            }
+
+            set
+            {
+                this.undirectedEdgeValue = value;
+
+                var reverse = this.To.Edges.FirstOrDefault(e => e.To == this.From);
+                if (reverse != null && Comparer<TCost>.Default.Compare(reverse.Value, value) != 0)
+                {
+                    reverse.Value = value;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    ///   Represents a directed edge
+    /// </summary>
+    /// <typeparam name = "T">The type of the item.</typeparam>
+    /// <typeparam name = "TCost">The type of the cost.</typeparam>
+    public sealed class DirectedEdge<T, TCost> : GraphEdge<T, TCost>
+    {
+        public DirectedEdge()
+        {
+        }
+
+        public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
+            : base(from, to)
+        {
+        }
+
+        public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
+            : base(from, to, value)
+        {
+        }
+    }
+
+    /// <summary>
+    ///   A factory for the nodes
+    /// </summary>
+    /// <typeparam name = "T">The type of the item.</typeparam>
+    /// <typeparam name = "TCost">The type of the cost.</typeparam>
+    public abstract class GraphNodeFactory
+    {
+        public static GraphNodeFactory GetFactory(string typeName)
+        {
+            Type type = Type.GetType("NLib.Collections.Generic." + typeName);
+            return (GraphNodeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+        }
+
+        public abstract GraphNode<T, TCost> Create<T, TCost>(T value);
+    }
+
+    /// <summary>
+    ///   The factory for a graph node
+    /// </summary>
+    internal sealed class GraphNodeDefaultFactory : GraphNodeFactory
+    {
+        public override GraphNode<T, TCost> Create<T, TCost>(T value)
+        {
+            return (new GraphNodeDefault<T, TCost>(value));
+        }
+    }
+
+    /// <summary>
+    ///   Represents a graph node
+    /// </summary>
+    internal sealed class GraphNodeDefault<T, TCost> : GraphNode<T, TCost>
+    {
+        public GraphNodeDefault(T value)
+            : base(value)
+        {
+            this.Marked = false;
+        }
+    }
+
+    /// <summary>
+    /// Provides the base interface for the abstraction of a graph edge.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <typeparam name="TCost">The type of the cost.</typeparam>
+    public interface IGraphEdge<T, TCost>
+    {
+        /// <summary>
+        /// Gets the from node.
+        /// </summary>
+        IGraphNode<T, TCost> From { get; }
+
+        /// <summary>
+        /// Gets the to node.
+        /// </summary>
+        IGraphNode<T, TCost> To { get; }
+
+        /// <summary>
+        /// Gets value
+        /// </summary>
+        TCost Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets Marked
+        /// </summary>
+        bool Marked { get; set; }
+    }
+
+    /// <summary>
+    /// Provides the base interface for the abstraction of a graph node.
+    /// </summary>
+    /// <typeparam name="T">The type of the item.</typeparam>
+    /// <typeparam name="TCost">The type of the cost.</typeparam>
+    public interface IGraphNode<T, TCost> : INode<T>
+    {
+        /// <summary>
+        /// Gets the edges.
+        /// </summary>
+        IEnumerable<IGraphEdge<T, TCost>> Edges { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="GraphNode{T, TCost}"/> is marker.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if marker; otherwise, <c>false</c>.
+        /// </value>
+        bool Marked { get; set; }
+    }
+
 }

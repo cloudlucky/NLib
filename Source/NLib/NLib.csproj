@@ -63,9 +63,6 @@
       <DependentUpon>BagBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
-    <Compile Include="Collections\Generic\GraphEdgeFactory.cs" />
-    <Compile Include="Collections\Generic\GraphEdge.cs" />
-    <Compile Include="Collections\Generic\Graph.Number.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\GraphExtension.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
@@ -77,14 +74,11 @@
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
     <Compile Include="Collections\Generic\Graph.cs" />
-    <Compile Include="Collections\Generic\GraphNode.cs" />
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
     <Compile Include="Collections\Generic\IBinaryTree.cs" />
     <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\IGraph.cs" />
-    <Compile Include="Collections\Generic\IGraphEdge.cs" />
-    <Compile Include="Collections\Generic\IGraphNode.cs" />
     <Compile Include="Collections\Generic\INode.cs" />
     <Compile Include="Collections\Generic\IRedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
@@ -101,7 +95,6 @@
     </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
     <Compile Include="Collections\Generic\IRedBlackTreeNode.cs" />
-    <Compile Include="Collections\Generic\GraphNodeFactory.cs" />
     <Compile Include="EqualityComparison.cs" />
     <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\ComparisonExtension.cs" />
