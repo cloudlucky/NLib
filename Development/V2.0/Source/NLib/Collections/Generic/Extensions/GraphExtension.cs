@@ -19,10 +19,7 @@ namespace NLib.Collections.Generic.Extensions
     {
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
-            var startNode = graph[start];
-            var terminatedNode = graph[terminated];
-
-            return FindPath(graph, startNode, terminatedNode, Comparer<T>.Default);
+            return FindPath(graph, graph[start], graph[terminated], Comparer<T>.Default);
         }
 
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
@@ -32,10 +29,7 @@ namespace NLib.Collections.Generic.Extensions
 
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
         {
-            var startNode = graph[start];
-            var terminatedNode = graph[terminated];
-
-            return FindPath(graph, startNode, terminatedNode, comparerValue);
+            return FindPath(graph, graph[start], graph[terminated], comparerValue);
         }
 
         /// <summary>
@@ -91,10 +85,7 @@ namespace NLib.Collections.Generic.Extensions
 
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
-            var startNode = graph[start];
-            var terminatedNode = graph[terminated];
-
-            return FordFulkersonAlgorithm(graph, startNode, terminatedNode, Comparer<T>.Default);
+            return FordFulkersonAlgorithm(graph, graph[start], graph[terminated]);
         }
 
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
@@ -104,10 +95,7 @@ namespace NLib.Collections.Generic.Extensions
 
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
         {
-            var startNode = graph[start];
-            var terminatedNode = graph[terminated];
-
-            return FordFulkersonAlgorithm(graph, startNode, terminatedNode, comparerValue);
+            return FordFulkersonAlgorithm(graph, graph[start], graph[terminated], comparerValue);
         }
 
         /// <summary>
@@ -129,6 +117,7 @@ namespace NLib.Collections.Generic.Extensions
             Check.ArgumentNullException(start, "start");
             Check.ArgumentNullException(terminated, "terminated");
             Check.ArgumentNullException(comparerValue, "comparerValue");
+
 
             var path = FindPath(graph, start, terminated, comparerValue);
             Number flowMax = 0;
@@ -166,8 +155,7 @@ namespace NLib.Collections.Generic.Extensions
 
         public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
         {
-            var startNode = graph[start];
-            Djkstra(graph, startNode, distance, previous, Comparer<T>.Default);
+            Djkstra(graph, graph[start], distance, previous, Comparer<T>.Default);
         }
 
         public static void Djkstra<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
@@ -177,8 +165,7 @@ namespace NLib.Collections.Generic.Extensions
 
         public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
         {
-            var startNode = graph[start];
-            Djkstra(graph, startNode, distance, previous, comparerValue);
+            Djkstra(graph, graph[start], distance, previous, comparerValue);
         }
 
         /// <summary>
@@ -205,13 +192,13 @@ namespace NLib.Collections.Generic.Extensions
             {
                 distance.Add(node.Value, comparerValue.Compare(start.Value, node.Value) == 0 ? 0 : Number.MaxValue);
                 previous.Add(node.Value, node.Value);
-                node.Marker = false;
+                node.Marked = false;
             }
 
             var currentNode = start;
             for (var i = 0; i < graph.Nodes.Count(); i++)
             {
-                currentNode.Marker = true;
+                currentNode.Marked = true;
                 foreach (var edge in currentNode.Edges)
                 {
                     if (distance[edge.To.Value] > distance[edge.From.Value] + edge.Value)
@@ -224,7 +211,7 @@ namespace NLib.Collections.Generic.Extensions
                 var minValue = Number.MaxValue;
                 foreach (var node in graph.Nodes)
                 {
-                    if (distance[node.Value] < minValue && ! node.Marker)
+                    if (distance[node.Value] < minValue && ! node.Marked)
                     {
                         currentNode = node;
                         minValue = distance[node.Value];
