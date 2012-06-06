@@ -682,11 +682,11 @@ namespace NLib.Collections.Generic
             Check.ArgumentNullException(from, "Require argument 'from' ");
             Check.ArgumentNullException(to, "Require argument 'to' ");
 
-            var edge = this.GetEdge(from, to);
+            var edge = this.GetEdge(from, to) ?? this.GetEdge(to, from); 
 
             if (edge != null)
             {
-                Check.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not a undirected edge.");
+                Check.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not an undirected edge.");
                 edge.Value = cost;
                 edge.Marked = marked;
             }

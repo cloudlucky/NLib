@@ -2,202 +2,227 @@ namespace NLib.Tests.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
-
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
-
     using NUnit.Framework;
 
     [TestFixture]
     public class GraphTest
     {
-        [Test]
-        [Category("Serie Graph Add")]
+
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddNodeTest()
         {
             var graph = new Graph<string, int>();
-            graph.Add("A");
-            graph.Add("B");
 
-            Assert.IsNotNull(graph["A"]);
-            Assert.IsNotNull(graph["B"]);
+            graph.Add("A");
+
+            Assert.AreSame("A",graph["A"].Value);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
-        public void AddEdgeTest()
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
+        public void AddEdgeTest1()
         {
             var graph = new Graph<string, int> { "A", "B" };
 
-            graph.AddDirectedEdge("A", "B", 12);
-
-            Assert.IsNotNull(graph["A"]);
-            Assert.IsNotNull(graph["B"]);
-            Assert.AreEqual(12, graph["A", "B"]);
+            graph.AddDirectedEdge("A", "B", 1);
+            
+            Assert.AreEqual(1, graph["A", "B"]);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest2()
         {
             var graph = new Graph<string, int> { "A", "B" };
 
             graph.AddDirectedEdge("A", "B");
+
             graph["A", "B"] = 20;
 
             Assert.AreEqual(20, graph["A", "B"]);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest3()
         {
-            var graph = new Graph<string, int> { "TO", "FROM" };
 
-            graph.AddUndirectedEdge("FROM", "TO", 10);
-            Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
+            var graph = new Graph<string, int> { "A", "B", "C" };
 
-            graph.AddUndirectedEdge("FROM", "TO", 20);
-            Assert.AreEqual(20, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(20, graph.GetEdge("TO", "FROM").Value);
+            graph.AddDirectedEdge("A", "B", 5);
+
+            graph.AddDirectedEdge("A", "C", 10);
+
+            Assert.AreEqual(2, graph["A"].Edges.Count());
+
+            Assert.AreEqual(5, graph["A"].Edges.Min(x => x.Value));
+
+            Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Value));
+
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
-        public void AddEdgeTest4()
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
+        [TestCase(10, Result = 20)]
+        [TestCase(20, Result = 40)]
+        public int AddEdgeTest4(int value)
+        {
+            var graph = new Graph<string, int> { "FROM", "TO"};
+
+            graph.AddUndirectedEdge("FROM", "TO", value);
+
+            graph.AddUndirectedEdge("TO", "FROM", value);
+            
+            return graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value;
+        }
+
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
+        public void AddEdgeTest5()
         {
             var graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddDirectedEdge("FROM", "TO", 10);
-            graph.AddDirectedEdge("TO", "FROM", 10);
-            Assert.AreEqual(10, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
 
-            graph.AddDirectedEdge("FROM", "TO", 20);
-            Assert.AreEqual(20, graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
+            graph.AddDirectedEdge("TO", "FROM", 20);
+
+            Assert.AreEqual(30, graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
-        public void AddEdgeTest5()
-        {
-            var graph = new Graph<string, int> { "FROM", "TO" };
-            graph.AddDirectedEdge("FROM", "TO", 1);
-            Assert.Pass();
-            graph.AddUndirectedEdge("TO", "FROM", 10);
-            Assert.Fail();
-        }
-
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest6()
         {
-            var graph = new Graph<string, int> { "FROM", "TO" };
-            graph.AddDirectedEdge("TO", "FROM", 1);
-            Assert.Pass();
-            graph.AddUndirectedEdge("TO", "FROM", 10);
-            Assert.Fail();
+            var graph = new Graph<String, Number> { "FROM", "TO" };
+
+            graph.AddUndirectedEdge("FROM", "TO", 50);
+
+            var edge = graph.GetEdge("FROM", "TO");
+
+            edge.Value = 20;
+
+            Assert.AreEqual(new Number(40), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value +  ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
+
+            edge.Value = 5;
+
+            Assert.AreEqual(new Number(10), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value + ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
+        [ExpectedException(typeof(ArgumentException))]
         public void AddEdgeTest7()
         {
             var graph = new Graph<string, int> { "FROM", "TO" };
-            graph.AddDirectedEdge("TO", "FROM", 1);
-            Assert.Pass();
-            graph.AddUndirectedEdge("FROM", "TO", 10);
+
+            graph.AddDirectedEdge("FROM", "TO", 1);
+            
+            graph.AddUndirectedEdge("TO", "FROM", 2);
+
             Assert.Fail();
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
+        [TestCase("FROM", "TO", 2, 1)]
+        [TestCase("TO","FROM", 1, 2)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddEdgeTest7(string from, string to, int valueUndirectedEdge, int valueDirectedEdge)
+        {
+            var graph = new Graph<string, int> { from, to };
+
+            graph.AddUndirectedEdge(to, from, valueUndirectedEdge);
+
+            graph.AddDirectedEdge(to, from, valueDirectedEdge);
+
+            Assert.Fail();
+        }
+
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest8()
         {
             var graph = new Graph<string, int> { "FROM", "TO" };
-            graph.AddUndirectedEdge("FROM", "TO", 10);
-            Assert.Pass();
-            graph.AddDirectedEdge("TO", "FROM", 1);
-            Assert.Fail();
+
+            graph.AddUndirectedEdge("FROM", "TO", 1);
+
+            graph.AddUndirectedEdge("FROM", "TO", 2);
+
+            Assert.AreEqual(2, graph.GetEdge("FROM", "TO").Value);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest9()
         {
             var graph = new Graph<string, int> { "TO", "FROM" };
+
+            for (int value = 2; value < 1000; value++ )
+                graph.AddDirectedEdge("TO", "FROM", value);
+
             graph.AddDirectedEdge("TO", "FROM", 1);
+            
             Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
-            graph.AddDirectedEdge("TO", "FROM", 10);
-            Assert.AreEqual(10, graph.GetEdge("TO", "FROM").Value);
         }
 
-        [Test]
-        [Category("Serie Graph Add")]
+        [Test, Timeout(2000)]
+        [Category("Graph Add")]
         public void AddEdgeTest10()
         {
             var graph = new Graph<string, Number> { "TO", "FROM" };
+
             graph.AddUndirectedEdge("TO", "FROM", 1);
-            Assert.AreEqual(new Number(1), graph.GetEdge("TO", "FROM").Value);
-            Assert.AreEqual(new Number(1), graph.GetEdge("FROM", "TO").Value);
 
             graph["TO", "FROM"] = 10;
 
-            Assert.AreEqual(new Number(10), graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(new Number(10), graph.GetEdge("TO", "FROM").Value);
-
+            Assert.AreEqual(new Number(20), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
+            
             graph["FROM", "TO"] = 1;
-            Assert.AreEqual(new Number(1), graph.GetEdge("FROM", "TO").Value);
-            Assert.AreEqual(new Number(1), graph.GetEdge("TO", "FROM").Value);
+
+            Assert.AreEqual(new Number(2), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value); 
         }
 
-        [Test]
-        [Category("Serie Graph Remove")]
-        public void RemoveEdgeTest()
-        {
-            var graph = new Graph<string, int>();
-            graph.Add("A");
-            graph.Add("B");
-            graph.AddUndirectedEdge("A", "B", 0);
-            Assert.NotNull(graph.GetEdge("A", "B"));
-            Assert.AreEqual(0, graph.GetEdge("A", "B").Value);
-            graph.RemoveEdge(graph.GetEdge("A", "B"));
-            Assert.Null(graph.GetEdge("A", "B"));
-        }
-
-        [Test]
-        [Category("Serie Graph Remove")]
-        public void RemoveEdgeTest2()
+        [Test, Timeout(2000)]
+        [Category("Graph Remove")]
+        public void RemoveEdgeTest1()
         {
             var graph = new Graph<string, int> { "A", "B" };
+
             graph.AddUndirectedEdge("A", "B", 0);
-            Assert.NotNull(graph.GetEdge("B", "A"));
-            Assert.AreEqual(0, graph.GetEdge("A", "B").Value);
-            graph.RemoveEdge(graph.GetEdge("A", "B"));
+            
+            var edge = graph.GetEdge("A", "B");
+            
+            Assert.IsNotNull(edge);
+            
+            graph.RemoveEdge(edge);
+
             Assert.Null(graph.GetEdge("B", "A"));
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
-        public void ValueUndirectedEdgeTest2()
+        [Test, Combinatorial ,Timeout(2000)]
+        [Category("Graph")]
+        public void ValueUndirectedEdgeTest2([Values("A", "B")]string a, [Values("A", "B")]string b)
         {
-            var graph = new Graph<string, int> { "A", "B" };
+            var graph = new Graph<string, int> { a, b };
 
-            graph.AddUndirectedEdge("A", "B", 10);
-            Assert.NotNull(graph.GetEdge("A", "B"));
-            Assert.IsTrue(graph.GetEdge("A", "B").Value == 10);
+            graph.AddUndirectedEdge(a, b, 10);
 
-            var edge = graph.GetEdge("B", "A");
+            Assert.NotNull(graph.GetEdge(a, b));
+
+            var edge = graph.GetEdge(b, a);
+
             edge.Value = 20;
 
-            Assert.IsTrue(graph.GetEdge("A", "B").Value == 20);
+            Assert.AreEqual(20,graph.GetEdge(a, b).Value);
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
+        [Test, Timeout(2000)]
+        [Category("Graph")]
         public void EnumerableTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
@@ -205,8 +230,8 @@ namespace NLib.Tests.Collections.Generic
             CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph);
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
+        [Test, Timeout(2000)]
+        [Category("Graph")]
         public void GetAllNodesTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
@@ -214,22 +239,8 @@ namespace NLib.Tests.Collections.Generic
             CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.Nodes.Select(x => x.Value));
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
-        public void EdgesTest()
-        {
-            var graph = new Graph<string, int> { "A", "B", "C" };
-
-            graph.AddDirectedEdge("A", "B", 5);
-            graph.AddDirectedEdge("A", "C", 10);
-
-            Assert.AreEqual(2, graph["A"].Edges.Count());
-            Assert.AreEqual(5, graph["A"].Edges.Min(x => x.Value));
-            Assert.AreEqual(10, graph["A"].Edges.Max(x => x.Value));
-        }
-
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void DepthFirstTraversalTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -246,15 +257,15 @@ namespace NLib.Tests.Collections.Generic
             graph.AddDirectedEdge("G", "A", 0);
 
             string strSequence = string.Empty;
+
             foreach (var node in graph.DepthFirstTraversal("A"))
-            {
-                strSequence = strSequence + node.Value;
-            }
+               strSequence = strSequence + node.Value;
+      
             Assert.AreEqual("ABCDEFGH", strSequence);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void BreadthFirstTraversalTest()
         {
             var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -272,14 +283,13 @@ namespace NLib.Tests.Collections.Generic
 
             string strSequence = string.Empty;
             foreach (var node in graph.BreathFirstTraversal("A"))
-            {
                 strSequence = strSequence + node.Value;
-            }
+            
             Assert.AreEqual("ABHGCFDE", strSequence);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest()
         {
             var graph = new Graph<long> { 1, 2, 3, 4, 5, 6 };
@@ -299,8 +309,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest2()
         {
             var graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
@@ -320,8 +330,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest3()
         {
             var graph = new Graph<char, Number> { 's', 'o', 'p', 'r', 'q', 't' };
@@ -338,8 +348,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(5), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTestType()
         {
             var graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
@@ -359,8 +369,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTestBottleneck()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "t" };
@@ -377,8 +387,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(30), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTestBottleneck2()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
@@ -402,8 +412,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(50), flowMax);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void FindPathTest()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
@@ -427,8 +437,8 @@ namespace NLib.Tests.Collections.Generic
             path.Pop();
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void DjkstraTest1()
         {
             var graph = new Graph<string, Number> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -477,8 +487,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("G", previous["H"]);
         }
 
-        [Test]
-        [Category("Serie Graph Algorithm")]
+        [Test, Timeout(2000)]
+        [Category("Graph Algorithm")]
         public void DjkstraTest2()
         {
             var graph = new Graph<string, Number> { "A" };
@@ -495,8 +505,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("A", previous["A"]);
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
+        [Test, Timeout(2000)]
+        [Category("Graph")]
         public void CloneGraphTest()
         {
             var graph = new Graph<string, Number> { "A", "B", "C" };
@@ -525,8 +535,8 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(false, graph["A"].Marked); 
         }
 
-        [Test]
-        [Category("Serie Graph Other")]
+        [Test, Timeout(2000)]
+        [Category("Graph")]
         public void GraphEdgeFactoryTest()
         {
             var nodeA = new GraphNode<string, Number>("NodeA");
@@ -547,52 +557,13 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
         }
 
-        [Test]
-        [Category("Serie Graph other")]
+        [Test, Timeout(2000)]
+        [Category("Graph")]
         public void GraphNodeFactoryTest()
         {
             var node = GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<string, Number>("NodeName");
             Assert.AreEqual("NodeName", node.Value);
         }
-
-        [Test]
-        [Category("Serie Graph Add")]
-        public void AddEdgeValueTest()
-        {
-            var graph = new Graph<String, Number> { "FROM", "TO" };
-
-            graph.AddUndirectedEdge("FROM", "TO", 50);
-
-            var edge = graph.GetEdge("FROM", "TO");
-
-            edge.Value = 20;
-
-            Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
-            Assert.AreEqual(new Number(20), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
-
-            edge.Value = 5;
-
-            Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
-            Assert.AreEqual(new Number(5), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
-        }
-
-        [Test]
-        [Category("Serie Graph Add")]
-        public void AddEdgeValueTest2()
-        {
-            var graph = new Graph<String, Number> { "FROM", "TO" };
-            graph.AddUndirectedEdge("FROM", "TO", 50);
-
-            var edge = graph.GetEdge("FROM", "TO");
-            edge.Value = 20;
-
-            edge = graph.GetEdge("TO", "FROM");
-            edge.Value = 5;
-
-            Assert.AreEqual(new Number(5), (graph.GetEdge("TO", "FROM")).Value);
-            Assert.AreEqual(new Number(5), (graph.GetEdge("FROM", "TO")).Value);
-        }
-
 
     }
 }
