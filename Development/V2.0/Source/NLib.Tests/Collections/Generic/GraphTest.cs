@@ -11,6 +11,35 @@ namespace NLib.Tests.Collections.Generic
     [TestFixture]
     public class GraphTest
     {
+        [Test, Timeout(2000)]
+        [Category("Graph")]
+        public void GraphEdgeFactoryTest1()
+        {
+            var nodeA = new GraphNode<string, Number>("NodeA");
+            var nodeB = new GraphNode<string, Number>("NodeB");
+
+            var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
+            var edge = factory.Create<string, Number>();
+            Assert.IsTrue(edge.GetType().Name.Contains("UndirectedEdge"));
+
+            edge = factory.Create(nodeA, nodeB, 12345);
+            Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
+
+            factory = GraphEdgeFactory.GetFactory("DirectedEdgeFactory");
+            edge = factory.Create<string, Number>();
+            Assert.IsTrue(edge.GetType().Name.Contains("DirectedEdge"));
+
+            edge = factory.Create(nodeA, nodeB, 12345);
+            Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
+        }
+
+        [Test, Timeout(2000)]
+        [Category("Graph")]
+        public void GraphNodeFactoryTest2()
+        {
+            var node = GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<string, Number>("NodeName");
+            Assert.AreEqual("NodeName", node.Value);
+        }
 
         [Test, Timeout(2000)]
         [Category("Graph Add")]
@@ -187,6 +216,23 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(2), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value); 
         }
 
+        [Test, Combinatorial, Timeout(2000)]
+        [Category("Graph Add")]
+        public void AddEdgeTest11([Values("A", "B")]string a, [Values("A", "B")]string b)
+        {
+            var graph = new Graph<string, int> { a, b };
+
+            graph.AddUndirectedEdge(a, b, 10);
+
+            Assert.NotNull(graph.GetEdge(a, b));
+
+            var edge = graph.GetEdge(b, a);
+
+            edge.Value = 20;
+
+            Assert.AreEqual(20, graph.GetEdge(a, b).Value);
+        }
+
         [Test, Timeout(2000)]
         [Category("Graph Remove")]
         public void RemoveEdgeTest1()
@@ -204,26 +250,9 @@ namespace NLib.Tests.Collections.Generic
             Assert.Null(graph.GetEdge("B", "A"));
         }
 
-        [Test, Combinatorial ,Timeout(2000)]
-        [Category("Graph")]
-        public void ValueUndirectedEdgeTest2([Values("A", "B")]string a, [Values("A", "B")]string b)
-        {
-            var graph = new Graph<string, int> { a, b };
-
-            graph.AddUndirectedEdge(a, b, 10);
-
-            Assert.NotNull(graph.GetEdge(a, b));
-
-            var edge = graph.GetEdge(b, a);
-
-            edge.Value = 20;
-
-            Assert.AreEqual(20,graph.GetEdge(a, b).Value);
-        }
-
         [Test, Timeout(2000)]
         [Category("Graph")]
-        public void EnumerableTest()
+        public void EnumerableTest1()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
 
@@ -232,7 +261,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph")]
-        public void GetAllNodesTest()
+        public void GetAllNodesTest1()
         {
             var graph = new Graph<string, int> { "A", "B", "C" };
 
@@ -240,8 +269,38 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [Test, Timeout(2000)]
+        [Category("Graph")]
+        public void CloneGraphTest1()
+        {
+            var graph = new Graph<string, Number> { "A", "B", "C" };
+            graph.AddDirectedEdge("A", "B", 1);
+            graph.AddDirectedEdge("B", "A", -1);
+            graph.GetEdge("B", "A").Marked = false;
+            graph["A"].Marked = false;
+            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
+            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
+            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
+
+            Assert.AreEqual(false, graph["A"].Marked);
+
+            var graph2 = (Graph<string, Number>)graph.Clone();
+            graph2.AddUndirectedEdge("B", "B", 100);
+            graph2.GetEdge("B", "A").Marked = true;
+
+            graph2["A"].Marked = true;
+
+            Assert.AreEqual(new Number(100), graph2.GetEdge("B", "B").Value);
+            Assert.AreEqual(true, graph2.GetEdge("B", "A").Marked);
+            Assert.AreEqual(true, graph2["A"].Marked);
+            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
+            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
+            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
+            Assert.AreEqual(false, graph["A"].Marked);
+        }
+
+        [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void DepthFirstTraversalTest()
+        public void DepthFirstTraversalTest1()
         {
             var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
 
@@ -266,7 +325,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void BreadthFirstTraversalTest()
+        public void BreadthFirstTraversalTest1()
         {
             var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
 
@@ -290,7 +349,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void FordFulkersonAlgorithmTest()
+        public void FordFulkersonAlgorithmTest1()
         {
             var graph = new Graph<long> { 1, 2, 3, 4, 5, 6 };
             graph.AddDirectedEdge(1, 2, 8);
@@ -350,7 +409,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void FordFulkersonAlgorithmTestType()
+        public void FordFulkersonAlgorithmTest4()
         {
             var graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
             graph.AddDirectedEdge("a", "b", 8);
@@ -371,7 +430,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void FordFulkersonAlgorithmTestBottleneck()
+        public void FordFulkersonAlgorithmTest5()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "t" };
             graph.AddDirectedEdge("s", "a", 20);
@@ -389,7 +448,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void FordFulkersonAlgorithmTestBottleneck2()
+        public void FordFulkersonAlgorithmTest6()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
             graph.AddDirectedEdge("s", "a", 100);
@@ -414,7 +473,7 @@ namespace NLib.Tests.Collections.Generic
 
         [Test, Timeout(2000)]
         [Category("Graph Algorithm")]
-        public void FindPathTest()
+        public void FindPathTest1()
         {
             var graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
             graph.AddDirectedEdge("s", "a");
@@ -504,66 +563,5 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(-2), distance["A"]);
             Assert.AreEqual("A", previous["A"]);
         }
-
-        [Test, Timeout(2000)]
-        [Category("Graph")]
-        public void CloneGraphTest()
-        {
-            var graph = new Graph<string, Number> { "A", "B", "C" };
-            graph.AddDirectedEdge("A", "B", 1);
-            graph.AddDirectedEdge("B", "A", -1);
-            graph.GetEdge("B", "A").Marked = false;
-            graph["A"].Marked = false;
-            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
-            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
-            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
-
-            Assert.AreEqual(false, graph["A"].Marked);
-
-            var graph2 = (Graph<string, Number>)graph.Clone();
-            graph2.AddUndirectedEdge("B", "B", 100);
-            graph2.GetEdge("B", "A").Marked = true;
-
-            graph2["A"].Marked = true;
-
-            Assert.AreEqual(new Number(100), graph2.GetEdge("B", "B").Value);
-            Assert.AreEqual(true, graph2.GetEdge("B", "A").Marked);
-            Assert.AreEqual(true, graph2["A"].Marked);
-            Assert.AreEqual(new Number(1), graph.GetEdge("A", "B").Value);
-            Assert.AreEqual(new Number(-1), graph.GetEdge("B", "A").Value);
-            Assert.AreEqual(false, graph.GetEdge("B", "A").Marked);
-            Assert.AreEqual(false, graph["A"].Marked); 
-        }
-
-        [Test, Timeout(2000)]
-        [Category("Graph")]
-        public void GraphEdgeFactoryTest()
-        {
-            var nodeA = new GraphNode<string, Number>("NodeA");
-            var nodeB = new GraphNode<string, Number>("NodeB");
-
-            var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
-            var edge = factory.Create<string, Number>();
-            Assert.IsTrue(edge.GetType().Name.Contains("UndirectedEdge"));
-
-            edge = factory.Create(nodeA, nodeB, 12345);
-            Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
-
-            factory = GraphEdgeFactory.GetFactory("DirectedEdgeFactory");
-            edge = factory.Create<string, Number>();
-            Assert.IsTrue(edge.GetType().Name.Contains("DirectedEdge"));
-
-            edge = factory.Create(nodeA, nodeB, 12345);
-            Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
-        }
-
-        [Test, Timeout(2000)]
-        [Category("Graph")]
-        public void GraphNodeFactoryTest()
-        {
-            var node = GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<string, Number>("NodeName");
-            Assert.AreEqual("NodeName", node.Value);
-        }
-
     }
 }
