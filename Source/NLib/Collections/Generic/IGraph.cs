@@ -49,12 +49,6 @@ namespace NLib.Collections.Generic
         void AddDirectedEdge(T from, T to, TCost cost);
 
         /// <summary>
-        ///   Adds the elements of the specified collection in the bag.
-        /// </summary>
-        /// <param name = "collection">The collection.</param>
-        void AddRange(IEnumerable<T> collection);
-
-        /// <summary>
         ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
         ///   with an associated cost.
         /// </summary>
@@ -62,6 +56,19 @@ namespace NLib.Collections.Generic
         /// <param name = "to">The to value of one of the GraphNodes that is joined by the edge.</param>
         /// <param name = "cost">The cost of the undirected edge.</param>
         void AddUndirectedEdge(T from, T to, TCost cost);
+
+        /// <summary>
+        ///   Add an edge in Graph
+        /// </summary>
+        /// <param name = "edge">The edge.</param>
+        /// <param name = "graph">The graph that is joined by the edge.</param>
+        void AddEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null);
+
+        /// <summary>
+        ///   Adds the elements of the specified collection in the bag.
+        /// </summary>
+        /// <param name = "collection">The collection.</param>
+        void AddRange(IEnumerable<T> collection);
 
         /// <summary>
         ///   Selecting some node as the root and to go through them level-by-level.
@@ -126,8 +133,60 @@ namespace NLib.Collections.Generic
         ///   Remove an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
         /// <param name = "edge">The direct edge that we must removed from the graph.</param>
-        /// <param name="graph">The name of graph to remove</param>
+        /// <param name="graph">The name of graph to remove.</param>
         void RemoveEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null);
 
+        /// <summary>
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
+        /// </summary>
+        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        void RemoveDirectedEdge(IGraphEdge<T, TCost> edge);
+
+        /// <summary>
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection{T}" />.
+        /// </summary>
+        /// <param name = "edge">The object to remove from the <see cref = "ICollection{T}" />.</param>
+        /// <exception cref = "NotSupportedException">The <see cref = "ICollection{T}" /> is read-only.</exception>
+        void RemoveUndirectedEdge(IGraphEdge<T, TCost> edge);
+
+        /// <summary>
+        ///   Returns a Boolean, indicating if a particular value exists within the graph.
+        /// </summary>
+        /// <param name = "item">The value to search for.</param>
+        /// <returns>True if the value exist in the graph; false otherwise.</returns>
+        bool Contains(T item);
+
+        /// <summary>
+        ///   Copies the elements of the <see cref = "ICollection{T}" /> to an <see cref = "Array" />, starting at a particular <see cref = "Array" /> index.
+        /// </summary>
+        /// <param name = "array">The one-dimensional <see cref = "Array" /> that is the destination of the elements copied from <see cref = "ICollection{T}" />. The <see cref = "Array" /> must have zero-based indexing.</param>
+        /// <param name = "arrayIndex">The zero-based index in <paramref name = "array" /> at which copying begins.</param>
+        /// <exception cref = "ArgumentNullException"><paramref name = "array" /> is null.</exception>
+        /// <exception cref = "ArgumentOutOfRangeException">
+        ///   <paramref name = "arrayIndex" /> is less than 0.</exception>
+        /// <exception cref = "ArgumentException">
+        ///   <paramref name = "array" /> is multidimensional.
+        ///   -or-
+        ///   <paramref name = "arrayIndex" /> is equal to or greater than the length of <paramref name = "array" />.
+        ///   -or-
+        ///   The number of elements in the source <see cref = "ICollection{T}" /> is greater than the available space from <paramref name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.
+        ///   -or-
+        ///   Type <paramref name = "array" /> cannot be cast automatically to the type of the destination <paramref name = "array" />.
+        /// </exception>
+        void CopyTo(T[] array, int arrayIndex);
+
+        /// <summary>
+        ///   Clears out the contents of the Graph.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///   A copy of your graph.
+        /// </returns>
+        object Clone();
     }
 }
