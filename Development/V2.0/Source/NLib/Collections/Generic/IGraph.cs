@@ -37,7 +37,7 @@ namespace NLib.Collections.Generic
         /// <param name = "from">The from item.</param>
         /// <param name = "to">The to item.</param>
         /// <returns>The the cost of the edge between the from and the to items.</returns>
-        TCost this[T from, T to] { get; }
+        TCost this[T from, T to] { get; set; }
 
         /// <summary>
         ///   Adds a directed edge from a GraphNode with one value (from) to a GraphNode with another value (to)
@@ -46,7 +46,7 @@ namespace NLib.Collections.Generic
         /// <param name = "from">The value of the GraphNode from which the directed edge eminates.</param>
         /// <param name = "to">The value of the GraphNode to which the edge leads.</param>
         /// <param name = "cost">The cost of the edge from "from" to "to".</param>
-        void AddDirectedEdge(T from, T to, TCost cost);
+        void AddDirectedEdge(T from, T to, TCost cost = default(TCost));
 
         /// <summary>
         ///   Adds an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to)
@@ -55,7 +55,7 @@ namespace NLib.Collections.Generic
         /// <param name = "from">The from value of one of the GraphNodes that is joined by the edge.</param>
         /// <param name = "to">The to value of one of the GraphNodes that is joined by the edge.</param>
         /// <param name = "cost">The cost of the undirected edge.</param>
-        void AddUndirectedEdge(T from, T to, TCost cost);
+        void AddUndirectedEdge(T from, T to, TCost cost = default(TCost));
 
         /// <summary>
         ///   Add an edge in Graph
@@ -187,6 +187,6 @@ namespace NLib.Collections.Generic
         /// <returns>
         ///   A copy of your graph.
         /// </returns>
-        object Clone();
+        object Clone();         
     }
 }
