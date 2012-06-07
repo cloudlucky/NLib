@@ -2,7 +2,6 @@ namespace NLib.Tests.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
@@ -45,7 +44,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddNodeTest()
         {
-            var graph = new Graph<string, int>();
+            IGraph<string, int> graph = new Graph<string, int>();
 
             graph.Add("A");
 
@@ -56,7 +55,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest1()
         {
-            var graph = new Graph<string, int> { "A", "B" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
 
             graph.AddDirectedEdge("A", "B", 1);
             
@@ -67,7 +66,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest2()
         {
-            var graph = new Graph<string, int> { "A", "B" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
 
             graph.AddDirectedEdge("A", "B");
 
@@ -81,7 +80,7 @@ namespace NLib.Tests.Collections.Generic
         public void AddEdgeTest3()
         {
 
-            var graph = new Graph<string, int> { "A", "B", "C" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C" };
 
             graph.AddDirectedEdge("A", "B", 5);
 
@@ -101,7 +100,7 @@ namespace NLib.Tests.Collections.Generic
         [TestCase(20, Result = 40)]
         public int AddEdgeTest4(int value)
         {
-            var graph = new Graph<string, int> { "FROM", "TO"};
+            IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddUndirectedEdge("FROM", "TO", value);
 
@@ -114,7 +113,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest5()
         {
-            var graph = new Graph<string, int> { "FROM", "TO" };
+            IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddDirectedEdge("FROM", "TO", 10);
 
@@ -127,7 +126,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest6()
         {
-            var graph = new Graph<String, Number> { "FROM", "TO" };
+            IGraph<String, Number> graph = new Graph<String, Number> { "FROM", "TO" };
 
             graph.AddUndirectedEdge("FROM", "TO", 50);
 
@@ -147,7 +146,7 @@ namespace NLib.Tests.Collections.Generic
         [ExpectedException(typeof(ArgumentException))]
         public void AddEdgeTest7()
         {
-            var graph = new Graph<string, int> { "FROM", "TO" };
+            IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddDirectedEdge("FROM", "TO", 1);
             
@@ -163,7 +162,7 @@ namespace NLib.Tests.Collections.Generic
         [ExpectedException(typeof(ArgumentException))]
         public void AddEdgeTest7(string from, string to, int valueUndirectedEdge, int valueDirectedEdge)
         {
-            var graph = new Graph<string, int> { from, to };
+            IGraph<string, int> graph = new Graph<string, int> { from, to };
 
             graph.AddUndirectedEdge(to, from, valueUndirectedEdge);
 
@@ -176,7 +175,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest8()
         {
-            var graph = new Graph<string, int> { "FROM", "TO" };
+            IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddUndirectedEdge("FROM", "TO", 1);
 
@@ -189,7 +188,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest9()
         {
-            var graph = new Graph<string, int> { "TO", "FROM" };
+            IGraph<string, int> graph = new Graph<string, int> { "TO", "FROM" };
 
             for (int value = 2; value < 1000; value++ )
                 graph.AddDirectedEdge("TO", "FROM", value);
@@ -203,7 +202,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest10()
         {
-            var graph = new Graph<string, Number> { "TO", "FROM" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "TO", "FROM" };
 
             graph.AddUndirectedEdge("TO", "FROM", 1);
 
@@ -220,7 +219,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Add")]
         public void AddEdgeTest11([Values("A", "B")]string a, [Values("A", "B")]string b)
         {
-            var graph = new Graph<string, int> { a, b };
+            IGraph<string, int> graph = new Graph<string, int> { a, b };
 
             graph.AddUndirectedEdge(a, b, 10);
 
@@ -237,7 +236,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Remove")]
         public void RemoveEdgeTest1()
         {
-            var graph = new Graph<string, int> { "A", "B" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
 
             graph.AddUndirectedEdge("A", "B", 0);
             
@@ -254,7 +253,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph")]
         public void EnumerableTest1()
         {
-            var graph = new Graph<string, int> { "A", "B", "C" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C" };
 
             CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph);
         }
@@ -263,7 +262,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph")]
         public void GetAllNodesTest1()
         {
-            var graph = new Graph<string, int> { "A", "B", "C" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C" };
 
             CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.Nodes.Select(x => x.Value));
         }
@@ -272,7 +271,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph")]
         public void CloneGraphTest1()
         {
-            var graph = new Graph<string, Number> { "A", "B", "C" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C" };
             graph.AddDirectedEdge("A", "B", 1);
             graph.AddDirectedEdge("B", "A", -1);
             graph.GetEdge("B", "A").Marked = false;
@@ -302,7 +301,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void DepthFirstTraversalTest1()
         {
-            var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
 
             graph.AddDirectedEdge("A", "B", 0);
             graph.AddDirectedEdge("A", "H", 0);
@@ -327,7 +326,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void BreadthFirstTraversalTest1()
         {
-            var graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
+            IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
 
             graph.AddUndirectedEdge("A", "B", 0);
             graph.AddUndirectedEdge("A", "H", 0);
@@ -351,7 +350,8 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest1()
         {
-            var graph = new Graph<long> { 1, 2, 3, 4, 5, 6 };
+            IGraph<long,Number> graph  = new Graph<long> { 1, 2, 3, 4, 5, 6 };
+
             graph.AddDirectedEdge(1, 2, 8);
             graph.AddDirectedEdge(1, 3, 6);
             graph.AddDirectedEdge(2, 4, 4);
@@ -372,7 +372,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest2()
         {
-            var graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
+            IGraph<int,Number> graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
             graph.AddDirectedEdge(1, 2, 8);
             graph.AddDirectedEdge(1, 3, 6);
             graph.AddDirectedEdge(2, 4, 4);
@@ -393,7 +393,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest3()
         {
-            var graph = new Graph<char, Number> { 's', 'o', 'p', 'r', 'q', 't' };
+            IGraph<char, Number> graph = new Graph<char, Number> { 's', 'o', 'p', 'r', 'q', 't' };
             graph.AddDirectedEdge('s', 'o', 3);
             graph.AddDirectedEdge('s', 'p', 3);
             graph.AddDirectedEdge('o', 'p', 2);
@@ -411,7 +411,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest4()
         {
-            var graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
             graph.AddDirectedEdge("a", "b", 8);
             graph.AddDirectedEdge("a", "c", 6);
             graph.AddDirectedEdge("b", "d", 4);
@@ -432,7 +432,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest5()
         {
-            var graph = new Graph<string, Number> { "s", "a", "b", "t" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "t" };
             graph.AddDirectedEdge("s", "a", 20);
             graph.AddDirectedEdge("s", "b", 10);
             graph.AddDirectedEdge("a", "t", 10);
@@ -450,7 +450,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FordFulkersonAlgorithmTest6()
         {
-            var graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
             graph.AddDirectedEdge("s", "a", 100);
             graph.AddDirectedEdge("a", "b", 100);
             graph.AddDirectedEdge("c", "d", 30);
@@ -475,7 +475,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void FindPathTest1()
         {
-            var graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
             graph.AddDirectedEdge("s", "a");
             graph.AddDirectedEdge("a", "b");
             graph.AddDirectedEdge("b", "c");
@@ -484,15 +484,14 @@ namespace NLib.Tests.Collections.Generic
             var start = graph.GetNode("s");
             var terminated = graph.GetNode("t");
             var path = graph.FindPath(start, terminated);
-
+            var a = path.ToArray();
             Assert.AreEqual(2, path.Count());
-
-            Assert.AreEqual("a", path.Peek().From.Value);
+ 
             Assert.AreEqual("t", path.Peek().To.Value);
+            Assert.AreEqual("a", path.Peek().From.Value);
             path.Pop();
-
-            Assert.AreEqual("s", path.Peek().From.Value);
             Assert.AreEqual("a", path.Peek().To.Value);
+            Assert.AreEqual("s", path.Peek().From.Value);            
             path.Pop();
         }
 
@@ -500,7 +499,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void DjkstraTest1()
         {
-            var graph = new Graph<string, Number> { "A", "B", "C", "D", "E", "F", "G", "H" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C", "D", "E", "F", "G", "H" };
             graph.AddDirectedEdge("B", "A", 3);
             graph.AddDirectedEdge("B", "D", 6);
             graph.AddDirectedEdge("B", "C", 2);
@@ -550,7 +549,7 @@ namespace NLib.Tests.Collections.Generic
         [Category("Graph Algorithm")]
         public void DjkstraTest2()
         {
-            var graph = new Graph<string, Number> { "A" };
+            IGraph<string, Number> graph = new Graph<string, Number> { "A" };
             graph.AddDirectedEdge("A", "A", -2);
 
             var start = graph.GetNode("A");
@@ -563,5 +562,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(-2), distance["A"]);
             Assert.AreEqual("A", previous["A"]);
         }
+
+
     }
 }
