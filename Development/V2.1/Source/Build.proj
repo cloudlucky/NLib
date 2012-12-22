@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
+
+  <!-- Version -->
+  <PropertyGroup>
+    <AssemblyMajorVersion>2</AssemblyMajorVersion>
+    <AssemblyMinorVersion>0</AssemblyMinorVersion>
+    <!-- Setted by CI -->
+    <AssemblyBuildNumber>0</AssemblyBuildNumber>
+    <!-- Setted by CI -->
+    <AssemblyRevision>0</AssemblyRevision>
+    <Version>$(AssemblyMajorVersion).$(AssemblyMinorVersion).$(AssemblyBuildNumber).$(AssemblyRevision)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootFolder>$(MSBuildProjectDirectory)\..</RootFolder>
+    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
+    <ToolsFolder>$(RootFolder)\Tools</ToolsFolder>
+    <LibFolder>$(RootFolder)\Lib</LibFolder>
+  </PropertyGroup>
+
+  <!-- NLib Files -->
+  <PropertyGroup>
+    <NLibDllInclude>$(SourceFolder)\**\NLib*.dll</NLibDllInclude>
+    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
+    <NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
+    <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>
+  </PropertyGroup>
+
+  <!-- Release -->
+  <PropertyGroup>
+    <ReleaseFolder>$(RootFolder)\Release</ReleaseFolder>
+    <BinariesFolder>$(ReleaseFolder)\Binaries</BinariesFolder>
+    <BinariesWithDocFolder>$(ReleaseFolder)\BinariesDoc</BinariesWithDocFolder>
+    <ReleaseSourceFolder>$(ReleaseFolder)\Sources</ReleaseSourceFolder>
+  </PropertyGroup>
+
+  <!-- Documentation -->
+  <PropertyGroup>
+    <SHFBproj>$(SourceFolder)\NLib.Doc.shfbproj</SHFBproj>
+    <HtmlHelp1Output>$(ReleaseFolder)\Doc\HtmlHelp1</HtmlHelp1Output>
+    <WebsiteOutput>$(ReleaseFolder)\Doc\Website</WebsiteOutput>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Nuspec>$(SourceFolder)\NLib.nuspec</Nuspec>
+  </PropertyGroup>
+  
+  <!-- Tools -->
+  <PropertyGroup>
+    <NuGetTool>$(ToolsFolder)\NuGet\NuGet.exe</NuGetTool>
+  </PropertyGroup>
+  
+  <!-- Solutions to build-->
+  <ItemGroup>
+    <SolutionToBuild Include="$(SourceFolder)\NLib.sln" />
+  </ItemGroup>
+
+  <Target Name="SetVersion" BeforeTargets="Build">
+    <ItemGroup>
+      <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*"/>
+    </ItemGroup>
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
+                                                  AssemblyMajorVersion="$(AssemblyMajorVersion)"
+                                                  AssemblyMinorVersion="$(AssemblyMinorVersion)"
+                                                  AssemblyBuildNumber="$(AssemblyBuildNumber)"
+                                                  AssemblyRevision="$(AssemblyRevision)"
+                                                  AssemblyFileMajorVersion="$(AssemblyMajorVersion)"
+                                                  AssemblyFileMinorVersion="$(AssemblyMinorVersion)"
+                                                  AssemblyFileBuildNumber="$(AssemblyBuildNumber)"
+                                                  AssemblyFileRevision="$(AssemblyRevision)"/>
+  </Target>
+  
+  <Target Name="Build">
+    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="Package" DependsOnTargets="Build">
+    <RemoveDir Directories="$(ReleaseFolder)"/>
+    <CallTarget Targets="PackageBinaries;PackageBinariesWithDoc;PackageNuGet;PackageWithSources;PackageDocumentationWebsite"/>
+  </Target>
+
+  <Target Name="PackageBinaries">
+    <ItemGroup>
+      <NLibDll Include="$(NLibDllInclude)"
+               Exclude="$(NLibDllExclude)"/>
+      <NLibXml Include="$(NLibXmlInclude)"
+               Exclude="$(NLibXmlExclude)"/>
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(NLibDll);@(NLibXml)" DestinationFolder="$(BinariesFolder)"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(ReleaseFolder)\NLib.zip"/>
+  </Target>
+
+  <Target Name="PackageBinariesWithDoc">
+    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;" />
+    
+    <ItemGroup>
+      <NLibDll Include="$(NLibDllInclude)"
+               Exclude="$(NLibDllExclude)"/>
+      <NLibXml Include="$(NLibXmlInclude)"
+               Exclude="$(NLibXmlExclude)"/>
+      <Chm Include="$(HtmlHelp1Output)\*.chm"/>
+    </ItemGroup>
+    
+    <Copy SourceFiles="@(NLibDll);@(NLibXml);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(ReleaseFolder)\NLibWithDoc.zip"/>
+  </Target>
+
+  <Target Name="PackageDocumentationWebsite">
+    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;" />
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\NLibDocumentationWebsite.zip"/>
+  </Target>
+
+  <Target Name="PackageNuGet" DependsOnTargets="PackageBinaries">
+    <ItemGroup>
+      <NuSpecFile Include="$(Nuspec)">
+        <VesionXPath>//version</VesionXPath>
+        <FileLibXpath>//file[1]</FileLibXpath>
+      </NuSpecFile>
+    </ItemGroup>
+    <Message Text="%(NuSpecFile.Identity)"/>
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateElement" File="%(NuSpecFile.Identity)" XPath="%(NuSpecFile.VesionXPath)" InnerText="$(Version)"/>
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(NuSpecFile.Identity)" XPath="%(NuSpecFile.FileLibXpath)" Key="src" Value="$(BinariesFolder)\*"/>
+    <Exec Command="&quot;$(NuGetTool)&quot; pack &quot;$(Nuspec)&quot; -o &quot;$(ReleaseFolder)&quot;" />
+  </Target>
+
+  <Target Name="PackageWithSources">
+    <ItemGroup>
+      <Sources Include="$(SourceFolder)\**"
+               Exclude="$(SourceFolder)\**\*.vssscc;$(SourceFolder)\**\*.vspscc;$(SourceFolder)\**\*.user;$(SourceFolder)\*.suo;$(SourceFolder)\_ReSharper*\**\*;$(ReleaseFolder)\**;$(SourceFolder)\**\bin\**;$(SourceFolder)\**\obj\**;$(SourceFolder)\**\*.dotCover;$(SourceFolder)\**\*.docstates"/>
+      <Tools Include="$(ToolsFolder)\**"/>
+      <Lib Include="$(LibFolder)\**"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ReleaseSourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <Copy SourceFiles="@(Tools)" DestinationFiles="@(Tools->'$(ReleaseSourceFolder)\Tools\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <Copy SourceFiles="@(Lib)" DestinationFiles="@(Lib->'$(ReleaseSourceFolder)\Lib\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(ReleaseFolder)\NLibSources.zip"/>
+  </Target>
+</Project>
