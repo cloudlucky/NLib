@@ -59,7 +59,7 @@ namespace NLib.Reflection.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static T[] GetCustomAttributes<T>(this MemberInfo memberInfo, bool inherit) where T : Attribute
         {
-            CheckError.ArgumentNullException(memberInfo, "memberInfo");
+            Check.ArgumentNullException(memberInfo, "memberInfo");
 
             return memberInfo.GetCustomAttributes(typeof(T), inherit) as T[];
         }
@@ -71,7 +71,7 @@ namespace NLib.Reflection.Extensions
         /// <returns>The type of the member info.</returns>
         public static Type GetMemberType(this MemberInfo memberInfo)
         {
-            CheckError.ArgumentNullException(memberInfo, "memberInfo");
+            Check.ArgumentNullException(memberInfo, "memberInfo");
 
             var property = memberInfo as PropertyInfo;
             if (property != null)

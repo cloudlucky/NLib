@@ -67,7 +67,7 @@ namespace NLib
         /// </summary>
         /// <param name="numerator">The numerator.</param>
         public RationalNumber(long numerator)
-            : this(numerator, 1)
+            : this(numerator, 1L)
         {
         }
 
@@ -316,6 +316,31 @@ namespace NLib
         }
 
         /// <summary>
+        /// Converts the string representation of a number to its rational number equivalent.
+        /// </summary>
+        /// <param name="s">A string containing a rational number to convert. </param>
+        /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        public static RationalNumber Parse(string s)
+        {
+            return Parse(s, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a number to its rational number equivalent.
+        /// </summary>
+        /// <param name="s">A <see cref="string"/> containing a rational number to convert. </param>
+        /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
+        /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        public static RationalNumber Parse(string s, IFormatProvider provider)
+        {
+            Check.ArgumentNullException(s, "s");
+
+            return new RationalNumber(s, provider);
+        }
+
+        /// <summary>
         /// Returns the value of the <see cref="RationalNumber"/> operand (the sign of the operand is unchanged).
         /// </summary>
         /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
@@ -392,9 +417,46 @@ namespace NLib
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="double"/> to <see cref="RationalNumber"/>.
+        /// Converts the string representation of a number to its rational number equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        /// <param name="value">The <see cref="double"/>.</param>
+        /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
+        /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns></returns>
+        public static bool TryParse(string s, out RationalNumber result)
+        {
+            return TryParse(s, CultureInfo.CurrentCulture, out result);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a number to its rational number equivalent. A return value indicates whether the conversion succeeded.
+        /// </summary>
+        /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
+        /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
+        /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
+        /// <returns></returns>
+        public static bool TryParse(string s, IFormatProvider provider, out RationalNumber result)
+        {
+            result = Zero;
+
+            if (s != null)
+            {
+                try
+                {
+                    result = new RationalNumber(s, provider);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="decimal"/> to <see cref="RationalNumber"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="decimal"/>.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator RationalNumber(decimal value)
         {
@@ -414,7 +476,7 @@ namespace NLib
         /// <summary>
         /// Performs an implicit conversion from <see cref="long"/> to <see cref="RationalNumber"/>.
         /// </summary>
-        /// <param name="value">The <see cref="int"/> to convert.</param>
+        /// <param name="value">The <see cref="long"/> to convert.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator RationalNumber(long value)
         {
@@ -869,7 +931,7 @@ namespace NLib
         /// <returns>
         /// A Unicode character equivalent to the value of this instance.
         /// </returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException">The conversion is not supported.</exception>
         char IConvertible.ToChar(IFormatProvider provider)
         {
             throw new NotSupportedException();
@@ -882,7 +944,7 @@ namespace NLib
         /// <returns>
         /// A <see cref="T:System.DateTime"/> instance equivalent to the value of this instance.
         /// </returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <exception cref="NotSupportedException">The conversion is not supported.</exception>
         DateTime IConvertible.ToDateTime(IFormatProvider provider)
         {
             throw new NotSupportedException();

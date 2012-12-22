@@ -40,7 +40,9 @@
       <HintPath>..\..\Lib\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,13 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckErrorTest.cs" />
     <Compile Include="CheckTest.cs" />
+    <Compile Include="Collections\Generic\GraphTest.cs" />
+    <Compile Include="Collections\Generic\HashBagTest.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtensionTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IEnumerableExtensionTest.cs" />
     <Compile Include="Collections\Generic\Extensions\IListExtensionTest.cs" />
     <Compile Include="Collections\Generic\GeneratorTest.cs" />
+    <Compile Include="Collections\Generic\RedBlackTreeTest.cs" />
     <Compile Include="Collections\Generic\SortedBagTest.cs" />
+    <Compile Include="NumberTest.cs" />
     <Compile Include="EventArgsTest.cs" />
     <Compile Include="Extensions\ArrayExtensionTest.cs" />
     <Compile Include="Extensions\ConvertExtensionTest.cs" />
@@ -70,6 +75,7 @@
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionTest.cs" />
+    <Compile Include="Reflection\ReflectionHelperTest.cs" />
     <Compile Include="Xml\Extensions\XDocumentExtensionTest.cs" />
     <Compile Include="Xml\Linq\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
@@ -81,6 +87,9 @@
       <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
       <Name>NLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Text\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

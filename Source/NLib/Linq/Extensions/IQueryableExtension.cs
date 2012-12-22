@@ -52,8 +52,8 @@ namespace NLib.Linq.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
         public static IQueryable<TSource> Between<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, TKey min, TKey max)
         {
-            CheckError.ArgumentNullException(source, "source");
-            CheckError.ArgumentNullException(keySelector, "keySelector");
+            Check.ArgumentNullException(source, "source");
+            Check.ArgumentNullException(keySelector, "keySelector");
 
             var key = Expression.Invoke(keySelector, keySelector.Parameters.ToArray());
             var lowerBound = Expression.LessThanOrEqual(Expression.Constant(min), key);
@@ -74,7 +74,7 @@ namespace NLib.Linq.Extensions
         /// <returns>The subset of the collection.</returns>
         public static IQueryable<T> Paginate<T>(this IQueryable<T> collection, int page, int pageSize)
         {
-            Check.Requires<ArgumentNullException>(collection != null, new { paramName = "collection" });
+            Check.ArgumentNullException(collection != null, "collection");
 
             var skip = Math.Max(pageSize * page, 0);
 

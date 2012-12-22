@@ -28,7 +28,7 @@ namespace NLib.Xml.Extensions
         [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Utility method to convert.")]
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
-            Check.Requires<ArgumentNullException>(xmlDocument != null, new { paramName = "xmlDocument" });
+            Check.ArgumentNullException(xmlDocument != null, "xmlDocument");
 
             using (var reader = new XmlNodeReader(xmlDocument))
             {

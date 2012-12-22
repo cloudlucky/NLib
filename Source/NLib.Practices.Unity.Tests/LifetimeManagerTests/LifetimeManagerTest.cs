@@ -7,7 +7,7 @@
     [TestFixture]
     public class LifetimeManagerTest
     {
-        [Test]
+        [Test, Explicit]
         public void WebRequestTest()
         {
             using (var td = new UnitTestWorkerDriver())
@@ -22,7 +22,7 @@
             }
         }
 
-        [Test]
+        [Test, Explicit] 
         public void WebRequestTest2()
         {
             using (var td = new UnitTestWorkerDriver())

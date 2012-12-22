@@ -34,7 +34,7 @@ namespace NLib.Reflection.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static string GetManifestResourceString(this Assembly assembly, string name)
         {
-            CheckError.ArgumentNullException(assembly, "assembly");
+            Check.ArgumentNullException(assembly, "assembly");
 
             var stream = assembly.GetManifestResourceStream(name);
 

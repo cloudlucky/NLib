@@ -45,7 +45,7 @@ namespace NLib.Extensions
             /// <param name="comparer">The comparer.</param>
             public Comparer(Comparison<T> comparer)
             {
-                Check.Requires<ArgumentNullException>(comparer != null, new { paramName = "comparer" });
+                Check.ArgumentNullException(comparer != null, "comparer");
 
                 this.comparer = comparer;
             }

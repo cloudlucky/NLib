@@ -30,7 +30,7 @@ namespace NLib.Extensions
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static bool Contains(this string text, string value, StringComparison comparisonType)
         {
-            CheckError.ArgumentNullException(text, "text");
+            Check.ArgumentNullException(text, "text");
 
             if (string.IsNullOrEmpty(value))
             { 
@@ -39,5 +39,28 @@ namespace NLib.Extensions
 
             return text.IndexOf(value, comparisonType) >= 0;
         }
+
+        /// <summary>
+        /// 
+        /// The longest common subsequence (Lcs) problem is to find the longest subsequence common to all sequences in a set of sequences
+        /// </summary>
+        /// <param name="str1">
+        /// The sequence
+        /// </param>
+        /// <param name="str2">
+        /// The subsequece
+        /// </param>
+        /// <param name="comparisonType">
+        /// The comparison Type.
+        /// </param>
+        /// 
+        /// <returns>
+        /// The lcs.
+        /// </returns>
+        public static int Lcs(string str1, string str2, StringComparison comparisonType)
+        {
+            return 0;
+        }
+
     }
 }
