@@ -1,13 +1,13 @@
 ﻿namespace NLib.Tests.Patterns
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Patterns;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class LazySingletonTest
     {
-        [Test]
+        [TestMethod]
         public void CurrentTest1()
         {
             var t = LazySingleton<Test1>.Current;

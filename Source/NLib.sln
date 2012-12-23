@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib", "NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{232265D9-1455-4721-82CC-49A4B5952D0B}"
 	ProjectSection(SolutionItems) = preProject
 		Build.proj = Build.proj
@@ -13,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib", "NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Tests", "NLib.Tests\NLib.Tests.csproj", "{A21B94A7-4C3C-4BBC-A617-452912C8F38D}"
 EndProject
@@ -35,6 +35,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception", "NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj", "{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception.Tests", "NLib.Practices.Unity.Interception.Tests\NLib.Practices.Unity.Interception.Tests.csproj", "{408C9F5D-2B16-403D-82AC-D72D7888A998}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7A6F4E59-1AF1-459E-A482-1C58AE59867E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -225,5 +232,8 @@ Global
 		{5889463C-2544-4D22-AE68-3C676AAD5F6D} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 		{408C9F5D-2B16-403D-82AC-D72D7888A998} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

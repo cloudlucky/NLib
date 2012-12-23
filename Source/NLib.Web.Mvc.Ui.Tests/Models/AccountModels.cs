@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Web.Mvc;
-using System.Web.Security;
-
-namespace NLib.Web.Mvc.Ui.Tests.Models
+﻿namespace NLib.Web.Mvc.Ui.Tests.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
     using NLib.ComponentModel.DataAnnotations;
 
     public class ChangePasswordModel
@@ -83,7 +79,7 @@ namespace NLib.Web.Mvc.Ui.Tests.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

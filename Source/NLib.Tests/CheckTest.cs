@@ -2,20 +2,20 @@
 {
     using System;
 
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class CheckTest
     {
-        [Test]
+        [TestMethod]
         public void ArgumentException1()
         {
             var foo = 3;
             Check.ArgumentException(foo > 0, "foo");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void ArgumentException2()
         {
@@ -24,15 +24,15 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentException3()
         {
             var foo = 3;
             Check.ArgumentException(foo > 0, "foo", "foo is negative");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void ArgumentException4()
         {
@@ -41,7 +41,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentException5()
         {
             var foo = -1;
@@ -55,14 +55,14 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullException1()
         {
             Check.ArgumentNullException(string.Empty, "foo");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullException2()
         {
@@ -70,14 +70,14 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullException3()
         {
             Check.ArgumentNullException(string.Empty, "foo", "foo is null");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullException4()
         {
@@ -85,7 +85,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullException5()
         {
             try
@@ -98,14 +98,14 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrEmptyException1()
         {
             Check.ArgumentNullOrEmptyException("Test", "foo");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrEmptyException2()
         {
@@ -113,14 +113,14 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrEmptyException3()
         {
             Check.ArgumentNullOrEmptyException("Test", "foo", "foo is null or empty");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrEmptyException4()
         {
@@ -128,7 +128,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrEmptyException5()
         {
             try
@@ -141,14 +141,14 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrWhiteSpaceException1()
         {
             Check.ArgumentNullOrWhiteSpaceException("Test", "foo");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrWhiteSpaceException2()
         {
@@ -156,7 +156,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrWhiteSpaceException3()
         {
@@ -164,7 +164,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrWhiteSpaceException4()
         {
@@ -172,14 +172,14 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrWhiteSpaceException5()
         {
             Check.ArgumentNullOrWhiteSpaceException("Test", "foo", "foo is null or empty");
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrWhiteSpaceException6()
         {
@@ -187,7 +187,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullOrWhiteSpaceException7()
         {
@@ -195,7 +195,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void ArgumentNullOrWhiteSpaceException8()
         {
             try
@@ -208,20 +208,20 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         public void Requires1()
         {
             Check.Requires<ArgumentException>(true);
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void Requires2()
         {
             Check.Requires<ArgumentException>(false);
         }
 
-        [Test]
+        [TestMethod]
         public void Requires3()
         {
             try
@@ -234,7 +234,7 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         public void Requires4()
         {
             try
@@ -247,14 +247,14 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(MissingConstructorException))]
         public void Requires5()
         {
             Check.Requires<Test2Exception>(false, "A message");
         }
 
-        [Test]
+        [TestMethod]
         public void Requires6()
         {
             try
@@ -268,34 +268,34 @@
             }
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(MissingConstructorException))]
         public void Requires7()
         {
             Check.Requires<TestException>(false, new { message = "error", foo = "bar", test = "test" });
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void Requires8()
         {
             Check.Requires(false, new ArgumentException());
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void Requires9()
         {
             Check.Requires<ArgumentException>(false);
         }
 
-        [Test]
+        [TestMethod]
         public void Requires10()
         {
             Check.Requires<ArgumentException>(true);
         }
 
-        [Test]
+        [TestMethod]
         public void Requires11()
         {
             Check.Requires(true, new ArgumentException());

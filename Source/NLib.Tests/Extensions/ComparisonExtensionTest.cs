@@ -2,14 +2,14 @@
 {
     using System;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class ComparisonExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void Test1()
         {
             Comparison<int> ec = (i1, i2) => i1 + i2;
@@ -17,7 +17,7 @@
             Assert.AreEqual(5, ec(2, 3));
         }
 
-        [Test]
+        [TestMethod]
         public void Test2()
         {
             Comparison<int> ec = (i1, i2) => i1 + i2;
@@ -26,7 +26,7 @@
             Assert.AreEqual(3, t.Compare(1, 2));
         }
 
-        [Test]
+        [TestMethod]
         public void Test3()
         {
             Comparison<int> ec = (i1, i2) => i1 - i2;

@@ -2,12 +2,12 @@
 {
     using System;
 
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class MathHelperTest
     {
-        [Test]
+        [TestMethod]
         public void Factorial1()
         {
             Assert.AreEqual(1, MathHelper.Factorial(0));
@@ -26,14 +26,14 @@
             Assert.AreEqual(1.5511210043330986e25, MathHelper.Factorial(25));
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void Factorial2()
         {
             MathHelper.Factorial(-2);
         }
 
-        [Test]
+        [TestMethod]
         public void GreatCommonDivisor1()
         {
             Assert.AreEqual(3, MathHelper.GreatCommonDivisor(3, 6));
@@ -41,7 +41,7 @@
             Assert.AreEqual(1, MathHelper.GreatCommonDivisor(3, 4));
         }
 
-        [Test]
+        [TestMethod]
         public void LeastCommonMultiple1()
         {
             Assert.AreEqual(6, MathHelper.LeastCommonMultiple(3, 6));
@@ -49,7 +49,7 @@
             Assert.AreEqual(12, MathHelper.LeastCommonMultiple(3, 4));
         }
 
-        [Test]
+        [TestMethod]
         public void LeastCommonMultiple2()
         {
             Assert.AreEqual(0, MathHelper.LeastCommonMultiple(0, 6));

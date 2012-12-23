@@ -1,18 +1,15 @@
 namespace NLib.Tests.Xml.Extensions
 {
-    using NLib;
-    using NLib.Extensions;
-    using NLib.Xml.Extensions;
-    using System;
-    using System.Linq;
     using System.Xml;
-    using System.Xml.Linq;
-    using NUnit.Framework;
 
-    [TestFixture]
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using NLib.Xml.Extensions;
+
+    [TestClass]
     public class XDocumentExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void ToXdocumentTest1()
         {
             var xmlDoc = new XmlDocument();
@@ -24,7 +21,7 @@ namespace NLib.Tests.Xml.Extensions
             Assert.AreEqual(xdoc.ToString(), "<data></data>");
         }
 
-        [Test]
+        [TestMethod]
         public void ToXdocumentTest2()
         {
             var doc = new XmlDocument();

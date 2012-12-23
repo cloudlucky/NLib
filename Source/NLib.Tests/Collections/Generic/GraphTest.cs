@@ -3,15 +3,16 @@ namespace NLib.Tests.Collections.Generic
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
-    using NUnit.Framework;
 
-    [TestFixture]
+    [TestClass]
     public class GraphTest
     {
-        [Test, Timeout(2000)]
-        [Category("Graph")]
+        [TestMethod, Timeout(2000)]
         public void GraphEdgeFactoryTest1()
         {
             var nodeA = new GraphNode<string, Number>("NodeA");
@@ -32,16 +33,14 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsTrue(edge.Value == 12345 && (edge.To.Value.Equals("NodeB") && edge.From.Value.Equals("NodeA")));
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph")]
+        [TestMethod, Timeout(2000)]
         public void GraphNodeFactoryTest2()
         {
             var node = GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<string, Number>("NodeName");
             Assert.AreEqual("NodeName", node.Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddNodeTest()
         {
             IGraph<string, int> graph = new Graph<string, int>();
@@ -51,8 +50,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreSame("A",graph["A"].Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
@@ -62,8 +60,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(1, graph["A", "B"]);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest2()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
@@ -75,8 +72,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(20, graph["A", "B"]);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest3()
         {
 
@@ -94,23 +90,19 @@ namespace NLib.Tests.Collections.Generic
 
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
-        [TestCase(10, Result = 20)]
-        [TestCase(20, Result = 40)]
-        public int AddEdgeTest4(int value)
+        [TestMethod, Timeout(2000)]
+        public void AddEdgeTest4()
         {
             IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
+            var value = 20;
 
             graph.AddUndirectedEdge("FROM", "TO", value);
-
             graph.AddUndirectedEdge("TO", "FROM", value);
             
-            return graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value;
+            Assert.AreEqual(40, graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest5()
         {
             IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
@@ -122,8 +114,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(30, graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest6()
         {
             IGraph<String, Number> graph = new Graph<String, Number> { "FROM", "TO" };
@@ -141,8 +132,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(10), ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value + ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         [ExpectedException(typeof(ArgumentException))]
         public void AddEdgeTest7()
         {
@@ -155,24 +145,21 @@ namespace NLib.Tests.Collections.Generic
             Assert.Fail();
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
-        [TestCase("FROM", "TO", 2, 1)]
-        [TestCase("TO","FROM", 1, 2)]
+        [TestMethod, Timeout(2000)]
         [ExpectedException(typeof(ArgumentException))]
-        public void AddEdgeTest7(string from, string to, int valueUndirectedEdge, int valueDirectedEdge)
+        public void AddEdgeTest7_2()
         {
+            string from = "FROM";
+            string to = "TO";
             IGraph<string, int> graph = new Graph<string, int> { from, to };
 
-            graph.AddUndirectedEdge(to, from, valueUndirectedEdge);
-
-            graph.AddDirectedEdge(to, from, valueDirectedEdge);
+            graph.AddUndirectedEdge(to, from, 1);
+            graph.AddDirectedEdge(to, from, 2);
 
             Assert.Fail();
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest8()
         {
             IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
@@ -184,8 +171,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(2, graph.GetEdge("FROM", "TO").Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest9()
         {
             IGraph<string, int> graph = new Graph<string, int> { "TO", "FROM" };
@@ -198,8 +184,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Add")]
+        [TestMethod, Timeout(2000)]
         public void AddEdgeTest10()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "TO", "FROM" };
@@ -215,25 +200,33 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(2), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value); 
         }
 
-        [Test, Combinatorial, Timeout(2000)]
-        [Category("Graph Add")]
-        public void AddEdgeTest11([Values("A", "B")]string a, [Values("A", "B")]string b)
+        [TestMethod, Timeout(2000)]
+        public void AddEdgeTest11()
         {
-            IGraph<string, int> graph = new Graph<string, int> { a, b };
+            var values = new[] { "A", "B" };
 
-            graph.AddUndirectedEdge(a, b, 10);
+            foreach (var a in values)
+            {
+                foreach (var b in values)
+                {
+                    IGraph<string, int> graph = new Graph<string, int> { a, b };
 
-            Assert.NotNull(graph.GetEdge(a, b));
+                    graph.AddUndirectedEdge(a, b, 10);
 
-            var edge = graph.GetEdge(b, a);
+                    Assert.IsNotNull(graph.GetEdge(a, b));
 
-            edge.Value = 20;
+                    var edge = graph.GetEdge(b, a);
 
-            Assert.AreEqual(20, graph.GetEdge(a, b).Value);
+                    edge.Value = 20;
+
+                    Assert.AreEqual(20, graph.GetEdge(a, b).Value);
+                }
+            }
+
+            Assert.IsTrue(true);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Remove")]
+        [TestMethod, Timeout(2000)]
         public void RemoveEdgeTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
@@ -246,29 +239,26 @@ namespace NLib.Tests.Collections.Generic
             
             graph.RemoveEdge(edge);
 
-            Assert.Null(graph.GetEdge("B", "A"));
+            Assert.IsNull(graph.GetEdge("B", "A"));
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph")]
+        [TestMethod, Timeout(2000)]
         public void EnumerableTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C" };
 
-            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph);
+            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.ToList());
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph")]
+        [TestMethod, Timeout(2000)]
         public void GetAllNodesTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C" };
 
-            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.Nodes.Select(x => x.Value));
+            CollectionAssert.AreEquivalent(new[] { "A", "B", "C" }, graph.Nodes.Select(x => x.Value).ToList());
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph")]
+        [TestMethod, Timeout(2000)]
         public void CloneGraphTest1()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C" };
@@ -297,8 +287,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(false, graph["A"].Marked);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void DepthFirstTraversalTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -322,8 +311,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("ABCDEFGH", strSequence);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void BreadthFirstTraversalTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -346,8 +334,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("ABHGCFDE", strSequence);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest1()
         {
             IGraph<long,Number> graph  = new Graph<long> { 1, 2, 3, 4, 5, 6 };
@@ -368,8 +355,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest2()
         {
             IGraph<int,Number> graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
@@ -389,8 +375,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest3()
         {
             IGraph<char, Number> graph = new Graph<char, Number> { 's', 'o', 'p', 'r', 'q', 't' };
@@ -407,8 +392,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(5), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest4()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "a", "b", "c", "d", "e", "f" };
@@ -428,8 +412,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(14), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest5()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "t" };
@@ -446,8 +429,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(30), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest6()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "c", "d", "e", "f", "g", "h", "i", "t" };
@@ -471,8 +453,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual(new Number(50), flowMax);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void FindPathTest1()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "s", "a", "b", "c", "t" };
@@ -495,8 +476,7 @@ namespace NLib.Tests.Collections.Generic
             path.Pop();
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void DjkstraTest1()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C", "D", "E", "F", "G", "H" };
@@ -545,8 +525,7 @@ namespace NLib.Tests.Collections.Generic
             Assert.AreEqual("G", previous["H"]);
         }
 
-        [Test, Timeout(2000)]
-        [Category("Graph Algorithm")]
+        [TestMethod, Timeout(2000)]
         public void DjkstraTest2()
         {
             IGraph<string, Number> graph = new Graph<string, Number> { "A" };

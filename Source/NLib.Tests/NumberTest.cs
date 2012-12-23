@@ -3,12 +3,12 @@
     using System;
     using System.Globalization;
 
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class NumberTest
     {
-        [Test]
+        [TestMethod]
         public void ConstructorLong1()
         {
             var r = new Number(1);
@@ -17,7 +17,7 @@
             Assert.AreNotEqual(2, r.ToInt64());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorLong2()
         {
             var r = new Number(-3);
@@ -26,7 +26,7 @@
             Assert.AreNotEqual(2, r.ToInt64());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble1()
         {
             var r = new Number(0.25);
@@ -35,7 +35,7 @@
             Assert.AreNotEqual(2.25, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble2()
         {
             var r = new Number(double.NaN);
@@ -43,7 +43,7 @@
             Assert.AreEqual(r, Number.NaN);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble3()
         {
             var r = new Number(double.PositiveInfinity);
@@ -51,7 +51,7 @@
             Assert.AreEqual(r, Number.PositiveInfinity);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble4()
         {
             var r = new Number(double.NegativeInfinity);
@@ -59,7 +59,7 @@
             Assert.AreEqual(r, Number.NegativeInfinity);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble5()
         {
             var r = new Number(double.MaxValue);
@@ -67,7 +67,7 @@
             Assert.AreEqual(r, Number.MaxValue);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble6()
         {
             var r = new Number(double.MinValue);
@@ -75,7 +75,7 @@
             Assert.AreEqual(r, Number.MinValue);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble7()
         {
             var r = new Number(-1.25);
@@ -84,7 +84,7 @@
             Assert.AreNotEqual(2.25, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDouble8()
         {
             var r = new Number(0.0);
@@ -92,33 +92,33 @@
             Assert.AreEqual(0.0, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDecimal1()
         {
             var r = new Number(0.25m);
 
-            Assert.AreEqual(0.25, r.ToDecimal());
-            Assert.AreNotEqual(2.25, r.ToDecimal());
+            Assert.AreEqual(0.25m, r.ToDecimal());
+            Assert.AreNotEqual(2.25m, r.ToDecimal());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDecimal4()
         {
             var r = new Number(-1.25m);
 
-            Assert.AreEqual(-1.25, r.ToDecimal());
-            Assert.AreNotEqual(2.25, r.ToDecimal());
+            Assert.AreEqual(-1.25m, r.ToDecimal());
+            Assert.AreNotEqual(2.25m, r.ToDecimal());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorDecimal5()
         {
             var r = new Number(0.0m);
 
-            Assert.AreEqual(0.0, r.ToDecimal());
+            Assert.AreEqual(0.0m, r.ToDecimal());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorString1()
         {
             var r = new Number("1");
@@ -127,7 +127,7 @@
             Assert.AreNotEqual(2.25, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorString3()
         {
             var r = new Number("4");
@@ -136,7 +136,7 @@
             Assert.AreNotEqual(2.25, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorString4()
         {
             var r = new Number("-4");
@@ -145,7 +145,7 @@
             Assert.AreNotEqual(2.25, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Compare1()
         {
             var r = new Number(1);
@@ -155,7 +155,7 @@
             Assert.AreNotEqual(r, Number.Zero);
         }
 
-        [Test]
+        [TestMethod]
         public void Compare2()
         {
             var r = new Number(0);
@@ -165,7 +165,7 @@
             Assert.AreEqual(r, Number.Zero);
         }
 
-        [Test]
+        [TestMethod]
         public void Plus()
         {
             var r1 = new Number(1.5);
@@ -176,7 +176,7 @@
             Assert.AreEqual(3, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Divide()
         {
             var r1 = new Number(3);
@@ -187,7 +187,7 @@
             Assert.AreEqual(2, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Equals1()
         {
             var r1 = new Number(1.236589215);
@@ -197,7 +197,7 @@
             Assert.IsFalse(r1.Equals(Number.NaN));
         }
 
-        [Test]
+        [TestMethod]
         public void Equals2()
         {
             var r1 = new Number(1.23658921);
@@ -207,7 +207,7 @@
             Assert.IsFalse(r1.Equals(Number.NaN));
         }
 
-        [Test]
+        [TestMethod]
         public void Equals3()
         {
             var r1 = new Number(1.236589215);
@@ -216,7 +216,7 @@
             Assert.IsTrue(r1.Equals(r2));
         }
 
-        [Test]
+        [TestMethod]
         public void Equals5()
         {
             var r1 = new Number(1.236589215);
@@ -224,7 +224,7 @@
             Assert.IsFalse(r1.Equals(DateTime.Now));
         }
 
-        [Test]
+        [TestMethod]
         public void Equals6()
         {
             var r1 = new Number(1.236589215);
@@ -232,7 +232,7 @@
             Assert.IsFalse(r1.Equals(null as object));
         }
 
-        [Test]
+        [TestMethod]
         public void Multiply()
         {
             var r1 = new Number(2.5);
@@ -243,7 +243,7 @@
             Assert.AreEqual(8.75, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Negate1()
         {
             var r1 = new Number(2.5);
@@ -253,7 +253,7 @@
             Assert.AreEqual(-2.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Negate2()
         {
             var r1 = new Number(2.5);
@@ -263,7 +263,7 @@
             Assert.AreEqual(-2.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void Substract()
         {
             var r1 = new Number(0.75);
@@ -274,7 +274,7 @@
             Assert.AreEqual(0.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void ImplicitOperatorDecimal()
         {
             var r1 = new Number(4.3m);
@@ -283,7 +283,7 @@
             Assert.AreEqual(r1, r2);
         }
 
-        [Test]
+        [TestMethod]
         public void ImplicitOperatorLong()
         {
             var r1 = new Number(4);
@@ -292,7 +292,7 @@
             Assert.AreEqual(r1, r2);
         }
 
-        [Test]
+        [TestMethod]
         public void ImplicitOperatorString()
         {
             var r1 = new Number(1);
@@ -301,7 +301,7 @@
             Assert.AreEqual(r1, r2);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorSubtract()
         {
             var r1 = new Number(0.75);
@@ -312,7 +312,7 @@
             Assert.AreEqual(0.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorNegate()
         {
             var r1 = new Number(2.5);
@@ -322,7 +322,7 @@
             Assert.AreEqual(-2.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorDecrement()
         {
             var r1 = new Number(2.5);
@@ -332,7 +332,7 @@
             Assert.AreEqual(1.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorNotEqual()
         {
             var r1 = new Number(2.5);
@@ -341,7 +341,7 @@
             Assert.IsTrue(r1 != r2);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorModulo()
         {
             var r1 = new Number(1);
@@ -352,7 +352,7 @@
             Assert.AreEqual(1, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorMultiply()
         {
             var r1 = new Number(2.5);
@@ -363,7 +363,7 @@
             Assert.AreEqual(8.75, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorDivide()
         {
             var r1 = new Number(3);
@@ -374,7 +374,7 @@
             Assert.AreEqual(2, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorPlus()
         {
             var r1 = new Number(1.5);
@@ -385,7 +385,7 @@
             Assert.AreEqual(3, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorPlusAlone()
         {
             var r1 = new Number(2.5);
@@ -395,7 +395,7 @@
             Assert.AreEqual(2.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorIncrement()
         {
             var r1 = new Number(2.5);
@@ -405,7 +405,7 @@
             Assert.AreEqual(3.5, r.ToDouble());
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorLessThan()
         {
             var r1 = new Number(2.5);
@@ -416,7 +416,7 @@
             Assert.IsFalse(r1 < r1);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorLessThanOrEqual()
         {
             var r1 = new Number(2.5);
@@ -427,7 +427,7 @@
             Assert.IsTrue(r1 <= r1);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorEqual()
         {
             var r1 = new Number(2.5);
@@ -436,7 +436,7 @@
             Assert.IsTrue(r1 == r2);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorGreaterThan()
         {
             var r1 = new Number(3.5);
@@ -447,7 +447,7 @@
             Assert.IsFalse(r1 > r1);
         }
 
-        [Test]
+        [TestMethod]
         public void OperatorGreaterThanOrEqual()
         {
             var r1 = new Number(3.5);
@@ -458,7 +458,7 @@
             Assert.IsTrue(r1 >= r1);
         }
 
-        [Test]
+        [TestMethod]
         public void CompareToObject1()
         {
             var r1 = new Number(2.5);
@@ -467,8 +467,8 @@
             Assert.IsTrue(r1.CompareTo(r2) == 0);
         }
 
-        [Test]
-        [ExpectedException(typeof(InvalidCastException), ExpectedMessage = "The obj must be a Number or can be implicit converted to Number")]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCastException), "The obj must be a Number or can be implicit converted to Number")]
         public void CompareToObject2()
         {
             var r1 = new Number(2.5);
@@ -477,7 +477,7 @@
             Assert.IsTrue(r1.CompareTo(r2) == 0);
         }
 
-        [Test]
+        [TestMethod]
         public void CompareToNumber()
         {
             var r1 = new Number(2.5);
@@ -486,7 +486,7 @@
             Assert.IsTrue(r1.CompareTo(r2) == 0);
         }
 
-        [Test]
+        [TestMethod]
         public void NumberGetHashCode()
         {
             var r1 = new Number(2.5);
@@ -494,7 +494,7 @@
             Assert.AreEqual((2.5).GetHashCode(), r1.GetHashCode());
         }
 
-        [Test]
+        [TestMethod]
         public void ToDecimal()
         {
             var r1 = new Number(2.5);
@@ -502,7 +502,7 @@
             Assert.AreEqual(2.5m, r1.ToDecimal());
         }
 
-        [Test]
+        [TestMethod]
         public void ToSingle()
         {
             var r1 = new Number(2.5);
@@ -510,7 +510,7 @@
             Assert.AreEqual(2.5f, r1.ToSingle());
         }
 
-        [Test]
+        [TestMethod]
         public void ToString1()
         {
             var r1 = new Number(0.5);
@@ -518,7 +518,7 @@
             Assert.AreEqual("0.5", r1.ToString(new CultureInfo("en-CA")));
         }
 
-        [Test]
+        [TestMethod]
         public void ToString2()
         {
             var r1 = new Number(1.5);
@@ -526,7 +526,7 @@
             Assert.AreEqual("1.5", r1.ToString(new CultureInfo("en-CA")));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleGetTypeCode()
         {
             var r1 = new Number(0.5) as IConvertible;
@@ -534,7 +534,7 @@
             Assert.IsTrue(r1.GetTypeCode() == TypeCode.Double);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToBoolean1()
         {
             var r1 = new Number(1.5) as IConvertible;
@@ -542,7 +542,7 @@
             Assert.IsTrue(r1.ToBoolean(CultureInfo.CurrentCulture));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToBoolean2()
         {
             var r1 = new Number(0.5) as IConvertible;
@@ -550,7 +550,7 @@
             Assert.IsTrue(r1.ToBoolean(CultureInfo.CurrentCulture));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToByte()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -558,8 +558,8 @@
             Assert.AreEqual(r1.ToByte(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
-        [ExpectedException(ExpectedException = typeof(InvalidCastException))]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCastException))]
         public void ConvertibleToChar()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -567,8 +567,8 @@
             r1.ToChar(CultureInfo.CurrentCulture);
         }
 
-        [Test]
-        [ExpectedException(ExpectedException = typeof(InvalidCastException))]
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCastException))]
         public void ConvertibleToDateTime()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -576,7 +576,7 @@
             r1.ToDateTime(CultureInfo.CurrentCulture);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToDecimal()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -584,15 +584,15 @@
             Assert.AreEqual(r1.ToDecimal(CultureInfo.CurrentCulture), 1.3m);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToDouble()
         {
             var r1 = new Number(1.3) as IConvertible;
 
-            Assert.AreEqual(r1.ToDouble(CultureInfo.CurrentCulture), 1.3m);
+            Assert.AreEqual(r1.ToDouble(CultureInfo.CurrentCulture), 1.3);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToInt16()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -600,7 +600,7 @@
             Assert.AreEqual(r1.ToInt16(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToInt32()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -608,7 +608,7 @@
             Assert.AreEqual(r1.ToInt32(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToInt64()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -616,7 +616,7 @@
             Assert.AreEqual(r1.ToInt64(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToSByte()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -624,7 +624,7 @@
             Assert.AreEqual(r1.ToSByte(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToSingle()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -632,7 +632,7 @@
             Assert.AreEqual(r1.ToSingle(CultureInfo.CurrentCulture), 1.3f);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToString()
         {
             var r1 = new Number(0.5) as IConvertible;
@@ -640,7 +640,7 @@
             Assert.AreEqual(r1.ToString(new CultureInfo("en-CA")), "0.5");
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToUInt16()
         {
             var r1 = new Number(1.3) as IConvertible;
@@ -648,23 +648,23 @@
             Assert.AreEqual(r1.ToUInt16(CultureInfo.CurrentCulture), 1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToUInt32()
         {
             var r1 = new Number(1.3) as IConvertible;
 
-            Assert.AreEqual(r1.ToUInt32(CultureInfo.CurrentCulture), 1);
+            Assert.AreEqual(r1.ToUInt32(CultureInfo.CurrentCulture), (uint)1);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertibleToUInt64()
         {
             var r1 = new Number(1.3) as IConvertible;
 
-            Assert.AreEqual(r1.ToUInt64(CultureInfo.CurrentCulture), 1);
+            Assert.AreEqual(r1.ToUInt64(CultureInfo.CurrentCulture), (ulong)1);
         }
 
-        [Test]
+        [TestMethod]
         public void IsInfinity()
         {
             Assert.IsTrue(Number.IsInfinity(Number.PositiveInfinity));
@@ -674,7 +674,7 @@
             Assert.IsFalse(Number.IsInfinity(2.3));
         }
 
-        [Test]
+        [TestMethod]
         public void IsPositiveInfinity()
         {
             Assert.IsTrue(Number.IsPositiveInfinity(Number.PositiveInfinity));
@@ -684,7 +684,7 @@
             Assert.IsFalse(Number.IsPositiveInfinity(2.3));
         }
 
-        [Test]
+        [TestMethod]
         public void IsNegativeInfinity()
         {
             Assert.IsFalse(Number.IsNegativeInfinity(Number.PositiveInfinity));
@@ -694,7 +694,7 @@
             Assert.IsFalse(Number.IsNegativeInfinity(2.3));
         }
 
-        [Test]
+        [TestMethod]
         public void IsNan()
         {
             Assert.IsFalse(Number.IsNaN(Number.PositiveInfinity));
@@ -706,7 +706,7 @@
             Assert.IsTrue(Number.IsNaN(Number.NaN));
         }
 
-        [Test]
+        [TestMethod]
         public void IConvertibleToType()
         {
             var r1 = new Number(2) as IConvertible;

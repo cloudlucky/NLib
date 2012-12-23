@@ -3,24 +3,24 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Collections.Generic;
     using NLib.Linq.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class IQueryableExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void BetweenTest1()
         {
             var c = Generator.Generate<int>(10, x => ++x).AsQueryable();
             var c2 = c.Between(5, 8);
 
-            CollectionAssert.AreEqual(new[] { 5, 6, 7, 8 }, c2);
+            CollectionAssert.AreEqual(new[] { 5, 6, 7, 8 }, c2.ToList());
         }
 
-        [Test]
+        [TestMethod]
         public void BetweenTest2()
         {
             var m1 = new MyClass { P1 = 1, P2 = "Foo" + 1 };
@@ -37,10 +37,10 @@
 
             var c2 = c.Between(x => x.P1, 5, 8);
 
-            CollectionAssert.AreEqual(new[] { m5, m6, m7, m8 }, c2);
+            CollectionAssert.AreEqual(new[] { m5, m6, m7, m8 }, c2.ToList());
         }
 
-        [Test]
+        [TestMethod]
         public void PaginateTest1()
         {
             var c = Generator.Generate<int>(10, x => ++x).AsQueryable();

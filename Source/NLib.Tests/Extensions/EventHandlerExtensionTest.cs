@@ -2,33 +2,33 @@
 {
     using System;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib;
     using NLib.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class EventHandlerExtensionTest
     {
         public event EventHandler Event1;
         public event EventHandler<EventArgs<int>> Event2;
 
-        [TestFixtureSetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             this.Event1 = null;
             this.Event2 = null;
         }
 
-        [Test]
+        [TestMethod]
         public void RaiseEventTest1()
         {
             this.Event1.RaiseEvent(this);
 
-            Assert.Pass();
+            Assert.IsTrue(true);
         }
 
-        [Test]
+        [TestMethod]
         public void RaiseEventTest2()
         {
             var i = 1;
@@ -39,7 +39,7 @@
             Assert.AreEqual(2, i);
         }
 
-        [Test]
+        [TestMethod]
         public void RaiseEventTest3()
         {
             var i = 1;
@@ -50,7 +50,7 @@
             Assert.AreEqual(2, i);
         }
 
-        [Test]
+        [TestMethod]
         public void RaiseEventTest4()
         {
             var i = 1;
@@ -61,7 +61,7 @@
             Assert.AreEqual(3, i);
         }
 
-        [Test]
+        [TestMethod]
         public void RaiseEventTest5()
         {
             var i = 1;

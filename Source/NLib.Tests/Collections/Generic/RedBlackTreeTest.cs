@@ -3,14 +3,14 @@
     using System;
     using System.Linq;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Collections.Generic;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class RedBlackTreeTest
     {
-        [Test]
+        [TestMethod]
         public void AddRange()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -38,7 +38,7 @@
             this.AssertNode(27, true, true, root.Right.Right.Right);
         }
 
-        [Test]
+        [TestMethod]
         public void AddRange2()
         {
             var tree = new RedBlackTree<int>();
@@ -47,7 +47,7 @@
             Assert.AreEqual(1000, tree.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void AddRange3()
         {
             var array = new[] { 100, 50, 25, 200, 300, 250, 299, 75, 98, 68, 236, 358, 402, 506, 89, 874, 258, 321, 12, 123, 1236, 987, 45, 852, 147, 369, 951, 159, 23, 58, 69 };
@@ -57,7 +57,7 @@
             CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
         }
 
-        [Test]
+        [TestMethod]
         public void Clear()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -69,7 +69,7 @@
             Assert.IsNull(tree.RootNode);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyTo()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -82,7 +82,7 @@
             CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), output);
         }
 
-        [Test]
+        [TestMethod]
         public void Count()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -92,7 +92,7 @@
             Assert.AreEqual(array.Length, tree.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void MaxValue()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -102,8 +102,8 @@
             Assert.AreEqual(27, tree.MaxValue);
         }
 
-        [Test]
-        [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The maximum value cannot be determined.")]
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException), "The maximum value cannot be determined.")]
         public void MaxValueEmptyTree()
         {
             var tree = new RedBlackTree<int>();
@@ -111,7 +111,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void MinValue()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -121,8 +121,8 @@
             Assert.AreEqual(1, tree.MinValue);
         }
 
-        [Test]
-        [ExpectedException(typeof(NotSupportedException), ExpectedMessage = "The minimum value cannot be determined.")]
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException), "The minimum value cannot be determined.")]
         public void MinValueEmptyTree()
         {
             var tree = new RedBlackTree<int>();
@@ -130,7 +130,7 @@
             Assert.Fail();
         }
 
-        [Test]
+        [TestMethod]
         public void InOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -140,7 +140,7 @@
             CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
         }
 
-        [Test]
+        [TestMethod]
         public void LevelOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -149,7 +149,7 @@
             CollectionAssert.AreEqual(new[] { 13, 8, 17, 1, 11, 15, 25, 6, 9, 22, 27 }, tree.LevelOrderTraversal().ToArray());
         }
 
-        [Test]
+        [TestMethod]
         public void PostOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -159,7 +159,7 @@
             CollectionAssert.AreEqual(array.OrderByDescending(x => x).ToArray(), tree.PostOrderTraversal().ToArray());
         }
 
-        [Test]
+        [TestMethod]
         public void PreOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -169,7 +169,7 @@
             CollectionAssert.AreEqual(new[] { 13, 8, 1, 6, 11, 9, 17, 15, 25, 22, 27 }, tree.PreOrderTraversal().ToArray());
         }
 
-        [Test]
+        [TestMethod]
         public void Remove()
         {
             foreach (var itemToRemove in new[] { 6, 22, 27, 1, 11, 9, 15, 25, 8, 17, 13 })
