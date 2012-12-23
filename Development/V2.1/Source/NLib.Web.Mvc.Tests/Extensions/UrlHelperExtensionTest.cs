@@ -5,19 +5,19 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Moq;
 
     using NLib.Web.Mvc.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class UrlHelperExtensionTest
     {
         public Controller Controller { get; set; }
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             this.Controller = GetController();
         }
@@ -46,7 +46,7 @@
             return controller;
         }
 
-        [Test]
+        [TestMethod]
         public void EmbeddedResourceTest()
         {
             var s = this.Controller.Url.EmbeddedResource("NLib.Web.Mvc.Tests", "EmbeddedResourceFile.txt");
@@ -54,7 +54,7 @@
             Assert.AreEqual("/nlib/embeddedresource/EmbeddedResourceFile.txt?assemblyName=NLib.Web.Mvc.Tests", s);
         }
 
-        [Test]
+        [TestMethod]
         public void NLibValidateScriptTest()
         {
             var s = this.Controller.Url.NLibValidateScript();
@@ -62,7 +62,7 @@
             Assert.AreEqual("/nlib/embeddedresource/NLib.validate.js?assemblyName=NLib.Web.Mvc", s);
         }
 
-        [Test]
+        [TestMethod]
         public void NLibValidateUnobstrusiveScriptTest()
         {
             var s = this.Controller.Url.NLibValidateUnobstrusiveScript();

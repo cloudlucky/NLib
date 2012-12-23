@@ -1,13 +1,13 @@
 ﻿namespace NLib.Tests.Extensions
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class ArrayExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void SwapValues1()
         {
             var l = new[] { 1, 2, 3, 4, 5, 6 };
@@ -16,7 +16,7 @@
             CollectionAssert.AreEquivalent(l, new[] { 1, 2, 4, 3, 5, 6 });
         }
 
-        [Test]
+        [TestMethod]
         public void SwapValues2()
         {
             var l = new[] {1, 2, 3};

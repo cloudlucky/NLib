@@ -3,16 +3,14 @@
     using System;
     using System.Linq;
 
-    using NLib;
-    using NLib.Extensions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Reflection.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class MemberInfoExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void GetCustomAttribute1()
         {
             var c = new CustomAttributesTest();
@@ -20,15 +18,15 @@
             Assert.IsNull(c.GetType().GetProperty("P1").GetCustomAttribute<CustomAttributeAttribute>(false));
         }
 
-        [Test]
+        [TestMethod]
         public void GetCustomAttribute2()
         {
             var c = new CustomAttributesTest();
 
-            Assert.NotNull(c.GetType().GetProperty("P2").GetCustomAttribute<CustomAttributeAttribute>(false));
+            Assert.IsNotNull(c.GetType().GetProperty("P2").GetCustomAttribute<CustomAttributeAttribute>(false));
         }
 
-        [Test]
+        [TestMethod]
         public void GetCustomAttributes1()
         {
             var c = new CustomAttributesTest();
@@ -36,7 +34,7 @@
             Assert.AreEqual(0, c.GetType().GetProperty("P1").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
         }
 
-        [Test]
+        [TestMethod]
         public void GetCustomAttributes2()
         {
             var c = new CustomAttributesTest();
@@ -44,7 +42,7 @@
             Assert.AreEqual(1, c.GetType().GetProperty("P2").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
         }
 
-        [Test]
+        [TestMethod]
         public void GetCustomAttributes3()
         {
             var c = new CustomAttributesTest();
@@ -54,7 +52,7 @@
             Assert.AreEqual("Foo", x.ElementAt(0).Name);
         }
 
-        [Test]
+        [TestMethod]
         public void GetCustomAttributes4()
         {
             var c = new CustomAttributesTest();
@@ -63,7 +61,7 @@
             Assert.AreEqual(2, x.Length);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMemberTypeTest1()
         {
             var c = new CustomAttributesTest();
@@ -74,7 +72,7 @@
             Assert.AreEqual(typeof(string), c.GetType().GetField("M1").GetMemberType());
         }
 
-        [Test]
+        [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
         public void GetMemberTypeTest2()
         {

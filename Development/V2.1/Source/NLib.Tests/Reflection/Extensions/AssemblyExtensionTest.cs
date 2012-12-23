@@ -2,14 +2,14 @@
 {
     using System.Reflection;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Reflection.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class AssemblyExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void GetManifestResourceStringTest1()
         {
             var s = Assembly.GetExecutingAssembly().GetManifestResourceString("NLib.Tests.Reflection.Extensions.TextFile1.txt");

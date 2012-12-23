@@ -1,11 +1,11 @@
 ﻿namespace NLib.Tests
 {
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class MissingConstructorExceptionTest
     {
-        [Test]
+        [TestMethod]
         public void ConstructorTest1()
         {
             var e = new MissingConstructorException();
@@ -13,7 +13,7 @@
             Assert.AreEqual("Attempted to access a missing method.", e.Message);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorTest2()
         {
             var message = "My message";
@@ -22,7 +22,7 @@
             Assert.AreEqual(message, e.Message);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorTest3()
         {
             var message = "My message";

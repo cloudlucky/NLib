@@ -1,13 +1,13 @@
 ﻿namespace NLib.Tests.Reflection
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Reflection.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class ReflectionHelperTest
     {
-        [Test]
+        [TestMethod]
         public void PublicFieldTest()
         {
             var t = new FieldClass();
@@ -31,7 +31,7 @@
             Assert.AreEqual("String", f1.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PublicFieldTest2()
         {
             var t = new SubFieldClass();
@@ -69,7 +69,7 @@
             Assert.AreEqual("Int64", f3.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PrivateFieldTest()
         {
             var t = new FieldClass();
@@ -92,7 +92,7 @@
             Assert.AreEqual("Int32", f2.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PrivateFieldTest2()
         {
             var t = new SubFieldClass();
@@ -127,7 +127,7 @@
             Assert.AreEqual("Double", f4.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PublicPropertyTest()
         {
             var t = new PropertyClass();
@@ -151,7 +151,7 @@
             Assert.AreEqual("String", pi1.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PublicPropertyTest2()
         {
             var t = new SubPropertyClass();
@@ -189,7 +189,7 @@
             Assert.AreEqual("Int64", pi3.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PrivatePropertyTest()
         {
             var t = new PropertyClass();
@@ -212,7 +212,7 @@
             Assert.AreEqual("Int32", pi2.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void PrivatePropertyTest2()
         {
             var t = new SubPropertyClass();

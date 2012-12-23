@@ -5,13 +5,12 @@
     using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.InterceptionExtension;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class DebugAttributeTest
     {
-        [Test]
+        [TestMethod]
         public void Test1()
         {
             var container = new UnityContainer();

@@ -5,18 +5,18 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class IEnumerableExtensionTest
     {
         private IEnumerable<TestBetween> testBetweenCollection;
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             testBetweenCollection = new List<TestBetween>
                     {
@@ -27,16 +27,16 @@
                     };
         }
 
-        [Test]
+        [TestMethod]
         public void Between1()
         {
             var l = Generator.Generate<int>(20, x => ++x);
 
-            CollectionAssert.AreEqual(new[] { 8, 9, 10, 11, 12 }, l.Between(8, 12));
-            CollectionAssert.AreNotEqual(new[] { 8, 9, 10, 11, 13 }, l.Between(8, 12));
+            CollectionAssert.AreEqual(new[] { 8, 9, 10, 11, 12 }, l.Between(8, 12).ToList());
+            CollectionAssert.AreNotEqual(new[] { 8, 9, 10, 11, 13 }, l.Between(8, 12).ToList());
         }
 
-        [Test]
+        [TestMethod]
         public void Between2()
         {
             var expected = new List<TestBetween>
@@ -51,7 +51,7 @@
             CollectionAssert.AreEqual(expected, actual, new TestBetweenComparer());
         }
 
-        [Test]
+        [TestMethod]
         public void ForEach1()
         {
             var l = Generator.Generate<int>(20, x => ++x);
@@ -60,7 +60,7 @@
             l.ForEach(x => Assert.AreEqual(x, ++i));
         }
 
-        [Test]
+        [TestMethod]
         public void ForEach2()
         {
             var l = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -69,19 +69,19 @@
             l.ForEach(x => Assert.AreEqual(x, ++i));
         }
 
-        [Test]
+        [TestMethod]
         public void Paginate1()
         {
             var l = Generator.Generate<int>(20, x => ++x);
             var p1 = l.Paginate(0, 5);
 
-            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4, 5 }, p1);
+            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4, 5 }, p1.ToList());
 
             var p2 = l.Paginate(1, 5);
-            CollectionAssert.AreEquivalent(new[] { 6, 7, 8, 9, 10 }, p2);
+            CollectionAssert.AreEquivalent(new[] { 6, 7, 8, 9, 10 }, p2.ToList());
 
             var p3 = l.Paginate(2, 5);
-            CollectionAssert.AreEquivalent(new[] { 11, 12, 13, 14, 15 }, p3);
+            CollectionAssert.AreEquivalent(new[] { 11, 12, 13, 14, 15 }, p3.ToList());
         }
 
         private class TestBetween

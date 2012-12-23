@@ -1,16 +1,15 @@
 ﻿namespace NLib.Tests.Xml.Linq.Extensions
 {
-    using System.Xml;
     using System.Xml.Linq;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using NLib.Xml.Linq.Extensions;
 
-    using NUnit.Framework;
-
-    [TestFixture]
+    [TestClass]
     public class XDocumentExtensionTest
     {
-        [Test]
+        [TestMethod]
         public void ToXmlDocumentTest1()
         {
             var xmlDoc = new XDocument(new XElement("data"));
@@ -20,7 +19,7 @@
             Assert.AreEqual(xdoc.InnerXml, "<data />");
         }
 
-        [Test]
+        [TestMethod]
         public void ToXmldocumentTest2()
         {
             var doc = new XDocument(new XElement("parent", new XElement("child", new XCData("text1"))));

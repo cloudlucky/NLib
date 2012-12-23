@@ -1,11 +1,11 @@
 ﻿namespace NLib.Tests
 {
-    using NUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestFixture]
+    [TestClass]
     public class EventArgsTest
     {
-        [Test]
+        [TestMethod]
         public void CtorTest1()
         {
             var e = new EventArgs<int>(3);
