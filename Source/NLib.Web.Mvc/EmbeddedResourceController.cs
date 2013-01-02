@@ -32,8 +32,8 @@ namespace NLib.Web.Mvc
         /// <returns>The embedded resource file.</returns>
         public ActionResult GetFile(string assemblyName, string resourceName)
         {
-            Check.ArgumentNullOrWhiteSpaceException(assemblyName, "assemblyName");
-            Check.ArgumentNullOrWhiteSpaceException(resourceName, "resourceName");
+            Check.Current.ArgumentNullOrWhiteSpaceException(assemblyName, "assemblyName")
+                         .ArgumentNullOrWhiteSpaceException(resourceName, "resourceName");
 
             Assembly assembly;
             try

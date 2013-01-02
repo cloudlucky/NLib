@@ -25,7 +25,7 @@ namespace NLib
         /// <returns>The factorial</returns>
         public static double Factorial(double nb)
         {
-            Check.Requires<ArgumentException>(nb >= 0, MathHelperResource.Factorial_ArgumentException_Nb, new { paramName = "nb" });
+            Check.Current.Requires<ArgumentException>(nb >= 0, MathHelperResource.Factorial_ArgumentException_Nb, new { paramName = "nb" });
             
             var result = 1.0;
 

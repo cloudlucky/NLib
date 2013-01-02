@@ -70,8 +70,8 @@
     <Compile Include="AttributeAdapters\GreaterThanAttributeAdapter.cs" />
     <Compile Include="EmbeddedResourceController.cs" />
     <Compile Include="AttributeAdapters\EqualsToAttributeAdapter.cs" />
-    <Compile Include="Extensions\RouteCollectionExtension.cs" />
-    <Compile Include="Extensions\UrlHelperExtension.cs" />
+    <Compile Include="Extensions\RouteCollectionExtensions.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationEqualsToRule.cs" />
     <Compile Include="NLibDataAnnotationsModelValidatorRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

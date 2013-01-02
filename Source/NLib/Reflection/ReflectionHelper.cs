@@ -65,9 +65,9 @@ namespace NLib.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public FieldInfo GetField(string name)
         {
-            Check.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, "name");
 
-            return TypeExtension.GetField(this.Type, name);
+            return TypeExtensions.GetField(this.Type, name);
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace NLib.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public PropertyInfo GetProperty(string name)
         {
-            Check.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, "name");
 
-            return TypeExtension.GetProperty(this.Type, name);
+            return TypeExtensions.GetProperty(this.Type, name);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace NLib.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
         public MemberInfo GetMemberInfo<TKey>(Expression<Func<T, TKey>> keySelector)
         {
-            Check.ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(keySelector, "keySelector");
 
             return this.Type.GetMemberInfo(keySelector);
         }

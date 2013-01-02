@@ -147,7 +147,7 @@ namespace NLib.Collections.Generic
         /// <param name = "item">The GraphNode instance to add.</param>
         protected void Add(GraphNode<T, TCost> item)
         {
-            Check.ArgumentNullException(item, "item");
+            Check.Current.ArgumentNullException(item, "item");
             if (!this.Contains(item.Value))
             {
                 this.nodeSet.Add(item);
@@ -205,7 +205,7 @@ namespace NLib.Collections.Generic
             /// <exception cref = "ArgumentNullException">The type of obj is a reference type and obj is null.</exception>
             public int GetHashCode(GraphNode<T, TCost> obj)
             {
-                Check.ArgumentNullException(obj, "obj");
+                Check.Current.ArgumentNullException(obj, "obj");
                 return obj.Value.GetHashCode();
             }
         }
@@ -551,9 +551,9 @@ namespace NLib.Collections.Generic
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Current.ArgumentNullException(array, "array")
+                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
+                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
@@ -609,14 +609,14 @@ namespace NLib.Collections.Generic
         /// <param name = "marked">The value is true for a marked edge.</param>
         private void AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
         {
-            Check.ArgumentNullException(from, "Require argument 'from' ");
-            Check.ArgumentNullException(to, "Require argument 'to' ");
+            Check.Current.ArgumentNullException(from, "Require argument 'from' ")
+                         .ArgumentNullException(to, "Require argument 'to' ");
 
             var edge = this.GetEdge(from, to);
 
             if (edge != null)
             {
-                Check.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", "It is not an undirected edge.");
+                Check.Current.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", "It is not an undirected edge.");
                 edge.Value = cost;
                 edge.Marked = marked;
             }
@@ -667,14 +667,14 @@ namespace NLib.Collections.Generic
         /// <param name = "marked">The value is true for a marked edge</param>
         private void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
         {
-            Check.ArgumentNullException(from, "Require argument 'from' ");
-            Check.ArgumentNullException(to, "Require argument 'to' ");
+            Check.Current.ArgumentNullException(from, "Require argument 'from' ")
+                         .ArgumentNullException(to, "Require argument 'to' ");
 
             var edge = this.GetEdge(from, to) ?? this.GetEdge(to, from);
 
             if (edge != null)
             {
-                Check.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not an undirected edge.");
+                Check.Current.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not an undirected edge.");
                 edge.Value = cost;
                 edge.Marked = marked;
             }
@@ -722,6 +722,7 @@ namespace NLib.Collections.Generic
     ///   Provides methods to search and manipulate the tree.
     /// </summary>
     /// <typeparam name = "T">The type of data stored in the graph's nodes.</typeparam>
+    [CLSCompliant(false)]
     public class Graph<T> : Graph<T, Number>
     {
         /// <summary>

@@ -159,9 +159,9 @@ namespace NLib.Collections.Generic
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Current.ArgumentNullException(array, "array")
+                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
+                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
@@ -237,7 +237,7 @@ namespace NLib.Collections.Generic
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void IntersectWith(IEnumerable<T> other)
         {
-            Check.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, "other");
 
             foreach (var t in other)
             {
@@ -420,7 +420,7 @@ namespace NLib.Collections.Generic
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void SymmetricExceptWith(IEnumerable<T> other)
         {
-            Check.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, "other");
 
             var tmp = new List<T>();
 

@@ -67,8 +67,8 @@ namespace NLib.Patterns
         public SimpleCommand(Action execute, Action undo, Action redo)
             : this()
         {
-            Check.ArgumentNullException(execute, "execute");
-            Check.ArgumentNullException(undo, "undo");
+            Check.Current.ArgumentNullException(execute, "execute")
+                         .ArgumentNullException(undo, "undo");
 
             this.execute = execute;
             this.undo = undo;
@@ -143,7 +143,7 @@ namespace NLib.Patterns
         /// </summary>
         public virtual void Undo()
         {
-            Check.Requires<InvalidOperationException>(this.CanUndo, SimpleCommandResource.Undo_InvalidOperationException);
+            Check.Current.Requires<InvalidOperationException>(this.CanUndo, SimpleCommandResource.Undo_InvalidOperationException);
             this.RedoStack.Push(this.undoStack.Pop());
             this.undo();
         }
@@ -153,7 +153,7 @@ namespace NLib.Patterns
         /// </summary>
         public virtual void Redo()
         {
-            Check.Requires<InvalidOperationException>(this.CanRedo, SimpleCommandResource.Redo_InvalidOperationException);
+            Check.Current.Requires<InvalidOperationException>(this.CanRedo, SimpleCommandResource.Redo_InvalidOperationException);
             this.UndoStack.Push(this.redoStack.Pop());
             this.redo();
         }
