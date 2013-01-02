@@ -35,7 +35,7 @@ namespace NLib.Web.Hosting
         /// <param name="workerRequest">The worker request.</param>
         public UnitTestWorkerDriver(IWorkerRequest workerRequest)
         {
-            Check.ArgumentNullException(workerRequest, "workerRequest");
+            Check.Current.ArgumentNullException(workerRequest, "workerRequest");
 
             this.InitAppDomain(workerRequest);
         }

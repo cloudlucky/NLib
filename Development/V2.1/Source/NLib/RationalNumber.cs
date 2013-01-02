@@ -142,7 +142,7 @@ namespace NLib
             {
                 var parts = s.Split('/');
 
-                Check.Requires<ArgumentException>(parts.Length <= 3, RationalNumberResource.RationalNumber_ArgumentException_S);
+                Check.Current.Requires<ArgumentException>(parts.Length <= 3, RationalNumberResource.RationalNumber_ArgumentException_S);
 
                 var power = 0;
                 int numerator;
@@ -335,7 +335,7 @@ namespace NLib
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
         public static RationalNumber Parse(string s, IFormatProvider provider)
         {
-            Check.ArgumentNullException(s, "s");
+            Check.Current.ArgumentNullException(s, "s");
 
             return new RationalNumber(s, provider);
         }
@@ -398,7 +398,7 @@ namespace NLib
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Reverse(RationalNumber r)
         {
-            Check.Requires<DivideByZeroException>(r.Numerator != 0, RationalNumberResource.Reverse_DivideByZeroException_R);
+            Check.Current.Requires<DivideByZeroException>(r.Numerator != 0, RationalNumberResource.Reverse_DivideByZeroException_R);
 
             return new RationalNumber(r.Denominator, r.Numerator);
         }
@@ -1103,7 +1103,7 @@ namespace NLib
         /// <exception cref="DivideByZeroException">The denominator must be non-zero.</exception>
         private void Initialize(long numerator, long denominator)
         {
-            Check.Requires<DivideByZeroException>(denominator != 0, RationalNumberResource.Initialize_DivideByZeroException_Denominator);
+            Check.Current.Requires<DivideByZeroException>(denominator != 0, RationalNumberResource.Initialize_DivideByZeroException_Denominator);
 
             this.Numerator = numerator;
             this.Denominator = denominator;

@@ -80,7 +80,7 @@ namespace NLib.Collections.Generic
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2", Justification = "CheckError class do the check")]
         public static IEnumerable<T> Generate<T>(int count, Func<T, T> func, T defaultValue, Generator provider)
         {
-            Check.ArgumentNullException(provider, "provider");
+            Check.Current.ArgumentNullException(provider, "provider");
 
             return provider.Generate(func, count, defaultValue);
         }
@@ -97,8 +97,8 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentException"><paramref name="count"/> is less than zero.</exception>
         public virtual IEnumerable<T> Generate<T>(Func<T, T> func, int count, T defaultValue)
         {
-            Check.ArgumentNullException(func, "func");
-            Check.Requires<ArgumentException>(count >= 0, GeneratorResource.Generate_ArgumentException_Count);
+            Check.Current.ArgumentNullException(func, "func")
+                         .Requires<ArgumentException>(count >= 0, GeneratorResource.Generate_ArgumentException_Count);
 
             var last = defaultValue;
 

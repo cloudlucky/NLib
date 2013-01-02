@@ -252,7 +252,7 @@ namespace NLib
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
         public static Number Parse(string s, IFormatProvider provider)
         {
-            Check.ArgumentNullException(s, "s");
+            Check.Current.ArgumentNullException(s, "s");
 
             return new Number(s, provider);
         }

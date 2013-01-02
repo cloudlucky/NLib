@@ -17,8 +17,6 @@
   <PropertyGroup>
     <RootFolder>$(MSBuildProjectDirectory)\..</RootFolder>
     <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
-    <ToolsFolder>$(RootFolder)\Tools</ToolsFolder>
-    <LibFolder>$(RootFolder)\Lib</LibFolder>
   </PropertyGroup>
 
   <!-- NLib Files -->
@@ -50,7 +48,7 @@
   
   <!-- Tools -->
   <PropertyGroup>
-    <NuGetTool>$(ToolsFolder)\NuGet\NuGet.exe</NuGetTool>
+    <NuGetTool>$(SourceFolder)\.nuget\NuGet.exe</NuGetTool>
   </PropertyGroup>
   
   <!-- Solutions to build-->
@@ -131,8 +129,6 @@
     <ItemGroup>
       <Sources Include="$(SourceFolder)\**"
                Exclude="$(SourceFolder)\**\*.vssscc;$(SourceFolder)\**\*.vspscc;$(SourceFolder)\**\*.user;$(SourceFolder)\*.suo;$(SourceFolder)\_ReSharper*\**\*;$(ReleaseFolder)\**;$(SourceFolder)\**\bin\**;$(SourceFolder)\**\obj\**;$(SourceFolder)\**\*.dotCover;$(SourceFolder)\**\*.docstates"/>
-      <Tools Include="$(ToolsFolder)\**"/>
-      <Lib Include="$(LibFolder)\**"/>
     </ItemGroup>
 
     <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ReleaseSourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>

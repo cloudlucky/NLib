@@ -64,9 +64,7 @@ namespace NLib.ComponentModel.DataAnnotations
         /// Applies formatting to an error message, based on the data field where the error occurred.
         /// </summary>
         /// <param name="name">The name to include in the formatted message.</param>
-        /// <returns>
-        /// An instance of the formatted error message.
-        /// </returns>
+        /// <returns>An instance of the formatted error message.</returns>
         public override string FormatErrorMessage(string name)
         {
             return string.Format(CultureInfo.CurrentCulture, this.ErrorMessageString, name, this.OtherPropertyName);
@@ -77,15 +75,13 @@ namespace NLib.ComponentModel.DataAnnotations
         /// </summary>
         /// <param name="value">The value to validate.</param>
         /// <param name="validationContext">The context information about the validation operation.</param>
-        /// <returns>
-        /// An instance of the <see cref="ValidationResult"/> class.
-        /// </returns>
+        /// <returns>An instance of the <see cref="ValidationResult"/> class.</returns>
         /// <exception cref="ValidationException">The <paramref name="value"/> does not implement <see cref="IComparable"/>.</exception>
         /// <exception cref="ValidationException">The <see cref="OtherPropertyName"/> does not implement <see cref="IComparable"/>.</exception>
         /// <exception cref="ValidationException">The <see cref="MustBeSameType"/> is true and the type of <paramref name="value"/> and <see cref="OtherPropertyName"/> are different.</exception>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            Check.ArgumentNullException(validationContext, "validationContext");
+            Check.Current.ArgumentNullException(validationContext, "validationContext");
 
             var otherValue = this.GetOtherProperty(validationContext);
 
@@ -95,7 +91,7 @@ namespace NLib.ComponentModel.DataAnnotations
             }
 
             var currentValueComparable = value as IComparable;
-            Check.Requires<ValidationException>(currentValueComparable != null, new { errorMessage = string.Format(DataAnnotationsResource.CompareBaseAttribute_DoesNotImplementIComparable, validationContext.DisplayName), validatingAttribute = this, value });
+            Check.Current.Requires<ValidationException>(currentValueComparable != null, new { errorMessage = string.Format(DataAnnotationsResource.CompareBaseAttribute_DoesNotImplementIComparable, validationContext.DisplayName), validatingAttribute = this, value });
             
             if (!this.MustBeSameType)
             {

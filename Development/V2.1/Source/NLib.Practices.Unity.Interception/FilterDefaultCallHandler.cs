@@ -30,7 +30,7 @@ namespace NLib.Practices.Unity.Interception
         /// <param name="order">The order in which the handler will be executed.</param>
         public FilterDefaultCallHandler(IFilterAttribute filterAttribute, int order)
         {
-            Check.ArgumentNullException(filterAttribute, "filterAttribute");
+            Check.Current.ArgumentNullException(filterAttribute, "filterAttribute");
 
             this.filterAttribute = filterAttribute;
             this.Order = order;
