@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -167,11 +167,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">
+    <ProjectReference Include="..\..\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">
       <Project>{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}</Project>
       <Name>NLib.ComponentModel.DataAnnotations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NLib.Web.Mvc\NLib.Web.Mvc.csproj">
+    <ProjectReference Include="..\..\NLib.Web.Mvc\NLib.Web.Mvc.csproj">
       <Project>{339A9B10-F035-44B9-98AC-21F438A857F6}</Project>
       <Name>NLib.Web.Mvc</Name>
     </ProjectReference>
