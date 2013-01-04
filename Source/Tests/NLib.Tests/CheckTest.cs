@@ -67,7 +67,7 @@
         [ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentNullException2()
         {
-            Check.Current.ArgumentNullException(null, "foo");
+            Check.Current.ArgumentNullException((string)null, "foo");
             Assert.Fail();
         }
 
@@ -426,7 +426,7 @@
             }
             catch (NullReferenceException ex)
             {
-                Assert.AreEqual("foo is null\r\nParameter name: foo", ex.Message);
+                Assert.AreEqual("foo is null", ex.Message);
             }
         }
 
@@ -475,7 +475,7 @@
             }
             catch (NullReferenceException ex)
             {
-                Assert.AreEqual("foo is null\r\nParameter name: foo", ex.Message);
+                Assert.AreEqual("foo is null", ex.Message);
             }
         }
 

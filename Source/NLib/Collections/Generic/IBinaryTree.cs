@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IBinaryTree.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
 
@@ -47,25 +38,25 @@ namespace NLib.Collections.Generic
         void AddRange(IEnumerable<T> collection);
 
         /// <summary>
-        /// Iterates throught a collection from minimum value to maximum value.
+        /// Iterates through a collection from minimum value to maximum value.
         /// </summary>
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
         IEnumerable<T> InOrderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <returns>Returns the collection by level.</returns>
         IEnumerable<T> LevelOrderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection from maximum value to minimum value.
+        /// Iterates through a collection from maximum value to minimum value.
         /// </summary>
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
         IEnumerable<T> PostOrderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <returns>Returns the collection from root to leaves.</returns>
         IEnumerable<T> PreOrderTraversal();

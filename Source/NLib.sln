@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.txt = License.txt
 		NLib.Doc.shfbproj = NLib.Doc.shfbproj
 		NLib.nuspec = NLib.nuspec
+		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}"

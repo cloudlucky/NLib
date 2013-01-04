@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" %>
 <%@ Import Namespace="Microsoft.Practices.ServiceLocation" %>
-<%@ Import Namespace="NLib.Practices.Unity.Tests.LifetimeManagerTests" %>
+<%@ Import Namespace="NLib.Web.Practices.Unity.Tests.LifetimeManagerTests" %>
 <html>
 <head>
   <title>HttpRequestLifetimeManagerTest.aspx</title>

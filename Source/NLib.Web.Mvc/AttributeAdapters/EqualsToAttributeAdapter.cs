@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EqualsToAttributeAdapter.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Mvc.AttributeAdapters
+﻿namespace NLib.Web.Mvc.AttributeAdapters
 {
     using System.Collections.Generic;
     using System.Web.Mvc;

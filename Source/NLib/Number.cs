@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Number.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib
+﻿namespace NLib
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -15,6 +6,9 @@ namespace NLib
 
     using NLib.Resources;
 
+    /// <summary>
+    /// Represents any number like. It can be a float, integer and rational number.
+    /// </summary>
     [Serializable]
     [CLSCompliant(false)]
     public struct Number : IConvertible, IComparable<Number>, IEquatable<Number>, IComparable
@@ -54,27 +48,33 @@ namespace NLib
         /// </summary>
         public static readonly Number MaxValue = double.MaxValue;
 
+        /// <summary>
+        /// Uses as the representation of the number.
+        /// </summary>
         private readonly double model;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Number"/> struct.
+        /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
+        /// <param name="l">A long value.</param>
         public Number(long l)
         {
             this.model = l;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Number"/> struct.
+        /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
-        public Number(int l)
+        /// <param name="i">An integer value.</param>
+        public Number(int i)
         {
-            this.model = l;
+            this.model = i;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Number"/> struct.
+        /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
+        /// <param name="l">An unsigned value.</param>
         public Number(ulong l)
         {
             this.model = l;
@@ -262,7 +262,7 @@ namespace NLib
         /// </summary>
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
         public static bool TryParse(string s, out Number result)
         {
             return TryParse(s, CultureInfo.CurrentCulture, out result);
@@ -274,7 +274,7 @@ namespace NLib
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
         public static bool TryParse(string s, IFormatProvider provider, out Number result)
         {
             result = Zero;
@@ -733,33 +733,40 @@ namespace NLib
         }
 
         /// <summary>
-        /// Returns a <see cref="string"/> that represents this instance.
+        /// Converts the numeric value of this instance to its equivalent <see cref="string"/> representation, using the specified format.
         /// </summary>
-        /// <returns>
-        /// A <see cref="string"/> that represents this instance.
-        /// </returns>
+        /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public override string ToString()
         {
-            return this.model.ToString();
+            return this.ToString(NumberFormatInfo.CurrentInfo);
         }
 
         /// <summary>
-        /// Returns a <see cref="string"/> that represents this instance.
+        /// Converts the numeric value of this instance to its equivalent <see cref="string"/> representation, using the specified format.
         /// </summary>
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-        /// <returns>
-        /// A <see cref="string"/> that represents this instance.
-        /// </returns>
+        /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public string ToString(IFormatProvider provider)
         {
             return this.model.ToString(provider);
         }
 
+        /// <summary>
+        /// Converts the numeric value of this instance to its equivalent <see cref="string"/> representation, using the specified format.
+        /// </summary>
+        /// <param name="format">A standard or custom numeric format string.</param>
+        /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public string ToString(string format)
         {
             return this.model.ToString(format);
         }
 
+        /// <summary>
+        /// Converts the numeric value of this instance to its equivalent <see cref="string"/> representation, using the specified format.
+        /// </summary>
+        /// <param name="format">A standard or custom numeric format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
             return this.model.ToString(format);

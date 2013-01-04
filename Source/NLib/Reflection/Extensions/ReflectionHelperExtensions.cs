@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReflectionHelperExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Reflection.Extensions
+﻿namespace NLib.Reflection.Extensions
 {
     using System;
     using System.Linq.Expressions;
@@ -70,7 +61,7 @@ namespace NLib.Reflection.Extensions
         /// </summary>
         /// <typeparam name="T">The type of the object</typeparam>
         /// <param name="helper">The helper.</param>
-        /// <param name="name">The nameof the property.</param>
+        /// <param name="name">The name of the property.</param>
         /// <returns>The property helper.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="helper"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>

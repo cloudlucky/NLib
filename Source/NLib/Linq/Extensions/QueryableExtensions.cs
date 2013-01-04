@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryableExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Linq.Extensions
+﻿namespace NLib.Linq.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -74,7 +65,7 @@ namespace NLib.Linq.Extensions
         /// <returns>The subset of the collection.</returns>
         public static IQueryable<T> Paginate<T>(this IQueryable<T> collection, int page, int pageSize)
         {
-            Check.Current.ArgumentNullException(collection != null, "collection");
+            Check.Current.ArgumentNullException(collection, "collection");
 
             var skip = Math.Max(pageSize * page, 0);
 

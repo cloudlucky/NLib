@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Reflection.Extensions
+﻿namespace NLib.Reflection.Extensions
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -24,7 +15,7 @@ namespace NLib.Reflection.Extensions
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <param name="name">The case-sensitive name of the manifest resource being requested.</param>
-        /// <returns>A <see cref="string"/> representing the manifest resource</returns>
+        /// <returns>A <see cref="string"/> representing the manifest resource; otherwise null if not found;</returns>
         /// <exception cref="ArgumentNullException">The <paramref name="assembly"/> parameter is null.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="name"/> parameter is null.</exception>
         /// <exception cref="ArgumentException">The <paramref name="name"/> parameter is an empty string ("").</exception>
@@ -38,10 +29,15 @@ namespace NLib.Reflection.Extensions
 
             var stream = assembly.GetManifestResourceStream(name);
 
-            using (var reader = new StreamReader(stream))
+            if (stream != null)
             {
-                return reader.ReadToEnd();
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
             }
+
+            return null;
         }
     }
 }

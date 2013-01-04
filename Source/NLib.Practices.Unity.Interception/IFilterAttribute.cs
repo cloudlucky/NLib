@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IFilterAttribute.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace NLib.Practices.Unity.Interception
 {
     using Microsoft.Practices.Unity.InterceptionExtension;
@@ -24,7 +15,7 @@ namespace NLib.Practices.Unity.Interception
         IMethodReturn OnCancel(FilterCancelContext context);
 
         /// <summary>
-        /// Called when an error occured during the execution.
+        /// Called when an error occurred during the execution.
         /// </summary>
         /// <param name="context">The error context.</param>
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn"/>.</returns>
