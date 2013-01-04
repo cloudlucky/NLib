@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RationalNumber.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib
+﻿namespace NLib
 {
     using System;
     using System.Diagnostics;
@@ -421,7 +412,7 @@ namespace NLib
         /// </summary>
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
         public static bool TryParse(string s, out RationalNumber result)
         {
             return TryParse(s, CultureInfo.CurrentCulture, out result);
@@ -433,7 +424,7 @@ namespace NLib
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
         public static bool TryParse(string s, IFormatProvider provider, out RationalNumber result)
         {
             result = Zero;

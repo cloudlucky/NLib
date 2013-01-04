@@ -1,4 +1,4 @@
-﻿namespace NLib.Practices.Unity.Tests.LifetimeManagerTests
+﻿namespace NLib.Web.Practices.Unity.Tests.LifetimeManagerTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,6 +8,7 @@
     public class LifetimeManagerTest
     {
         [TestMethod]
+        [DeploymentItem(".")]
         public void WebRequestTest()
         {
             using (var td = new UnitTestWorkerDriver())
@@ -22,7 +23,8 @@
             }
         }
 
-        [TestMethod] 
+        [TestMethod]
+        [DeploymentItem(".")]
         public void WebRequestTest2()
         {
             using (var td = new UnitTestWorkerDriver())

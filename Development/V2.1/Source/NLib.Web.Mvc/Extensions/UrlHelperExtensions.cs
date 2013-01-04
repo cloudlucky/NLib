@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UrlHelperExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Mvc.Extensions
+﻿namespace NLib.Web.Mvc.Extensions
 {
     using System.Reflection;
     using System.Web.Mvc;
@@ -18,19 +9,19 @@ namespace NLib.Web.Mvc.Extensions
     public static class UrlHelperExtensions
     {
         /// <summary>
-        /// The current assembly name.
-        /// </summary>
-        private static readonly string CurrentAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-
-        /// <summary>
-        /// The NLib.validate.js embedded resource name.
+        /// The embedded file resource name.
         /// </summary>
         private const string NLibValidateJs = "NLib.validate.js";
 
         /// <summary>
-        /// The NLib.validate.unobstrusive.js embedded resource name.
+        /// The embedded file resource name.
         /// </summary>
         private const string NLibValidateUnobstrusiveJs = "NLib.validate.unobstrusive.js";
+
+        /// <summary>
+        /// The current assembly name.
+        /// </summary>
+        private static readonly string CurrentAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
         /// <summary>
         /// Get embedded resource link.
@@ -45,20 +36,20 @@ namespace NLib.Web.Mvc.Extensions
         }
 
         /// <summary>
-        /// Gets the link for NLib.validate.js.
+        /// Gets the link for NLib validate Javascript file.
         /// </summary>
         /// <param name="urlHelper">The URL helper.</param>
-        /// <returns>The link for NLib.validate.js.</returns>
+        /// <returns>The link for NLib validate Javascript file.</returns>
         public static string NLibValidateScript(this UrlHelper urlHelper)
         {
             return EmbeddedResource(urlHelper, CurrentAssemblyName, NLibValidateJs);
         }
 
         /// <summary>
-        /// Gets the link for NLib.validate.unobstrusive.js.
+        /// Gets the link for NLib validate unobstrusive Javascript file.
         /// </summary>
         /// <param name="urlHelper">The URL helper.</param>
-        /// <returns>The link for NLib.validate.unobstrusive.js.</returns>
+        /// <returns>The link for NLib validate unobstrusive Javascript file.</returns>
         public static string NLibValidateUnobstrusiveScript(this UrlHelper urlHelper)
         {
             return EmbeddedResource(urlHelper, CurrentAssemblyName, NLibValidateUnobstrusiveJs);

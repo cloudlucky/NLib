@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HttpRequestLifetimeManager.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity
+﻿namespace NLib.Web.Practices.Unity
 {
     using System;
     using System.Linq;
@@ -19,11 +10,6 @@ namespace NLib.Practices.Unity
     /// A <see cref="LifetimeManager"/> that holds the instances given to it, 
     /// keeping one instance per HttpRequest.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// Need to register as a HttpModule in the web.config or dispose of it at the end of the request.
-    /// </para>
-    /// </remarks>
     public class HttpRequestLifetimeManager : LifetimeManager, IDisposable, IHttpModule
     {
         /// <summary>
@@ -50,7 +36,6 @@ namespace NLib.Practices.Unity
 
         /// <summary>
         /// Disposes all object in the application context.
-        /// If this class (<see cref="HttpRequestLifetimeManager"/>) as not been registered as a HttpModule, use this method in the Application_EndRequest event of the Global.asax.
         /// </summary>
         public static void DisposeAll()
         {

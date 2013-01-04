@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="XDocumentExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Xml.Linq.Extensions
+﻿namespace NLib.Xml.Linq.Extensions
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -15,14 +6,14 @@ namespace NLib.Xml.Linq.Extensions
     using System.Xml.Linq;
 
     /// <summary>
-    /// Defines extensions methodes for <see cref="XDocument"/>.
+    /// Defines extensions methods for <see cref="XDocument"/>.
     /// </summary>
     public static class XDocumentExtensions
     {
         /// <summary>
         /// Convert a <see cref="XDocument"/> to a <see cref="XmlDocument"/>.
         /// </summary>
-        /// <param name="xdocument">The xdocument to convert.</param>
+        /// <param name="xdocument">The <see cref="XDocument"/> to convert.</param>
         /// <returns>A new <see cref="XmlDocument"/>.</returns>
         /// <exception cref="ArgumentNullException">The <paramref name="xdocument"/> must not be null.</exception>
         [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Utility method to convert.")]

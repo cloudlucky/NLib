@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="XmlDocumentExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Xml.Extensions
+﻿namespace NLib.Xml.Extensions
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -15,7 +6,7 @@ namespace NLib.Xml.Extensions
     using System.Xml.Linq;
 
     /// <summary>
-    /// Defines extensions methodes for <see cref="XmlDocument"/>.
+    /// Defines extensions methods for <see cref="XmlDocument"/>.
     /// </summary>
     public static class XmlDocumentExtensions
     {
@@ -28,7 +19,7 @@ namespace NLib.Xml.Extensions
         [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Utility method to convert.")]
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
-            Check.Current.ArgumentNullException(xmlDocument != null, "xmlDocument");
+            Check.Current.ArgumentNullException(xmlDocument, "xmlDocument");
 
             using (var reader = new XmlNodeReader(xmlDocument))
             {

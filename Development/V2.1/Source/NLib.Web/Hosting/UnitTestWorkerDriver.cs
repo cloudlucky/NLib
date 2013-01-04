@@ -1,18 +1,8 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnitTestWorkerDriver.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Hosting
+﻿namespace NLib.Web.Hosting
 {
     using System;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using System.Web;
     using System.Web.Hosting;
 
@@ -107,7 +97,7 @@ namespace NLib.Web.Hosting
         }
 
         /// <summary>
-        /// Inits the app domain.
+        /// Initialize the application domain.
         /// </summary>
         /// <param name="worker">The worker request.</param>
         private void InitAppDomain(IWorkerRequest worker)

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HttpApplicationLifetimeManager.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity
+﻿namespace NLib.Web.Practices.Unity
 {
     using System;
     using System.Linq;
@@ -52,7 +43,6 @@ namespace NLib.Practices.Unity
 
         /// <summary>
         /// Disposes all object in the application context.
-        /// Use this method in the Application_End event of the Global.asax.
         /// </summary>
         public static void DisposeAll()
         {

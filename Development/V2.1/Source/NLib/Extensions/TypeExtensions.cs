@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TypeExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Extensions
+﻿namespace NLib.Extensions
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -19,6 +10,12 @@ namespace NLib.Extensions
     /// </summary>
     public static class TypeExtensions
     {
+        /// <summary>
+        /// Gets the field.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>The field information.</returns>
         public static FieldInfo GetField(this Type type, string name)
         {
             while (type != null && type != typeof(object))
@@ -36,6 +33,12 @@ namespace NLib.Extensions
             return null;
         }
 
+        /// <summary>
+        /// Gets the property.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>The property information.</returns>
         public static PropertyInfo GetProperty(this Type type, string name)
         {
             while (type != null && type != typeof(object))

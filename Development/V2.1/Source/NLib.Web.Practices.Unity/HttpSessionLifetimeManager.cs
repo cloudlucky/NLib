@@ -1,17 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HttpSessionLifetimeManager.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity
+﻿namespace NLib.Web.Practices.Unity
 {
     using System;
     using System.Linq;
     using System.Web;
+    using System.Web.SessionState;
 
     using Microsoft.Practices.Unity;
 
@@ -19,13 +11,7 @@ namespace NLib.Practices.Unity
     /// A <see cref="LifetimeManager"/> that holds the instances given to it, 
     /// keeping one instance per HttpSession.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This LifetimeManager does not dispose the instances it holds.
-    /// It needs to be done at the Session End event.
-    /// </para>
-    /// </remarks>
-    public class HttpSessionLifetimeManager : LifetimeManager, IDisposable
+    public class HttpSessionLifetimeManager : LifetimeManager, IDisposable, IHttpModule
     {
         /// <summary>
         /// The key.
@@ -51,7 +37,6 @@ namespace NLib.Practices.Unity
 
         /// <summary>
         /// Disposes all object in the application context.
-        /// Use this method in the Session_End event of the Global.asax.
         /// </summary>
         public static void DisposeAll()
         {
@@ -98,6 +83,20 @@ namespace NLib.Practices.Unity
                 }
 
                 HttpContext.Current.Session.Remove(this.key);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a module and prepares it to handle requests.
+        /// </summary>
+        /// <param name="context">An <see cref="HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application</param>
+        public void Init(HttpApplication context)
+        {
+            var ssm = context.Modules["Session"] as SessionStateModule;
+
+            if (ssm != null)
+            {
+                ssm.End += (sender, e) => DisposeAll();
             }
         }
 

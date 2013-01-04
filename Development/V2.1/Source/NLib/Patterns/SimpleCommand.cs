@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SimpleCommand.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Patterns
+﻿namespace NLib.Patterns
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +8,7 @@ namespace NLib.Patterns
     /// <summary>
     /// Simple command pattern to do Undo/Redo.
     /// </summary>
-    public partial class SimpleCommand
+    public class SimpleCommand
     {
         /// <summary>
         /// the undo stack.

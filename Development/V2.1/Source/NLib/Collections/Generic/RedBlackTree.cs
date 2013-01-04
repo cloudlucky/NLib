@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RedBlackTree.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections;
@@ -422,7 +413,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from minimum value to maximum value.
+        /// Iterates through a collection from minimum value to maximum value.
         /// </summary>
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
         public virtual IEnumerable<T> InOrderTraversal()
@@ -431,7 +422,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <returns>Returns the collection by level.</returns>
         public virtual IEnumerable<T> LevelOrderTraversal()
@@ -440,7 +431,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from maximum value to minimum value.
+        /// Iterates through a collection from maximum value to minimum value.
         /// </summary>
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
         public virtual IEnumerable<T> PostOrderTraversal()
@@ -449,7 +440,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <returns>Returns the collection from root to leaves.</returns>
         public virtual IEnumerable<T> PreOrderTraversal()
@@ -641,7 +632,7 @@ namespace NLib.Collections.Generic
         /// Gets the successor if exists; otherwise gets the predecessor.
         /// Gets the predecessor if the successor is a black leaf.
         /// </summary>
-        /// <param name="node">The node to gets the sucessor or predecessor.</param>
+        /// <param name="node">The node to gets the successor or predecessor.</param>
         /// <returns>The successor or the predecessor of the <paramref name="node"/>.</returns>
         protected virtual RedBlackTreeNode<T> GetSuccessorOrPredecessor(RedBlackTreeNode<T> node)
         {
@@ -709,7 +700,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from minimum node to maximum node.
+        /// Iterates through a collection from minimum node to maximum node.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from minimum node to maximum node.</returns>
@@ -744,7 +735,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection by level.</returns>
@@ -776,7 +767,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from node value to minimum node.
+        /// Iterates through a collection from node value to minimum node.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from node value to node value.</returns>
@@ -812,7 +803,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from root to leaves.</returns>

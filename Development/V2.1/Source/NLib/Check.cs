@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Check.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib
+﻿namespace NLib
 {
     using System;
     using System.Collections.Generic;
@@ -37,10 +28,7 @@ namespace NLib
         /// </summary>
         public static Check Current
         {
-            get
-            {
-                return Instance.Value;
-            }
+            get { return Instance.Value; }
         }
 
         /// <summary>
@@ -148,10 +136,10 @@ namespace NLib
         /// <returns>The name of the parameter.</returns>
         public string GetParameterName(Expression reference)
         {
-            var lambda = reference as LambdaExpression;
-            var member = lambda.Body as MemberExpression;
+            var lambda = (LambdaExpression)reference;
+            var body = (MemberExpression)lambda.Body;
 
-            return member.Member.Name;
-        } 
+            return body.Member.Name;
+        }
     }
 }

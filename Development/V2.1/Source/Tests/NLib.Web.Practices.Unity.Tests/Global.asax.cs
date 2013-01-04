@@ -1,4 +1,4 @@
-﻿namespace NLib.Practices.Unity.Tests
+﻿namespace NLib.Web.Practices.Unity.Tests
 {
     using System;
     using System.Linq;
@@ -7,7 +7,8 @@
     using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
 
-    using NLib.Practices.Unity.Tests.LifetimeManagerTests;
+    using NLib.Web.Practices.Unity;
+    using NLib.Web.Practices.Unity.Tests.LifetimeManagerTests;
 
     public class Global : HttpApplication
     {
@@ -31,16 +32,6 @@
             {
                 throw new Exception("The HttpContext.Current.Items is not empty of HttpRequestLifetimeManager ");
             }
-        }
-
-        protected void Application_End()
-        {
-            HttpApplicationLifetimeManager.DisposeAll();
-        }
-
-        protected void Session_End()
-        {
-            HttpSessionLifetimeManager.DisposeAll();
         }
     }
 }

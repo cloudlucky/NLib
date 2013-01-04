@@ -1,30 +1,22 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GraphExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace NLib.Collections.Generic.Extensions
+﻿namespace NLib.Collections.Generic.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
-    ///   It's a set of algorithms for resolve the circulations problems for graphs.
+    /// It's a set of algorithms for resolve the circulations problems for graphs.
     /// </summary>
     public static class GraphExtensions
     {
         /// <summary>
         /// Find a path
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The graph</param>
-        /// <param name = "start">start value node</param>
-        /// <param name = "terminated">end value node</param>
-        /// <returns>path or null</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The graph.</param>
+        /// <param name="start">start value node.</param>
+        /// <param name="terminated">end value node.</param>
+        /// <returns>path or null.</returns>
         [CLSCompliant(false)]
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated)
         {
@@ -34,12 +26,12 @@ namespace NLib.Collections.Generic.Extensions
         /// <summary>
         /// Find a path
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The graph</param>
-        /// <param name = "start">start value node</param>
-        /// <param name = "terminated">end value node</param>
-        /// <param name = "comparerValue">comparer Value.</param>
-        /// <returns>path or null</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The graph.</param>
+        /// <param name="start">start value node.</param>
+        /// <param name="terminated">end value node.</param>
+        /// <param name="comparerValue">comparer Value.</param>
+        /// <returns>path or null.</returns>
         [CLSCompliant(false)]
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
         {
@@ -49,11 +41,11 @@ namespace NLib.Collections.Generic.Extensions
         /// <summary>
         /// Find a path
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The graph</param>
-        /// <param name = "start">some root node</param>
-        /// <param name = "terminated">some end node</param>
-        /// <returns>path or null</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The graph.</param>
+        /// <param name="start">some root node.</param>
+        /// <param name="terminated">some end node.</param>
+        /// <returns>path or null.</returns>
         [CLSCompliant(false)]
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
         {
@@ -63,12 +55,12 @@ namespace NLib.Collections.Generic.Extensions
         /// <summary>
         /// Find a path
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The graph</param>
-        /// <param name = "start">some root node</param>
-        /// <param name = "terminated">some end node</param>
-        /// <param name = "comparerValue">comparer Value.</param>
-        /// <returns>path or null</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The graph.</param>
+        /// <param name="start">some root node.</param>
+        /// <param name="terminated">some end node.</param>
+        /// <param name="comparerValue">comparer Value..</param>
+        /// <returns>path or null.</returns>
         [CLSCompliant(false)]
         public static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
         {
@@ -116,15 +108,15 @@ namespace NLib.Collections.Generic.Extensions
         /// As long as there an open path through the residual graph, 
         /// send the minimum of the residual capacities on the path.
         /// The algorithm works only if all weights are integers.
-        /// Warning the graph is used as a residual gaph. 
+        /// Warning the graph is used as a residual graph. 
         /// You can make a copy with clone method.
         /// The marked value is used for avoid a recursive path.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The residual graph</param>
-        /// <param name = "start">some root node value</param>
-        /// <param name = "terminated">some end node value</param>
-        /// <returns>maximum flot</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The residual graph.</param>
+        /// <param name="start">some root node value.</param>
+        /// <param name="terminated">some end node value.</param>
+        /// <returns>The maximum flow.</returns>
         /// <exception cref = "ArgumentNullException">If graph , start or terminated is null.</exception>
         [CLSCompliant(false)]
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated)
@@ -136,15 +128,15 @@ namespace NLib.Collections.Generic.Extensions
         /// As long as there an open path through the residual graph, 
         /// send the minimum of the residual capacities on the path.
         /// The algorithm works only if all weights are integers.
-        /// Warning the graph is used as a residual gaph. 
+        /// Warning the graph is used as a residual graph. 
         /// You can make a copy with clone method.
         /// The marked value is used for avoid a recursive path.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The residual graph</param>
-        /// <param name = "start">some root node value</param>
-        /// <param name = "terminated">some end node value</param>
-        /// <returns>maximum flot</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The residual graph.</param>
+        /// <param name="start">some root node value.</param>
+        /// <param name="terminated">some end node value.</param>
+        /// <returns>The maximum flow.</returns>
         /// <exception cref = "ArgumentNullException">If graph , start or terminated is null.</exception>
         [CLSCompliant(false)]
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated)
@@ -156,16 +148,16 @@ namespace NLib.Collections.Generic.Extensions
         /// As long as there an open path through the residual graph, 
         /// send the minimum of the residual capacities on the path.
         /// The algorithm works only if all weights are integers.
-        /// Warning the graph is used as a residual gaph. 
+        /// Warning the graph is used as a residual graph. 
         /// You can make a copy with clone method.
         /// The marked value is used for avoid a recursive path.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The residual graph</param>
-        /// <param name = "start">start node value</param>
-        /// <param name = "terminated">end node walue</param>
-        /// <param name = "comparerValue">comparer Value</param>
-        /// <returns>maximum flot</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The residual graph.</param>
+        /// <param name="start">start node value.</param>
+        /// <param name="terminated">end node value.</param>
+        /// <param name="comparerValue">comparer Value.</param>
+        /// <returns>The maximum flow.</returns>
         /// <exception cref = "ArgumentNullException">If graph , start or terminated is null.</exception>
         [CLSCompliant(false)]
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, T start, T terminated, IComparer<T> comparerValue)
@@ -177,16 +169,16 @@ namespace NLib.Collections.Generic.Extensions
         /// As long as there an open path through the residual graph, 
         /// send the minimum of the residual capacities on the path.
         /// The algorithm works only if all weights are integers.
-        /// Warning the graph is used as a residual gaph. 
+        /// Warning the graph is used as a residual graph. 
         /// You can make a copy with clone method.
         /// The marked value is used for avoid a recursive path.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">The residual graph</param>
-        /// <param name = "start">some root node</param>
-        /// <param name = "terminated">some end node</param>
-        /// <param name = "comparerValue">comparer Value</param>
-        /// <returns>maximum flot</returns>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">The residual graph.</param>
+        /// <param name="start">some root node.</param>
+        /// <param name="terminated">some end node.</param>
+        /// <param name="comparerValue">comparer Value.</param>
+        /// <returns>The maximum flow.</returns>
         /// <exception cref = "ArgumentNullException">If graph , start or terminated is null.</exception>
         [CLSCompliant(false)]
         public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
@@ -236,11 +228,11 @@ namespace NLib.Collections.Generic.Extensions
         /// find a shortest path from Start.
         /// Warning the graph must be a digraph with no negative weight.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">A digraphe with nonegative weights</param>
-        /// <param name = "start">Start vertices for to find a shortest path</param>
-        /// <param name = "distance">Shortest distance of start from a node</param>
-        /// <param name = "previous">Previous visited node</param>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">A graph with no negative weights.</param>
+        /// <param name="start">Start vertices for to find a shortest path.</param>
+        /// <param name="distance">Shortest distance of start from a node.</param>
+        /// <param name="previous">Previous visited node.</param>
         /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is null.</exception>
         [CLSCompliant(false)]
         public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
@@ -253,11 +245,11 @@ namespace NLib.Collections.Generic.Extensions
         /// find a shortest path from Start.
         /// Warning the graph must be a digraph with no negative weight.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">A digraphe with nonegative weights</param>
-        /// <param name = "start">Start vertices for to find a shortest path</param>
-        /// <param name = "distance">Shortest distance of start from a node</param>
-        /// <param name = "previous">Previous visited node</param>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">A graph with no negative weights.</param>
+        /// <param name="start">Start vertices for to find a shortest path.</param>
+        /// <param name="distance">Shortest distance of start from a node.</param>
+        /// <param name="previous">Previous visited node.</param>
         /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is null.</exception>
         [CLSCompliant(false)]
         public static void Djkstra<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous)
@@ -270,12 +262,12 @@ namespace NLib.Collections.Generic.Extensions
         /// find a shortest path from Start.
         /// Warning the graph must be a digraph with no negative weight.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">A digraphe with nonegative weights</param>
-        /// <param name = "start">The value of Start vertices for to find a shortest path</param>
-        /// <param name = "distance">Shortest distance of start from a node</param>
-        /// <param name = "previous">Previous visited node</param>
-        /// <param name = "comparerValue">comparer Value.</param>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">A graph with no negative weights.</param>
+        /// <param name="start">The value of Start vertices for to find a shortest path.</param>
+        /// <param name="distance">Shortest distance of start from a node.</param>
+        /// <param name="previous">Previous visited node.</param>
+        /// <param name="comparerValue">comparer Value.</param>
         /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is null.</exception>
         [CLSCompliant(false)]
         public static void Djkstra<T>(this IGraph<T, Number> graph, T start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
@@ -288,12 +280,12 @@ namespace NLib.Collections.Generic.Extensions
         /// find a shortest path from Start.
         /// Warning the graph must be a digraph with no negative weight.
         /// </summary>
-        /// <typeparam name = "T">Type for the name of node</typeparam>
-        /// <param name = "graph">A digraphe with nonegative weights</param>
-        /// <param name = "start">Start vertices for to find a shortest path</param>
-        /// <param name = "distance">Shortest distance of start from a node</param>
-        /// <param name = "previous">Previous visited node</param>
-        /// <param name = "comparerValue">comparer Value.</param>
+        /// <typeparam name="T">Type for the name of node.</typeparam>
+        /// <param name="graph">A graph with no negative weights.</param>
+        /// <param name="start">Start vertices for to find a shortest path.</param>
+        /// <param name="distance">Shortest distance of start from a node.</param>
+        /// <param name="previous">Previous visited node.</param>
+        /// <param name="comparerValue">comparer Value.</param>
         /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is null.</exception>
         private static void Djkstra<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
         {
@@ -326,7 +318,7 @@ namespace NLib.Collections.Generic.Extensions
                 var minValue = Number.MaxValue;
                 foreach (var node in graph.Nodes)
                 {
-                    if (distance[node.Value] < minValue && ! node.Marked)
+                    if (distance[node.Value] < minValue && !node.Marked)
                     {
                         currentNode = node;
                         minValue = distance[node.Value];
@@ -334,6 +326,5 @@ namespace NLib.Collections.Generic.Extensions
                 }
             }
         }
-
     }
 }

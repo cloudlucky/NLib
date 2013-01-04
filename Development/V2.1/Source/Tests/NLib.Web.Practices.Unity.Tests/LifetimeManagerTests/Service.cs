@@ -1,4 +1,4 @@
-﻿namespace NLib.Practices.Unity.Tests.LifetimeManagerTests
+﻿namespace NLib.Web.Practices.Unity.Tests.LifetimeManagerTests
 {
     public interface IService
     {

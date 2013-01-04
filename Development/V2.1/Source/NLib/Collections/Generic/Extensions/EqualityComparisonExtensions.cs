@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EqualityComparisonExtensions.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic.Extensions
+﻿namespace NLib.Collections.Generic.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +20,7 @@ namespace NLib.Collections.Generic.Extensions
         }
 
         /// <summary>
-        /// Util class to convert <see cref="Comparison{T}"/> to <see cref="IComparer{T}"/>.
+        /// Utility class to convert <see cref="Comparison{T}"/> to <see cref="IComparer{T}"/>.
         /// </summary>
         /// <typeparam name="T">The compare type.</typeparam>
         private class EqualityComparer<T> : IEqualityComparer<T>
@@ -62,7 +53,6 @@ namespace NLib.Collections.Generic.Extensions
             {
                 return this.comparer(x, y);
             }
-
 
             /// <summary>
             /// Returns a hash code for the specified object.
