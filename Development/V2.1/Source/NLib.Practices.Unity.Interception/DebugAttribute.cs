@@ -5,21 +5,42 @@
 
     using Microsoft.Practices.Unity.InterceptionExtension;
 
+    /// <summary>
+    /// Debug information with the Debug console.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     [Conditional("DEBUG")]
     public class DebugAttribute : FilterBaseAttribute
     {
+        /// <summary>
+        /// Writes the error to the debug console.
+        /// </summary>
+        /// <param name="context">The error context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnError(FilterErrorContext context)
         {
-            Debug.WriteLine("Error: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            if (context.MethodInvocation.MethodBase.DeclaringType != null)
+            {
+                Debug.WriteLine("Error: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            }
+
             Debug.WriteLine("  Exception: {0}", (object)context.MethodReturn.Exception.StackTrace);
 
             return null;
         }
 
+        /// <summary>
+        /// Writes the executed result to the debug console.
+        /// </summary>
+        /// <param name="context">The executed context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuted(FilterExecutedContext context)
         {
-            Debug.WriteLine("Executed: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            if (context.MethodInvocation.MethodBase.DeclaringType != null)
+            {
+                Debug.WriteLine("Executed: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            }
+
             Debug.WriteLine("  return value = {0}", context.MethodReturn.ReturnValue);
 
             if (context.MethodReturn.Outputs.Count > 0)
@@ -36,9 +57,17 @@
             return null;
         }
 
+        /// <summary>
+        /// Writes the input parameters to the debug console.
+        /// </summary>
+        /// <param name="context">The executing context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuting(FilterExecutingContext context)
         {
-            Debug.WriteLine("Executing: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            if (context.MethodInvocation.MethodBase.DeclaringType != null)
+            {
+                Debug.WriteLine("Executing: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
+            }
 
             if (context.MethodInvocation.Arguments.Count > 0)
             {

@@ -86,12 +86,11 @@
         /// <typeparam name="TSource">The type of the collection.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="action">The <see cref=" Action{T}"/> delegate to perform on each element of the <see cref="IEnumerable{T}"/>.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> that contains the <paramref name="collection"/> after the iteration.</returns>
         /// <exception cref="ArgumentNullException">The <paramref name="collection"/> must not be null.</exception>
         /// <exception cref="ArgumentNullException">The <paramref name="action"/> must not be null.</exception>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
-        public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> collection, Action<TSource> action)
+        public static void ForEach<TSource>(this IEnumerable<TSource> collection, Action<TSource> action)
         {
             Check.Current.ArgumentNullException(collection, "collection")
                          .ArgumentNullException(action, "action");
@@ -106,7 +105,6 @@
                 foreach (var v in collection)
                 {
                     action(v);
-                    yield return v;
                 }
             }
         }
