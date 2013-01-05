@@ -57,6 +57,7 @@
         /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
         /// <param name="l">A long value.</param>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public Number(long l)
         {
             this.model = l;
@@ -66,6 +67,7 @@
         /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
         /// <param name="i">An integer value.</param>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public Number(int i)
         {
             this.model = i;
@@ -75,6 +77,7 @@
         /// Initializes a new instance of the <see cref="Number" /> struct.
         /// </summary>
         /// <param name="l">An unsigned value.</param>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public Number(ulong l)
         {
             this.model = l;
@@ -238,6 +241,7 @@
         /// <param name="s">A string containing a number to convert. </param>
         /// <returns>A number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static Number Parse(string s)
         {
             return Parse(s, CultureInfo.CurrentCulture);
@@ -250,6 +254,7 @@
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <returns>A number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static Number Parse(string s, IFormatProvider provider)
         {
             Check.Current.ArgumentNullException(s, "s");
@@ -263,6 +268,7 @@
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
         /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, out Number result)
         {
             return TryParse(s, CultureInfo.CurrentCulture, out result);
@@ -275,6 +281,7 @@
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <param name="result">When this method returns, contains the number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="Number.MinValue"/> or greater than <see cref="Number.MaxValue"/>. This parameter is passed uninitialized.</param>
         /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, IFormatProvider provider, out Number result)
         {
             result = Zero;
@@ -285,7 +292,11 @@
                 {
                     result = new Number(s, provider);
                 }
-                catch
+                catch (FormatException)
+                {
+                    return false;
+                }
+                catch (OverflowException)
                 {
                     return false;
                 }
@@ -769,7 +780,7 @@
         /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public string ToString(string format, IFormatProvider provider)
         {
-            return this.model.ToString(format);
+            return this.model.ToString(format, provider);
         }
 
         /// <summary>

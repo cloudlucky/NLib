@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the base class for interception-filter attributes.
     /// </summary>
-    public abstract class FilterBaseAttribute : HandlerAttribute, IFilterAttribute
+    public abstract class FilterBaseAttribute : HandlerAttribute, IFilter
     {
         /// <summary>
         /// Derived classes implement this method. When called, it creates a new call handler as specified in the attribute configuration.

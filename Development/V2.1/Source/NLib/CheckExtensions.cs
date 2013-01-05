@@ -4,6 +4,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
+    using NLib.Linq.Extensions;
+
     /// <summary>
     /// Defines extensions methods for <see cref="Check"/>.
     /// </summary>
@@ -92,7 +94,7 @@
         /// <returns>The <see cref="Check" /> instance for method chaining.</returns>
         public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference, string message) where T : struct
         {
-            return Requires<ArgumentNullException>(check, reference.Compile()().HasValue, message, new { paramName = check.GetParameterName(reference) });
+            return Requires<ArgumentNullException>(check, reference.Compile()().HasValue, message, new { paramName = reference.GetParameterName() });
         }
 
         /// <summary>
@@ -104,7 +106,7 @@
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         public static Check ArgumentNullException(this Check check, Expression<Func<object>> reference, string message)
         {
-            return Requires<ArgumentNullException>(check, reference.Compile()() != null, message, new { paramName = check.GetParameterName(reference) });
+            return Requires<ArgumentNullException>(check, reference.Compile()() != null, message, new { paramName = reference.GetParameterName() });
         }
 
         /// <summary>
@@ -152,7 +154,7 @@
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         public static Check ArgumentNullOrEmptyException(this Check check, Expression<Func<string>> reference, string message)
         {
-            return Requires<ArgumentNullException>(check, !string.IsNullOrEmpty(reference.Compile()()), message, new { paramName = check.GetParameterName(reference) });
+            return Requires<ArgumentNullException>(check, !string.IsNullOrEmpty(reference.Compile()()), message, new { paramName = reference.GetParameterName() });
         }
 
         /// <summary>
@@ -200,7 +202,7 @@
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         public static Check ArgumentNullOrWhiteSpaceException(this Check check, Expression<Func<string>> reference, string message)
         {
-            return Requires<ArgumentNullException>(check, !string.IsNullOrWhiteSpace(reference.Compile()()), message, new { paramName = check.GetParameterName(reference) });
+            return Requires<ArgumentNullException>(check, !string.IsNullOrWhiteSpace(reference.Compile()()), message, new { paramName = reference.GetParameterName() });
         }
 
         /// <summary>
@@ -236,7 +238,7 @@
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         public static Check NotNull(this Check check, object param, string paramName, string message)
         {
-            return Requires<NullReferenceException>(check, param != null, message);
+            return Requires<NullReferenceException>(check, param != null, string.Format("Param name '{0}' is null. {1}", paramName, message));
         }
 
         /// <summary>
@@ -413,15 +415,15 @@
 
             if (string.IsNullOrEmpty(message) && arguments == null)
             {
-                check.ThrowException<TException>();
+                Check.ThrowException<TException>();
             }
 
             if (arguments == null)
             {
-                check.ThrowException<TException>(message);
+                Check.ThrowException<TException>(message);
             }
 
-            check.ThrowException<TException>(message, arguments);
+            Check.ThrowException<TException>(message, arguments);
 
             throw new InvalidOperationException("An exception should be thrown...");
         }

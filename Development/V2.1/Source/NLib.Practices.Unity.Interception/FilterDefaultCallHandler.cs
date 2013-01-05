@@ -12,14 +12,14 @@ namespace NLib.Practices.Unity.Interception
         /// <summary>
         /// The filter base attribute.
         /// </summary>
-        private readonly IFilterAttribute filterAttribute;
+        private readonly IFilter filterAttribute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterDefaultCallHandler"/> class.
         /// </summary>
         /// <param name="filterAttribute">The filter attribute.</param>
         /// <param name="order">The order in which the handler will be executed.</param>
-        public FilterDefaultCallHandler(IFilterAttribute filterAttribute, int order)
+        public FilterDefaultCallHandler(IFilter filterAttribute, int order)
         {
             Check.Current.ArgumentNullException(filterAttribute, "filterAttribute");
 
@@ -30,7 +30,7 @@ namespace NLib.Practices.Unity.Interception
         /// <summary>
         /// Gets the filter base attribute.
         /// </summary>
-        public IFilterAttribute FilterAttribute
+        public IFilter FilterAttribute
         {
             get { return this.filterAttribute; }
         }

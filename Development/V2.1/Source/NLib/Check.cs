@@ -9,7 +9,7 @@
     /// <summary>
     /// Contains static methods for representing program check.
     /// </summary>
-    public class Check
+    public sealed class Check
     {
         /// <summary>
         /// Unique instance.
@@ -37,7 +37,7 @@
         /// <typeparam name="TException">The exception to throw.</typeparam>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have default constructor.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public void ThrowException<TException>() where TException : Exception
+        public static void ThrowException<TException>() where TException : Exception
         {
             var exception = typeof(TException);
 
@@ -51,7 +51,7 @@
         /// <param name="message">The message to display</param>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have a constructor with one parameter of type string.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public void ThrowException<TException>(string message) where TException : Exception
+        public static void ThrowException<TException>(string message) where TException : Exception
         {
             var exception = typeof(TException);
 
@@ -76,7 +76,7 @@
         /// </param>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public void ThrowException<TException>(string message, object arguments) where TException : Exception
+        public static void ThrowException<TException>(string message, object arguments) where TException : Exception
         {
             var exception = typeof(TException);
             var argumentsType = arguments.GetType();
@@ -127,19 +127,6 @@
             }
 
             throw (TException)Activator.CreateInstance(exception, l.ToArray());
-        }
-
-        /// <summary>
-        /// Gets the name of the parameter.
-        /// </summary>
-        /// <param name="reference">The reference.</param>
-        /// <returns>The name of the parameter.</returns>
-        public string GetParameterName(Expression reference)
-        {
-            var lambda = (LambdaExpression)reference;
-            var body = (MemberExpression)lambda.Body;
-
-            return body.Member.Name;
         }
     }
 }

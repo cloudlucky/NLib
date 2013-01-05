@@ -58,7 +58,7 @@
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuted(FilterExecutedContext context)
         {
-            var key = this.GetKey(context);
+            var key = this.GetKeyName(context);
             if (!Cache.Contains(key))
             {
                 var policy = new CacheItemPolicy
@@ -85,7 +85,7 @@
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuting(FilterExecutingContext context)
         {
-            var key = this.GetKey(context);
+            var key = this.GetKeyName(context);
             if (Cache.Contains(key))
             {
                 return context.MethodInvocation.CreateMethodReturn(Cache[key]);
@@ -99,7 +99,7 @@
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns>The key name.</returns>
-        protected string GetKey(FilterContextBase context)
+        protected string GetKeyName(FilterContextBase context)
         {
             return this.Key ?? context.MethodInvocation.MethodBase.DeclaringType.FullName + context.MethodInvocation.MethodBase.Name;
         }

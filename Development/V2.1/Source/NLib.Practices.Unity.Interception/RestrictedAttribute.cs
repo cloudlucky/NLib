@@ -1,6 +1,7 @@
 ﻿namespace NLib.Practices.Unity.Interception
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
 
@@ -29,9 +30,9 @@
         }
 
         /// <summary>
-        /// Gets or sets the roles.
+        /// Gets the roles.
         /// </summary>
-        public string[] Roles { get; set; }
+        public IEnumerable<string> Roles { get; private set; }
 
         /// <summary>
         /// When overridden in a derived class, handles before the execution.

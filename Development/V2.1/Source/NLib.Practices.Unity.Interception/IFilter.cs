@@ -5,7 +5,7 @@ namespace NLib.Practices.Unity.Interception
     /// <summary>
     /// Defines the methods that are used in an interception filter.
     /// </summary>
-    public interface IFilterAttribute
+    public interface IFilter
     {
         /// <summary>
         /// Called when the execution is canceled.

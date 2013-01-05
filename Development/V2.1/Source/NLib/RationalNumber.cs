@@ -312,6 +312,7 @@
         /// <param name="s">A string containing a rational number to convert. </param>
         /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Parse(string s)
         {
             return Parse(s, CultureInfo.CurrentCulture);
@@ -324,6 +325,7 @@
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Parse(string s, IFormatProvider provider)
         {
             Check.Current.ArgumentNullException(s, "s");
@@ -413,6 +415,7 @@
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
         /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, out RationalNumber result)
         {
             return TryParse(s, CultureInfo.CurrentCulture, out result);
@@ -425,6 +428,7 @@
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
         /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, IFormatProvider provider, out RationalNumber result)
         {
             result = Zero;

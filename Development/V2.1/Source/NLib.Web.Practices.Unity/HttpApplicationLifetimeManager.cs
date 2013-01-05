@@ -42,6 +42,14 @@
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="HttpApplicationLifetimeManager" /> class.
+        /// </summary>
+        ~HttpApplicationLifetimeManager()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
         /// Disposes all object in the application context.
         /// </summary>
         public static void DisposeAll()
@@ -97,7 +105,20 @@
         /// </summary>
         public void Dispose()
         {
-            this.RemoveValue();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.RemoveValue();
+            }
         }
     }
 }

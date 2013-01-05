@@ -17,6 +17,8 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Collections.Generic", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Collections.Generic.Extensions", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Patterns", Justification = "Reviewed. It's OK.")]
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Reflection", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Reflection.Extensions", Justification = "Reviewed. It's OK.")]
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Text.Extensions", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Xml.Extensions", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Xml.Linq.Extensions", Justification = "Reviewed. It's OK.")]
