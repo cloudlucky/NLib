@@ -115,6 +115,7 @@
     </MSBuild.ExtensionPack.Xml.XmlTask>
 
     <Error Condition="$(Violations) > $(StyleCopMaxViolations)" Text="StyleCop found $(Violations) broken rules!" />
+    <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolations) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>
   </Target>
 
   <Target Name="Package" DependsOnTargets="Build">
