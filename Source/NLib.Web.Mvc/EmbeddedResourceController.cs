@@ -57,7 +57,7 @@
         /// <returns>The type of the content.</returns>
         private static string GetContentType(string resourceName)
         {
-            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLowerInvariant();
+            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToUpperInvariant();
             return MimeTypes[extension];
         }
 
@@ -69,14 +69,14 @@
         {
             return new Dictionary<string, string>
                 {
-                    { ".gif", "image/gif" }, 
-                    { ".png", "image/png" }, 
-                    { ".jpg", "image/jpeg" }, 
-                    { ".js", "text/javascript" }, 
-                    { ".css", "text/css" }, 
-                    { ".txt", "text/plain" }, 
-                    { ".xml", "application/xml" }, 
-                    { ".zip", "application/zip" }
+                    { ".GIF", "image/gif" }, 
+                    { ".PNG", "image/png" }, 
+                    { ".JPG", "image/jpeg" }, 
+                    { ".JS", "text/javascript" }, 
+                    { ".CSS", "text/css" }, 
+                    { ".TXT", "text/plain" }, 
+                    { ".XML", "application/xml" }, 
+                    { ".ZIP", "application/zip" }
                 };
         }
     }

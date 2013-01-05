@@ -56,7 +56,7 @@
       <Term CompoundAlternate="paramName">ParamName</Term>
       <Term CompoundAlternate="RationalNumber">RationalNumber</Term>
     </Compound>
-    <!--<DiscreteExceptions>-->
+    <DiscreteExceptions>
       <!--
         This is a list of case-insensitive exceptions to the CompoundWordsShouldBeCasedCorrectly 
         discrete term check. As this check works solely on the basis of whether two consecutive
@@ -65,8 +65,9 @@
         Adding this word below prevents this rule from firing telling the user to change 'OnSet' 
         to 'Onset'.
       -->
-      <!--<Term>Onset</Term>-->
-    <!--</DiscreteExceptions>-->
+      <Term>Inorder</Term>
+      <Term>Postorder</Term>
+    </DiscreteExceptions>
   </Words>
   <!--<Acronyms>
     <CasingExceptions>

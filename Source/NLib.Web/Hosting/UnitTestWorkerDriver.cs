@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets the base directory.
         /// </summary>
-        protected virtual string BaseDirectory
+        protected string BaseDirectory
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
         }
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the bin directory.
         /// </summary>
-        protected virtual string BinDirectory
+        protected string BinDirectory
         {
             get { return Path.Combine(this.BaseDirectory, "bin"); }
         }
