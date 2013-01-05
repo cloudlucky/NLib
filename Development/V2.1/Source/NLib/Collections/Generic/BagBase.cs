@@ -31,6 +31,7 @@
         /// <returns>
         /// true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         bool ICollection<T>.IsReadOnly
         {
             get { return false; }
@@ -49,7 +50,7 @@
         /// <summary>
         /// Gets or sets the implementation model.
         /// </summary>
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", MessageId = "0", Justification = "Reviewed. It's OK here for sub classes to change the model.")]
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Reviewed. It's OK here for sub classes to change the model.")]
         protected IDictionary<T, int> Model { get; set; }
 
         /// <summary>

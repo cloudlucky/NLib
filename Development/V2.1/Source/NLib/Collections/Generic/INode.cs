@@ -1,6 +1,7 @@
 ﻿namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a node in a collection.
@@ -11,6 +12,7 @@
         /// <summary>
         /// Gets the neighbors.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         IEnumerable<INode<T>> Neighbors { get; }
 
         /// <summary>

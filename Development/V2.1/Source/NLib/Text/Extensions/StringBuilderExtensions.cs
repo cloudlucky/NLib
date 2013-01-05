@@ -19,7 +19,7 @@
         {
             Check.Current.ArgumentNullException(sb, "sb");
 
-            sb.AppendFormat(format, args);
+            sb.AppendFormat(null, format, args);
             sb.AppendLine();
         }
 

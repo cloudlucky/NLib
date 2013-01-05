@@ -38,7 +38,7 @@
                 return null;
             }
 
-            var resourceStream = assembly.GetManifestResourceStream(string.Format("{0}.{1}", assemblyName, resourceName));
+            var resourceStream = assembly.GetManifestResourceStream(string.Format(CultureInfo.CurrentCulture, "{0}.{1}", assemblyName, resourceName));
 
             if (resourceStream == null)
             {
@@ -57,7 +57,7 @@
         /// <returns>The type of the content.</returns>
         private static string GetContentType(string resourceName)
         {
-            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLower(CultureInfo.InvariantCulture);
+            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLowerInvariant();
             return MimeTypes[extension];
         }
 

@@ -172,10 +172,7 @@
         /// </value>
         public virtual bool AllowDuplicates
         {
-            get
-            {
-                return this.allowDuplicates;
-            }
+            get { return this.allowDuplicates; }
         }
 
         /// <summary>
@@ -188,10 +185,7 @@
         /// </summary>
         IBinaryTreeNode<T> IBinaryTree<T>.RootNode
         {
-            get
-            {
-                return this.RootNode;
-            }
+            get { return this.RootNode; }
         }
 
         /// <summary>
@@ -199,10 +193,7 @@
         /// </summary>
         public virtual IRedBlackTreeNode<T> RootNode
         {
-            get
-            {
-                return this.Root;
-            }
+            get { return this.Root; }
         }
 
         /// <summary>
@@ -241,12 +232,10 @@
         /// Gets a value indicating whether the <see cref="ICollection{T}"/> is read-only.
         /// </summary>
         /// <returns>true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         bool ICollection<T>.IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         /// <summary>
@@ -259,10 +248,7 @@
         /// </summary>
         protected virtual Comparison<T> Comparer
         {
-            get
-            {
-                return this.currentComparer;
-            }
+            get { return this.currentComparer; }
         }
 
         /// <summary>
@@ -420,7 +406,7 @@
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
         public virtual IEnumerable<T> InorderTraversal()
         {
-            return this.InOrderTraversal(this.Root).Select(node => node.Value);
+            return this.InorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
@@ -438,7 +424,7 @@
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
         public virtual IEnumerable<T> PostorderTraversal()
         {
-            return this.PostOrderTraversal(this.Root).Select(node => node.Value);
+            return this.PostorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
@@ -447,7 +433,7 @@
         /// <returns>Returns the collection from root to leaves.</returns>
         public virtual IEnumerable<T> PreorderTraversal()
         {
-            return this.PreOrderTraversal(this.Root).Select(node => node.Value);
+            return this.PreorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
@@ -707,7 +693,7 @@
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from minimum node to maximum node.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> InOrderTraversal(RedBlackTreeNode<T> node)
+        protected virtual IEnumerable<RedBlackTreeNode<T>> InorderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
             {
@@ -742,6 +728,7 @@
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection by level.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         protected virtual IEnumerable<RedBlackTreeNode<T>> LevelOrderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
@@ -774,7 +761,8 @@
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from node value to node value.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> PostOrderTraversal(RedBlackTreeNode<T> node)
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PostorderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
             {
@@ -810,7 +798,8 @@
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from root to leaves.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> PreOrderTraversal(RedBlackTreeNode<T> node)
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PreorderTraversal(RedBlackTreeNode<T> node)
         {
             var root = node;
 

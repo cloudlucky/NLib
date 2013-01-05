@@ -769,7 +769,7 @@
         /// <returns>The <see cref="string"/> representation of the value of this instance as specified by format.</returns>
         public string ToString(string format)
         {
-            return this.model.ToString(format);
+            return this.ToString(format, null);
         }
 
         /// <summary>

@@ -82,7 +82,7 @@
             }
 
             var currentValueComparable = value as IComparable;
-            Check.Current.Requires<ValidationException>(currentValueComparable != null, new { errorMessage = string.Format(DataAnnotationsResource.CompareBaseAttribute_DoesNotImplementIComparable, validationContext.DisplayName), validatingAttribute = this, value });
+            Check.Current.Requires<ValidationException>(currentValueComparable != null, new { errorMessage = string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_DoesNotImplementIComparable, validationContext.DisplayName), validatingAttribute = this, value });
             
             if (!this.MustBeSameType)
             {
@@ -95,7 +95,7 @@
                     }
                     catch (FormatException ex)
                     {
-                        throw new ValidationException(string.Format(DataAnnotationsResource.CompareBaseAttribute_PropertiesCannotBeCompared, validationContext.DisplayName, this.OtherPropertyName), ex);
+                        throw new ValidationException(string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_PropertiesCannotBeCompared, validationContext.DisplayName, this.OtherPropertyName), ex);
                     }
                 }
             }
@@ -106,7 +106,7 @@
 
                 if (!currentValueType.IsAssignableFrom(otherValueType) || !otherValueType.IsAssignableFrom(currentValueType))
                 {
-                    throw new ValidationException(string.Format(DataAnnotationsResource.CompareBaseAttribute_TypeMissMatch, validationContext.DisplayName, currentValueType.Name, this.OtherPropertyName, otherValueType.Name));
+                    throw new ValidationException(string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_TypeMissMatch, validationContext.DisplayName, currentValueType.Name, this.OtherPropertyName, otherValueType.Name));
                 }
             }
 
@@ -132,7 +132,7 @@
                 return secondValue;
             }
 
-            throw new ValidationException(string.Format(DataAnnotationsResource.CompareBaseAttribute_UnknownProperty, this.OtherPropertyName));
+            throw new ValidationException(string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_UnknownProperty, this.OtherPropertyName));
         }
 
         /// <summary>

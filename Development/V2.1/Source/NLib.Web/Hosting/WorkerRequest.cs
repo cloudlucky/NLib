@@ -1,6 +1,7 @@
 ﻿namespace NLib.Web.Hosting
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Web;
     using System.Web.Hosting;
@@ -23,7 +24,7 @@
         /// </example>
         public TextWriter ProcessRequest(string page, string queryString)
         {
-            using (var writer = new StringWriter())
+            using (var writer = new StringWriter(CultureInfo.CurrentCulture))
             {
                 var request = new SimpleWorkerRequest(page, queryString, writer);
                 HttpRuntime.ProcessRequest(request);
