@@ -30,17 +30,5 @@
 
             return text.IndexOf(value, comparisonType) >= 0;
         }
-
-        /// <summary>
-        /// The Longest Common Subsequence problem is to find the longest subsequence common to all sequences in a set of sequences.
-        /// </summary>
-        /// <param name="str1">The sequence</param>
-        /// <param name="str2">The subsequence</param>
-        /// <param name="comparisonType">The comparison Type.</param>
-        /// <returns>The Longest Common Subsequence.</returns>
-        public static int Lcs(string str1, string str2, StringComparison comparisonType)
-        {
-            return 0;
-        }
     }
 }

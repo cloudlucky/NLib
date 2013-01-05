@@ -693,6 +693,7 @@
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from minimum node to maximum node.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         protected virtual IEnumerable<RedBlackTreeNode<T>> InorderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
