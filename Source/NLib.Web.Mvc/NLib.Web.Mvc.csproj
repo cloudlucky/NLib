@@ -79,9 +79,6 @@
     <Compile Include="Properties\GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\CustomDictionary.xml">
-      <Link>Properties\CustomDictionary.xml</Link>
-    </Content>
     <EmbeddedResource Include="NLib.validate.js" />
     <EmbeddedResource Include="NLib.validate.unobstrusive.js" />
   </ItemGroup>

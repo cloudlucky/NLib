@@ -39,24 +39,24 @@
         }
 
         /// <summary>
-        /// Gets the worker request.
-        /// </summary>
-        protected IWorkerRequest WorkerRequest { get; private set; }
-
-        /// <summary>
         /// Gets the base directory.
         /// </summary>
-        protected string BaseDirectory
+        protected static string BaseDirectory
         {
             get { return AppDomain.CurrentDomain.BaseDirectory; }
         }
+
+        /// <summary>
+        /// Gets the worker request.
+        /// </summary>
+        protected IWorkerRequest WorkerRequest { get; private set; }
 
         /// <summary>
         /// Gets the bin directory.
         /// </summary>
         protected string BinDirectory
         {
-            get { return Path.Combine(this.BaseDirectory, "bin"); }
+            get { return Path.Combine(BaseDirectory, "bin"); }
         }
 
         /// <summary>
@@ -85,7 +85,7 @@
         protected void CopyBinaries()
         {
             Directory.CreateDirectory(this.BinDirectory);
-            var binairies = Directory.GetFiles(this.BaseDirectory, "*.*")
+            var binairies = Directory.GetFiles(BaseDirectory, "*.*")
                                      .Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase));
 
             foreach (var file in binairies)
@@ -128,7 +128,7 @@
         {
             this.CopyBinaries();
 
-            this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", this.BaseDirectory);
+            this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", BaseDirectory);
         }
     }
 }

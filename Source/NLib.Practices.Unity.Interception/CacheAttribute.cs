@@ -1,6 +1,7 @@
 ﻿namespace NLib.Practices.Unity.Interception
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.Caching;
 
     using Microsoft.Practices.Unity.InterceptionExtension;
@@ -12,6 +13,7 @@
     /// The implementation of the cache can be set by <see cref="CacheAttribute.Cache"/> property.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public class CacheAttribute : FilterBaseAttribute
     {
         /// <summary>

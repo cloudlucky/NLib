@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
     using NLib.ComponentModel.DataAnnotations.Resources;
@@ -9,6 +10,7 @@
     /// <summary>
     /// Provides a base attribute that compares two properties of a model.
     /// </summary>
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public abstract class CompareBaseAttribute : ValidationAttribute
     {
         /// <summary>
