@@ -76,6 +76,7 @@
     <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationEqualsToRule.cs" />
     <Compile Include="NLibDataAnnotationsModelValidatorRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\FxCop.CustomDictionary.xml">
