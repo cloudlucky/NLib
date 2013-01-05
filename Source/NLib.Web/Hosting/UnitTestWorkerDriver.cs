@@ -31,6 +31,14 @@
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="UnitTestWorkerDriver" /> class.
+        /// </summary>
+        ~UnitTestWorkerDriver()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
         /// Gets the worker request.
         /// </summary>
         protected IWorkerRequest WorkerRequest { get; private set; }
@@ -54,10 +62,10 @@
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public virtual void Dispose()
+        public void Dispose()
         {
-            this.WorkerRequest.Dispose();
-            this.WorkerRequest = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -74,7 +82,7 @@
         /// <summary>
         /// Copies the binaries.
         /// </summary>
-        protected virtual void CopyBinaries()
+        protected void CopyBinaries()
         {
             Directory.CreateDirectory(this.BinDirectory);
             var binairies = Directory.GetFiles(this.BaseDirectory, "*.*")
@@ -92,6 +100,22 @@
                     {
                         File.Copy(file, destination);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.WorkerRequest != null)
+                {
+                    this.WorkerRequest.Dispose();
+                    this.WorkerRequest = null;
                 }
             }
         }

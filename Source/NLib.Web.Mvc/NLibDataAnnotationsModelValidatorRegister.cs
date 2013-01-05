@@ -8,7 +8,7 @@
     /// <summary>
     /// Helper class to register DataAnnotations model validator.
     /// </summary>
-    public class NLibDataAnnotationsModelValidatorRegister
+    public static class NLibDataAnnotationsModelValidatorRegister
     {
         /// <summary>
         /// Registers all NLib adapters.

@@ -17,7 +17,7 @@
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
+            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
 
             var root = tree.RootNode;
 
@@ -54,7 +54,7 @@
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
+            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
+            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderByDescending(x => x).ToArray(), tree.PostOrderTraversal().ToArray());
+            CollectionAssert.AreEqual(array.OrderByDescending(x => x).ToArray(), tree.PostorderTraversal().ToArray());
         }
 
         [TestMethod]
@@ -166,7 +166,7 @@
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(new[] { 13, 8, 1, 6, 11, 9, 17, 15, 25, 22, 27 }, tree.PreOrderTraversal().ToArray());
+            CollectionAssert.AreEqual(new[] { 13, 8, 1, 6, 11, 9, 17, 15, 25, 22, 27 }, tree.PreorderTraversal().ToArray());
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@
                 var removed = tree.Remove(itemToRemove);
 
                 Assert.IsTrue(removed);
-                CollectionAssert.AreEqual(array.Where(x => x != itemToRemove).OrderBy(x => x).ToArray(), tree.InOrderTraversal().ToArray());
+                CollectionAssert.AreEqual(array.Where(x => x != itemToRemove).OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
 
                 switch (itemToRemove)
                 {

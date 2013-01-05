@@ -11,3 +11,6 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Scope = "", Target = "NLib.Web.Mvc.dll", Justification = "Reviewed. It's OK.")]
+
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Web.Mvc", Justification = "Reviewed. It's OK.")]
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Web.Mvc.Extensions", Justification = "Reviewed. It's OK.")]

@@ -49,6 +49,7 @@
         /// <summary>
         /// Gets or sets the implementation model.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", MessageId = "0", Justification = "Reviewed. It's OK here for sub classes to change the model.")]
         protected IDictionary<T, int> Model { get; set; }
 
         /// <summary>
@@ -225,7 +226,7 @@
         /// </summary>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void IntersectWith(IEnumerable<T> other)
         {
             Check.Current.ArgumentNullException(other, "other");
@@ -412,7 +413,7 @@
         /// </summary>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void SymmetricExceptWith(IEnumerable<T> other)
         {
             Check.Current.ArgumentNullException(other, "other");

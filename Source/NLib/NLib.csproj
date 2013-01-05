@@ -107,6 +107,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Linq\Extensions\ExpressionExtensions.cs" />
     <Compile Include="Linq\Extensions\QueryableExtensions.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />

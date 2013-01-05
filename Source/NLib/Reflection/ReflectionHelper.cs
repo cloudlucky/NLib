@@ -1,6 +1,7 @@
 ﻿namespace NLib.Reflection
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -43,6 +44,7 @@
         /// <summary>
         /// Gets the type of the value.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Reviewed. It's OK.")]
         public Type Type
         {
             get { return this.type; }
@@ -81,6 +83,7 @@
         /// <param name="keySelector">The key selector.</param>
         /// <returns>The member if exists; otherwise null.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public MemberInfo GetMemberInfo<TKey>(Expression<Func<T, TKey>> keySelector)
         {
             Check.Current.ArgumentNullException(keySelector, "keySelector");

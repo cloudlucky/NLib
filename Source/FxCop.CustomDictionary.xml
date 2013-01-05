@@ -18,12 +18,14 @@
       (for example 'FileName' -> 'Filename').
     -->
     <Recognized>
-      <Word>Nlib</Word>
       <Word>Cfg</Word>
-      <word>Javascript</word>
+      <Word>Nlib</Word>
       <Word>Insertable</Word>
+      <Word>Mvc</Word>
+      <word>Javascript</word>
       <Word>param</Word>
       <word>Rationalnumber</word>
+      <word>Unobstrusive</word>
     </Recognized>
     <!--<Deprecated>-->
       <!-- 
@@ -48,8 +50,9 @@
         compound word (for example 'WhiteSpace') and its discrete alternate (for example 
         'Whitespace').
       -->
-      <Term CompoundAlternate="RationalNumber">RationalNumber</Term>
       <Term CompoundAlternate="NLib">NLib</Term>
+      <Term CompoundAlternate="paramName">ParamName</Term>
+      <Term CompoundAlternate="RationalNumber">RationalNumber</Term>
     </Compound>
     <!--<DiscreteExceptions>-->
       <!--

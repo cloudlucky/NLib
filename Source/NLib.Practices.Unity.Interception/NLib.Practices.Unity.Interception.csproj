@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilterDefaultCallHandler.cs" />
-    <Compile Include="IFilterAttribute.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="RestrictedAttribute.cs" />
     <Compile Include="CacheAttribute.cs" />
     <Compile Include="DebugAttribute.cs" />

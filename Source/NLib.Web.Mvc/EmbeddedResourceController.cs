@@ -1,6 +1,7 @@
 ﻿namespace NLib.Web.Mvc
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Web.Mvc;
@@ -56,7 +57,7 @@
         /// <returns>The type of the content.</returns>
         private static string GetContentType(string resourceName)
         {
-            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLower();
+            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLower(CultureInfo.InvariantCulture);
             return MimeTypes[extension];
         }
 

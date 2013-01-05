@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using NLib.Collections.Generic.Extensions;
@@ -17,6 +18,7 @@
     /// The null/empty leaves are not represented in this implementation. The children are null if there's any.
     /// </remarks>
     /// <typeparam name="T">The type of elements in the tree.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public class RedBlackTree<T> : IRedBlackTree<T>
     {
         /// <summary>
@@ -391,14 +393,14 @@
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection in <see cref="RedBlackTree{T}.InOrderTraversal"/>.
+        /// Returns an enumerator that iterates through the collection in <see cref="InorderTraversal"/>.
         /// </summary>
         /// <returns>
         /// A <see cref="IEnumerator{T}"></see> that can be used to iterate through the collection.
         /// </returns>
         public virtual IEnumerator<T> GetEnumerator()
         {
-            return this.InOrderTraversal().GetEnumerator();
+            return this.InorderTraversal().GetEnumerator();
         }
 
         /// <summary>
@@ -416,7 +418,7 @@
         /// Iterates through a collection from minimum value to maximum value.
         /// </summary>
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
-        public virtual IEnumerable<T> InOrderTraversal()
+        public virtual IEnumerable<T> InorderTraversal()
         {
             return this.InOrderTraversal(this.Root).Select(node => node.Value);
         }
@@ -434,7 +436,7 @@
         /// Iterates through a collection from maximum value to minimum value.
         /// </summary>
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
-        public virtual IEnumerable<T> PostOrderTraversal()
+        public virtual IEnumerable<T> PostorderTraversal()
         {
             return this.PostOrderTraversal(this.Root).Select(node => node.Value);
         }
@@ -443,7 +445,7 @@
         /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <returns>Returns the collection from root to leaves.</returns>
-        public virtual IEnumerable<T> PreOrderTraversal()
+        public virtual IEnumerable<T> PreorderTraversal()
         {
             return this.PreOrderTraversal(this.Root).Select(node => node.Value);
         }
@@ -478,6 +480,7 @@
         /// <returns>
         /// true if item is found in the <see cref="ICollection{T}"></see>; otherwise, false.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "Reviewed. It's OK on Protected method.")]
         protected virtual bool Contains(T item, out RedBlackTreeNode<T> nodeFound)
         {
             var node = this.Root;
@@ -544,11 +547,11 @@
         }
 
         /// <summary>
-        /// Gets the grand parent.
+        /// Gets the grandparent.
         /// </summary>
-        /// <param name="node">The node to get the grand parent.</param>
-        /// <returns>The node's grand parent.</returns>
-        protected virtual RedBlackTreeNode<T> GetGrandParent(RedBlackTreeNode<T> node)
+        /// <param name="node">The node to get the grandparent.</param>
+        /// <returns>The node's grandparent.</returns>
+        protected virtual RedBlackTreeNode<T> GetGrandparent(RedBlackTreeNode<T> node)
         {
             if (node != null && node.Parent != null)
             {
@@ -684,7 +687,7 @@
         /// <returns>The node's uncle.</returns>
         protected virtual RedBlackTreeNode<T> GetUncle(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
 
             if (grandparent == null)
             {
@@ -1217,7 +1220,7 @@
             {
                 node.Parent.IsBlack = true;
                 uncle.IsBlack = true;
-                var grandparent = this.GetGrandParent(node);
+                var grandparent = this.GetGrandparent(node);
                 grandparent.IsRed = true;
                 this.InsertCase1(grandparent);
             }
@@ -1236,7 +1239,7 @@
         /// <param name="node">The node to insert.</param>
         private void InsertCase4(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
 
             if (node == node.Parent.Right && node.Parent == grandparent.Left)
             {
@@ -1261,7 +1264,7 @@
         /// <param name="node">The node to insert.</param>
         private void InsertCase5(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
             node.Parent.IsBlack = true;
             grandparent.IsRed = true;
 

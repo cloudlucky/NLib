@@ -8,7 +8,7 @@
     using Microsoft.Practices.Unity;
 
     /// <summary>
-    /// A <see cref="LifetimeManager"/> that holds the instances given to it, 
+    /// A <see cref="LifetimeManager" /> that holds the instances given to it,
     /// keeping one instance per HttpSession.
     /// </summary>
     public class HttpSessionLifetimeManager : LifetimeManager, IDisposable, IHttpModule
@@ -33,6 +33,14 @@
         public HttpSessionLifetimeManager(string key)
         {
             this.key = key;
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="HttpSessionLifetimeManager" /> class.
+        /// </summary>
+        ~HttpSessionLifetimeManager()
+        {
+            this.Dispose(false);
         }
 
         /// <summary>
@@ -105,7 +113,20 @@
         /// </summary>
         public void Dispose()
         {
-            this.RemoveValue();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.RemoveValue();
+            }
         }
     }
 }
