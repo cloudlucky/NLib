@@ -22,13 +22,13 @@
 
   <!-- NLib Files -->
   <PropertyGroup>
-    <NLibDllInclude>$(SourceFolder)\**\NLib*.dll</NLibDllInclude>
-    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
-    <NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
-    <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>
+    <NLibDllInclude>$(SourceFolder)\**\NLib*.dll;$(SourceFolder)\**\NLib*.xml;$(SourceFolder)\**\NLib*.pdb</NLibDllInclude>
+    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
+    <!--<NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
+    <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>-->
   </PropertyGroup>
 
-  <!-- Release -->
+  <!-- Output -->
   <PropertyGroup>
     <OutputFolder>$(RootFolder)\Output</OutputFolder>
     <ReleaseFolder>$(OutputFolder)\Release</ReleaseFolder>
@@ -62,6 +62,11 @@
     <StyleCopViolationsXmlFile>$(SourceFolder)\StyleCopViolations.xml</StyleCopViolationsXmlFile>
   </PropertyGroup>
 
+  <!-- StyleCop -->
+  <PropertyGroup>
+    <FxCopOutputFolder>$(OutputFolder)\FxCop</FxCopOutputFolder>
+  </PropertyGroup>
+
   <!-- Solutions to build-->
   <ItemGroup>
     <SolutionToBuild Include="$(SourceFolder)\NLib.sln" />
@@ -83,12 +88,36 @@
   </Target>
 
   <Target Name="Build">
-    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
+    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Properties="Platform=Any CPU" />
+  </Target>
+
+  <Target Name="PrepareOutput" AfterTargets="Build">
+    <RemoveDir Directories="$(OutputFolder)"/>
+    <CallTarget Targets="PrepareOutput_StyleCop;PrepareOutput_FxCop"/>
+  </Target>
+
+  <Target Name="PrepareOutput_StyleCop">
+    <MakeDir Directories="$(StyleCopOutputFolder)" />
+    
+    <ItemGroup>
+      <StyleCopBuildReportResourcesFiles Include="$(StyleCopBuildReportFolder)\Resources\*.*"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>
+  </Target>
+
+  <Target Name="PrepareOutput_FxCop">
+    <MakeDir Directories="$(FxCopOutputFolder)"/>
+
+    <ItemGroup>
+      <NLibDll Include="$(NLibDllInclude)"
+               Exclude="$(NLibDllExclude)"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(NLibDll)" DestinationFolder="$(FxCopOutputFolder)"/>
   </Target>
 
   <Target Name="StyleCop">
-    <MakeDir Directories="$(StyleCopOutputFolder)" />
-
     <!-- Create a collection of files to scan -->
     <CreateItem Include="$(SourceFolder)\**\*.cs" Exclude="$(SourceFolder)\packages\**\*.cs;$(SourceFolder)\Tests\**\*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles"/>
@@ -101,12 +130,6 @@
     </MSBuild.ExtensionPack.CodeQuality.StyleCop>
     <Message Text="Succeeded: $(AllPassed), Violations: $(Violations)" Importance="high"/>
 
-    <ItemGroup>
-      <StyleCopBuildReportResourcesFiles Include="$(StyleCopBuildReportFolder)\Resources\*.*"/>
-    </ItemGroup>
-
-    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>
-
     <MSBuild.ExtensionPack.Xml.XmlTask
       TaskAction="Transform"
       XmlFile="$(StyleCopViolationsXmlFile)"
@@ -118,11 +141,13 @@
     <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolations) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>
   </Target>
 
+  <!-- TODO Review the logic -->
   <Target Name="Package" DependsOnTargets="Build">
     <RemoveDir Directories="$(OutputFolder)"/>
     <CallTarget Targets="PackageBinaries;PackageBinariesWithDoc;PackageNuGet;PackageWithSources;PackageDocumentationWebsite"/>
   </Target>
 
+  <!-- TODO Review the logic -->
   <Target Name="PackageBinaries">
     <ItemGroup>
       <NLibDll Include="$(NLibDllInclude)"
@@ -135,6 +160,7 @@
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(OutputFolder)\NLib.zip"/>
   </Target>
 
+  <!-- TODO Review the logic -->
   <Target Name="PackageBinariesWithDoc">
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;" />
 
@@ -150,6 +176,7 @@
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(OutputFolder)\NLibWithDoc.zip"/>
   </Target>
 
+  <!-- TODO Review the logic -->
   <Target Name="PackageDocumentationWebsite">
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;" />
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(OutputFolder)\NLibDocumentationWebsite.zip"/>
