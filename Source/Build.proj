@@ -89,7 +89,7 @@
   </Target>
 
   <Target Name="Build">
-    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Properties="Platform=Any CPU" />
+    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Properties="Platform=$(Platform)" />
   </Target>
 
   <Target Name="PrepareOutput" AfterTargets="Build">
