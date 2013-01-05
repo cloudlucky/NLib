@@ -59,6 +59,7 @@
     <StyleCopOutputFolder>$(OutputFolder)\StyleCop</StyleCopOutputFolder>
     <StyleCopBuildReportFolder>$(LibFolder)\BuildReports\StyleCop</StyleCopBuildReportFolder>
     <StyleCopMaxViolations>100</StyleCopMaxViolations>
+    <StyleCopViolationsXmlFile>$(SourceFolder)\StyleCopViolations.xml</StyleCopViolationsXmlFile>
   </PropertyGroup>
 
   <!-- Solutions to build-->
@@ -108,7 +109,7 @@
 
     <MSBuild.ExtensionPack.Xml.XmlTask
       TaskAction="Transform"
-      XmlFile="%(Failures.Identity)"
+      XmlFile="$(StyleCopViolationsXmlFile)"
       XslTransformFile="$(StyleCopBuildReportFolder)\StyleCop.xslt"
       OutputFile="$(StyleCopOutputFolder)\StyleCopReport.html">
     </MSBuild.ExtensionPack.Xml.XmlTask>
