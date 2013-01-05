@@ -10,6 +10,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Scope = "", Target = "NLib.dll", Justification = "Reviewed. It's OK.")]
+
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Extensions", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Linq.Extensions", Justification = "Reviewed. It's OK.")]
 [assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "NLib.Collections.Generic", Justification = "Reviewed. It's OK.")]
