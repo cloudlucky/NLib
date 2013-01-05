@@ -47,17 +47,17 @@
         }
 
         /// <summary>
-        /// Gets the worker request.
-        /// </summary>
-        protected IWorkerRequest WorkerRequest { get; private set; }
-
-        /// <summary>
         /// Gets the bin directory.
         /// </summary>
-        protected string BinDirectory
+        protected static string BinDirectory
         {
             get { return Path.Combine(BaseDirectory, "bin"); }
         }
+
+        /// <summary>
+        /// Gets the worker request.
+        /// </summary>
+        protected IWorkerRequest WorkerRequest { get; private set; }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -84,7 +84,7 @@
         /// </summary>
         protected void CopyBinaries()
         {
-            Directory.CreateDirectory(this.BinDirectory);
+            Directory.CreateDirectory(BinDirectory);
             var binairies = Directory.GetFiles(BaseDirectory, "*.*")
                                      .Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase));
 
@@ -94,7 +94,7 @@
 
                 if (fileName != null)
                 {
-                    var destination = Path.Combine(this.BinDirectory, fileName);
+                    var destination = Path.Combine(BinDirectory, fileName);
 
                     if (!File.Exists(destination))
                     {
