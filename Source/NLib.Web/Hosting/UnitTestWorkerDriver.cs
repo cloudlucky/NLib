@@ -82,7 +82,7 @@
         /// <summary>
         /// Copies the binaries.
         /// </summary>
-        protected void CopyBinaries()
+        protected static void CopyBinaries()
         {
             Directory.CreateDirectory(BinDirectory);
             var binairies = Directory.GetFiles(BaseDirectory, "*.*")
@@ -126,7 +126,7 @@
         /// <param name="worker">The worker request.</param>
         private void InitAppDomain(IWorkerRequest worker)
         {
-            this.CopyBinaries();
+            CopyBinaries();
 
             this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", BaseDirectory);
         }
