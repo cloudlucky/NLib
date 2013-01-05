@@ -111,8 +111,14 @@
       TaskAction="Transform"
       XmlFile="$(StyleCopViolationsXmlFile)"
       XslTransformFile="$(StyleCopBuildReportFolder)\StyleCop.xslt"
-      OutputFile="$(StyleCopOutputFolder)\StyleCopReport.html">
+      OutputFile="$(StyleCopOutputFolder)\index.html">
     </MSBuild.ExtensionPack.Xml.XmlTask>
+
+    <ItemGroup>
+      <FilesToZip Include="$(StyleCopOutputFolder)\*.*"/>
+    </ItemGroup>
+
+    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(FilesToZip)" ZipFileName="$(StyleCopOutputFolder)\stylecop.zip"/>
 
     <Error Condition="$(Violations) > $(StyleCopMaxViolations)" Text="StyleCop found $(Violations) broken rules!" />
     <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolations) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>
