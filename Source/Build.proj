@@ -17,6 +17,7 @@
   <PropertyGroup>
     <RootFolder>$(MSBuildProjectDirectory)\..</RootFolder>
     <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
+    <LibFolder>$(RootFolder)\Lib</LibFolder>
   </PropertyGroup>
 
   <!-- NLib Files -->
@@ -29,7 +30,8 @@
 
   <!-- Release -->
   <PropertyGroup>
-    <ReleaseFolder>$(RootFolder)\Release</ReleaseFolder>
+    <OutputFolder>$(RootFolder)\Output</OutputFolder>
+    <ReleaseFolder>$(OutputFolder)\Release</ReleaseFolder>
     <BinariesFolder>$(ReleaseFolder)\Binaries</BinariesFolder>
     <BinariesWithDocFolder>$(ReleaseFolder)\BinariesDoc</BinariesWithDocFolder>
     <ReleaseSourceFolder>$(ReleaseFolder)\Sources</ReleaseSourceFolder>
@@ -38,19 +40,27 @@
   <!-- Documentation -->
   <PropertyGroup>
     <SHFBproj>$(SourceFolder)\NLib.Doc.shfbproj</SHFBproj>
-    <HtmlHelp1Output>$(ReleaseFolder)\Doc\HtmlHelp1</HtmlHelp1Output>
-    <WebsiteOutput>$(ReleaseFolder)\Doc\Website</WebsiteOutput>
+    <HtmlHelp1Output>$(OutputFolder)\Doc\HtmlHelp1</HtmlHelp1Output>
+    <WebsiteOutput>$(OutputFolder)\Doc\Website</WebsiteOutput>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <Nuspec>$(SourceFolder)\NLib.nuspec</Nuspec>
   </PropertyGroup>
-  
+
   <!-- Tools -->
   <PropertyGroup>
     <NuGetTool>$(SourceFolder)\.nuget\NuGet.exe</NuGetTool>
   </PropertyGroup>
-  
+
+  <!-- StyleCop -->
+  <PropertyGroup>
+    <StyleCopSettingFile>$(SourceFolder)\Settings.StyleCop</StyleCopSettingFile>
+    <StyleCopOutputFolder>$(OutputFolder)\StyleCop</StyleCopOutputFolder>
+    <StyleCopBuildReportFolder>$(LibFolder)\BuildReports\StyleCop</StyleCopBuildReportFolder>
+    <StyleCopMaxViolations>100</StyleCopMaxViolations>
+  </PropertyGroup>
+
   <!-- Solutions to build-->
   <ItemGroup>
     <SolutionToBuild Include="$(SourceFolder)\NLib.sln" />
@@ -70,13 +80,44 @@
                                                   AssemblyFileBuildNumber="$(AssemblyBuildNumber)"
                                                   AssemblyFileRevision="$(AssemblyRevision)"/>
   </Target>
-  
+
   <Target Name="Build">
     <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
   </Target>
-  
+
+  <Target Name="StyleCop">
+    <MakeDir Directories="$(StyleCopOutputFolder)" />
+
+    <!-- Create a collection of files to scan -->
+    <CreateItem Include="$(SourceFolder)\**\*.cs" Exclude="$(SourceFolder)\packages\**\*.cs;$(SourceFolder)\Tests\**\*.cs">
+      <Output TaskParameter="Include" ItemName="StyleCopFiles"/>
+    </CreateItem>
+    <!-- Run the StyleCop MSBuild task -->
+    <MSBuild.ExtensionPack.CodeQuality.StyleCop TaskAction="Scan" SourceFiles="@(StyleCopFiles)" ShowOutput="true" ForceFullAnalysis="true" CacheResults="false" logFile="$(StyleCopOutputFolder)\StyleCopLog.txt" SettingsFile="$(StyleCopSettingFile)">
+      <Output TaskParameter="Succeeded" PropertyName="AllPassed"/>
+      <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
+      <Output TaskParameter="FailedFiles" ItemName="Failures"/>
+    </MSBuild.ExtensionPack.CodeQuality.StyleCop>
+    <Message Text="Succeeded: $(AllPassed), Violations: $(Violations)" Importance="high"/>
+
+    <ItemGroup>
+      <StyleCopBuildReportResourcesFiles Include="$(StyleCopBuildReportFolder)\Resources\*.*"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>
+
+    <MSBuild.ExtensionPack.Xml.XmlTask
+      TaskAction="Transform"
+      XmlFile="%(Failures.Identity)"
+      XslTransformFile="$(StyleCopBuildReportFolder)\StyleCop.xslt"
+      OutputFile="$(StyleCopOutputFolder)\StyleCopReport.html">
+    </MSBuild.ExtensionPack.Xml.XmlTask>
+
+    <Error Condition="$(Violations) > $(StyleCopMaxViolations)" Text="StyleCop found $(Violations) broken rules!" />
+  </Target>
+
   <Target Name="Package" DependsOnTargets="Build">
-    <RemoveDir Directories="$(ReleaseFolder)"/>
+    <RemoveDir Directories="$(OutputFolder)"/>
     <CallTarget Targets="PackageBinaries;PackageBinariesWithDoc;PackageNuGet;PackageWithSources;PackageDocumentationWebsite"/>
   </Target>
 
@@ -87,14 +128,14 @@
       <NLibXml Include="$(NLibXmlInclude)"
                Exclude="$(NLibXmlExclude)"/>
     </ItemGroup>
-    
+
     <Copy SourceFiles="@(NLibDll);@(NLibXml)" DestinationFolder="$(BinariesFolder)"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(ReleaseFolder)\NLib.zip"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(OutputFolder)\NLib.zip"/>
   </Target>
 
   <Target Name="PackageBinariesWithDoc">
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;" />
-    
+
     <ItemGroup>
       <NLibDll Include="$(NLibDllInclude)"
                Exclude="$(NLibDllExclude)"/>
@@ -102,16 +143,17 @@
                Exclude="$(NLibXmlExclude)"/>
       <Chm Include="$(HtmlHelp1Output)\*.chm"/>
     </ItemGroup>
-    
+
     <Copy SourceFiles="@(NLibDll);@(NLibXml);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(ReleaseFolder)\NLibWithDoc.zip"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(OutputFolder)\NLibWithDoc.zip"/>
   </Target>
 
   <Target Name="PackageDocumentationWebsite">
     <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;" />
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(ReleaseFolder)\NLibDocumentationWebsite.zip"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(OutputFolder)\NLibDocumentationWebsite.zip"/>
   </Target>
 
+  <!-- TODO Review the logic -->
   <Target Name="PackageNuGet" DependsOnTargets="PackageBinaries">
     <ItemGroup>
       <NuSpecFile Include="$(Nuspec)">
@@ -122,7 +164,7 @@
     <Message Text="%(NuSpecFile.Identity)"/>
     <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateElement" File="%(NuSpecFile.Identity)" XPath="%(NuSpecFile.VesionXPath)" InnerText="$(Version)"/>
     <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute" File="%(NuSpecFile.Identity)" XPath="%(NuSpecFile.FileLibXpath)" Key="src" Value="$(BinariesFolder)\*"/>
-    <Exec Command="&quot;$(NuGetTool)&quot; pack &quot;$(Nuspec)&quot; -o &quot;$(ReleaseFolder)&quot;" />
+    <Exec Command="&quot;$(NuGetTool)&quot; pack &quot;$(Nuspec)&quot; -o &quot;$(OutputFolder)&quot;" />
   </Target>
 
   <Target Name="PackageWithSources">
@@ -132,8 +174,6 @@
     </ItemGroup>
 
     <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ReleaseSourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <Copy SourceFiles="@(Tools)" DestinationFiles="@(Tools->'$(ReleaseSourceFolder)\Tools\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <Copy SourceFiles="@(Lib)" DestinationFiles="@(Lib->'$(ReleaseSourceFolder)\Lib\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(ReleaseFolder)\NLibSources.zip"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(OutputFolder)\NLibSources.zip"/>
   </Target>
 </Project>
