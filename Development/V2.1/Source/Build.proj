@@ -118,7 +118,7 @@
       <FilesToZip Include="$(StyleCopOutputFolder)\*.*"/>
     </ItemGroup>
 
-    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(FilesToZip)" ZipFileName=".teamcity\stylecop.zip" RemoveRoot="$(StyleCopOutputFolder)"/>
+    <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(FilesToZip)" ZipFileName="$(RootFolder)\.teamcity\stylecop.zip" RemoveRoot="$(StyleCopOutputFolder)"/>
 
     <Error Condition="$(Violations) > $(StyleCopMaxViolations)" Text="StyleCop found $(Violations) broken rules!" />
     <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolations) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>
