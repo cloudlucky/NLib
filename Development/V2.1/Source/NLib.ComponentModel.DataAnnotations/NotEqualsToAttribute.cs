@@ -1,6 +1,7 @@
 ﻿namespace NLib.ComponentModel.DataAnnotations
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     using NLib.ComponentModel.DataAnnotations.Resources;
 
@@ -9,6 +10,7 @@
     /// Validate if the two properties are not equal.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public class NotEqualsToAttribute : CompareBaseAttribute
     {
         /// <summary>
