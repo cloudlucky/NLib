@@ -22,6 +22,7 @@
 
   <!-- NLib Files -->
   <PropertyGroup>
+    <AllNLibDllInclude>$(SourceFolder)\**\*.dll;$(SourceFolder)\**\*.xml;$(SourceFolder)\**\*.pdb</AllNLibDllInclude>
     <NLibDllInclude>$(SourceFolder)\**\NLib*.dll;$(SourceFolder)\**\NLib*.xml;$(SourceFolder)\**\NLib*.pdb</NLibDllInclude>
     <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
     <!--<NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
@@ -110,7 +111,7 @@
     <MakeDir Directories="$(FxCopOutputFolder)"/>
 
     <ItemGroup>
-      <NLibDll Include="$(NLibDllInclude)"
+      <NLibDll Include="$(AllNLibDllInclude)"
                Exclude="$(NLibDllExclude)"/>
     </ItemGroup>
 
