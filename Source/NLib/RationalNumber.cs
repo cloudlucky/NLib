@@ -439,7 +439,7 @@
                 {
                     result = new RationalNumber(s, provider);
                 }
-                catch
+                catch (DivideByZeroException)
                 {
                     return false;
                 }

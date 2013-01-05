@@ -1,6 +1,8 @@
 ﻿namespace NLib.Reflection.Extensions
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -44,6 +46,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="helper"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
         /// <exception cref="FieldAccessException">The field cannot be found or is not a <see cref="FieldInfo"/>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public static FieldHelper<T, TKey> Field<T, TKey>(this ReflectionHelper<T> helper, Expression<Func<T, TKey>> keySelector)
         {
             Check.Current.ArgumentNullException(helper, "helper")
@@ -51,7 +54,7 @@
 
             var fieldInfo = helper.GetMemberInfo(keySelector) as FieldInfo;
 
-            Check.Current.Requires<FieldAccessException>(fieldInfo != null, string.Format(ReflectionResource.IsNotFieldInfo, "keySelector"));
+            Check.Current.Requires<FieldAccessException>(fieldInfo != null, string.Format(CultureInfo.CurrentCulture, ReflectionResource.IsNotFieldInfo, "keySelector"));
 
             return new FieldHelper<T, TKey>(helper, fieldInfo);
         }
@@ -89,6 +92,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="helper"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
         /// <exception cref="FieldAccessException">The property cannot be found or is not a <see cref="PropertyInfo"/>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public static PropertyHelper<T, TKey> Property<T, TKey>(this ReflectionHelper<T> helper, Expression<Func<T, TKey>> keySelector)
         {
             Check.Current.ArgumentNullException(helper, "helper")
@@ -96,7 +100,7 @@
 
             var propertyInfo = helper.GetMemberInfo(keySelector) as PropertyInfo;
 
-            Check.Current.Requires<MemberAccessException>(propertyInfo != null, string.Format(ReflectionResource.IsNotPropertyInfo, "keySelector"));
+            Check.Current.Requires<MemberAccessException>(propertyInfo != null, string.Format(CultureInfo.CurrentCulture, ReflectionResource.IsNotPropertyInfo, "keySelector"));
 
             return new PropertyHelper<T, TKey>(helper, propertyInfo);
         }

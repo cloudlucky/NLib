@@ -1,6 +1,7 @@
 ﻿namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a strongly typed tree node. 
@@ -77,6 +78,7 @@
         /// <summary>
         /// Gets the neighbors.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         IEnumerable<INode<T>> INode<T>.Neighbors
         {
             get

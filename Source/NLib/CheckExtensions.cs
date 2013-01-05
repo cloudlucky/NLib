@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq.Expressions;
 
     using NLib.Linq.Extensions;
@@ -55,6 +56,7 @@
         /// <param name="check">The <see cref="Check"/> instance that this method extends.</param>
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference) where T : struct
         {
             return ArgumentNullException(check, reference, null);
@@ -66,6 +68,7 @@
         /// <param name="check">The <see cref="Check"/> instance that this method extends.</param>
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullException(this Check check, Expression<Func<object>> reference)
         {
             return ArgumentNullException(check, reference, null);
@@ -92,6 +95,7 @@
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check" /> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference, string message) where T : struct
         {
             return Requires<ArgumentNullException>(check, reference.Compile()().HasValue, message, new { paramName = reference.GetParameterName() });
@@ -104,6 +108,7 @@
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullException(this Check check, Expression<Func<object>> reference, string message)
         {
             return Requires<ArgumentNullException>(check, reference.Compile()() != null, message, new { paramName = reference.GetParameterName() });
@@ -127,6 +132,7 @@
         /// <param name="check">The <see cref="Check"/> instance that this method extends.</param>
         /// <param name="reference">The parameter to check if it's null or empty.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullOrEmptyException(this Check check, Expression<Func<string>> reference)
         {
             return ArgumentNullOrEmptyException(check, reference, null);
@@ -152,6 +158,7 @@
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullOrEmptyException(this Check check, Expression<Func<string>> reference, string message)
         {
             return Requires<ArgumentNullException>(check, !string.IsNullOrEmpty(reference.Compile()()), message, new { paramName = reference.GetParameterName() });
@@ -175,6 +182,7 @@
         /// <param name="check">The <see cref="Check"/> instance that this method extends.</param>
         /// <param name="reference">The parameter to check if it's null or white space.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullOrWhiteSpaceException(this Check check, Expression<Func<string>> reference)
         {
             return ArgumentNullOrWhiteSpaceException(check, reference, null);
@@ -200,6 +208,7 @@
         /// <param name="reference">The parameter to check if it's null or white space.</param>
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check ArgumentNullOrWhiteSpaceException(this Check check, Expression<Func<string>> reference, string message)
         {
             return Requires<ArgumentNullException>(check, !string.IsNullOrWhiteSpace(reference.Compile()()), message, new { paramName = reference.GetParameterName() });
@@ -223,6 +232,7 @@
         /// <param name="check">The <see cref="Check"/> instance that this method extends.</param>
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check NotNull(this Check check, Expression<Func<object>> reference)
         {
             return NotNull(check, reference, null);
@@ -238,7 +248,7 @@
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         public static Check NotNull(this Check check, object param, string paramName, string message)
         {
-            return Requires<NullReferenceException>(check, param != null, string.Format("Param name '{0}' is null. {1}", paramName, message));
+            return Requires<NullReferenceException>(check, param != null, string.Format(CultureInfo.CurrentCulture, "'{0}' is null. {1}", paramName, message));
         }
 
         /// <summary>
@@ -248,6 +258,7 @@
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         public static Check NotNull(this Check check, Expression<Func<object>> reference, string message)
         {
             return Requires<NullReferenceException>(check, reference.Compile()() != null, message);

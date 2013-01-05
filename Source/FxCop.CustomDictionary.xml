@@ -20,10 +20,12 @@
     <Recognized>
       <Word>Cfg</Word>
       <Word>Nlib</Word>
+      <Word>inorder</Word>
       <Word>Insertable</Word>
       <Word>Mvc</Word>
       <word>Javascript</word>
       <Word>param</Word>
+      <Word>postorder</Word>
       <word>Rationalnumber</word>
       <word>Unobstrusive</word>
     </Recognized>
