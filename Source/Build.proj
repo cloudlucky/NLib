@@ -129,7 +129,7 @@
                Exclude="$(NLibDllExclude)"/>
       <NLibXml Include="$(NLibXmlInclude)"
                Exclude="$(NLibXmlExclude)"/>
-    </ItemGroup>
+    </ItemGroup> 
 
     <Copy SourceFiles="@(NLibDll);@(NLibXml)" DestinationFolder="$(BinariesFolder)"/>
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesFolder)" ZipFileName="$(OutputFolder)\NLib.zip"/>
