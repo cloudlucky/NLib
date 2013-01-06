@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NLib.validate.js" />
-    <EmbeddedResource Include="NLib.validate.unobstrusive.js" />
+    <EmbeddedResource Include="NLib.validate.unobtrusive.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">

@@ -63,11 +63,11 @@
         }
 
         [TestMethod]
-        public void NLibValidateUnobstrusiveScriptTest()
+        public void NLibValidateUnobtrusiveScriptTest()
         {
-            var s = this.Controller.Url.NLibValidateUnobstrusiveScript();
+            var s = this.Controller.Url.NLibValidateUnobtrusiveScript();
 
-            Assert.AreEqual("/nlib/embeddedresource/NLib.validate.unobstrusive.js?assemblyName=NLib.Web.Mvc", s);
+            Assert.AreEqual("/nlib/embeddedresource/NLib.validate.unobtrusive.js?assemblyName=NLib.Web.Mvc", s);
         }
     }
 }

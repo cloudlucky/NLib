@@ -16,7 +16,7 @@
         /// <summary>
         /// The embedded file resource name.
         /// </summary>
-        private const string NLibValidateUnobstrusiveJs = "NLib.validate.unobstrusive.js";
+        private const string NLibValidateUnobtrusiveJs = "NLib.validate.unobtrusive.js";
 
         /// <summary>
         /// The current assembly name.
@@ -46,13 +46,13 @@
         }
 
         /// <summary>
-        /// Gets the link for NLib validate unobstrusive Javascript file.
+        /// Gets the link for NLib validate unobtrusive Javascript file.
         /// </summary>
         /// <param name="urlHelper">The URL helper.</param>
-        /// <returns>The link for NLib validate unobstrusive Javascript file.</returns>
-        public static string NLibValidateUnobstrusiveScript(this UrlHelper urlHelper)
+        /// <returns>The link for NLib validate unobtrusive Javascript file.</returns>
+        public static string NLibValidateUnobtrusiveScript(this UrlHelper urlHelper)
         {
-            return EmbeddedResource(urlHelper, CurrentAssemblyName, NLibValidateUnobstrusiveJs);
+            return EmbeddedResource(urlHelper, CurrentAssemblyName, NLibValidateUnobtrusiveJs);
         }
     }
 }
