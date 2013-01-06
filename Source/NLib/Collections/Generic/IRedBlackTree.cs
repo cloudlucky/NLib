@@ -1,18 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRedBlackTree.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Provides the base interface for the abstraction of red-black trees.
     /// </summary>
     /// <typeparam name="T">The type of elements in the tree.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public interface IRedBlackTree<T> : IBinaryTree<T>
     {
         /// <summary>

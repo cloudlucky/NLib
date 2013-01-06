@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterBaseAttribute.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity.Interception
+﻿namespace NLib.Practices.Unity.Interception
 {
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.InterceptionExtension;
@@ -15,7 +6,7 @@ namespace NLib.Practices.Unity.Interception
     /// <summary>
     /// Represents the base class for interception-filter attributes.
     /// </summary>
-    public abstract class FilterBaseAttribute : HandlerAttribute, IFilterAttribute
+    public abstract class FilterBaseAttribute : HandlerAttribute, IFilter
     {
         /// <summary>
         /// Derived classes implement this method. When called, it creates a new call handler as specified in the attribute configuration.
@@ -38,7 +29,7 @@ namespace NLib.Practices.Unity.Interception
         }
 
         /// <summary>
-        /// When overridden in a derived class, handles when an error occured during the execution.
+        /// When overridden in a derived class, handles when an error occurred during the execution.
         /// </summary>
         /// <param name="context">The error context.</param>
         /// <returns>

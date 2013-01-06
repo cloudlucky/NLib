@@ -1,203 +1,34 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Check.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib
+﻿namespace NLib
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Contains static methods for representing program check.
     /// </summary>
-    public static class Check
+    public sealed class Check
     {
         /// <summary>
-        /// Throws <see cref="System.ArgumentException"/> if the <paramref name="condition"/> is false.
+        /// Unique instance.
         /// </summary>
-        /// <param name="condition">The condition to check.</param>
-        /// <param name="paramName">Name of the param.</param>
-        public static void ArgumentException(bool condition, string paramName)
+        private static readonly Lazy<Check> Instance = new Lazy<Check>(() => new Check());
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="Check" /> class from being created.
+        /// </summary>
+        private Check()
         {
-            ArgumentException(condition, paramName, string.Empty);
         }
 
         /// <summary>
-        /// Throws <see cref="System.ArgumentException"/> if the <paramref name="condition"/> is false.
+        /// Gets the current instance of <see cref="Check"/>.
         /// </summary>
-        /// <param name="condition">The condition to check.</param>
-        /// <param name="paramName">Name of the param.</param>
-        /// <param name="message">The message.</param>
-        public static void ArgumentException(bool condition, string paramName, string message)
+        public static Check Current
         {
-            Requires<ArgumentException>(condition, message, new { paramName });
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        public static void ArgumentNullException(object param, string paramName)
-        {
-            ArgumentNullException(param, paramName, null);
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        /// <param name="message">The message.</param>
-        public static void ArgumentNullException(object param, string paramName, string message)
-        {
-            Requires<ArgumentNullException>(param != null, message, new { paramName });
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrEmpty(string)"/>.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        public static void ArgumentNullOrEmptyException(string param, string paramName)
-        {
-            ArgumentNullOrEmptyException(param, paramName, null);
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrEmpty(string)"/>.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        /// <param name="message">The message.</param>
-        public static void ArgumentNullOrEmptyException(string param, string paramName, string message)
-        {
-            Requires<ArgumentNullException>(!string.IsNullOrEmpty(param), message, new { paramName });
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or <see cref="string.IsNullOrWhiteSpace(string)"/>.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        public static void ArgumentNullOrWhiteSpaceException(string param, string paramName)
-        {
-            ArgumentNullOrWhiteSpaceException(param, paramName, null);
-        }
-
-        /// <summary>
-        /// Throws <see cref="System.ArgumentNullException"/> if the <paramref name="param"/> is null or  <see cref="string.IsNullOrWhiteSpace(string)"/>.
-        /// </summary>
-        /// <param name="param">The param to check if it's null.</param>
-        /// <param name="paramName">Name of the param.</param>
-        /// <param name="message">The message.</param>
-        public static void ArgumentNullOrWhiteSpaceException(string param, string paramName, string message)
-        {
-            Requires<ArgumentNullException>(!string.IsNullOrWhiteSpace(param), message, new { paramName });
-        }
-
-        /// <summary>
-        /// Specifies a check contract for the enclosing method or property, and throws an exception if the <paramref name="condition"/> for the contract fails.
-        /// </summary>
-        /// <typeparam name="TException">The exception to throw if the <paramref name="condition"/> is false.</typeparam>
-        /// <param name="condition">The conditional expression to test.</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void Requires<TException>(bool condition) where TException : Exception
-        {
-            Requires<TException>(condition, string.Empty);
-        }
-
-        /// <summary>
-        /// Specifies a check contract for the enclosing method or property, and throws an exception with the provided if the <paramref name="condition"/> for the contract fails.
-        /// </summary>
-        /// <typeparam name="TException">The exception to throw if the <paramref name="condition"/> is false.</typeparam>
-        /// <param name="condition">The conditional expression to test.</param>
-        /// <param name="exception">The exception thrown if the <paramref name="condition"/> is false.</param>
-        public static void Requires<TException>(bool condition, TException exception) where TException : Exception
-        {
-            if (!condition)
-            {
-                throw exception;
-            }
-        }
-
-        /// <summary>
-        /// Specifies a check contract for the enclosing method or property, and throws an exception with the provided <paramref name="message"/> if the <paramref name="condition"/> for the contract fails.
-        /// </summary>
-        /// <typeparam name="TException">The exception to throw if the <paramref name="condition"/> is false.</typeparam>
-        /// <param name="condition">The conditional expression to test.</param>
-        /// <param name="message">The message to display if the <paramref name="condition"/> is false.</param>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void Requires<TException>(bool condition, string message) where TException : Exception
-        {
-            Requires<TException>(condition, message, null);
-        }
-
-        /// <summary>
-        /// Specifies a check contract for the enclosing method or property, and throws an exception with the provided <paramref name="arguments"/> if the <paramref name="condition"/> for the contract fails.
-        /// </summary>
-        /// <typeparam name="TException">The exception to throw if the <paramref name="condition"/> is false.</typeparam>
-        /// <param name="condition">The conditional expression to test.</param>
-        /// <param name="arguments">
-        ///     The argument to initialise the exception.
-        ///     The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.
-        /// </param>
-        /// <example>
-        /// Example:
-        /// <code>
-        /// Check.Requires&lt;ArgumentNullException&gt;(false, new { message = "A message", paramName = "A parameter" });
-        /// </code>
-        /// </example>
-        /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void Requires<TException>(bool condition, object arguments) where TException : Exception
-        {
-            Requires<TException>(condition, null, arguments);
-        }
-
-        /// <summary>
-        /// Specifies a check contract for the enclosing method or property, and throws an exception with the provided <paramref name="arguments"/> if the <paramref name="condition"/> for the contract fails.
-        /// </summary>
-        /// <typeparam name="TException">The exception to throw if the <paramref name="condition"/> is false.</typeparam>
-        /// <param name="condition">The conditional expression to test.</param>
-        /// <param name="message">The message to display if the <paramref name="condition"/> is false.</param>
-        /// <param name="arguments">
-        ///     The argument to initialise the exception.
-        ///     The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.
-        /// </param>
-        /// <example>
-        /// Example:
-        /// <code>
-        /// Check.Requires&lt;ArgumentNullException&gt;(false, "A message", new { paramName = "A parameter" });
-        /// </code>
-        /// </example>
-        /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void Requires<TException>(bool condition, string message, object arguments) where TException : Exception
-        {
-            if (condition)
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(message) && arguments == null)
-            {
-                RequiresSimple<TException>();
-            }
-
-            if (arguments == null)
-            {
-                RequiresWithMessage<TException>(message);
-            }
-
-            RequiresComplexe<TException>(message, arguments);
+            get { return Instance.Value; }
         }
 
         /// <summary>
@@ -206,7 +37,7 @@ namespace NLib
         /// <typeparam name="TException">The exception to throw.</typeparam>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have default constructor.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        private static void RequiresSimple<TException>() where TException : Exception
+        public static void ThrowException<TException>() where TException : Exception
         {
             var exception = typeof(TException);
 
@@ -220,13 +51,13 @@ namespace NLib
         /// <param name="message">The message to display</param>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have a constructor with one parameter of type string.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        private static void RequiresWithMessage<TException>(string message) where TException : Exception
+        public static void ThrowException<TException>(string message) where TException : Exception
         {
             var exception = typeof(TException);
 
             try
             {
-                throw (TException)Activator.CreateInstance(exception, new[] { message });
+                throw (TException)Activator.CreateInstance(exception, new object[] { message });
             }
             catch (MissingMethodException ex)
             {
@@ -240,12 +71,12 @@ namespace NLib
         /// <typeparam name="TException">The exception to throw</typeparam>
         /// <param name="message">The message to display</param>
         /// <param name="arguments">
-        ///     The argument to initialise the exception.
+        ///     The argument to initialize the exception.
         ///     The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.
         /// </param>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        private static void RequiresComplexe<TException>(string message, object arguments) where TException : Exception
+        public static void ThrowException<TException>(string message, object arguments) where TException : Exception
         {
             var exception = typeof(TException);
             var argumentsType = arguments.GetType();
@@ -270,7 +101,7 @@ namespace NLib
                         else
                         {
                             var p2 = p;
-                            var p1 = argumentsProperties.Where(x => x.Name == p2.Name).FirstOrDefault();
+                            var p1 = argumentsProperties.FirstOrDefault(x => x.Name == p2.Name);
 
                             if (p1 == null || !p1.PropertyType.IsAssignableFrom(p.ParameterType))
                             {

@@ -1,15 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReflectionHelper.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Reflection
+﻿namespace NLib.Reflection
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -52,6 +44,7 @@ namespace NLib.Reflection
         /// <summary>
         /// Gets the type of the value.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Reviewed. It's OK.")]
         public Type Type
         {
             get { return this.type; }
@@ -65,9 +58,9 @@ namespace NLib.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public FieldInfo GetField(string name)
         {
-            Check.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, "name");
 
-            return TypeExtension.GetField(this.Type, name);
+            return TypeExtensions.GetField(this.Type, name);
         }
 
         /// <summary>
@@ -78,9 +71,9 @@ namespace NLib.Reflection
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public PropertyInfo GetProperty(string name)
         {
-            Check.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, "name");
 
-            return TypeExtension.GetProperty(this.Type, name);
+            return TypeExtensions.GetProperty(this.Type, name);
         }
 
         /// <summary>
@@ -90,9 +83,10 @@ namespace NLib.Reflection
         /// <param name="keySelector">The key selector.</param>
         /// <returns>The member if exists; otherwise null.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public MemberInfo GetMemberInfo<TKey>(Expression<Func<T, TKey>> keySelector)
         {
-            Check.ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(keySelector, "keySelector");
 
             return this.Type.GetMemberInfo(keySelector);
         }

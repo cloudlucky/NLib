@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FilterDefaultCallHandler.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace NLib.Practices.Unity.Interception
 {
     using System;
@@ -21,16 +12,16 @@ namespace NLib.Practices.Unity.Interception
         /// <summary>
         /// The filter base attribute.
         /// </summary>
-        private readonly IFilterAttribute filterAttribute;
+        private readonly IFilter filterAttribute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterDefaultCallHandler"/> class.
         /// </summary>
         /// <param name="filterAttribute">The filter attribute.</param>
         /// <param name="order">The order in which the handler will be executed.</param>
-        public FilterDefaultCallHandler(IFilterAttribute filterAttribute, int order)
+        public FilterDefaultCallHandler(IFilter filterAttribute, int order)
         {
-            Check.ArgumentNullException(filterAttribute, "filterAttribute");
+            Check.Current.ArgumentNullException(filterAttribute, "filterAttribute");
 
             this.filterAttribute = filterAttribute;
             this.Order = order;
@@ -39,7 +30,7 @@ namespace NLib.Practices.Unity.Interception
         /// <summary>
         /// Gets the filter base attribute.
         /// </summary>
-        public IFilterAttribute FilterAttribute
+        public IFilter FilterAttribute
         {
             get { return this.filterAttribute; }
         }

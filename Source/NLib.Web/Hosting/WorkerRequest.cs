@@ -1,15 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WorkerRequest.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Hosting
+﻿namespace NLib.Web.Hosting
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Web;
     using System.Web.Hosting;
@@ -32,7 +24,7 @@ namespace NLib.Web.Hosting
         /// </example>
         public TextWriter ProcessRequest(string page, string queryString)
         {
-            using (var writer = new StringWriter())
+            using (var writer = new StringWriter(CultureInfo.CurrentCulture))
             {
                 var request = new SimpleWorkerRequest(page, queryString, writer);
                 HttpRuntime.ProcessRequest(request);

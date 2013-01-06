@@ -1,34 +1,46 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RestrictedAttribute.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity.Interception
+﻿namespace NLib.Practices.Unity.Interception
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
 
     using Microsoft.Practices.Unity.InterceptionExtension;
 
+    /// <summary>
+    /// Restrict the access.
+    /// </summary>
     [AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public class RestrictedAttribute : FilterBaseAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestrictedAttribute" /> class.
+        /// </summary>
         public RestrictedAttribute()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestrictedAttribute" /> class.
+        /// </summary>
+        /// <param name="roles">The authorize roles.</param>
         public RestrictedAttribute(params string[] roles)
         {
             this.Roles = roles;
         }
 
-        public string[] Roles { get; set; }
+        /// <summary>
+        /// Gets the roles.
+        /// </summary>
+        public IEnumerable<string> Roles { get; private set; }
 
+        /// <summary>
+        /// When overridden in a derived class, handles before the execution.
+        /// </summary>
+        /// <param name="context">The executing context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuting(FilterExecutingContext context)
         {
             if (Thread.CurrentPrincipal == null || !Thread.CurrentPrincipal.Identity.IsAuthenticated)

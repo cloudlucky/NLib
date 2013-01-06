@@ -1,20 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IBinaryTree.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Provides the base interface for the abstraction of binary trees.
     /// </summary>
     /// <typeparam name="T">The type of elements in the tree.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public interface IBinaryTree<T> : ICollection<T>
     {
         /// <summary>
@@ -47,27 +40,27 @@ namespace NLib.Collections.Generic
         void AddRange(IEnumerable<T> collection);
 
         /// <summary>
-        /// Iterates throught a collection from minimum value to maximum value.
+        /// Iterates through a collection from minimum value to maximum value.
         /// </summary>
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
-        IEnumerable<T> InOrderTraversal();
+        IEnumerable<T> InorderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <returns>Returns the collection by level.</returns>
         IEnumerable<T> LevelOrderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection from maximum value to minimum value.
+        /// Iterates through a collection from maximum value to minimum value.
         /// </summary>
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
-        IEnumerable<T> PostOrderTraversal();
+        IEnumerable<T> PostorderTraversal();
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <returns>Returns the collection from root to leaves.</returns>
-        IEnumerable<T> PreOrderTraversal();
+        IEnumerable<T> PreorderTraversal();
     }
 }

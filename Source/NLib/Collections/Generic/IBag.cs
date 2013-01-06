@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IBag.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -70,40 +61,40 @@ namespace NLib.Collections.Generic
         void IntersectWith(IEnumerable<T> other);
 
         /// <summary>
-        /// Determines whether the current bag is a property (strict) subbag of a specified collection.
+        /// Determines whether the current bag is a property (strict) sub bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a correct subbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a correct sub bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         bool IsProperSubBagOf(IEnumerable<T> other);
 
         /// <summary>
-        /// Determines whether the current bag is a correct superbag of a specified collection.
+        /// Determines whether the current bag is a correct super bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the <see cref="IBag{T}"/> object is a correct superbag of <paramref name="other"/>; otherwise, false.
+        /// true if the <see cref="IBag{T}"/> object is a correct super bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag. </param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         bool IsProperSuperBagOf(IEnumerable<T> other);
 
         /// <summary>
-        /// Determines whether a bag is a subbag of a specified collection.
+        /// Determines whether a bag is a sub bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a subbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a sub bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         bool IsSubBagOf(IEnumerable<T> other);
 
         /// <summary>
-        /// Determines whether the current bag is a superbag of a specified collection.
+        /// Determines whether the current bag is a super bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a superbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a super bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
@@ -148,7 +139,7 @@ namespace NLib.Collections.Generic
         void SymmetricExceptWith(IEnumerable<T> other);
 
         /// <summary>
-        /// Modifies the current bag so that it contains all elements that are present in both the current sbag and in the specified collection.
+        /// Modifies the current bag so that it contains all elements that are present in both the current bag and in the specified collection.
         /// </summary>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>

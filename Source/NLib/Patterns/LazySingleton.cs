@@ -1,15 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LazySingleton.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Patterns
+﻿namespace NLib.Patterns
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Create a unique instance of <typeparamref name="T"/>.
@@ -26,6 +18,7 @@ namespace NLib.Patterns
         /// <summary>
         /// Gets the current instance of <typeparam name="T"/>.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Reviewd. It's OK.")]
         public static T Current
         {
             get { return Instance.Value; }

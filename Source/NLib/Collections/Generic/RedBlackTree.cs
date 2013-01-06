@@ -1,17 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RedBlackTree.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using NLib.Collections.Generic.Extensions;
@@ -26,6 +18,7 @@ namespace NLib.Collections.Generic
     /// The null/empty leaves are not represented in this implementation. The children are null if there's any.
     /// </remarks>
     /// <typeparam name="T">The type of elements in the tree.</typeparam>
+    [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public class RedBlackTree<T> : IRedBlackTree<T>
     {
         /// <summary>
@@ -164,7 +157,7 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentNullException"><paramref name="comparer"/> and <paramref name="comparison"/> are null.</exception>
         protected RedBlackTree(IEnumerable<T> collection, Comparison<T> comparison, IComparer<T> comparer, bool allowDuplicates)
         {
-            Check.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
+            Check.Current.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
 
             this.currentComparer = comparison ?? comparer.Compare;
             this.allowDuplicates = allowDuplicates;
@@ -179,10 +172,7 @@ namespace NLib.Collections.Generic
         /// </value>
         public virtual bool AllowDuplicates
         {
-            get
-            {
-                return this.allowDuplicates;
-            }
+            get { return this.allowDuplicates; }
         }
 
         /// <summary>
@@ -195,10 +185,7 @@ namespace NLib.Collections.Generic
         /// </summary>
         IBinaryTreeNode<T> IBinaryTree<T>.RootNode
         {
-            get
-            {
-                return this.RootNode;
-            }
+            get { return this.RootNode; }
         }
 
         /// <summary>
@@ -206,10 +193,7 @@ namespace NLib.Collections.Generic
         /// </summary>
         public virtual IRedBlackTreeNode<T> RootNode
         {
-            get
-            {
-                return this.Root;
-            }
+            get { return this.Root; }
         }
 
         /// <summary>
@@ -248,12 +232,10 @@ namespace NLib.Collections.Generic
         /// Gets a value indicating whether the <see cref="ICollection{T}"/> is read-only.
         /// </summary>
         /// <returns>true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         bool ICollection<T>.IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         /// <summary>
@@ -266,10 +248,7 @@ namespace NLib.Collections.Generic
         /// </summary>
         protected virtual Comparison<T> Comparer
         {
-            get
-            {
-                return this.currentComparer;
-            }
+            get { return this.currentComparer; }
         }
 
         /// <summary>
@@ -389,9 +368,9 @@ namespace NLib.Collections.Generic
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Current.ArgumentNullException(array, "array")
+                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
+                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
@@ -400,14 +379,14 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection in <see cref="RedBlackTree{T}.InOrderTraversal"/>.
+        /// Returns an enumerator that iterates through the collection in <see cref="InorderTraversal"/>.
         /// </summary>
         /// <returns>
         /// A <see cref="IEnumerator{T}"></see> that can be used to iterate through the collection.
         /// </returns>
         public virtual IEnumerator<T> GetEnumerator()
         {
-            return this.InOrderTraversal().GetEnumerator();
+            return this.InorderTraversal().GetEnumerator();
         }
 
         /// <summary>
@@ -422,16 +401,16 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from minimum value to maximum value.
+        /// Iterates through a collection from minimum value to maximum value.
         /// </summary>
         /// <returns>Returns the collection from minimum value to maximum value.</returns>
-        public virtual IEnumerable<T> InOrderTraversal()
+        public virtual IEnumerable<T> InorderTraversal()
         {
-            return this.InOrderTraversal(this.Root).Select(node => node.Value);
+            return this.InorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <returns>Returns the collection by level.</returns>
         public virtual IEnumerable<T> LevelOrderTraversal()
@@ -440,21 +419,21 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from maximum value to minimum value.
+        /// Iterates through a collection from maximum value to minimum value.
         /// </summary>
         /// <returns>Returns the collection from maximum value to minimum value.</returns>
-        public virtual IEnumerable<T> PostOrderTraversal()
+        public virtual IEnumerable<T> PostorderTraversal()
         {
-            return this.PostOrderTraversal(this.Root).Select(node => node.Value);
+            return this.PostorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <returns>Returns the collection from root to leaves.</returns>
-        public virtual IEnumerable<T> PreOrderTraversal()
+        public virtual IEnumerable<T> PreorderTraversal()
         {
-            return this.PreOrderTraversal(this.Root).Select(node => node.Value);
+            return this.PreorderTraversal(this.Root).Select(node => node.Value);
         }
 
         /// <summary>
@@ -487,6 +466,7 @@ namespace NLib.Collections.Generic
         /// <returns>
         /// true if item is found in the <see cref="ICollection{T}"></see>; otherwise, false.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "Reviewed. It's OK on Protected method.")]
         protected virtual bool Contains(T item, out RedBlackTreeNode<T> nodeFound)
         {
             var node = this.Root;
@@ -553,11 +533,11 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Gets the grand parent.
+        /// Gets the grandparent.
         /// </summary>
-        /// <param name="node">The node to get the grand parent.</param>
-        /// <returns>The node's grand parent.</returns>
-        protected virtual RedBlackTreeNode<T> GetGrandParent(RedBlackTreeNode<T> node)
+        /// <param name="node">The node to get the grandparent.</param>
+        /// <returns>The node's grandparent.</returns>
+        protected virtual RedBlackTreeNode<T> GetGrandparent(RedBlackTreeNode<T> node)
         {
             if (node != null && node.Parent != null)
             {
@@ -641,7 +621,7 @@ namespace NLib.Collections.Generic
         /// Gets the successor if exists; otherwise gets the predecessor.
         /// Gets the predecessor if the successor is a black leaf.
         /// </summary>
-        /// <param name="node">The node to gets the sucessor or predecessor.</param>
+        /// <param name="node">The node to gets the successor or predecessor.</param>
         /// <returns>The successor or the predecessor of the <paramref name="node"/>.</returns>
         protected virtual RedBlackTreeNode<T> GetSuccessorOrPredecessor(RedBlackTreeNode<T> node)
         {
@@ -693,7 +673,7 @@ namespace NLib.Collections.Generic
         /// <returns>The node's uncle.</returns>
         protected virtual RedBlackTreeNode<T> GetUncle(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
 
             if (grandparent == null)
             {
@@ -709,11 +689,12 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from minimum node to maximum node.
+        /// Iterates through a collection from minimum node to maximum node.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from minimum node to maximum node.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> InOrderTraversal(RedBlackTreeNode<T> node)
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
+        protected virtual IEnumerable<RedBlackTreeNode<T>> InorderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
             {
@@ -744,10 +725,11 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection by level.
+        /// Iterates through a collection by level.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection by level.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         protected virtual IEnumerable<RedBlackTreeNode<T>> LevelOrderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
@@ -776,11 +758,12 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from node value to minimum node.
+        /// Iterates through a collection from node value to minimum node.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from node value to node value.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> PostOrderTraversal(RedBlackTreeNode<T> node)
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PostorderTraversal(RedBlackTreeNode<T> node)
         {
             if (node != null)
             {
@@ -812,11 +795,12 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Iterates throught a collection from root to leaves.
+        /// Iterates through a collection from root to leaves.
         /// </summary>
         /// <param name="node">The node to start the iteration.</param>
         /// <returns>Returns the collection from root to leaves.</returns>
-        protected virtual IEnumerable<RedBlackTreeNode<T>> PreOrderTraversal(RedBlackTreeNode<T> node)
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
+        protected virtual IEnumerable<RedBlackTreeNode<T>> PreorderTraversal(RedBlackTreeNode<T> node)
         {
             var root = node;
 
@@ -1226,7 +1210,7 @@ namespace NLib.Collections.Generic
             {
                 node.Parent.IsBlack = true;
                 uncle.IsBlack = true;
-                var grandparent = this.GetGrandParent(node);
+                var grandparent = this.GetGrandparent(node);
                 grandparent.IsRed = true;
                 this.InsertCase1(grandparent);
             }
@@ -1245,7 +1229,7 @@ namespace NLib.Collections.Generic
         /// <param name="node">The node to insert.</param>
         private void InsertCase4(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
 
             if (node == node.Parent.Right && node.Parent == grandparent.Left)
             {
@@ -1270,7 +1254,7 @@ namespace NLib.Collections.Generic
         /// <param name="node">The node to insert.</param>
         private void InsertCase5(RedBlackTreeNode<T> node)
         {
-            var grandparent = this.GetGrandParent(node);
+            var grandparent = this.GetGrandparent(node);
             node.Parent.IsBlack = true;
             grandparent.IsRed = true;
 

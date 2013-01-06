@@ -1,44 +1,66 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CacheAttribute.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Practices.Unity.Interception
+﻿namespace NLib.Practices.Unity.Interception
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.Caching;
 
     using Microsoft.Practices.Unity.InterceptionExtension;
 
+    /// <summary>
+    /// Cache a method result.
+    /// </summary>
+    /// <remarks>
+    /// The implementation of the cache can be set by <see cref="CacheAttribute.Cache"/> property.
+    /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public class CacheAttribute : FilterBaseAttribute
     {
+        /// <summary>
+        /// Initializes static members of the <see cref="CacheAttribute" /> class.
+        /// </summary>
         static CacheAttribute()
         {
-            Cache = new MemoryCache("NLibCache");
+            Cache = new MemoryCache(typeof(CacheAttribute).FullName);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CacheAttribute" /> class.
+        /// </summary>
         public CacheAttribute()
         {
             this.AbsoluteExpiration = 300000;
             this.SlidingExpiration = 0;
         }
 
+        /// <summary>
+        /// Gets or sets the cache.
+        /// </summary>
         public static ObjectCache Cache { get; set; }
 
+        /// <summary>
+        /// Gets or sets the key used by the cache.
+        /// </summary>
         public string Key { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether a cache entry should be evicted after a specified duration.
+        /// </summary>
         public int AbsoluteExpiration { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value that indicates whether a cache entry should be evicted if it has not been accessed in a given span of time.
+        /// </summary>
         public int SlidingExpiration { get; set; }
 
+        /// <summary>
+        /// Cache the result.
+        /// </summary>
+        /// <param name="context">The executed context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuted(FilterExecutedContext context)
         {
-            var key = this.GetKey(context);
+            var key = this.GetKeyName(context);
             if (!Cache.Contains(key))
             {
                 var policy = new CacheItemPolicy
@@ -48,15 +70,24 @@ namespace NLib.Practices.Unity.Interception
                         SlidingExpiration = TimeSpan.FromMilliseconds(this.SlidingExpiration),
                     };
 
-                Cache.Add(key, context.MethodReturn.ReturnValue, policy);
+                var returnValue = context.MethodReturn.ReturnValue;
+                if (returnValue != null)
+                {
+                    Cache.Add(key, context.MethodReturn.ReturnValue, policy);
+                }
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Returns the cache result; otherwise it execute method.
+        /// </summary>
+        /// <param name="context">The executing context.</param>
+        /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuting(FilterExecutingContext context)
         {
-            var key = this.GetKey(context);
+            var key = this.GetKeyName(context);
             if (Cache.Contains(key))
             {
                 return context.MethodInvocation.CreateMethodReturn(Cache[key]);
@@ -65,7 +96,12 @@ namespace NLib.Practices.Unity.Interception
             return null;
         }
 
-        protected string GetKey(FilterContextBase context)
+        /// <summary>
+        /// Gets the key name for the cache.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns>The key name.</returns>
+        protected string GetKeyName(FilterContextBase context)
         {
             return this.Key ?? context.MethodInvocation.MethodBase.DeclaringType.FullName + context.MethodInvocation.MethodBase.Name;
         }
