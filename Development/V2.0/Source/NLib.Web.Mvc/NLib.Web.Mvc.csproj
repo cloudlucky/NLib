@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NLib.Web.Mvc</RootNamespace>
     <AssemblyName>NLib.Web.Mvc</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +26,7 @@
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -34,12 +36,14 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NLib.Web.Mvc.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -67,16 +71,14 @@
     <Compile Include="AttributeAdapters\GreaterThanAttributeAdapter.cs" />
     <Compile Include="EmbeddedResourceController.cs" />
     <Compile Include="AttributeAdapters\EqualsToAttributeAdapter.cs" />
-    <Compile Include="Extensions\RouteCollectionExtension.cs" />
-    <Compile Include="Extensions\UrlHelperExtension.cs" />
+    <Compile Include="Extensions\RouteCollectionExtensions.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="AttributeAdapters\ModelClientValidationRules\ModelClientValidationEqualsToRule.cs" />
     <Compile Include="NLibDataAnnotationsModelValidatorRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\FxCop.CustomDictionary.xml">
-      <Link>Properties\FxCop.CustomDictionary.xml</Link>
-    </Content>
     <EmbeddedResource Include="NLib.validate.js" />
     <EmbeddedResource Include="NLib.validate.unobstrusive.js" />
   </ItemGroup>
@@ -89,9 +91,6 @@
       <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
       <Name>NLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NLib.Web.Mvc.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

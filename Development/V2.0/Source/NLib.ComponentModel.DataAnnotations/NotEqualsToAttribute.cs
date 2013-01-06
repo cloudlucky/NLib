@@ -1,15 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NotEqualsToAttribute.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.ComponentModel.DataAnnotations
+﻿namespace NLib.ComponentModel.DataAnnotations
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     using NLib.ComponentModel.DataAnnotations.Resources;
 
@@ -18,6 +10,7 @@ namespace NLib.ComponentModel.DataAnnotations
     /// Validate if the two properties are not equal.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Reviewed. It's OK. Like MVC attributes.")]
     public class NotEqualsToAttribute : CompareBaseAttribute
     {
         /// <summary>

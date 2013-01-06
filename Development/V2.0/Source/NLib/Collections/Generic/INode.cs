@@ -1,21 +1,18 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="INode.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
-    public interface INode<T>
+    /// <summary>
+    /// Represents a node in a collection.
+    /// </summary>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    public interface INode<out T>
     {
         /// <summary>
         /// Gets the neighbors.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
         IEnumerable<INode<T>> Neighbors { get; }
 
         /// <summary>

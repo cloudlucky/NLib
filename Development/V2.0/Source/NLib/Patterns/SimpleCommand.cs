@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SimpleCommand.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Patterns
+﻿namespace NLib.Patterns
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +8,7 @@ namespace NLib.Patterns
     /// <summary>
     /// Simple command pattern to do Undo/Redo.
     /// </summary>
-    public partial class SimpleCommand
+    public class SimpleCommand
     {
         /// <summary>
         /// the undo stack.
@@ -67,8 +58,8 @@ namespace NLib.Patterns
         public SimpleCommand(Action execute, Action undo, Action redo)
             : this()
         {
-            Check.ArgumentNullException(execute, "execute");
-            Check.ArgumentNullException(undo, "undo");
+            Check.Current.ArgumentNullException(execute, "execute")
+                         .ArgumentNullException(undo, "undo");
 
             this.execute = execute;
             this.undo = undo;
@@ -143,7 +134,7 @@ namespace NLib.Patterns
         /// </summary>
         public virtual void Undo()
         {
-            Check.Requires<InvalidOperationException>(this.CanUndo, SimpleCommandResource.Undo_InvalidOperationException);
+            Check.Current.Requires<InvalidOperationException>(this.CanUndo, SimpleCommandResource.Undo_InvalidOperationException);
             this.RedoStack.Push(this.undoStack.Pop());
             this.undo();
         }
@@ -153,7 +144,7 @@ namespace NLib.Patterns
         /// </summary>
         public virtual void Redo()
         {
-            Check.Requires<InvalidOperationException>(this.CanRedo, SimpleCommandResource.Redo_InvalidOperationException);
+            Check.Current.Requires<InvalidOperationException>(this.CanRedo, SimpleCommandResource.Redo_InvalidOperationException);
             this.UndoStack.Push(this.redoStack.Pop());
             this.redo();
         }

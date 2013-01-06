@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BagBase.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections;
@@ -40,6 +31,7 @@ namespace NLib.Collections.Generic
         /// <returns>
         /// true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         bool ICollection<T>.IsReadOnly
         {
             get { return false; }
@@ -58,6 +50,7 @@ namespace NLib.Collections.Generic
         /// <summary>
         /// Gets or sets the implementation model.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Reviewed. It's OK here for sub classes to change the model.")]
         protected IDictionary<T, int> Model { get; set; }
 
         /// <summary>
@@ -159,9 +152,9 @@ namespace NLib.Collections.Generic
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.ArgumentNullException(array, "array");
-            Check.Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" });
-            Check.Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Current.ArgumentNullException(array, "array")
+                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
+                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
             if (this.Count > 0)
             {
@@ -234,12 +227,13 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void IntersectWith(IEnumerable<T> other)
         {
-            Check.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, "other");
 
-            foreach (var t in other)
+            var tmp = other.ToList();
+            foreach (var t in tmp)
             {
                 if (!this.Contains(t))
                 {
@@ -248,7 +242,7 @@ namespace NLib.Collections.Generic
                 else
                 {
                     var t1 = t;
-                    var count = other.Count(x => this.EqualityComparer(x, t1));
+                    var count = tmp.Count(x => this.EqualityComparer(x, t1));
                     var total = this.GetCount(t);
 
                     if (total > count)
@@ -263,7 +257,7 @@ namespace NLib.Collections.Generic
             while (i < this.Model.Keys.Count)
             {
                 var key = this.Model.Keys.ElementAt(i);
-                if (!other.Contains(key))
+                if (!tmp.Contains(key))
                 {
                     this.RemoveAll(key);
                 }
@@ -275,26 +269,27 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Determines whether the current bag is a property (strict) subbag of a specified collection.
+        /// Determines whether the current bag is a property (strict) sub bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a correct subbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a correct sub bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public virtual bool IsProperSubBagOf(IEnumerable<T> other)
         {
-            return this.IsSubBagOf(other)
-                   && this.All(x => other.Contains(x));
+            var tmp = other.ToList();
+            return this.IsSubBagOf(tmp)
+                   && this.All(tmp.Contains);
         }
 
         /// <summary>
-        /// Determines whether the current bag is a correct superbag of a specified collection.
+        /// Determines whether the current bag is a correct super bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the <see cref="IBag{T}"/> object is a correct superbag of <paramref name="other"/>; otherwise, false.
+        /// true if the <see cref="IBag{T}"/> object is a correct super bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
-        /// <param name="other">The collection to compare to the current bag. </param>
+        /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public virtual bool IsProperSuperBagOf(IEnumerable<T> other)
         {
@@ -302,29 +297,31 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Determines whether a bag is a subbag of a specified collection.
+        /// Determines whether a bag is a sub bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a subbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a sub bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public virtual bool IsSubBagOf(IEnumerable<T> other)
         {
-            return other.All(x => this.Contains(x) && this.Model[x] <= other.Count(y => this.EqualityComparer(x, y)));
+            var tmp = other.ToList();
+            return tmp.All(x => this.Contains(x) && this.Model[x] <= tmp.Count(y => this.EqualityComparer(x, y)));
         }
 
         /// <summary>
-        /// Determines whether the current bag is a superbag of a specified collection.
+        /// Determines whether the current bag is a super bag of a specified collection.
         /// </summary>
         /// <returns>
-        /// true if the current bag is a superbag of <paramref name="other"/>; otherwise, false.
+        /// true if the current bag is a super bag of <paramref name="other"/>; otherwise, false.
         /// </returns>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         public virtual bool IsSuperBagOf(IEnumerable<T> other)
         {
-            return other.All(x => this.Contains(x) && this.Model[x] >= other.Count(y => this.EqualityComparer(x, y)));
+            var tmp = other.ToList();
+            return tmp.All(x => this.Contains(x) && this.Model[x] >= tmp.Count(y => this.EqualityComparer(x, y)));
         }
 
         /// <summary>
@@ -417,10 +414,10 @@ namespace NLib.Collections.Generic
         /// </summary>
         /// <param name="other">The collection to compare to the current bag.</param>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void SymmetricExceptWith(IEnumerable<T> other)
         {
-            Check.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, "other");
 
             var tmp = new List<T>();
 

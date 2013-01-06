@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RationalNumber.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib
+﻿namespace NLib
 {
     using System;
     using System.Diagnostics;
@@ -142,7 +133,7 @@ namespace NLib
             {
                 var parts = s.Split('/');
 
-                Check.Requires<ArgumentException>(parts.Length <= 3, RationalNumberResource.RationalNumber_ArgumentException_S);
+                Check.Current.Requires<ArgumentException>(parts.Length <= 3, RationalNumberResource.RationalNumber_ArgumentException_S);
 
                 var power = 0;
                 int numerator;
@@ -321,6 +312,7 @@ namespace NLib
         /// <param name="s">A string containing a rational number to convert. </param>
         /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Parse(string s)
         {
             return Parse(s, CultureInfo.CurrentCulture);
@@ -333,9 +325,10 @@ namespace NLib
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <returns>A rational number equivalent to the number contained in <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> is null.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Parse(string s, IFormatProvider provider)
         {
-            Check.ArgumentNullException(s, "s");
+            Check.Current.ArgumentNullException(s, "s");
 
             return new RationalNumber(s, provider);
         }
@@ -398,7 +391,7 @@ namespace NLib
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static RationalNumber Reverse(RationalNumber r)
         {
-            Check.Requires<DivideByZeroException>(r.Numerator != 0, RationalNumberResource.Reverse_DivideByZeroException_R);
+            Check.Current.Requires<DivideByZeroException>(r.Numerator != 0, RationalNumberResource.Reverse_DivideByZeroException_R);
 
             return new RationalNumber(r.Denominator, r.Numerator);
         }
@@ -421,7 +414,8 @@ namespace NLib
         /// </summary>
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, out RationalNumber result)
         {
             return TryParse(s, CultureInfo.CurrentCulture, out result);
@@ -433,7 +427,8 @@ namespace NLib
         /// <param name="s">A <see cref="string"/> containing a number to convert. </param>
         /// <param name="provider">An object that supplies culture-specific formatting information about <paramref name="s"/>.</param>
         /// <param name="result">When this method returns, contains the rational number value equivalent to the number contained in <paramref name="s"/>, if the conversion succeeded, or <see cref="RationalNumber.Zero"/> if the conversion failed. The conversion fails if the <paramref name="s"/> parameter is null, is not of the correct format, or represents a number less than <see cref="RationalNumber.MinValue"/> or greater than <see cref="RationalNumber.MaxValue"/>. This parameter is passed uninitialized.</param>
-        /// <returns></returns>
+        /// <returns>true if s was converted successfully; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
         public static bool TryParse(string s, IFormatProvider provider, out RationalNumber result)
         {
             result = Zero;
@@ -444,7 +439,7 @@ namespace NLib
                 {
                     result = new RationalNumber(s, provider);
                 }
-                catch
+                catch (DivideByZeroException)
                 {
                     return false;
                 }
@@ -1103,7 +1098,7 @@ namespace NLib
         /// <exception cref="DivideByZeroException">The denominator must be non-zero.</exception>
         private void Initialize(long numerator, long denominator)
         {
-            Check.Requires<DivideByZeroException>(denominator != 0, RationalNumberResource.Initialize_DivideByZeroException_Denominator);
+            Check.Current.Requires<DivideByZeroException>(denominator != 0, RationalNumberResource.Initialize_DivideByZeroException_Denominator);
 
             this.Numerator = numerator;
             this.Denominator = denominator;

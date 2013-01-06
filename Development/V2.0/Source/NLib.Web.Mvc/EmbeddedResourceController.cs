@@ -1,15 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmbeddedResourceController.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Mvc
+﻿namespace NLib.Web.Mvc
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Web.Mvc;
@@ -32,8 +24,8 @@ namespace NLib.Web.Mvc
         /// <returns>The embedded resource file.</returns>
         public ActionResult GetFile(string assemblyName, string resourceName)
         {
-            Check.ArgumentNullOrWhiteSpaceException(assemblyName, "assemblyName");
-            Check.ArgumentNullOrWhiteSpaceException(resourceName, "resourceName");
+            Check.Current.ArgumentNullOrWhiteSpaceException(assemblyName, "assemblyName")
+                         .ArgumentNullOrWhiteSpaceException(resourceName, "resourceName");
 
             Assembly assembly;
             try
@@ -46,7 +38,7 @@ namespace NLib.Web.Mvc
                 return null;
             }
 
-            var resourceStream = assembly.GetManifestResourceStream(string.Format("{0}.{1}", assemblyName, resourceName));
+            var resourceStream = assembly.GetManifestResourceStream(string.Format(CultureInfo.CurrentCulture, "{0}.{1}", assemblyName, resourceName));
 
             if (resourceStream == null)
             {
@@ -65,7 +57,7 @@ namespace NLib.Web.Mvc
         /// <returns>The type of the content.</returns>
         private static string GetContentType(string resourceName)
         {
-            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToLower();
+            var extension = resourceName.Substring(resourceName.LastIndexOf('.')).ToUpperInvariant();
             return MimeTypes[extension];
         }
 
@@ -77,14 +69,14 @@ namespace NLib.Web.Mvc
         {
             return new Dictionary<string, string>
                 {
-                    { ".gif", "image/gif" }, 
-                    { ".png", "image/png" }, 
-                    { ".jpg", "image/jpeg" }, 
-                    { ".js", "text/javascript" }, 
-                    { ".css", "text/css" }, 
-                    { ".txt", "text/plain" }, 
-                    { ".xml", "application/xml" }, 
-                    { ".zip", "application/zip" }
+                    { ".GIF", "image/gif" }, 
+                    { ".PNG", "image/png" }, 
+                    { ".JPG", "image/jpeg" }, 
+                    { ".JS", "text/javascript" }, 
+                    { ".CSS", "text/css" }, 
+                    { ".TXT", "text/plain" }, 
+                    { ".XML", "application/xml" }, 
+                    { ".ZIP", "application/zip" }
                 };
         }
     }
