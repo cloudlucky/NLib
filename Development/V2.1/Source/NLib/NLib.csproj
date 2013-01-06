@@ -68,7 +68,6 @@
     </Compile>
     <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
     <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtensions.cs" />
-    <Compile Include="Collections\Generic\Extensions\GraphExtensions.cs" />
     <Compile Include="Collections\Generic\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Collections\Generic\Extensions\ListExtensions.cs" />
     <Compile Include="Collections\Generic\Extensions\Resources\IListExtensionResource.Designer.cs">
@@ -77,12 +76,10 @@
       <DependentUpon>IListExtensionResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
-    <Compile Include="Collections\Generic\Graph.cs" />
     <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
     <Compile Include="Collections\Generic\IBinaryTree.cs" />
     <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
-    <Compile Include="Collections\Generic\IGraph.cs" />
     <Compile Include="Collections\Generic\INode.cs" />
     <Compile Include="Collections\Generic\IRedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
