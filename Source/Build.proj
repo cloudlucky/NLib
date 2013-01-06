@@ -73,6 +73,8 @@
   </ItemGroup>
 
   <Target Name="SetVersion" BeforeTargets="Build">
+    <Message Text="Version is $(Version)"/>
+    
     <ItemGroup>
       <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*"/>
     </ItemGroup>
