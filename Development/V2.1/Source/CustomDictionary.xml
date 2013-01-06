@@ -27,7 +27,6 @@
       <Word>param</Word>
       <Word>postorder</Word>
       <word>Rationalnumber</word>
-      <word>Unobstrusive</word>
     </Recognized>
     <!--<Deprecated>-->
       <!-- 
@@ -67,7 +66,6 @@
       -->
       <Term>Inorder</Term>
       <Term>Postorder</Term>
-      <Term>Unobstrusive</Term>
     </DiscreteExceptions>
   </Words>
   <!--<Acronyms>
