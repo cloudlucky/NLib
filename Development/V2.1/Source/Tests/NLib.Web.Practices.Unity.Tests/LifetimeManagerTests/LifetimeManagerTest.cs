@@ -16,6 +16,7 @@
                 var response = td.GetResponse("LifetimeManagerTest.aspx", "Name=Foo");
 
                 Assert.AreEqual(200, response.StatusCode);
+                Assert.AreEqual("test", response.Output.ToString());
                 Assert.IsTrue(response.Output.ToString().Contains("HttpRequestLifetimeManager: Foo"));
                 Assert.IsTrue(response.Output.ToString().Contains("ContainerControlledLifetimeManager: Foo"));
                 Assert.IsTrue(response.Output.ToString().Contains("HttpApplicationLifetimeManager: Foo"));
@@ -32,6 +33,7 @@
                 var response = td.GetResponse("LifetimeManagerTest.aspx", "Name=Foo");
 
                 Assert.AreEqual(200, response.StatusCode);
+                Assert.AreEqual("test", response.Output.ToString());
                 Assert.IsTrue(response.Output.ToString().Contains("HttpRequestLifetimeManager: Foo"));
                 Assert.IsTrue(response.Output.ToString().Contains("ContainerControlledLifetimeManager: Foo"));
                 Assert.IsTrue(response.Output.ToString().Contains("HttpApplicationLifetimeManager: Foo"));

@@ -426,7 +426,7 @@
             }
             catch (NullReferenceException ex)
             {
-                Assert.AreEqual("foo is null", ex.Message);
+                Assert.AreEqual("'foo' is null. foo is null", ex.Message);
             }
         }
 

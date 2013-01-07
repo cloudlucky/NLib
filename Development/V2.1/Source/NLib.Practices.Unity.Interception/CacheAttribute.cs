@@ -103,7 +103,7 @@
         /// <returns>The key name.</returns>
         protected string GetKeyName(FilterContextBase context)
         {
-            return this.Key ?? context.MethodInvocation.MethodBase.DeclaringType.FullName + context.MethodInvocation.MethodBase.Name;
+            return this.Key ?? context.MethodInvocation.Target.GetType().FullName + context.MethodInvocation.MethodBase.Name + context.MethodInvocation.Target.GetHashCode();
         }
     }
 }

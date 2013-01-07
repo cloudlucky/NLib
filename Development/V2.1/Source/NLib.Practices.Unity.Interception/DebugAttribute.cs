@@ -21,11 +21,7 @@
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnError(FilterErrorContext context)
         {
-            if (context.MethodInvocation.MethodBase.DeclaringType != null)
-            {
-                Debug.WriteLine("Error: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
-            }
-
+            Debug.WriteLine("Error: {0}.{1}", context.MethodInvocation.Target.GetType().FullName, context.MethodInvocation.MethodBase.Name);
             Debug.WriteLine("  Exception: {0}", (object)context.MethodReturn.Exception.StackTrace);
 
             return null;
@@ -38,10 +34,7 @@
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuted(FilterExecutedContext context)
         {
-            if (context.MethodInvocation.MethodBase.DeclaringType != null)
-            {
-                Debug.WriteLine("Executed: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
-            }
+            Debug.WriteLine("Executed: {0}.{1}", context.MethodInvocation.Target.GetType().FullName, context.MethodInvocation.MethodBase.Name);
 
             Debug.WriteLine("  return value = {0}", context.MethodReturn.ReturnValue);
 
@@ -66,15 +59,12 @@
         /// <returns>Null to continue or an instance that implement <see cref="IMethodReturn" />.</returns>
         public override IMethodReturn OnExecuting(FilterExecutingContext context)
         {
-            if (context.MethodInvocation.MethodBase.DeclaringType != null)
-            {
-                Debug.WriteLine("Executing: {0}.{1}", context.MethodInvocation.MethodBase.DeclaringType.FullName, context.MethodInvocation.MethodBase.Name);
-            }
+            Debug.WriteLine("Executing: {0}.{1}", context.MethodInvocation.Target.GetType().FullName, context.MethodInvocation.MethodBase.Name);
 
             if (context.MethodInvocation.Arguments.Count > 0)
             {
                 Debug.WriteLine("  with arguments:");
-                
+
                 for (var i = 0; i < context.MethodInvocation.Arguments.Count; ++i)
                 {
                     var parameterInfo = context.MethodInvocation.Arguments.GetParameterInfo(i);
