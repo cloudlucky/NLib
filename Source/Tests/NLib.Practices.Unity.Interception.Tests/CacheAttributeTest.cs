@@ -5,13 +5,12 @@
     using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.InterceptionExtension;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    using Xunit;
+
     public class CacheAttributeTest
     {
-        [TestInitialize]
-        public void TestInitialize()
+        public CacheAttributeTest()
         {
             var container = new UnityContainer();
             container.AddNewExtension<Interception>();
@@ -25,30 +24,30 @@
             ServiceLocator.SetLocatorProvider(() => locator);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test1()
         {
             var i1 = ServiceLocator.Current.GetInstance<Interface1>("class1");
 
             i1.P1 = "Foo";
-            Assert.AreEqual("Foo", i1.P1);
+            Assert.Equal("Foo", i1.P1);
             i1.P1 = "Bar";
-            Assert.AreEqual("Foo", i1.P1);
+            Assert.Equal("Foo", i1.P1);
             Thread.Sleep(2000);
-            Assert.AreEqual("Bar", i1.P1);
+            Assert.Equal("Bar", i1.P1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2()
         {
             var i1 = ServiceLocator.Current.GetInstance<Interface1>("class2");
 
             i1.P1 = "Foo";
-            Assert.AreEqual("Foo", i1.P1);
+            Assert.Equal("Foo", i1.P1);
             i1.P1 = "Bar";
-            Assert.AreEqual("Foo", i1.P1);
+            Assert.Equal("Foo", i1.P1);
             Thread.Sleep(2000);
-            Assert.AreEqual("Bar", i1.P1);
+            Assert.Equal("Bar", i1.P1);
         }
 
         private interface Interface1

@@ -1,17 +1,16 @@
 ﻿namespace NLib.Web.Mvc.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class EmbeddedResourceControllerTest
     {
-        [TestMethod]
+        [Fact]
         public void GetFileAction()
         {
             var controller = new EmbeddedResourceController();
             var result = controller.GetFile("NLib.Web.Mvc.Tests", "EmbeddedResourceFile.txt");
 
-            Assert.IsNotNull(result);
+            Assert.NotNull(result);
         }
     }
 }

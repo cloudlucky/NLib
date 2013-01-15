@@ -1,20 +1,19 @@
 ﻿namespace NLib.Tests.Extensions
 {
+    using System;
     using System.Globalization;
     using System.Threading;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Extensions;
 
-    [TestClass]
-    public class ConvertExtensionsTest
+    using Xunit;
+
+    public class ConvertExtensionsTest : IDisposable
     {
         private CultureInfo previousCultureInfo;
         private CultureInfo previousUiCultureInfo;
 
-        [TestInitialize]
-        public void TestInitialize()
+        public ConvertExtensionsTest()
         {
             this.previousCultureInfo = CultureInfo.CurrentCulture;
             this.previousUiCultureInfo = CultureInfo.CurrentUICulture;
@@ -22,38 +21,37 @@
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-CA");
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        public void Dispose()
         {
             Thread.CurrentThread.CurrentCulture = this.previousCultureInfo;
             Thread.CurrentThread.CurrentUICulture = this.previousUiCultureInfo;
         }
 
-        [TestMethod]
+        [Fact]
         public void Test1()
         {
             var s = "46";
             var i = s.ChangeType<int>();
 
-            Assert.AreEqual(s, i.ToString());
+            Assert.Equal(s, i.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2()
         {
             var s = "46,22";
             var i = s.ChangeType<float>();
 
-            Assert.AreEqual(s, i.ToString());
+            Assert.Equal(s, i.ToString());
         }
 
-        [TestMethod]    
+        [Fact]    
         public void Test3()
         {
             var s = "46";
             var i = s.ChangeType<string>();
 
-            Assert.AreEqual(s, i);
+            Assert.Equal(s, i);
         }
     }
 }

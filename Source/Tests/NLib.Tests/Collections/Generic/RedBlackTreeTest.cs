@@ -3,21 +3,20 @@
     using System;
     using System.Linq;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Collections.Generic;
 
-    [TestClass]
+    using Xunit;
+
     public class RedBlackTreeTest
     {
-        [TestMethod]
+        [Fact]
         public void AddRange()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
+            Assert.Equal(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
 
             var root = tree.RootNode;
 
@@ -38,26 +37,26 @@
             this.AssertNode(27, true, true, root.Right.Right.Right);
         }
 
-        [TestMethod]
+        [Fact]
         public void AddRange2()
         {
             var tree = new RedBlackTree<int>();
             tree.AddRange(Generator.Generate<int>(1000, x => ++x));
 
-            Assert.AreEqual(1000, tree.Count);
+            Assert.Equal(1000, tree.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void AddRange3()
         {
             var array = new[] { 100, 50, 25, 200, 300, 250, 299, 75, 98, 68, 236, 358, 402, 506, 89, 874, 258, 321, 12, 123, 1236, 987, 45, 852, 147, 369, 951, 159, 23, 58, 69 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
+            Assert.Equal(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void Clear()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -65,11 +64,11 @@
             tree.AddRange(array);
             tree.Clear();
 
-            Assert.AreEqual(0, tree.Count);
-            Assert.IsNull(tree.RootNode);
+            Assert.Equal(0, tree.Count);
+            Assert.Null(tree.RootNode);
         }
 
-        [TestMethod]
+        [Fact]
         public void CopyTo()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
@@ -79,97 +78,94 @@
             var output = new int[array.Length];
             tree.CopyTo(output, 0);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), output);
+            Assert.Equal(array.OrderBy(x => x).ToArray(), output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Count()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            Assert.AreEqual(array.Length, tree.Count);
+            Assert.Equal(array.Length, tree.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void MaxValue()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            Assert.AreEqual(27, tree.MaxValue);
+            Assert.Equal(27, tree.MaxValue);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException), "The maximum value cannot be determined.")]
+        [Fact]
         public void MaxValueEmptyTree()
         {
             var tree = new RedBlackTree<int>();
-            var max = tree.MaxValue;
-            Assert.Fail();
+            var ex = Assert.Throws<NotSupportedException>(() => tree.MaxValue);
+            Assert.Equal("The maximum value cannot be determined.", ex.Message);
         }
 
-        [TestMethod]
+        [Fact]
         public void MinValue()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            Assert.AreEqual(1, tree.MinValue);
+            Assert.Equal(1, tree.MinValue);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException), "The minimum value cannot be determined.")]
+        [Fact]
         public void MinValueEmptyTree()
         {
             var tree = new RedBlackTree<int>();
-            var min = tree.MinValue;
-            Assert.Fail();
+            Assert.Throws<NotSupportedException>(() => tree.MinValue);
         }
 
-        [TestMethod]
+        [Fact]
         public void InOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
+            Assert.Equal(array.OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void LevelOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
-            CollectionAssert.AreEqual(new[] { 13, 8, 17, 1, 11, 15, 25, 6, 9, 22, 27 }, tree.LevelOrderTraversal().ToArray());
+            Assert.Equal(new[] { 13, 8, 17, 1, 11, 15, 25, 6, 9, 22, 27 }, tree.LevelOrderTraversal().ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void PostOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(array.OrderByDescending(x => x).ToArray(), tree.PostorderTraversal().ToArray());
+            Assert.Equal(array.OrderByDescending(x => x).ToArray(), tree.PostorderTraversal().ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void PreOrder()
         {
             var array = new[] { 13, 8, 17, 1, 11, 9, 15, 25, 6, 22, 27 };
             var tree = new RedBlackTree<int>();
             tree.AddRange(array);
 
-            CollectionAssert.AreEqual(new[] { 13, 8, 1, 6, 11, 9, 17, 15, 25, 22, 27 }, tree.PreorderTraversal().ToArray());
+            Assert.Equal(new[] { 13, 8, 1, 6, 11, 9, 17, 15, 25, 22, 27 }, tree.PreorderTraversal().ToArray());
         }
 
-        [TestMethod]
+        [Fact]
         public void Remove()
         {
             foreach (var itemToRemove in new[] { 6, 22, 27, 1, 11, 9, 15, 25, 8, 17, 13 })
@@ -179,8 +175,8 @@
                 tree.AddRange(array);
                 var removed = tree.Remove(itemToRemove);
 
-                Assert.IsTrue(removed);
-                CollectionAssert.AreEqual(array.Where(x => x != itemToRemove).OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
+                Assert.True(removed);
+                Assert.Equal(array.Where(x => x != itemToRemove).OrderBy(x => x).ToArray(), tree.InorderTraversal().ToArray());
 
                 switch (itemToRemove)
                 {
@@ -416,7 +412,7 @@
 
                         break;
                     default:
-                        Assert.Fail();
+                        Assert.True(false);
                         break;
                 }
             }
@@ -424,26 +420,26 @@
 
         private void AssertNode<T>(T expectedValue, bool expectedIsRed, bool expectedIsLeaf, IRedBlackTreeNode<T> actualNode)
         {
-            Assert.AreEqual(expectedValue, actualNode.Value);
+            Assert.Equal(expectedValue, actualNode.Value);
 
             if (expectedIsRed)
             {
-                Assert.IsFalse(actualNode.IsBlack);
-                Assert.IsTrue(actualNode.IsRed);
+                Assert.False(actualNode.IsBlack);
+                Assert.True(actualNode.IsRed);
             }
             else
             {
-                Assert.IsTrue(actualNode.IsBlack);
-                Assert.IsFalse(actualNode.IsRed);
+                Assert.True(actualNode.IsBlack);
+                Assert.False(actualNode.IsRed);
             }
 
             if (expectedIsLeaf)
             {
-                Assert.IsTrue(actualNode.IsLeaf);
+                Assert.True(actualNode.IsLeaf);
             }
             else
             {
-                Assert.IsFalse(actualNode.IsLeaf);
+                Assert.False(actualNode.IsLeaf);
             }
         }
     }

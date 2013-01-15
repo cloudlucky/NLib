@@ -1,78 +1,76 @@
 ﻿namespace NLib.Tests.Patterns
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Patterns;
 
-    [TestClass]
+    using Xunit;
     public class SimpleCommandTest
     {
-        [TestMethod]
+        [Fact]
         public void Test1()
         {
             var i = 1;
             var sc = new SimpleCommand(() => i++, () => i--);
 
             sc.Execute();
-            Assert.AreEqual(2, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.Equal(2, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
 
             sc.Execute();
-            Assert.AreEqual(3, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.Equal(3, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
 
             sc.Undo();
-            Assert.AreEqual(2, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsTrue(sc.CanRedo);
+            Assert.Equal(2, i);
+            Assert.True(sc.CanUndo);
+            Assert.True(sc.CanRedo);
 
             sc.Undo();
-            Assert.AreEqual(1, i);
-            Assert.IsFalse(sc.CanUndo);
-            Assert.IsTrue(sc.CanRedo);
+            Assert.Equal(1, i);
+            Assert.False(sc.CanUndo);
+            Assert.True(sc.CanRedo);
 
             sc.Redo();
-            Assert.AreEqual(2, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsTrue(sc.CanRedo);
+            Assert.Equal(2, i);
+            Assert.True(sc.CanUndo);
+            Assert.True(sc.CanRedo);
 
             sc.Redo();
-            Assert.AreEqual(3, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.Equal(3, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test2()
         {
             var i = 1;
             var sc = new SimpleCommand(() => i++, () => i--, () => i*=3);
 
             sc.Execute();
-            Assert.AreEqual(2, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.Equal(2, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
 
             sc.Execute();
-            Assert.AreEqual(3, i);
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.Equal(3, i);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
 
             sc.Undo();
             sc.Undo();
-            Assert.AreEqual(1, i);
-            Assert.IsFalse(sc.CanUndo);
-            Assert.IsTrue(sc.CanRedo);
+            Assert.Equal(1, i);
+            Assert.False(sc.CanUndo);
+            Assert.True(sc.CanRedo);
             
             sc.Redo();
             sc.Redo();
-            Assert.IsFalse(sc.CanRedo);
-            Assert.IsTrue(sc.CanUndo);
+            Assert.False(sc.CanRedo);
+            Assert.True(sc.CanUndo);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test3()
         {
             var i = 1;
@@ -82,14 +80,14 @@
             sc.Execute();
             sc.Execute();
 
-            Assert.IsTrue(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.True(sc.CanUndo);
+            Assert.False(sc.CanRedo);
 
             sc.Undo();
             sc.Clear();
 
-            Assert.IsFalse(sc.CanUndo);
-            Assert.IsFalse(sc.CanRedo);
+            Assert.False(sc.CanUndo);
+            Assert.False(sc.CanRedo);
         }
     }
 }
