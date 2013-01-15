@@ -2,33 +2,31 @@
 {
     using System;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib;
     using NLib.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class EventHandlerExtensionsTest
     {
         public event EventHandler Event1;
         public event EventHandler<EventArgs<int>> Event2;
 
-        [TestInitialize]
-        public void TestInitialize()
+        public EventHandlerExtensionsTest()
         {
             this.Event1 = null;
             this.Event2 = null;
         }
 
-        [TestMethod]
+        [Fact]
         public void RaiseEventTest1()
         {
             this.Event1.RaiseEvent(this);
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void RaiseEventTest2()
         {
             var i = 1;
@@ -36,10 +34,10 @@
 
             this.Event1.RaiseEvent(this);
 
-            Assert.AreEqual(2, i);
+            Assert.Equal(2, i);
         }
 
-        [TestMethod]
+        [Fact]
         public void RaiseEventTest3()
         {
             var i = 1;
@@ -47,10 +45,10 @@
 
             this.Event1.RaiseEvent(this, EventArgs.Empty);
 
-            Assert.AreEqual(2, i);
+            Assert.Equal(2, i);
         }
 
-        [TestMethod]
+        [Fact]
         public void RaiseEventTest4()
         {
             var i = 1;
@@ -58,10 +56,10 @@
 
             this.Event2.RaiseEvent(this, new EventArgs<int>(2));
 
-            Assert.AreEqual(3, i);
+            Assert.Equal(3, i);
         }
 
-        [TestMethod]
+        [Fact]
         public void RaiseEventTest5()
         {
             var i = 1;
@@ -70,7 +68,7 @@
             this.Event1.RaiseEvent(this);
             this.Event2.RaiseEvent(this, new EventArgs<int>(2));
 
-            Assert.AreEqual(2,i);
+            Assert.Equal(2,i);
         }
     }
 }

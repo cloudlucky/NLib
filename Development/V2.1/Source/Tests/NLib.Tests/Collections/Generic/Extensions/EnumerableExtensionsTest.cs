@@ -5,20 +5,18 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Collections.Generic;
     using NLib.Collections.Generic.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class EnumerableExtensionsTest
     {
         private IEnumerable<TestBetween> testBetweenCollection;
 
-        [TestInitialize]
-        public void TestInitialize()
+        public EnumerableExtensionsTest()
         {
-            testBetweenCollection = new List<TestBetween>
+            this.testBetweenCollection = new List<TestBetween>
                     {
                         new TestBetween { Id = 1, Name = "Foo", BirthDate = new DateTime(1980, 9, 12) },
                         new TestBetween { Id = 2, Name = "Bar", BirthDate = new DateTime(1980, 11, 11) },
@@ -27,16 +25,16 @@
                     };
         }
 
-        [TestMethod]
+        [Fact]
         public void Between1()
         {
             var l = Generator.Generate<int>(20, x => ++x);
 
-            CollectionAssert.AreEqual(new[] { 8, 9, 10, 11, 12 }, l.Between(8, 12).ToList());
-            CollectionAssert.AreNotEqual(new[] { 8, 9, 10, 11, 13 }, l.Between(8, 12).ToList());
+            Assert.Equal(new[] { 8, 9, 10, 11, 12 }, l.Between(8, 12).ToList());
+            Assert.NotEqual(new[] { 8, 9, 10, 11, 13 }, l.Between(8, 12).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void Between2()
         {
             var expected = new List<TestBetween>
@@ -48,40 +46,40 @@
 
             var actual = this.testBetweenCollection.Between(x => x.BirthDate, new DateTime(1980, 1, 1), new DateTime(1980, 12, 31)).ToList();
 
-            CollectionAssert.AreEqual(expected, actual, new TestBetweenComparer());
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void ForEach1()
         {
             var l = Generator.Generate<int>(20, x => ++x);
             var i = 0;
 
-            l.ForEach(x => Assert.AreEqual(x, ++i));
+            l.ForEach(x => Assert.Equal(x, ++i));
         }
 
-        [TestMethod]
+        [Fact]
         public void ForEach2()
         {
             var l = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             var i = 0;
 
-            l.ForEach(x => Assert.AreEqual(x, ++i));
+            l.ForEach(x => Assert.Equal(x, ++i));
         }
 
-        [TestMethod]
+        [Fact]
         public void Paginate1()
         {
-            var l = Generator.Generate<int>(20, x => ++x);
-            var p1 = l.Paginate(0, 5);
+            var l = Generator.Generate<int>(20, x => ++x).ToList();
 
-            CollectionAssert.AreEquivalent(new[] { 1, 2, 3, 4, 5 }, p1.ToList());
+            var p1 = l.Paginate(0, 5);
+            Assert.Equal(new[] { 1, 2, 3, 4, 5 }, p1.OrderBy(x => x));
 
             var p2 = l.Paginate(1, 5);
-            CollectionAssert.AreEquivalent(new[] { 6, 7, 8, 9, 10 }, p2.ToList());
+            Assert.Equal(new[] { 6, 7, 8, 9, 10 }, p2.OrderBy(x => x));
 
             var p3 = l.Paginate(2, 5);
-            CollectionAssert.AreEquivalent(new[] { 11, 12, 13, 14, 15 }, p3.ToList());
+            Assert.Equal(new[] { 11, 12, 13, 14, 15 }, p3.OrderBy(x => x));
         }
 
         private class TestBetween
@@ -89,6 +87,24 @@
             public int Id { get; set; }
             public string Name { get; set; }
             public DateTime BirthDate { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null)
+                {
+                    return false;
+                }
+
+                var tb = obj as TestBetween;
+                if (tb == null)
+                { 
+                    return false;
+                }
+
+                return this.Id == tb.Id
+                    && this.Name == tb.Name
+                    && this.BirthDate == tb.BirthDate;
+            }
         }
 
         private class TestBetweenComparer : IComparer<TestBetween>, IComparer

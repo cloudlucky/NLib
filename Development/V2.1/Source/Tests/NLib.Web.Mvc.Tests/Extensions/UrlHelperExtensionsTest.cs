@@ -5,23 +5,21 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Moq;
 
     using NLib.Web.Mvc.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class UrlHelperExtensionsTest
     {
-        public Controller Controller { get; set; }
-
-        [TestInitialize]
-        public void TestInitialize()
+        public UrlHelperExtensionsTest()
         {
             this.Controller = GetController();
         }
 
+        public Controller Controller { get; set; }
+        
         protected Controller GetController()
         {
             var routes = new RouteCollection();
@@ -46,28 +44,28 @@
             return controller;
         }
 
-        [TestMethod]
+        [Fact]
         public void EmbeddedResourceTest()
         {
             var s = this.Controller.Url.EmbeddedResource("NLib.Web.Mvc.Tests", "EmbeddedResourceFile.txt");
 
-            Assert.AreEqual("/nlib/embeddedresource/EmbeddedResourceFile.txt?assemblyName=NLib.Web.Mvc.Tests", s);
+            Assert.Equal("/nlib/embeddedresource/EmbeddedResourceFile.txt?assemblyName=NLib.Web.Mvc.Tests", s);
         }
 
-        [TestMethod]
+        [Fact]
         public void NLibValidateScriptTest()
         {
             var s = this.Controller.Url.NLibValidateScript();
 
-            Assert.AreEqual("/nlib/embeddedresource/NLib.validate.js?assemblyName=NLib.Web.Mvc", s);
+            Assert.Equal("/nlib/embeddedresource/NLib.validate.js?assemblyName=NLib.Web.Mvc", s);
         }
 
-        [TestMethod]
+        [Fact]
         public void NLibValidateUnobtrusiveScriptTest()
         {
             var s = this.Controller.Url.NLibValidateUnobtrusiveScript();
 
-            Assert.AreEqual("/nlib/embeddedresource/NLib.validate.unobtrusive.js?assemblyName=NLib.Web.Mvc", s);
+            Assert.Equal("/nlib/embeddedresource/NLib.validate.unobtrusive.js?assemblyName=NLib.Web.Mvc", s);
         }
     }
 }

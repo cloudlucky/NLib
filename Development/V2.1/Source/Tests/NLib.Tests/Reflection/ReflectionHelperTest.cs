@@ -1,13 +1,12 @@
 ﻿namespace NLib.Tests.Reflection
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Reflection.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class ReflectionHelperTest
     {
-        [TestMethod]
+        [Fact]
         public void PublicFieldTest()
         {
             var t = new FieldClass();
@@ -25,13 +24,13 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual("Foo", t.m1);
-            Assert.AreEqual("Foo", m1);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("String", f1.Name);
+            Assert.Equal("Foo", t.m1);
+            Assert.Equal("Foo", m1);
+            Assert.Equal(t, t2);
+            Assert.Equal("String", f1.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PublicFieldTest2()
         {
             var t = new SubFieldClass();
@@ -59,17 +58,17 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual("Foo", t.m1);
-            Assert.AreEqual("Foo", m1);
+            Assert.Equal("Foo", t.m1);
+            Assert.Equal("Foo", m1);
 
-            Assert.AreEqual(987654321, t.m3);
-            Assert.AreEqual(987654321, m3);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("String", f1.Name);
-            Assert.AreEqual("Int64", f3.Name);
+            Assert.Equal(987654321, t.m3);
+            Assert.Equal(987654321, m3);
+            Assert.Equal(t, t2);
+            Assert.Equal("String", f1.Name);
+            Assert.Equal("Int64", f3.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PrivateFieldTest()
         {
             var t = new FieldClass();
@@ -87,12 +86,12 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual(230, m2);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("Int32", f2.Name);
+            Assert.Equal(230, m2);
+            Assert.Equal(t, t2);
+            Assert.Equal("Int32", f2.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PrivateFieldTest2()
         {
             var t = new SubFieldClass();
@@ -120,14 +119,14 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual(230, m2);
-            Assert.AreEqual(456.25, m4);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("Int32", f2.Name);
-            Assert.AreEqual("Double", f4.Name);
+            Assert.Equal(230, m2);
+            Assert.Equal(456.25, m4);
+            Assert.Equal(t, t2);
+            Assert.Equal("Int32", f2.Name);
+            Assert.Equal("Double", f4.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PublicPropertyTest()
         {
             var t = new PropertyClass();
@@ -145,13 +144,13 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual("Foo", t.P1);
-            Assert.AreEqual("Foo", p1);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("String", pi1.Name);
+            Assert.Equal("Foo", t.P1);
+            Assert.Equal("Foo", p1);
+            Assert.Equal(t, t2);
+            Assert.Equal("String", pi1.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PublicPropertyTest2()
         {
             var t = new SubPropertyClass();
@@ -179,17 +178,17 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual("Foo", t.P1);
-            Assert.AreEqual("Foo", p1);
+            Assert.Equal("Foo", t.P1);
+            Assert.Equal("Foo", p1);
 
-            Assert.AreEqual(987654321, t.P3);
-            Assert.AreEqual(987654321, p3);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("String", pi1.Name);
-            Assert.AreEqual("Int64", pi3.Name);
+            Assert.Equal(987654321, t.P3);
+            Assert.Equal(987654321, p3);
+            Assert.Equal(t, t2);
+            Assert.Equal("String", pi1.Name);
+            Assert.Equal("Int64", pi3.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PrivatePropertyTest()
         {
             var t = new PropertyClass();
@@ -207,12 +206,12 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual(230, p2);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("Int32", pi2.Name);
+            Assert.Equal(230, p2);
+            Assert.Equal(t, t2);
+            Assert.Equal("Int32", pi2.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void PrivatePropertyTest2()
         {
             var t = new SubPropertyClass();
@@ -240,11 +239,11 @@
             var t2 = t.Reflection()
                       .Return();
 
-            Assert.AreEqual(230, p2);
-            Assert.AreEqual(456.25, p4);
-            Assert.AreEqual(t, t2);
-            Assert.AreEqual("Int32", pi2.Name);
-            Assert.AreEqual("Double", pi4.Name);
+            Assert.Equal(230, p2);
+            Assert.Equal(456.25, p4);
+            Assert.Equal(t, t2);
+            Assert.Equal("Int32", pi2.Name);
+            Assert.Equal("Double", pi4.Name);
         }
 
         public class FieldClass

@@ -22,7 +22,7 @@
 
 Param(
     [alias("t")]
-    [ValidateSet("All","Build","Tests","StyleCop","FxCop","Package")]
+    [ValidateSet("All","Clean","Build","Tests","StyleCop","FxCop","Package")]
     [array] $target = "All",
 
     [alias("c")]

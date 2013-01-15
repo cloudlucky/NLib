@@ -6,12 +6,12 @@
     using Microsoft.Practices.ServiceLocation;
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.InterceptionExtension;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    using Xunit;
+
     public class RestrictedAttributeTest
     {
-        [TestMethod]
+        [Fact]
         public void Test1()
         {
             var container = new UnityContainer();

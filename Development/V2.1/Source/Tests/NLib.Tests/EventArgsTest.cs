@@ -1,15 +1,14 @@
 ﻿namespace NLib.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class EventArgsTest
     {
-        [TestMethod]
+        [Fact]
         public void CtorTest1()
         {
             var e = new EventArgs<int>(3);
-            Assert.AreEqual(3, e.Value);
+            Assert.Equal(3, e.Value);
         }
     }
 }

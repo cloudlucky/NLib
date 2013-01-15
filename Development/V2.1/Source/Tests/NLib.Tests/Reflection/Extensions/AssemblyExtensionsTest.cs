@@ -2,19 +2,18 @@
 {
     using System.Reflection;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Reflection.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class AssemblyExtensionsTest
     {
-        [TestMethod]
+        [Fact]
         public void GetManifestResourceStringTest1()
         {
             var s = Assembly.GetExecutingAssembly().GetManifestResourceString("NLib.Tests.Reflection.Extensions.TextFile1.txt");
 
-            Assert.AreEqual(s, "This is an embedded resource.");
+            Assert.Equal(s, "This is an embedded resource.");
         }
     }
 }

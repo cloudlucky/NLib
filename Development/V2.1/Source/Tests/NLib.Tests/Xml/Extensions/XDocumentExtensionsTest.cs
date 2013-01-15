@@ -2,14 +2,13 @@ namespace NLib.Tests.Xml.Extensions
 {
     using System.Xml;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Xml.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class XDocumentExtensionsTest
     {
-        [TestMethod]
+        [Fact]
         public void ToXdocumentTest1()
         {
             var xmlDoc = new XmlDocument();
@@ -18,10 +17,10 @@ namespace NLib.Tests.Xml.Extensions
 
             var xdoc = xmlDoc.ToXDocument();
 
-            Assert.AreEqual(xdoc.ToString(), "<data></data>");
+            Assert.Equal(xdoc.ToString(), "<data></data>");
         }
 
-        [TestMethod]
+        [Fact]
         public void ToXdocumentTest2()
         {
             var doc = new XmlDocument();
@@ -33,7 +32,7 @@ namespace NLib.Tests.Xml.Extensions
             
             foreach (var child in children)
             {
-                Assert.AreEqual(child.Value, "text1");
+                Assert.Equal(child.Value, "text1");
             }
         }
     }

@@ -3,84 +3,80 @@
     using System;
     using System.Linq;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Reflection.Extensions;
 
-    [TestClass]
+    using Xunit;
+
     public class MemberInfoExtensionsTest
     {
-        [TestMethod]
+        [Fact]
         public void GetCustomAttribute1()
         {
             var c = new CustomAttributesTest();
 
-            Assert.IsNull(c.GetType().GetProperty("P1").GetCustomAttribute<CustomAttributeAttribute>(false));
+            Assert.Null(c.GetType().GetProperty("P1").GetCustomAttribute<CustomAttributeAttribute>(false));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomAttribute2()
         {
             var c = new CustomAttributesTest();
 
-            Assert.IsNotNull(c.GetType().GetProperty("P2").GetCustomAttribute<CustomAttributeAttribute>(false));
+            Assert.NotNull(c.GetType().GetProperty("P2").GetCustomAttribute<CustomAttributeAttribute>(false));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomAttributes1()
         {
             var c = new CustomAttributesTest();
 
-            Assert.AreEqual(0, c.GetType().GetProperty("P1").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
+            Assert.Equal(0, c.GetType().GetProperty("P1").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomAttributes2()
         {
             var c = new CustomAttributesTest();
 
-            Assert.AreEqual(1, c.GetType().GetProperty("P2").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
+            Assert.Equal(1, c.GetType().GetProperty("P2").GetCustomAttributes<CustomAttributeAttribute>(false).Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomAttributes3()
         {
             var c = new CustomAttributesTest();
             var x = c.GetType().GetProperty("P3").GetCustomAttributes<CustomAttributeAttribute>(false);
 
-            Assert.AreEqual(1, x.Length);
-            Assert.AreEqual("Foo", x.ElementAt(0).Name);
+            Assert.Equal(1, x.Length);
+            Assert.Equal("Foo", x.ElementAt(0).Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomAttributes4()
         {
             var c = new CustomAttributesTest();
             var x = c.GetType().GetProperty("P4").GetCustomAttributes<CustomAttributeAttribute>(false);
 
-            Assert.AreEqual(2, x.Length);
+            Assert.Equal(2, x.Length);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetMemberTypeTest1()
         {
             var c = new CustomAttributesTest();
 
-            Assert.AreEqual(typeof(string), c.GetType().GetProperty("P1").GetMemberType());
-            Assert.AreEqual(typeof(int), c.GetType().GetProperty("P5").GetMemberType());
-            Assert.AreEqual(typeof(CustomAttributesTest), c.GetType().GetProperty("P6").GetMemberType());
-            Assert.AreEqual(typeof(string), c.GetType().GetField("M1").GetMemberType());
+            Assert.Equal(typeof(string), c.GetType().GetProperty("P1").GetMemberType());
+            Assert.Equal(typeof(int), c.GetType().GetProperty("P5").GetMemberType());
+            Assert.Equal(typeof(CustomAttributesTest), c.GetType().GetProperty("P6").GetMemberType());
+            Assert.Equal(typeof(string), c.GetType().GetField("M1").GetMemberType());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
+        [Fact]
         public void GetMemberTypeTest2()
         {
             var c = new CustomAttributesTest();
 
-            var f = c.GetType().GetMemberType();
-
-            Assert.Fail();
+            Assert.Throws(typeof(NotSupportedException), () => c.GetType().GetMemberType());
         }
 
         public class CustomAttributesTest

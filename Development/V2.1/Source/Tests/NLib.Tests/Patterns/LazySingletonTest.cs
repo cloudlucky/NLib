@@ -1,22 +1,21 @@
 ﻿namespace NLib.Tests.Patterns
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using NLib.Patterns;
 
-    [TestClass]
+    using Xunit;
+
     public class LazySingletonTest
     {
-        [TestMethod]
+        [Fact]
         public void CurrentTest1()
         {
             var t = LazySingleton<Test1>.Current;
             LazySingleton<Test1>.Current.Name = "Foo";
 
-            Assert.AreEqual("Foo", t.Name);
-            Assert.AreEqual("Foo", LazySingleton<Test1>.Current.Name);
-            Assert.IsTrue(ReferenceEquals(t, LazySingleton<Test1>.Current));
-            Assert.IsTrue(ReferenceEquals(LazySingleton<Test1>.Current, LazySingleton<Test1>.Current));
+            Assert.Equal("Foo", t.Name);
+            Assert.Equal("Foo", LazySingleton<Test1>.Current.Name);
+            Assert.True(ReferenceEquals(t, LazySingleton<Test1>.Current));
+            Assert.True(ReferenceEquals(LazySingleton<Test1>.Current, LazySingleton<Test1>.Current));
         }
 
         private class Test1
