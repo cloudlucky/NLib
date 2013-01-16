@@ -243,7 +243,6 @@
   <Target Name="TeamCityArtifact">
     <Message Text="##teamcity[importData type='FxCop' path='$(FxCopResultXml)']"/>
     <Message Text="##teamcity[publishArtifacts '$(FxCopResultHtml)']"/>
-    <!--<TeamCityPublishArtifacts SourceFiles="'$(FxCopResultHtml)'" Condition=" '$(TEAMCITY_VERSION)' != '' "/>-->
   </Target>
 
   <!-- TODO Review the logic -->
