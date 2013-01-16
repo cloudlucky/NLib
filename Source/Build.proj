@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   
-  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
-
   <!-- Version -->
   <PropertyGroup>
     <AssemblyMajorVersion>1</AssemblyMajorVersion>
@@ -83,8 +81,9 @@
     <FxCopFolder>$(ToolsFolder)\Microsoft Fxcop 10.0</FxCopFolder>
     <FxCopCustomDictionary>$(SourceFolder)\CustomDictionary.xml</FxCopCustomDictionary>
     <FxCopOutputFolder>$(OutputFolder)\FxCop</FxCopOutputFolder>
-    
-    <FxCopBuildReportFolder>$(LibFolder)\BuildReports\FxCop</FxCopBuildReportFolder>
+    <FxCopResultXml>$(FxCopOutputFolder)\fxcop-result.xml</FxCopResultXml>
+    <FxCopResultHtml>$(FxCopOutputFolder)\fxcop-result.html</FxCopResultHtml>
+    <FxCopXsl>$(FxCopFolder)\Xml\FxCopReport.xsl</FxCopXsl>
   </PropertyGroup>
   
   <!-- Nuget.targets -->
@@ -94,6 +93,7 @@
 	  <RestorePackages>true</RestorePackages>
   </PropertyGroup>
 
+  <Import Project="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
   <Import Project="$(SourceFolder)\.nuget\nuget.targets" />
   <UsingTask AssemblyFile="$(xUnitFolder)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
   <UsingTask AssemblyFile="$(StyleCopFolder)\StyleCop.dll" TaskName="StyleCopTask"/>
@@ -229,18 +229,23 @@
       <FxCopAssemblies Include="$(FxCopOutputFolder)/NLib*.dll"/>
     </ItemGroup>
 
-    <!--<Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\FxCopReport.html&quot; /applyoutxsl" ContinueOnError="true" />-->
-    <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\fxcop-result.xml&quot;" ContinueOnError="true" />
+    <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopResultXml)&quot;" ContinueOnError="true" />
+    
+    <MSBuild.ExtensionPack.Xml.XmlTask TaskAction="Transform" Xml="$(FxCopResultXml)" XslTransform="$(FxCopXsl)" OutputFile="$(FxCopResultHtml)" Indent="true">
+      <Output PropertyName="Out" TaskParameter="Output"/>
+    </MSBuild.ExtensionPack.Xml.XmlTask>
   </Target>
 
   <Target Name="TeamCityArtifact">
     <ItemGroup>
-      <FxCopResults Include="$(FxCopOutputFolder)\fxcop-result.xml"/>
+      <FxCopXmlResults Include="$(FxCopResultXml)"/>
+      <FxCopHtmlResults Include="$(FxCopResultHtml)"/>
     </ItemGroup>
 
     <!--<TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>-->
 
-    <Message Text="##teamcity[importData type='FxCop' path='@(FxCopResults)']"/>
+    <Message Text="##teamcity[importData type='FxCop' path='@(FxCopXmlResults)']"/>
+    <TeamCityPublishArtifacts SourceFiles="@(FxCopHtmlResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
   
   </Target>
 
