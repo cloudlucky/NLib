@@ -237,7 +237,7 @@
       <FxCopResult>%system.teamcity.build.tempDir%/Output/FxCop/FxCopReport.html</FxCopResult>
     </PropertyGroup>
 
-    <Message Text="##teamCity[publishArtifacts '$(FxCopOutputFolder)\FxCopReport.html => FxCop'" />
+    <Message Text="##teamCity[publishArtifacts 'FxCopReport.html => $(FxCopOutputFolder)'" />
   </Target>
 
   <!-- TODO Review the logic -->
