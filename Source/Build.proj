@@ -231,7 +231,7 @@
 
     <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopResultXml)&quot;" ContinueOnError="true" />
     
-    <MSBuild.ExtensionPack.Xml.XmlTask TaskAction="Transform" Xml="$(FxCopResultXml)" XslTransform="$(FxCopXsl)" OutputFile="$(FxCopResultHtml)" Indent="true">
+    <MSBuild.ExtensionPack.Xml.XmlTask TaskAction="Transform" Xml="$(FxCopResultXml)" XslTransform="$(FxCopXsl)" OutputFile="$(FxCopResultHtml)" Indent="true" OmitXmlDeclaration="true">
       <Output PropertyName="Out" TaskParameter="Output"/>
     </MSBuild.ExtensionPack.Xml.XmlTask>
   </Target>
