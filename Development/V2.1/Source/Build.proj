@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
+
   <!-- Version -->
   <PropertyGroup>
     <AssemblyMajorVersion>1</AssemblyMajorVersion>
@@ -18,7 +18,7 @@
     <PackagesFolder>$(SourceFolder)\packages</PackagesFolder>
     <ToolsFolder>$(RootFolder)\Tools</ToolsFolder>
   </PropertyGroup>
-  
+
   <!-- NLib Files -->
   <PropertyGroup>
     <AllNLibDllInclude>$(SourceFolder)\**\*.dll;$(SourceFolder)\**\*.xml;$(SourceFolder)\**\*.pdb</AllNLibDllInclude>
@@ -86,19 +86,19 @@
     <FxCopResultHtml>$(FxCopOutputFolder)\fxcop-result.html</FxCopResultHtml>
     <FxCopXsl>$(FxCopFolder)\Xml\FxCopReport.xsl</FxCopXsl>
   </PropertyGroup>
-  
+
   <!-- Nuget.targets -->
   <PropertyGroup>
-	  <SolutionDir>$(SourceFolder)\</SolutionDir>
-	  <ProjectDir>$(SolutionDir)</ProjectDir>
-	  <RestorePackages>true</RestorePackages>
+    <SolutionDir>$(SourceFolder)\</SolutionDir>
+    <ProjectDir>$(SolutionDir)</ProjectDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
 
   <Import Project="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
   <Import Project="$(SourceFolder)\.nuget\nuget.targets" />
   <UsingTask AssemblyFile="$(xUnitFolder)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
   <UsingTask AssemblyFile="$(StyleCopFolder)\StyleCop.dll" TaskName="StyleCopTask"/>
-  
+
   <!-- Solutions to build-->
   <ItemGroup>
     <SolutionToBuild Include="$(SourceFolder)\NLib.sln" />
@@ -106,7 +106,7 @@
 
   <Target Name="SetVersion" BeforeTargets="Build">
     <Message Text="Version is $(Version)"/>
-    
+
     <ItemGroup>
       <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*"/>
     </ItemGroup>
@@ -136,7 +136,7 @@
       <CleanProjectOutputFiles Include="$(SourceFolder)\**\bin\**\*.*" Exclude="$(PackagesFolder)\**\*.*"/>
     </ItemGroup>
     <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Targets="Clean" />
-    
+
     <Delete Files="@(OutputFolderFiles)" ContinueOnError="True"/>
     <RemoveDir Directories="$(OutputFolder)" ContinueOnError="True"/>
 
@@ -222,7 +222,7 @@
 
     <!--<Error Condition="$(Violations) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(Violations) broken rules!" />
     <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolationCount) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>-->
-    
+
   </Target>
 
   <Target Name="FxCop">
@@ -231,7 +231,7 @@
     </ItemGroup>
 
     <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopResultXml)&quot;" ContinueOnError="true" />
-    
+
     <MSBuild.ExtensionPack.Xml.XmlTask
       TaskAction="Transform"
       XmlFile="$(FxCopResultXml)"
@@ -242,7 +242,8 @@
 
   <Target Name="TeamCityArtifact">
     <Message Text="##teamcity[importData type='FxCop' path='$(FxCopResultXml)']"/>
-    <TeamCityPublishArtifacts SourceFiles="'$(FxCopResultHtml)'" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
+    <Message Text="##teamcity[progressMessage '$(FxCopResultHtml)']"/>
+    <!--<TeamCityPublishArtifacts SourceFiles="'$(FxCopResultHtml)'" Condition=" '$(TEAMCITY_VERSION)' != '' "/>-->
   </Target>
 
   <!-- TODO Review the logic -->
