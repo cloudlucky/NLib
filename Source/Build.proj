@@ -238,7 +238,10 @@
       <FxCopResults Include="$(FxCopOutputFolder)\fxcop-result.xml"/>
     </ItemGroup>
 
-    <TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
+    <!--<TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>-->
+
+    <Message Text="##teamcity[importData type='FxCop' path='@(FxCopResults)']"/>
+  
   </Target>
 
   <!-- TODO Review the logic -->
