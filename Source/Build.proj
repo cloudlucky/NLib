@@ -229,12 +229,13 @@
       <FxCopAssemblies Include="$(FxCopOutputFolder)/NLib*.dll"/>
     </ItemGroup>
 
-    <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\FxCopReport.html&quot; /applyoutxsl" ContinueOnError="true" />
+    <!--<Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\FxCopReport.html&quot; /applyoutxsl" ContinueOnError="true" />-->
+    <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\fxcop-result.xml&quot;" ContinueOnError="true" />
   </Target>
 
   <Target Name="TeamCityArtifact">
     <ItemGroup>
-      <FxCopResults Include="$(FxCopOutputFolder)\FxCopReport.html"/>
+      <FxCopResults Include="$(FxCopOutputFolder)\fxcop-result.xml"/>
     </ItemGroup>
 
     <TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
