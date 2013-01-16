@@ -64,6 +64,7 @@
     <StyleCopOverrideSettingsFile>$(SourceFolder)\Settings.StyleCop</StyleCopOverrideSettingsFile>
     <StyleCopOutputFolder>$(OutputFolder)\StyleCop</StyleCopOutputFolder>
     <StyleCopBuildReportFolder>$(LibFolder)\BuildReports\StyleCop</StyleCopBuildReportFolder>
+    <StyleCopXslt>$(StyleCopBuildReportFolder)\StyleCop.xslt</StyleCopXslt>
     <StyleCopMaxViolationCount>100</StyleCopMaxViolationCount>
     <StyleCopOutputFile>$(SourceFolder)\StyleCopViolations.xml</StyleCopOutputFile>
     <StyleCopCacheResults>false</StyleCopCacheResults>
@@ -155,13 +156,13 @@
   </Target>
 
   <Target Name="PrepareOutput_StyleCop">
-    <!--<MakeDir Directories="$(StyleCopOutputFolder)" />
+    <MakeDir Directories="$(StyleCopOutputFolder)" />
 
     <ItemGroup>
       <StyleCopBuildReportResourcesFiles Include="$(StyleCopBuildReportFolder)\Resources\*.*"/>
     </ItemGroup>
 
-    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>-->
+    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>
   </Target>
 
   <Target Name="PrepareOutput_FxCop">
@@ -197,9 +198,6 @@
       MaxViolationCount="$(StyleCopMaxViolationCount)">
       <Output TaskParameter="ViolationCount" PropertyName="StyleCopViolationCount" />
     </StyleCopTask>
-
-    <Error Condition="$(StyleCopViolationCount) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!" />
-    <Warning Condition="$(StyleCopViolationCount) > 0 And $(StyleCopMaxViolationCount) >= $(StyleCopViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!"/>
     <!-- Create a collection of files to scan -->
     <!--<CreateItem Include="$(SourceFolder)\**\*.cs" Exclude="$(SourceFolder)\packages\**\*.cs;$(SourceFolder)\Tests\**\*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles"/>
@@ -210,16 +208,19 @@
       <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
       <Output TaskParameter="FailedFiles" ItemName="Failures"/>
     </MSBuild.ExtensionPack.CodeQuality.StyleCop>
-    <Message Text="Succeeded: $(AllPassed), Violations: $(Violations)" Importance="high"/>
+    <Message Text="Succeeded: $(AllPassed), Violations: $(Violations)" Importance="high"/>-->
 
     <MSBuild.ExtensionPack.Xml.XmlTask
       TaskAction="Transform"
       XmlFile="$(StyleCopOutputFile)"
-      XslTransformFile="$(StyleCopBuildReportFolder)\StyleCop.xslt"
+      XslTransformFile="$(StyleCopXslt)"
       OutputFile="$(StyleCopOutputFolder)\index.html">
     </MSBuild.ExtensionPack.Xml.XmlTask>
 
-    <Error Condition="$(Violations) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(Violations) broken rules!" />
+    <Error Condition="$(StyleCopViolationCount) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!" />
+    <Warning Condition="$(StyleCopViolationCount) > 0 And $(StyleCopMaxViolationCount) >= $(StyleCopViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!"/>
+
+    <!--<Error Condition="$(Violations) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(Violations) broken rules!" />
     <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolationCount) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>-->
     
   </Target>
@@ -231,22 +232,17 @@
 
     <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopResultXml)&quot;" ContinueOnError="true" />
     
-    <MSBuild.ExtensionPack.Xml.XmlTask TaskAction="Transform" Xml="$(FxCopResultXml)" XslTransform="$(FxCopXsl)" OutputFile="$(FxCopResultHtml)" Indent="true" OmitXmlDeclaration="true">
-      <Output PropertyName="Out" TaskParameter="Output"/>
+    <MSBuild.ExtensionPack.Xml.XmlTask
+      TaskAction="Transform"
+      XmlFile="$(FxCopResultXml)"
+      XslTransformFile="$(FxCopXsl)"
+      OutputFile="$(FxCopResultHtml)">
     </MSBuild.ExtensionPack.Xml.XmlTask>
   </Target>
 
   <Target Name="TeamCityArtifact">
-    <ItemGroup>
-      <FxCopXmlResults Include="$(FxCopResultXml)"/>
-      <FxCopHtmlResults Include="$(FxCopResultHtml)"/>
-    </ItemGroup>
-
-    <!--<TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>-->
-
-    <Message Text="##teamcity[importData type='FxCop' path='@(FxCopXmlResults)']"/>
-    <TeamCityPublishArtifacts SourceFiles="@(FxCopHtmlResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
-  
+    <Message Text="##teamcity[importData type='FxCop' path='$(FxCopResultXml)']"/>
+    <TeamCityPublishArtifacts SourceFiles="'$(FxCopResultHtml)'" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
   </Target>
 
   <!-- TODO Review the logic -->
