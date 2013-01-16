@@ -233,11 +233,11 @@
   </Target>
 
   <Target Name="TeamCityArtifact">
-    <PropertyGroup>
-      <FxCopResult>%system.teamcity.build.tempDir%/Output/FxCop/FxCopReport.html</FxCopResult>
-    </PropertyGroup>
+    <ItemGroup>
+      <FxCopResults Include="$(FxCopOutputFolder)\FxCopReport.html"/>
+    </ItemGroup>
 
-    <Message Text="##teamCity[publishArtifacts '$(FxCopOutputFolder)\FxCopReport.html']" />
+    <TeamCityPublishArtifacts SourceFiles="@(FxCopResults-> '%(FullPath)' )" Condition=" '$(TEAMCITY_VERSION)' != '' "/>
   </Target>
 
   <!-- TODO Review the logic -->
