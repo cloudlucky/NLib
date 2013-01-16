@@ -232,7 +232,7 @@
 
     <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopResultXml)&quot;" ContinueOnError="true" />
 
-    <MSBuild.ExtensionPack.Xml.XmlTask
+    <MSBuild.ExtensionPack.Xml.XmlTask Condition="Exists('$(FxCopResultXml)')"
       TaskAction="Transform"
       XmlFile="$(FxCopResultXml)"
       XslTransformFile="$(FxCopXsl)"
