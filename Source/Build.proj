@@ -15,15 +15,17 @@
   <PropertyGroup>
     <RootFolder>$(MSBuildProjectDirectory)\..</RootFolder>
     <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
+    <TestsFolder>$(SourceFolder)\Tests</TestsFolder>
     <LibFolder>$(RootFolder)\Lib</LibFolder>
     <PackagesFolder>$(SourceFolder)\packages</PackagesFolder>
+    <ToolsFolder>$(RootFolder)\Tools</ToolsFolder>
   </PropertyGroup>
   
   <!-- NLib Files -->
   <PropertyGroup>
     <AllNLibDllInclude>$(SourceFolder)\**\*.dll;$(SourceFolder)\**\*.xml;$(SourceFolder)\**\*.pdb</AllNLibDllInclude>
     <NLibDllInclude>$(SourceFolder)\**\NLib*.dll;$(SourceFolder)\**\NLib*.xml;$(SourceFolder)\**\NLib*.pdb</NLibDllInclude>
-    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibDllExclude>
+    <NLibDllExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\*.Tests\**\*;$(PackagesFolder)\**\*.*</NLibDllExclude>
     <!--<NLibXmlInclude>$(SourceFolder)\**\NLib*.XML</NLibXmlInclude>
     <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>-->
   </PropertyGroup>
@@ -60,16 +62,28 @@
 
   <!-- StyleCop -->
   <PropertyGroup>
-    <StyleCopSettingFile>$(SourceFolder)\Settings.StyleCop</StyleCopSettingFile>
+    <StyleCopFolder>$(PackagesFolder)\StyleCop.MSBuild.4.7.44.1\tools</StyleCopFolder>
+    <StyleCopOverrideSettingsFile>$(SourceFolder)\Settings.StyleCop</StyleCopOverrideSettingsFile>
     <StyleCopOutputFolder>$(OutputFolder)\StyleCop</StyleCopOutputFolder>
     <StyleCopBuildReportFolder>$(LibFolder)\BuildReports\StyleCop</StyleCopBuildReportFolder>
-    <StyleCopMaxViolations>100</StyleCopMaxViolations>
-    <StyleCopViolationsXmlFile>$(SourceFolder)\StyleCopViolations.xml</StyleCopViolationsXmlFile>
+    <StyleCopMaxViolationCount>100</StyleCopMaxViolationCount>
+    <StyleCopOutputFile>$(SourceFolder)\StyleCopViolations.xml</StyleCopOutputFile>
+    <StyleCopCacheResults>false</StyleCopCacheResults>
+    <StyleCopForceFullAnalysis>false</StyleCopForceFullAnalysis>
+    <DefineConstants></DefineConstants>
+    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <StyleCopFiles Include="$(SourceFolder)\**\*.cs" Exclude="$(PackagesFolder)\**\*.cs;$(TestsFolder)\**\*.cs"/>
+  </ItemGroup>
 
   <!-- FxCop -->
   <PropertyGroup>
+    <FxCopFolder>$(ToolsFolder)\Microsoft Fxcop 10.0</FxCopFolder>
+    <FxCopCustomDictionary>$(SourceFolder)\CustomDictionary.xml</FxCopCustomDictionary>
     <FxCopOutputFolder>$(OutputFolder)\FxCop</FxCopOutputFolder>
+    
     <FxCopBuildReportFolder>$(LibFolder)\BuildReports\FxCop</FxCopBuildReportFolder>
   </PropertyGroup>
   
@@ -82,6 +96,7 @@
 
   <Import Project="$(SourceFolder)\.nuget\nuget.targets" />
   <UsingTask AssemblyFile="$(xUnitFolder)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
+  <UsingTask AssemblyFile="$(StyleCopFolder)\StyleCop.dll" TaskName="StyleCopTask"/>
   
   <!-- Solutions to build-->
   <ItemGroup>
@@ -125,8 +140,8 @@
     <RemoveDir Directories="$(OutputFolder)" ContinueOnError="True"/>
 
     <Delete Files="@(CleanProjectOutputFiles)" ContinueOnError="True" />
-    
-    <Delete Files="$(StyleCopViolationsXmlFile)" ContinueOnError="True"/>
+
+    <Delete Files="$(StyleCopOutputFile)" ContinueOnError="True"/>
   </Target>
 
   <Target Name="Build">
@@ -140,13 +155,13 @@
   </Target>
 
   <Target Name="PrepareOutput_StyleCop">
-    <MakeDir Directories="$(StyleCopOutputFolder)" />
+    <!--<MakeDir Directories="$(StyleCopOutputFolder)" />
 
     <ItemGroup>
       <StyleCopBuildReportResourcesFiles Include="$(StyleCopBuildReportFolder)\Resources\*.*"/>
     </ItemGroup>
 
-    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>
+    <Copy SourceFiles="@(StyleCopBuildReportResourcesFiles)" DestinationFolder="$(StyleCopOutputFolder)"/>-->
   </Target>
 
   <Target Name="PrepareOutput_FxCop">
@@ -169,12 +184,28 @@
   </Target>
 
   <Target Name="StyleCop">
+    <StyleCopTask
+      ProjectFullPath="$(MSBuildProjectDirectory)"
+      SourceFiles="@(StyleCopFiles)"
+      AdditionalAddinPaths="@(StyleCopAdditionalAddinPaths)"
+      ForceFullAnalysis="$(StyleCopForceFullAnalysis)"
+      DefineConstants="$(DefineConstants)"
+      TreatErrorsAsWarnings="$(StyleCopTreatErrorsAsWarnings)"
+      CacheResults="$(StyleCopCacheResults)"
+      OverrideSettingsFile="$(StyleCopOverrideSettingsFile)"
+      OutputFile="$(StyleCopOutputFile)"
+      MaxViolationCount="$(StyleCopMaxViolationCount)">
+      <Output TaskParameter="ViolationCount" PropertyName="StyleCopViolationCount" />
+    </StyleCopTask>
+
+    <Error Condition="$(StyleCopViolationCount) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!" />
+    <Warning Condition="$(StyleCopViolationCount) > 0 And $(StyleCopMaxViolationCount) >= $(StyleCopViolationCount)" Text="StyleCop found $(StyleCopViolationCount) broken rules!"/>
     <!-- Create a collection of files to scan -->
-    <CreateItem Include="$(SourceFolder)\**\*.cs" Exclude="$(SourceFolder)\packages\**\*.cs;$(SourceFolder)\Tests\**\*.cs">
+    <!--<CreateItem Include="$(SourceFolder)\**\*.cs" Exclude="$(SourceFolder)\packages\**\*.cs;$(SourceFolder)\Tests\**\*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles"/>
-    </CreateItem>
+    </CreateItem>-->
     <!-- Run the StyleCop MSBuild task -->
-    <MSBuild.ExtensionPack.CodeQuality.StyleCop TaskAction="Scan" SourceFiles="@(StyleCopFiles)" ShowOutput="true" ForceFullAnalysis="true" CacheResults="false" logFile="$(StyleCopOutputFolder)\StyleCopLog.txt" SettingsFile="$(StyleCopSettingFile)">
+    <!--<MSBuild.ExtensionPack.CodeQuality.StyleCop TaskAction="Scan" SourceFiles="@(StyleCopFiles)" ShowOutput="true" ForceFullAnalysis="true" CacheResults="false" logFile="$(StyleCopOutputFolder)\StyleCopLog.txt" SettingsFile="$(StyleCopOverrideSettingsFile)">
       <Output TaskParameter="Succeeded" PropertyName="AllPassed"/>
       <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
       <Output TaskParameter="FailedFiles" ItemName="Failures"/>
@@ -183,30 +214,22 @@
 
     <MSBuild.ExtensionPack.Xml.XmlTask
       TaskAction="Transform"
-      XmlFile="$(StyleCopViolationsXmlFile)"
+      XmlFile="$(StyleCopOutputFile)"
       XslTransformFile="$(StyleCopBuildReportFolder)\StyleCop.xslt"
       OutputFile="$(StyleCopOutputFolder)\index.html">
     </MSBuild.ExtensionPack.Xml.XmlTask>
 
-    <Error Condition="$(Violations) > $(StyleCopMaxViolations)" Text="StyleCop found $(Violations) broken rules!" />
-    <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolations) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>
+    <Error Condition="$(Violations) > $(StyleCopMaxViolationCount)" Text="StyleCop found $(Violations) broken rules!" />
+    <Warning Condition="$(Violations) > 0 And $(StyleCopMaxViolationCount) >= $(Violations)" Text="StyleCop found $(Violations) broken rules!"/>-->
+    
   </Target>
 
   <Target Name="FxCop">
     <ItemGroup>
-      <Files Include="$(FxCopOutputFolder)/NLib*.dll"/>
+      <FxCopAssemblies Include="$(FxCopOutputFolder)/NLib*.dll"/>
     </ItemGroup>
 
-    <MSBuild.ExtensionPack.CodeQuality.FxCop TaskAction="Analyse" Files="@(Files)" Dictionary="$(SourceFolder)\CustomDictionary.xml" OutputFile="$(FxCopOutputFolder)\FxCopLog.xml" SearchGac="true">
-      <Output TaskParameter="AnalysisFailed" PropertyName="Result"/>
-    </MSBuild.ExtensionPack.CodeQuality.FxCop>
-
-    <MSBuild.ExtensionPack.Xml.XmlTask
-      TaskAction="Transform"
-      XslTransform="$(FxCopBuildReportFolder)\FxCopReport.xsl"
-      XmlFile="$(FxCopOutputFolder)\FxCopLog.xml"
-      OutputFile="$(FxCopOutputFolder)\index.html">
-    </MSBuild.ExtensionPack.Xml.XmlTask>
+    <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\FxCopReport.html&quot; /applyoutxsl" ContinueOnError="true" />
   </Target>
 
   <!-- TODO Review the logic -->
