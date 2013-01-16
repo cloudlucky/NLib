@@ -36,7 +36,7 @@
         /// </summary>
         /// <typeparam name="TException">The exception to throw.</typeparam>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have default constructor.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
+        //[SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
         public static void ThrowException<TException>() where TException : Exception
         {
             var exception = typeof(TException);
