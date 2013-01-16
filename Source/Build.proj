@@ -232,6 +232,14 @@
     <Exec Command="&quot;$(FxCopFolder)\FxCopCmd.exe&quot; @(FxCopAssemblies->'/file:&quot;%(Identity)&quot;', ' ') /searchgac /dictionary:&quot;$(FxCopCustomDictionary)&quot; /out:&quot;$(FxCopOutputFolder)\FxCopReport.html&quot; /applyoutxsl" ContinueOnError="true" />
   </Target>
 
+  <Target Name="TeamCityArtifact">
+    <PropertyGroup>
+      <FxCopResult>%system.teamcity.build.tempDir%/Output/FxCop/FxCopReport.html</FxCopResult>
+    </PropertyGroup>
+
+    <Message Text="##teamCity[publishArtifacts '$(FxCopResult) => FxCop'" />
+  </Target>
+
   <!-- TODO Review the logic -->
   <Target Name="Package" DependsOnTargets="Build">
     <RemoveDir Directories="$(OutputFolder)"/>
