@@ -1,30 +1,189 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- Designed by Yves Tremblay of ProgiNet Inc. and SBG International Inc. -->
-<!-- Updated by Eric Hexter for ccnet - codecampserver -->
-<!-- Updated by Roby Van Damme for use with msbuild and TeamCity-->
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns="http://www.w3.org/1999/xhtml">
-  <xsl:output method="html" version="4.0" indent="yes" />
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+  <xsl:output method="html" />
   <xsl:param name="applicationPath" select="'.'" />
 
-  <xsl:variable name="stylecop.root" select="StyleCopViolations" />
+  <xsl:variable name="stylecop.root" select="//StyleCopViolations" />
   <xsl:variable name="unique.source" select="$stylecop.root/Violation[not(@Source = preceding-sibling::Violation/@Source)]" />
 
   <xsl:template match="/">
 
     <div id="stylecop-report">
+      <script language="javascript">
+        function toggle (name, span)
+        {
+        var element = document.getElementById (name);
 
-      <script type="text/javascript" src="report.js"/> 
-      <link rel="stylesheet" type="text/css" href="stylecop.css" />
-     
+        if (element.style.display == 'none')
+        element.style.display = '';
+        else
+        element.style.display = 'none';
+
+        var span_element = document.getElementById (span);
+
+        if (span_element) {
+        if (span_element.innerHTML == '-') {
+            span_element.innerHTML = '+';
+          }
+          else {
+            span_element.innerHTML = '-';
+          }
+        }
+        }
+      </script>
+      <style type="text/css">
+        #stylecop-report
+        {
+        font-family: Arial, Helvetica, sans-serif;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+        }
+
+        #stylecop-report .header
+        {
+        background-color: #566077;
+        background-repeat: repeat-x;
+        color: #fff;
+        font-weight: bolder;
+        height: 50px;
+        vertical-align: middle;
+        }
+
+        #stylecop-report .headertext
+        {
+        height: 35px;
+        margin-left: 15px;
+        padding-top: 15px;
+        width: auto;
+        }
+
+        #stylecop-report .wrapper
+        {
+        padding-left: 20px;
+        padding-right: 20px;
+        width: auto;
+        }
+
+        #stylecop-report .legend
+        {
+        background-color: #ffc;
+        border: #d7ce28 1px solid;
+        font-size: small;
+        margin-top: 15px;
+        padding: 5px;
+        vertical-align: middle;
+        width: inherit;
+        }
+
+        #stylecop-report .clickablerow
+        {
+        cursor: pointer;
+        }
+
+        #stylecop-report .tabletotal
+        {
+        border-top: 1px #000;
+        font-weight: 700;
+        }
+
+        #stylecop-report .results-table
+        {
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-top: 20px;
+        text-align: left;
+        width: 100%;
+        }
+
+        #stylecop-report .results-table th
+        {
+        background: #b9c9fe;
+        border-bottom: 1px solid #fff;
+        border-top: 4px solid #aabcfe;
+        color: #039;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 8px;
+        }
+
+        #stylecop-report .results-table td
+        {
+        background: #e8edff;
+        border-bottom: 1px solid #fff;
+        border-top: 1px solid transparent;
+        color: #669;
+        padding: 5px;
+        }
+
+        #stylecop-report .errorlist td
+        {
+        background: #FFF;
+        border-bottom: 0;
+        border-top: 0 solid transparent;
+        color: #000;
+        padding: 0;
+        }
+
+        #stylecop-report .inner-results
+        {
+        border-collapse: collapse;
+        font-size: 12px;
+        margin-bottom: 3px;
+        margin-top: 4px;
+        text-align: left;
+        width: 100%;
+        }
+
+        #stylecop-report .inner-results td
+        {
+        background: #FFF;
+        border-bottom: 1px solid #fff;
+        border-top: 1px solid transparent;
+        color: #669;
+        padding: 3px;
+        }
+
+        #stylecop-report .inner-header th
+        {
+        background: #b9c9fe;
+        color: #039;
+        }
+
+        #stylecop-report .inner-rule-description
+        {
+        background-color: transparent;
+        border-collapse: collapse;
+        border: 0px;
+        font-size: 12px;
+        margin-bottom: 3px;
+        margin-top: 4px;
+        text-align: left;
+        width: 100%;
+        }
+
+        #stylecop-report .inner-rule-description tr
+        {
+        background-color: transparent;
+        border: 0px;
+        }
+
+        #stylecop-report .inner-rule-description td
+        {
+        background-color: transparent;
+        border: 0px;
+        }
+      </style>
       <div class="header">
         <div class="headertext">
-          StyleCop 4.4 Code Analysis Report
+          StlyeCop 4.3: Code Analysis Report
         </div>
       </div>
       <div class="wrapper">
         <div class="legend">
           <div>
-            Total Violations: <xsl:value-of select="count(//Violation)"/><br />
+            Total Violations: <xsl:value-of select="count(//Violation)"/>
           </div>
         </div>
         <table class='results-table'>
@@ -53,10 +212,10 @@
 
     <tr class="clickablerow" onclick="toggle('{$module.id}', 'img-{$module.id}')">
       <td style="width: 10px">
-        <img id="img-{$module.id}" src="plus.png" />
+        <span id="img-{$module.id}">+</span>
       </td>
       <td style="width: 16px">
-        <img src="error.png" />
+        <span>X</span>
       </td>
       <td>
         <xsl:value-of select="$source" />
@@ -88,18 +247,15 @@
           </thead>
           <tbody>
             <xsl:for-each select='$stylecop.root/Violation[@Source = $source]'>
-              
-              <xsl:sort select="@LineNumber" data-type="number"/>
-              
               <xsl:variable name="message.id" select="generate-id()" />
               <xsl:variable name="rule.id" select="@RuleId" />
               <xsl:variable name="rule.rule" select="@Rule" />
               <xsl:variable name="rule.namespace" select="@RuleNamespace" />
               <xsl:variable name="section" select="@Section" />
-             
+
               <tr class="clickablerow" onclick="toggle('{$module.id}-{$message.id}', 'img-{$module.id}-{$message.id}')">
                 <td style="width: 10px">
-                  <img id="img-{$module.id}-{$message.id}" src="plus.png" />
+                  <span id="img-{$module.id}-{$message.id}">+</span>
                 </td>
                 <td>
                   <xsl:value-of select="@LineNumber" />
@@ -159,5 +315,3 @@
   </xsl:template>
 
 </xsl:stylesheet>
-
-

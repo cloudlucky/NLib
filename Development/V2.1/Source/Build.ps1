@@ -14,7 +14,7 @@
     http://nlib.codeplex.com  
 
 .EXAMPLE    
-    build -target {All|Build|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release}
+    build -target {All|Clean|Build|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release}
 #>
 
 
