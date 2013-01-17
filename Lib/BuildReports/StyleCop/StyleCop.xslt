@@ -177,7 +177,7 @@
       </style>
       <div class="header">
         <div class="headertext">
-          StlyeCop 4.3: Code Analysis Report
+          StlyeCop: Code Analysis Report
         </div>
       </div>
       <div class="wrapper">
