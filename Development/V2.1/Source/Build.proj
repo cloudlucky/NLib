@@ -160,6 +160,7 @@
 
   <Target Name="Build">
     <CallTarget Targets="RestorePackages"/>
+    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Targets="Clean" />
     <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" />
   </Target>
 
@@ -245,7 +246,6 @@
   </Target>
 
   <Target Name="Package">
-    <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Targets="Clean" />
     <CallTarget Targets="PackageBinaries"/>
     <!--<CallTarget Targets="PackageBinariesWithDoc"/>-->
     <CallTarget Targets="PackageNuGet"/>
