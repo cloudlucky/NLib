@@ -90,6 +90,7 @@
     <Compile Include="Properties\GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NLib.Practices.Unity.Interception.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

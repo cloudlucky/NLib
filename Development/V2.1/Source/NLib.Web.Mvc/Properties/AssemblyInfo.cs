@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NLib.Web.Mvc")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(".Net utils library for MVC")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cloudlucky")]
 [assembly: AssemblyProduct("NLib.Web.Mvc")]
-[assembly: AssemblyCopyright("Copyright © Cloudlucky 2011")]
+[assembly: AssemblyCopyright("Copyright © Cloudlucky 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

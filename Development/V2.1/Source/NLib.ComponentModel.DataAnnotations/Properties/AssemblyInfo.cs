@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NLib.ComponentModel.DataAnnotations")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription(".Net utils library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cloudlucky")]
 [assembly: AssemblyProduct("NLib.ComponentModel.DataAnnotations")]
-[assembly: AssemblyCopyright("Copyright © Cloudlucky 2011")]
+[assembly: AssemblyCopyright("Copyright © Cloudlucky 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

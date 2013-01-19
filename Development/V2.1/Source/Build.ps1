@@ -14,13 +14,13 @@
     http://nlib.codeplex.com  
 
 .EXAMPLE    
-    build -target {All|Clean|Build|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release}
+    build -target {All|Clean|Build|PrepareOutput|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release}
 #>
 
 
 Param(
     [alias("t")]
-    [ValidateSet("All","Clean","Build","Tests","StyleCop","FxCop","Package")]
+    [ValidateSet("All","Clean","Build","PrepareOutput","Tests","StyleCop","FxCop","Package")]
     [array] $target = "All",
 
     [alias("c")]
