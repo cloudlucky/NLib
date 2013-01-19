@@ -314,6 +314,11 @@
     <Message Text="##teamcity[importData type='FxCop' path='$(FxCopResultXml)']"/>
     <Message Text="##teamcity[publishArtifacts '$(FxCopResultHtml)']"/>
     <Message Text="##teamcity[publishArtifacts '$(StyleCopResultHtml)']"/>
-    <Message Text="##teamcity[publishArtifacts '$(PackageNugetFolder)\*']"/>
+
+    <ItemGroup>
+      <NuGetPackageFiles Include="$(PackageNugetFolder)\*.*"/>
+    </ItemGroup>
+
+    <Message Text="##teamcity[publishArtifacts '%(NuGetPackageFiles.Identity)']"/>
   </Target>
 </Project>
