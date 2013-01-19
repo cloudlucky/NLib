@@ -319,6 +319,6 @@
       <NuGetPackageFiles Include="$(PackageNugetFolder)\*.*"/>
     </ItemGroup>
 
-    <Message Text="##teamcity[publishArtifacts '%(NuGetPackageFiles.Identity)']"/>
+    <Message Text="##teamcity[publishArtifacts '%(NuGetPackageFiles.Identity) => NuGet']"/>
   </Target>
 </Project>
