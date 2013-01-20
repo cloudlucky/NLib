@@ -385,15 +385,6 @@
         }
 
         [Fact]
-        public void ImplicitUnsignedLong1()
-        {
-            var r = (RationalNumber)4UL;
-
-            Assert.Equal(4, r.ToDouble());
-            Assert.NotEqual(2.25, r.ToDouble());
-        }
-
-        [Fact]
         public void Compare1()
         {
             var r = new RationalNumber(1);
