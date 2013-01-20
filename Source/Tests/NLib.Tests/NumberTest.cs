@@ -584,7 +584,7 @@
 
             var r1 = new Number(1.5);
 
-            Assert.Equal("1.5", r1.ToString("{#.#}"));
+            Assert.Equal("1.5", r1.ToString("#.#"));
         }
 
         [Fact]
@@ -592,7 +592,7 @@
         {
             var r1 = new Number(1.5);
 
-            Assert.Equal("1.5", r1.ToString("{#.#}", new CultureInfo("en-CA")));
+            Assert.Equal("1.5", r1.ToString("#.#", new CultureInfo("en-CA")));
         }
 
         [Fact]

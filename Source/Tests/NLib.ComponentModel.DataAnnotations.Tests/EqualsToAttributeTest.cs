@@ -116,10 +116,41 @@
             Assert.Equal("Could not find a property named P2.", ex.Message);
         }
 
+        [Fact]
+        public void CustomAttributeValue()
+        {
+            var model = new ModelProperty2 { P1 = "Foo", P2 = "Foo" };
+
+            var vc1 = new ValidationContext(model, null, null);
+            var vr = new List<ValidationResult>();
+            var r = Validator.TryValidateObject(model, vc1, vr, true);
+            Assert.True(r);
+            Assert.Equal(0, vr.Count);
+        }
+
+        [Fact]
+        public void CustomAttributeValue2()
+        {
+            var model = new ModelProperty2 { P1 = "Foo", P2 = "Bar" };
+
+            var vc1 = new ValidationContext(model, null, null);
+            var vr = new List<ValidationResult>();
+            var r = Validator.TryValidateObject(model, vc1, vr, true);
+            Assert.False(r);
+            Assert.Equal(1, vr.Count);
+            Assert.Equal("Test", vr[0].ErrorMessage);
+        }
+
         public class ModelProperty
         {
             public string P1 { get; set; }
             [EqualsTo("P1")]
+            public string P2 { get; set; }
+        }
+
+        public class ModelProperty2
+        {
+            public string P1 { get; set; }
             [CustomProperty("P1")]
             public string P2 { get; set; }
         }
@@ -156,6 +187,7 @@
             public CustomPropertyAttribute(string otherPropertyName)
                 : base(otherPropertyName)
             {
+                this.ErrorMessage = "Test";
             }
 
             public CustomPropertyAttribute(string otherPropertyName, string errorMessage)
