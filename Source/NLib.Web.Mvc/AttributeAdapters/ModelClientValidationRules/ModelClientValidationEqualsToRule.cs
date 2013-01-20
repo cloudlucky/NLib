@@ -14,7 +14,7 @@
         {
             this.ErrorMessage = errorMessage;
             this.ValidationType = "equalsto";
-            this.ValidationParameters["other"] = FormatPropertyForClientValidation(otherPropertyName);
+            this.ValidationParameters["other"] = ModelClientValidationCompareRuleBase.FormatPropertyForClientValidation(otherPropertyName);
         }
     }
 }

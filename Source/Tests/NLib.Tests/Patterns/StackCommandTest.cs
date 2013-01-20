@@ -3,13 +3,13 @@
     using NLib.Patterns;
 
     using Xunit;
-    public class SimpleCommandTest
+    public class StackCommandTest
     {
         [Fact]
         public void Test1()
         {
             var i = 1;
-            var sc = new SimpleCommand(() => i++, () => i--);
+            var sc = new StackCommand(() => i++, () => i--);
 
             sc.Execute();
             Assert.Equal(2, i);
@@ -46,7 +46,7 @@
         public void Test2()
         {
             var i = 1;
-            var sc = new SimpleCommand(() => i++, () => i--, () => i*=3);
+            var sc = new StackCommand(() => i++, () => i--, () => i*=3);
 
             sc.Execute();
             Assert.Equal(2, i);
@@ -74,7 +74,7 @@
         public void Test3()
         {
             var i = 1;
-            var sc = new SimpleCommand(() => i++, () => i--);
+            var sc = new StackCommand(() => i++, () => i--);
 
             sc.Execute();
             sc.Execute();

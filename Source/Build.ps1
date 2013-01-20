@@ -15,6 +15,9 @@
 
 .EXAMPLE    
     build -target {All|Clean|Build|PrepareOutput|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release}
+
+.EXAMPLE
+    build -target {All|Clean|Build|PrepareOutput|StyleCop|FxCop|Tests|Package} -configuration {Debug|Release} -property NuGetTool=C:\Nuget.exe
 #>
 
 
@@ -25,7 +28,10 @@ Param(
 
     [alias("c")]
     [ValidateSet("Debug", "Release")]
-    [string] $configuration = "Debug"
+    [string] $configuration = "Debug",
+
+    [alias("p")]
+    [array] $property
 )
 
 $currentScriptDirectory = split-path -parent $MyInvocation.MyCommand.Definition
@@ -37,9 +43,13 @@ if ([environment]::Is64BitOperatingSystem)
 }
 
 $BuildProject = Join-Path $currentScriptDirectory "Build.proj"
-$targetParameter = " /target:""" + [String]::Join(";", $target) + """"
-$propertyParameter = " /p:Configuration=$configuration /p:Platform=""Any CPU"""
+$targetParameter = "/target:""" + [String]::Join(";", $target) + """"
+$propertyParameter = "/p:Configuration=$configuration /p:Platform=""Any CPU"""
+$extraPropertiesParameter = ""
+if ($property -ne $NULL) {
+    $extraPropertiesParameter = [String]::Join(";", $property)
+}
     
-$cmd = """{0}"" ""{1}"" {2} {3}" -f $msbuildToolPath, $BuildProject, $targetParameter, $propertyParameter
+$cmd = """{0}"" ""{1}"" {2} {3} {4}" -f $msbuildToolPath, $BuildProject, $targetParameter, $propertyParameter, $extraPropertiesParameter
     
 Invoke-Expression "& $cmd"

@@ -30,8 +30,6 @@
     <AllSolutionOutputExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\*.Tests\**\*;$(PackagesFolder)\**\*.*;$(SourceFolder)\*.*</AllSolutionOutputExclude>
     <AllSolutionProjects>$(SourceFolder)\**\*.csproj</AllSolutionProjects>
     <AllSolutionTestProjects>$(TestsFolder)\**\*.csproj</AllSolutionTestProjects>
-    <!--<NLibXmlInclude>$(SourceFolder)\**\$(ProjectPrefixName)*.XML</NLibXmlInclude>
-    <NLibXmlExclude>$(SourceFolder)\**\obj\**\*;$(SourceFolder)\**\Debug\**\*;$(SourceFolder)\**\*.Tests\**\*</NLibXmlExclude>-->
   </PropertyGroup>
 
   <!-- Output -->
@@ -39,20 +37,10 @@
     <OutputFolder>$(RootFolder)\Output</OutputFolder>
   </PropertyGroup>
 
-  <!-- Documentation -->
-  <PropertyGroup>
-    <SHFBproj>$(SourceFolder)\$(ProjectPrefixName).Doc.shfbproj</SHFBproj>
-    <HtmlHelp1Output>$(OutputFolder)\Doc\HtmlHelp1</HtmlHelp1Output>
-    <WebsiteOutput>$(OutputFolder)\Doc\Website</WebsiteOutput>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Nuspec>$(SourceFolder)\$(ProjectPrefixName).nuspec</Nuspec>
-  </PropertyGroup>
-
-  <!-- Tools -->
+  <!-- NuGet -->
   <PropertyGroup>
     <NuGetTool>$(SourceFolder)\.nuget\NuGet.exe</NuGetTool>
+    <NuGetApiKey></NuGetApiKey>
   </PropertyGroup>
 
   <!-- Tests -->
@@ -68,6 +56,7 @@
     <StyleCopXslt>$(ToolsFolder)\StyleCop\StyleCop.xslt</StyleCopXslt>
     <StyleCopMaxViolationCount>100</StyleCopMaxViolationCount>
     <StyleCopResultXml>$(StyleCopOutputFolder)\StyleCopViolations.xml</StyleCopResultXml>
+    
     <StyleCopCacheResults>false</StyleCopCacheResults>
     <StyleCopForceFullAnalysis>false</StyleCopForceFullAnalysis>
     <DefineConstants></DefineConstants>
@@ -103,9 +92,15 @@
     <PackageBinariesZip>$(OutputFolder)\$(ProjectPrefixName).zip</PackageBinariesZip>
 
     <PackageNugetFolder>$(PackageFolder)\NuGet</PackageNugetFolder>
-
     <BinariesWithDocFolder>$(PackageFolder)\BinariesDoc</BinariesWithDocFolder>
     <ReleaseSourceFolder>$(PackageFolder)\Sources</ReleaseSourceFolder>
+
+    <SHFBproj>$(SourceFolder)\$(ProjectPrefixName).Doc.shfbproj</SHFBproj>
+    <HtmlHelp1Output>$(PackageFolder)\BinariesWithDoc</HtmlHelp1Output>
+    <HtmlDocumentation>$(PackageFolder)\HtmlDocumentation</HtmlDocumentation>
+    <HtmlDocumentationZipFile>$(OutputFolder)\$(ProjectPrefixName).HtmlDocumentation.zip</HtmlDocumentationZipFile>
+    <BinariesWithDocZipFile>$(OutputFolder)\NLibWithDoc.zip</BinariesWithDocZipFile>
+    <SourcesZipFile>$(OutputFolder)\NLibSources.zip</SourcesZipFile>
   </PropertyGroup>
 
   <Import Project="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
@@ -117,23 +112,6 @@
   <ItemGroup>
     <SolutionToBuild Include="$(SourceFolder)\$(ProjectPrefixName).sln" />
   </ItemGroup>
-
-  <Target Name="SetVersion" BeforeTargets="Build">
-    <Message Text="Version is $(Version)"/>
-
-    <ItemGroup>
-      <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*"/>
-    </ItemGroup>
-    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
-                                                  AssemblyMajorVersion="$(AssemblyMajorVersion)"
-                                                  AssemblyMinorVersion="$(AssemblyMinorVersion)"
-                                                  AssemblyBuildNumber="$(AssemblyBuildNumber)"
-                                                  AssemblyRevision="$(AssemblyRevision)"
-                                                  AssemblyFileMajorVersion="$(AssemblyMajorVersion)"
-                                                  AssemblyFileMinorVersion="$(AssemblyMinorVersion)"
-                                                  AssemblyFileBuildNumber="$(AssemblyBuildNumber)"
-                                                  AssemblyFileRevision="$(AssemblyRevision)"/>
-  </Target>
 
   <Target Name="All">
     <CallTarget Targets="Clean"/>
@@ -148,7 +126,7 @@
   <Target Name="Clean">
     <ItemGroup>
       <OutputFolderFiles Include="$(OutputFolder)\**\*"/>
-      <CleanProjectOutputFiles Include="$(SourceFolder)\**\bin\**\*.*" Exclude="$(PackagesFolder)\**\*.*"/>
+      <CleanProjectOutputFiles Include="$(SourceFolder)\**\bin\**\*.*;$(SourceFolder)\**\obj\**\*.*" Exclude="$(PackagesFolder)\**\*.*"/>
     </ItemGroup>
     <MSBuild Projects="@(SolutionToBuild)" ContinueOnError="false" Targets="Clean" />
 
@@ -156,6 +134,24 @@
     <RemoveDir Directories="$(OutputFolder)" ContinueOnError="True"/>
 
     <Delete Files="@(CleanProjectOutputFiles)" ContinueOnError="True" />
+  </Target>
+
+  <Target Name="SetVersion" BeforeTargets="Build">
+    <Message Text="Version is $(Version)"/>
+
+    <ItemGroup>
+      <AssemblyInfoFiles Include="$(SourceFolder)\**\AssemblyInfo.*" Exclude="$(PackagesFolder)\**\*.*"/>
+    </ItemGroup>
+    
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)"
+                                                  AssemblyMajorVersion="$(AssemblyMajorVersion)"
+                                                  AssemblyMinorVersion="$(AssemblyMinorVersion)"
+                                                  AssemblyBuildNumber="$(AssemblyBuildNumber)"
+                                                  AssemblyRevision="$(AssemblyRevision)"
+                                                  AssemblyFileMajorVersion="$(AssemblyMajorVersion)"
+                                                  AssemblyFileMinorVersion="$(AssemblyMinorVersion)"
+                                                  AssemblyFileBuildNumber="$(AssemblyBuildNumber)"
+                                                  AssemblyFileRevision="$(AssemblyRevision)"/>
   </Target>
 
   <Target Name="Build">
@@ -247,12 +243,12 @@
 
   <Target Name="Package">
     <CallTarget Targets="PackageBinaries"/>
-    <!--<CallTarget Targets="PackageBinariesWithDoc"/>-->
+    <CallTarget Targets="PackageBinariesWithDoc"/>
     <CallTarget Targets="PackageNuGet"/>
-    <!--<CallTarget Targets="PackageDocumentationWebsite"/>-->
+    <CallTarget Targets="PackageDocumentationWebsite"/>
+    <CallTarget Targets="PackageWithSources"/>
   </Target>
 
-  <!-- TODO Review the logic -->
   <Target Name="PackageBinaries">
     <ItemGroup>
       <FilesToPackage Include="$(AllSolutionOutputInclude)"
@@ -263,29 +259,31 @@
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(PackageBinariesFolder)" ZipFileName="$(PackageBinariesZip)"/>
   </Target>
 
-  <!-- TODO Review the logic -->
   <Target Name="PackageBinariesWithDoc">
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output);Configuration=$(Configuration)&quot;" />
+    <MSBuild Projects="$(SHFBproj)" Properties="HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output)" UseResultsCache="false"/>
 
     <ItemGroup>
-      <NLibDll Include="$(AllSolutionSpecificOutputInclude)"
+      <NLibDll Include="$(AllSolutionOutputInclude)"
                Exclude="$(AllSolutionOutputExclude)"/>
-      <NLibXml Include="$(NLibXmlInclude)"
-               Exclude="$(NLibXmlExclude)"/>
       <Chm Include="$(HtmlHelp1Output)\*.chm"/>
     </ItemGroup>
 
-    <Copy SourceFiles="@(NLibDll);@(NLibXml);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(OutputFolder)\NLibWithDoc.zip"/>
+    <Copy SourceFiles="@(NLibDll);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(BinariesWithDocZipFile)"/>
   </Target>
 
-  <!-- TODO Review the logic -->
   <Target Name="PackageDocumentationWebsite">
-    <Exec Command="&quot;$([MSBuild]::GetRegistryValue('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0', 'MSBuildToolsPath'))MSBuild.exe&quot; &quot;$(SHFBproj)&quot; &quot;/p:HelpFileFormat=Website;OutputPath=$(WebsiteOutput);Configuration=$(Configuration)&quot;" />
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(WebsiteOutput)" ZipFileName="$(OutputFolder)\NLibDocumentationWebsite.zip"/>
+    <ItemGroup>
+      <ProjectFiles Include="$(AllSolutionProjects)" Exclude="$(AllSolutionTestProjects)">
+        <Element>DocumentationSource</Element>
+        <ParentElement>//DocumentationSources</ParentElement>
+      </ProjectFiles>
+    </ItemGroup>
+    
+    <MSBuild Projects="$(SHFBproj)" Properties="HelpFileFormat=Website;OutputPath=$(HtmlDocumentation)" UseResultsCache="false"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(HtmlDocumentation)" ZipFileName="$(HtmlDocumentationZipFile)"/>
   </Target>
 
-  <!-- TODO Review the logic -->
   <Target Name="PackageNuGet">
     <ItemGroup>
       <NuSpecFiles Include="$(SourceFolder)\**\*.nuspec" Exclude="$(TestsFolder)\**\*.*;$(PackagesFolder)\**\*.*">
@@ -299,15 +297,26 @@
     <Exec Command="&quot;$(NuGetTool)&quot; pack &quot;%(ProjectFiles.Identity)&quot; -Prop Configuration=$(Configuration) -o &quot;$(PackageNugetFolder)&quot;" />
   </Target>
 
-  <!-- TODO Review the logic -->
   <Target Name="PackageWithSources">
     <ItemGroup>
       <Sources Include="$(SourceFolder)\**"
-               Exclude="$(SourceFolder)\**\*.vssscc;$(SourceFolder)\**\*.vspscc;$(SourceFolder)\**\*.user;$(SourceFolder)\*.suo;$(SourceFolder)\_ReSharper*\**\*;$(ReleaseFolder)\**;$(SourceFolder)\**\bin\**;$(SourceFolder)\**\obj\**;$(SourceFolder)\**\*.dotCover;$(SourceFolder)\**\*.docstates"/>
+               Exclude="$(SourceFolder)\**\*.vssscc;$(SourceFolder)\**\*.vspscc;$(SourceFolder)\**\*.user;$(SourceFolder)\*.suo;$(SourceFolder)\_ReSharper*\**\*;$(OutputFolder)\**;$(SourceFolder)\**\bin\**;$(SourceFolder)\**\obj\**;$(SourceFolder)\**\*.dotCover;$(SourceFolder)\**\*.docstates;$(PackagesFolder)\*\**"/>
+      <Libs Include="$(LibFolder)\**"/>
+      <Tools Include="$(ToolsFolder)\**"/>
     </ItemGroup>
 
     <Copy SourceFiles="@(Sources)" DestinationFiles="@(Sources->'$(ReleaseSourceFolder)\Source\%(RecursiveDir)%(Filename)%(Extension)')"/>
-    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(OutputFolder)\NLibSources.zip"/>
+    <Copy SourceFiles="@(Libs)" DestinationFiles="@(Libs->'$(ReleaseSourceFolder)\Lib\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <Copy SourceFiles="@(Tools)" DestinationFiles="@(Tools->'$(ReleaseSourceFolder)\Tools\%(RecursiveDir)%(Filename)%(Extension)')"/>
+    <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(ReleaseSourceFolder)" ZipFileName="$(SourcesZipFile)"/>
+  </Target>
+
+  <Target Name="NuGetPush">
+    <ItemGroup>
+      <NuGetPackageFiles Include="$(PackageNugetFolder)\*.*"/>
+    </ItemGroup>
+  
+    <Exec Command="&quot;$(NuGetTool)&quot; push &quot;%(ProjectFiles.Identity)&quot; $(NuGetApiKey) -NonInteractive" />
   </Target>
 
   <Target Name="TeamCityArtifact">
@@ -320,5 +329,10 @@
     </ItemGroup>
 
     <Message Text="##teamcity[publishArtifacts '%(NuGetPackageFiles.Identity) => NuGet']"/>
+
+    <Message Text="##teamcity[publishArtifacts '$(PackageBinariesZip) => CodePlex']"/>
+    <Message Text="##teamcity[publishArtifacts '$(BinariesWithDocZipFile) => CodePlex']"/>
+    <Message Text="##teamcity[publishArtifacts '$(SourcesZipFile) => CodePlex']"/>
+    <Message Text="##teamcity[publishArtifacts '$(HtmlDocumentationZipFile) => HtmlDocumentation']"/>
   </Target>
 </Project>

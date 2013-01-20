@@ -6,9 +6,9 @@
     using NLib.Patterns.Resources;
 
     /// <summary>
-    /// Simple command pattern to do Undo/Redo.
+    /// Stack command pattern to do Undo/Redo.
     /// </summary>
-    public class SimpleCommand
+    public class StackCommand : ICommand
     {
         /// <summary>
         /// the undo stack.
@@ -36,26 +36,26 @@
         private readonly Action redo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
+        /// Initializes a new instance of the <see cref="StackCommand"/> class.
         /// </summary>
         /// <param name="execute">The execute command.</param>
         /// <param name="undo">The undo command.</param>
         /// <exception cref="ArgumentNullException">execute is null.</exception>
         /// /// <exception cref="ArgumentNullException">undo is null.</exception>
-        public SimpleCommand(Action execute, Action undo)
+        public StackCommand(Action execute, Action undo)
             : this(execute, undo, execute)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
+        /// Initializes a new instance of the <see cref="StackCommand"/> class.
         /// </summary>
         /// <param name="execute">The execute command.</param>
         /// <param name="undo">The undo command.</param>
         /// <param name="redo">The redo command. If it's null, the <paramref name="execute"/> will also be the <paramref name="redo"/> command</param>
         /// <exception cref="ArgumentNullException">execute is null.</exception>
         /// <exception cref="ArgumentNullException">undo is null.</exception>
-        public SimpleCommand(Action execute, Action undo, Action redo)
+        public StackCommand(Action execute, Action undo, Action redo)
             : this()
         {
             Check.Current.ArgumentNullException(execute, "execute")
@@ -67,9 +67,9 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
+        /// Initializes a new instance of the <see cref="StackCommand"/> class.
         /// </summary>
-        protected SimpleCommand()
+        protected StackCommand()
         {
             this.undoStack = new Stack<Action>();
             this.redoStack = new Stack<Action>();
