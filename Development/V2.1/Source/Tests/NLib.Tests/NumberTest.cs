@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Threading;
 
     using Xunit;
 
@@ -10,7 +11,7 @@
         [Fact]
         public void ConstructorLong1()
         {
-            var r = new Number(1);
+            var r = new Number(1L);
 
             Assert.Equal(1, r.ToInt64());
             Assert.NotEqual(2, r.ToInt64());
@@ -19,9 +20,18 @@
         [Fact]
         public void ConstructorLong2()
         {
-            var r = new Number(-3);
+            var r = new Number(-3L);
 
             Assert.Equal(-3, r.ToInt64());
+            Assert.NotEqual(2, r.ToInt64());
+        }
+
+        [Fact]
+        public void ConstructorUnsignedLong1()
+        {
+            var r = new Number(1UL);
+
+            Assert.Equal(1, r.ToInt64());
             Assert.NotEqual(2, r.ToInt64());
         }
 
@@ -141,6 +151,50 @@
             var r = new Number("-4");
 
             Assert.Equal(-4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void Parse1()
+        {
+            var r = Number.Parse("4");
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void TryParse1()
+        {
+            Number r;
+            Assert.True(Number.TryParse("4", out r));
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void TryParse2()
+        {
+            Number r;
+            Assert.False(Number.TryParse("Foo", out r));
+        }
+
+        [Fact]
+        public void ImplicitLong1()
+        {
+            var r = (Number)4L;
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void ImplicitUnsignedLong1()
+        {
+            var r = (Number)4UL;
+
+            Assert.Equal(4, r.ToDouble());
             Assert.NotEqual(2.25, r.ToDouble());
         }
 
@@ -412,7 +466,6 @@
 
             Assert.True(r1 < r2);
             Assert.False(r2 < r1);
-            Assert.False(r1 < r1);
         }
 
         [Fact]
@@ -423,7 +476,6 @@
 
             Assert.True(r1 <= r2);
             Assert.False(r2 <= r1);
-            Assert.True(r1 <= r1);
         }
 
         [Fact]
@@ -443,7 +495,6 @@
 
             Assert.True(r1 > r2);
             Assert.False(r2 > r1);
-            Assert.False(r1 > r1);
         }
 
         [Fact]
@@ -454,7 +505,6 @@
 
             Assert.True(r1 >= r2);
             Assert.False(r2 >= r1);
-            Assert.True(r1 >= r1);
         }
 
         [Fact]
@@ -512,9 +562,11 @@
         [Fact]
         public void ToString1()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-CA");
+
             var r1 = new Number(0.5);
 
-            Assert.Equal("0.5", r1.ToString(new CultureInfo("en-CA")));
+            Assert.Equal("0.5", r1.ToString());
         }
 
         [Fact]
@@ -523,6 +575,24 @@
             var r1 = new Number(1.5);
 
             Assert.Equal("1.5", r1.ToString(new CultureInfo("en-CA")));
+        }
+
+        [Fact]
+        public void ToString3()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-CA");
+
+            var r1 = new Number(1.5);
+
+            Assert.Equal("1.5", r1.ToString("{#.#}"));
+        }
+
+        [Fact]
+        public void ToString4()
+        {
+            var r1 = new Number(1.5);
+
+            Assert.Equal("1.5", r1.ToString("{#.#}", new CultureInfo("en-CA")));
         }
 
         [Fact]

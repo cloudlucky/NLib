@@ -1,5 +1,7 @@
 ﻿namespace NLib.Tests.Reflection
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using NLib.Reflection.Extensions;
 
     using Xunit;
@@ -250,6 +252,7 @@
         {
             public string m1;
 
+            [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Used by reflection")]
             private int m2;
         }
 
@@ -264,6 +267,7 @@
         {
             public string P1 { get; set; }
 
+            [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Used by reflection")]
             private int P2 { get; set; }
         }
 

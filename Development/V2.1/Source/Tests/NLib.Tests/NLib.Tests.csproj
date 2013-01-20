@@ -73,21 +73,20 @@
     <Compile Include="MathHelperTest.cs" />
     <Compile Include="MissingConstructorExceptionTest.cs" />
     <Compile Include="Patterns\LazySingletonTest.cs" />
-    <Compile Include="Patterns\SimpleCommandTest.cs" />
+    <Compile Include="Patterns\StackCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RationalNumberTest.cs" />
     <Compile Include="Reflection\Extensions\AssemblyExtensionsTest.cs" />
     <Compile Include="Reflection\Extensions\MemberInfoExtensionsTest.cs" />
     <Compile Include="Reflection\ReflectionHelperTest.cs" />
+    <Compile Include="Text\Extensions\StringBuilderExtensionsTest.cs" />
     <Compile Include="Xml\Extensions\XDocumentExtensionsTest.cs" />
     <Compile Include="Xml\Linq\Extensions\XDocumentExtensionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reflection\Extensions\TextFile1.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Text\Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\NLib\NLib.csproj">
       <Project>{31ed9528-1cd7-4da7-8a66-4bea9aeb860d}</Project>

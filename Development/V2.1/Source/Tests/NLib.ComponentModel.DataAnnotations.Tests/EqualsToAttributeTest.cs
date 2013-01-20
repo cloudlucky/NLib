@@ -1,5 +1,6 @@
 ﻿namespace NLib.ComponentModel.DataAnnotations.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -119,6 +120,7 @@
         {
             public string P1 { get; set; }
             [EqualsTo("P1")]
+            [CustomProperty("P1")]
             public string P2 { get; set; }
         }
 
@@ -147,6 +149,29 @@
         {
             [EqualsTo("P2")]
             public string P1 { get; set; }
+        }
+
+        public class CustomPropertyAttribute : CompareBaseAttribute
+        {
+            public CustomPropertyAttribute(string otherPropertyName)
+                : base(otherPropertyName)
+            {
+            }
+
+            public CustomPropertyAttribute(string otherPropertyName, string errorMessage)
+                : base(otherPropertyName, errorMessage)
+            {
+            }
+
+            public CustomPropertyAttribute(string otherPropertyName, Func<string> errorMessageAccessor)
+                : base(otherPropertyName, errorMessageAccessor)
+            {
+            }
+
+            protected override bool IsValid(IComparable currentValue, object otherValue)
+            {
+                return currentValue.CompareTo(otherValue) == 0;
+            }
         }
     }
 }

@@ -105,6 +105,11 @@
                     && this.Name == tb.Name
                     && this.BirthDate == tb.BirthDate;
             }
+
+            public override int GetHashCode()
+            {
+                return this.Id.GetHashCode();
+            }
         }
 
         private class TestBetweenComparer : IComparer<TestBetween>, IComparer

@@ -95,20 +95,42 @@
         [Fact]
         public void ArgumentNullException8()
         {
-            var foo = string.Empty;
-            Check.Current.ArgumentNullException(() => foo, "foo is null");
+            var c1 = new C1 { I = 1 };
+            Check.Current.ArgumentNullException(() => c1.I);
             Assert.True(true);
         }
 
         [Fact]
         public void ArgumentNullException9()
         {
+            var c1 = new C1();
+            Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(() => c1.I));
+        }
+
+        [Fact]
+        public void ArgumentNullException10()
+        {
+            var c1 = new C1();
+            Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(() => c1.I, "I is null"));
+        }
+
+        [Fact]
+        public void ArgumentNullException11()
+        {
+            var foo = string.Empty;
+            Check.Current.ArgumentNullException(() => foo, "foo is null");
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void ArgumentNullException12()
+        {
             string foo = null;
             Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(() => foo, "foo is null"));
         }
 
         [Fact]
-        public void ArgumentNullException10()
+        public void ArgumentNullException13()
         {
             string foo = null;
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(() => foo, "foo is null"));
@@ -505,6 +527,11 @@
         public void Requires22()
         {
             Check.Current.Requires(() => true, new ArgumentException());
+        }
+
+        private class C1
+        {
+            public int? I { get; set; }
         }
 
         private class TestException : Exception

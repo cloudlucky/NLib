@@ -10,7 +10,7 @@
         [Fact]
         public void ConstructorLong1()
         {
-            var r = new RationalNumber(1);
+            var r = new RationalNumber(1L);
 
             Assert.Equal(1, r.ToInt64());
             Assert.NotEqual(2, r.ToInt64());
@@ -22,7 +22,7 @@
         [Fact]
         public void ConstructorLong2()
         {
-            var r = new RationalNumber(-3);
+            var r = new RationalNumber(-3L);
 
             Assert.Equal(-3, r.ToInt64());
             Assert.NotEqual(2, r.ToInt64());
@@ -34,7 +34,7 @@
         [Fact]
         public void ConstructorLongLong1()
         {
-            var r = new RationalNumber(1, 1);
+            var r = new RationalNumber(1L, 1L);
 
             Assert.Equal(1, r.ToInt64());
             Assert.NotEqual(2, r.ToInt64());
@@ -46,7 +46,7 @@
         [Fact]
         public void ConstructorLongLong2()
         {
-            var r = new RationalNumber(3, 4);
+            var r = new RationalNumber(3L, 4L);
 
             Assert.Equal(0.75, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -58,7 +58,7 @@
         [Fact]
         public void ConstructorLongLong3()
         {
-            var r = new RationalNumber(5, 4);
+            var r = new RationalNumber(5L, 4L);
 
             Assert.Equal(1.25, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -70,7 +70,7 @@
         [Fact]
         public void ConstructorLongLong4()
         {
-            var r = new RationalNumber(-2, 5);
+            var r = new RationalNumber(-2L, 5L);
 
             Assert.Equal(-0.4, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -82,7 +82,7 @@
         [Fact]
         public void ConstructorLongLong5()
         {
-            var r = new RationalNumber(4, 8);
+            var r = new RationalNumber(4L, 8L);
 
             Assert.Equal(0.5, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -94,13 +94,13 @@
         [Fact]
         public void ConstructorLongLong6()
         {
-            Assert.Throws(typeof(DivideByZeroException), () => new RationalNumber(4, 0));
+            Assert.Throws(typeof(DivideByZeroException), () => new RationalNumber(4L, 0L));
         }
 
         [Fact]
         public void ConstructorLongLong7()
         {
-            var r = new RationalNumber(1, -2);
+            var r = new RationalNumber(1L, -2L);
 
             Assert.Equal(-0.5, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -112,7 +112,7 @@
         [Fact]
         public void ConstructorLongLong8()
         {
-            var r = new RationalNumber(-1, -2);
+            var r = new RationalNumber(-1L, -2L);
 
             Assert.Equal(0.5, r.ToDouble());
             Assert.NotEqual(2, r.ToDouble());
@@ -347,6 +347,50 @@
 
             Assert.Equal(1, r.Numerator);
             Assert.Equal(2, r.Denominator);
+        }
+
+        [Fact]
+        public void Parse1()
+        {
+            var r = RationalNumber.Parse("4");
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void TryParse1()
+        {
+            RationalNumber r;
+            Assert.True(RationalNumber.TryParse("4", out r));
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void TryParse2()
+        {
+            RationalNumber r;
+            Assert.False(RationalNumber.TryParse("Foo", out r));
+        }
+
+        [Fact]
+        public void ImplicitLong1()
+        {
+            var r = (RationalNumber)4L;
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
+        }
+
+        [Fact]
+        public void ImplicitUnsignedLong1()
+        {
+            var r = (RationalNumber)4UL;
+
+            Assert.Equal(4, r.ToDouble());
+            Assert.NotEqual(2.25, r.ToDouble());
         }
 
         [Fact]
@@ -642,10 +686,11 @@
         {
             var r1 = new RationalNumber(2.5);
             var r2 = new RationalNumber(3.5);
+            var r3 = r1;
 
             Assert.True(r1 < r2);
             Assert.False(r2 < r1);
-            Assert.False(r1 < r1);
+            Assert.False(r1 < r3);
         }
 
         [Fact]
@@ -653,10 +698,11 @@
         {
             var r1 = new RationalNumber(2.5);
             var r2 = new RationalNumber(3.5);
+            var r3 = r1;
 
             Assert.True(r1 <= r2);
             Assert.False(r2 <= r1);
-            Assert.True(r1 <= r1);
+            Assert.True(r1 <= r3);
         }
 
         [Fact]
@@ -673,10 +719,11 @@
         {
             var r1 = new RationalNumber(3.5);
             var r2 = new RationalNumber(2.5);
+            var r3 = r1;
 
             Assert.True(r1 > r2);
             Assert.False(r2 > r1);
-            Assert.False(r1 > r1);
+            Assert.False(r1 > r3);
         }
 
         [Fact]
@@ -684,10 +731,11 @@
         {
             var r1 = new RationalNumber(3.5);
             var r2 = new RationalNumber(2.5);
+            var r3 = r1;
 
             Assert.True(r1 >= r2);
             Assert.False(r2 >= r1);
-            Assert.True(r1 >= r1);
+            Assert.True(r1 >= r3);
         }
 
         [Fact]
