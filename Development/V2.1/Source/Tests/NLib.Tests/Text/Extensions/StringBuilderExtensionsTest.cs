@@ -1,5 +1,6 @@
 ﻿namespace NLib.Tests.Text.Extensions
 {
+    using System;
     using System.Globalization;
     using System.Text;
 
@@ -15,15 +16,16 @@
             var sb = new StringBuilder();
             sb.AppendLineFormat("{0} {1}", "foo", "bar");
 
-            Assert.Equal("foo bar", sb.ToString());
+            Assert.Equal(string.Format("foo bar{0}", Environment.NewLine), sb.ToString());
         }
+
         [Fact]
         public void AppendLineFormat2()
         {
             var sb = new StringBuilder();
             sb.AppendLineFormat(CultureInfo.CurrentCulture, "{0} {1}", "foo", "bar");
 
-            Assert.Equal("foo bar", sb.ToString());
+            Assert.Equal(string.Format("foo bar{0}", Environment.NewLine), sb.ToString());
         }
     }
 }

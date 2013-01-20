@@ -443,6 +443,10 @@
                 {
                     return false;
                 }
+                catch (FormatException)
+                {
+                    return false;
+                }
             }
 
             return true;
