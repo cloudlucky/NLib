@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UnitTestWorkerDriver.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Web.Hosting
+﻿namespace NLib.Web.Hosting
 {
     using System;
     using System.IO;
@@ -34,9 +25,33 @@ namespace NLib.Web.Hosting
         /// <param name="workerRequest">The worker request.</param>
         public UnitTestWorkerDriver(IWorkerRequest workerRequest)
         {
-            CheckError.ArgumentNullException(workerRequest, "workerRequest");
+            Check.Current.ArgumentNullException(workerRequest, "workerRequest");
 
             this.InitAppDomain(workerRequest);
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="UnitTestWorkerDriver" /> class.
+        /// </summary>
+        ~UnitTestWorkerDriver()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets the base directory.
+        /// </summary>
+        protected static string BaseDirectory
+        {
+            get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
+        /// <summary>
+        /// Gets the bin directory.
+        /// </summary>
+        protected static string BinDirectory
+        {
+            get { return Path.Combine(BaseDirectory, "bin"); }
         }
 
         /// <summary>
@@ -45,28 +60,12 @@ namespace NLib.Web.Hosting
         protected IWorkerRequest WorkerRequest { get; private set; }
 
         /// <summary>
-        /// Gets the base directory.
-        /// </summary>
-        protected virtual string BaseDirectory
-        {
-            get { return AppDomain.CurrentDomain.BaseDirectory; }
-        }
-
-        /// <summary>
-        /// Gets the bin directory.
-        /// </summary>
-        protected virtual string BinDirectory
-        {
-            get { return Path.Combine(this.BaseDirectory, "bin"); }
-        }
-
-        /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public virtual void Dispose()
+        public void Dispose()
         {
-            this.WorkerRequest.Dispose();
-            this.WorkerRequest = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -83,10 +82,10 @@ namespace NLib.Web.Hosting
         /// <summary>
         /// Copies the binaries.
         /// </summary>
-        protected virtual void CopyBinaries()
+        protected static void CopyBinaries()
         {
-            Directory.CreateDirectory(this.BinDirectory);
-            var binairies = Directory.GetFiles(this.BaseDirectory, "*.*")
+            Directory.CreateDirectory(BinDirectory);
+            var binairies = Directory.GetFiles(BaseDirectory, "*.*")
                                      .Where(x => x.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase) || x.EndsWith(".exe", StringComparison.OrdinalIgnoreCase));
 
             foreach (var file in binairies)
@@ -95,7 +94,7 @@ namespace NLib.Web.Hosting
 
                 if (fileName != null)
                 {
-                    var destination = Path.Combine(this.BinDirectory, fileName);
+                    var destination = Path.Combine(BinDirectory, fileName);
 
                     if (!File.Exists(destination))
                     {
@@ -106,14 +105,30 @@ namespace NLib.Web.Hosting
         }
 
         /// <summary>
-        /// Inits the app domain.
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.WorkerRequest != null)
+                {
+                    this.WorkerRequest.Dispose();
+                    this.WorkerRequest = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initialize the application domain.
         /// </summary>
         /// <param name="worker">The worker request.</param>
         private void InitAppDomain(IWorkerRequest worker)
         {
-            this.CopyBinaries();
+            CopyBinaries();
 
-            this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", this.BaseDirectory);
+            this.WorkerRequest = (IWorkerRequest)ApplicationHost.CreateApplicationHost(worker.GetType(), "/", BaseDirectory);
         }
     }
 }
