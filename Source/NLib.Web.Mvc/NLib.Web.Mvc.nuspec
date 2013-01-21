@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://nlib.codeplex.com/license</licenseUrl>
+    <projectUrl>http://nlib.codeplex.com</projectUrl>
+    <iconUrl>http://download-codeplex.sec.s-msft.com/Download?ProjectName=nlib&amp;DownloadId=257549&amp;Build=19958</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Adding functionalities and bug fixes.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>.Net Commons Extension Helper Library MVC</tags>
+    <dependencies>
+      <dependency id="NLib" version="1.0.0.0" />
+      <dependency id="NLib.ComponentModel.DataAnnotations" version="1.0.0.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Generator.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace NLib.Collections.Generic
+﻿namespace NLib.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -16,7 +7,7 @@ namespace NLib.Collections.Generic
     using NLib.Collections.Generic.Resources;
 
     /// <summary>
-    /// Provide a set of methodes to generate collection.
+    /// Provide a set of methods to generate collection.
     /// </summary>
     public class Generator
     {
@@ -80,7 +71,7 @@ namespace NLib.Collections.Generic
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2", Justification = "CheckError class do the check")]
         public static IEnumerable<T> Generate<T>(int count, Func<T, T> func, T defaultValue, Generator provider)
         {
-            CheckError.ArgumentNullException(provider, "provider");
+            Check.Current.ArgumentNullException(provider, "provider");
 
             return provider.Generate(func, count, defaultValue);
         }
@@ -97,8 +88,8 @@ namespace NLib.Collections.Generic
         /// <exception cref="ArgumentException"><paramref name="count"/> is less than zero.</exception>
         public virtual IEnumerable<T> Generate<T>(Func<T, T> func, int count, T defaultValue)
         {
-            CheckError.ArgumentNullException(func, "func");
-            Check.Requires<ArgumentException>(count >= 0, GeneratorResource.Generate_ArgumentException_Count);
+            Check.Current.ArgumentNullException(func, "func")
+                         .Requires<ArgumentException>(count >= 0, GeneratorResource.Generate_ArgumentException_Count);
 
             var last = defaultValue;
 

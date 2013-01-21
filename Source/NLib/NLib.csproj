@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NLib</RootNamespace>
     <AssemblyName>NLib</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -38,16 +40,19 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\NLib.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NLib.Sign.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,89 +61,125 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Check.cs" />
-    <Compile Include="CheckError.cs" />
-    <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtension.cs" />
-    <Compile Include="Collections\Generic\Extensions\IEnumerableExtension.cs" />
-    <Compile Include="Collections\Generic\Extensions\IListExtension.cs" />
+    <Compile Include="CheckExtensions.cs" />
+    <Compile Include="Collections\Generic\BagBase.cs" />
+    <Compile Include="Collections\Generic\BagBaseDebugView.cs">
+      <DependentUpon>BagBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\Generic\BinaryTreeNode.cs" />
+    <Compile Include="Collections\Generic\Extensions\EqualityComparisonExtensions.cs" />
+    <Compile Include="Collections\Generic\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Collections\Generic\Extensions\ListExtensions.cs" />
     <Compile Include="Collections\Generic\Extensions\Resources\IListExtensionResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IListExtensionResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Collections\Generic\Generator.cs" />
+    <Compile Include="Collections\Generic\HashBag.cs" />
     <Compile Include="Collections\Generic\IBag.cs" />
+    <Compile Include="Collections\Generic\IBinaryTree.cs" />
+    <Compile Include="Collections\Generic\IBinaryTreeNode.cs" />
+    <Compile Include="Collections\Generic\INode.cs" />
+    <Compile Include="Collections\Generic\IRedBlackTree.cs" />
+    <Compile Include="Collections\Generic\RedBlackTree.cs" />
+    <Compile Include="Collections\Generic\RedBlackTreeNode.cs" />
+    <Compile Include="Collections\Generic\Resources\CollectionResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CollectionResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Collections\Generic\Resources\GeneratorResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GeneratorResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Generic\Resources\SortedBagResource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SortedBagResource.resx</DependentUpon>
-    </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
-    <Compile Include="Collections\Generic\SortedBagDebugView.cs">
-      <DependentUpon>SortedBag.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Collections\Generic\IRedBlackTreeNode.cs" />
     <Compile Include="EqualityComparison.cs" />
     <Compile Include="EventArgs.cs" />
-    <Compile Include="Extensions\ComparisonExtension.cs" />
-    <Compile Include="Extensions\ConvertExtension.cs" />
-    <Compile Include="Extensions\ObjectExtension.cs" />
-    <Compile Include="Extensions\EventHandlerExtension.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Extensions\ArrayExtension.cs" />
-    <Compile Include="Extensions\TypeExtension.cs" />
-    <Compile Include="Linq\Extensions\IQueryableExtension.cs" />
+    <Compile Include="Extensions\ComparisonExtensions.cs" />
+    <Compile Include="Extensions\ConvertExtensions.cs" />
+    <Compile Include="Extensions\EventHandlerExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Linq\Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Linq\Extensions\QueryableExtensions.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="MissingConstructorException.cs" />
+    <Compile Include="Number.cs" />
+    <Compile Include="Patterns\ICommand.cs" />
     <Compile Include="Patterns\LazySingleton.cs" />
     <Compile Include="Patterns\Resources\SimpleCommandResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SimpleCommandResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Patterns\SimpleCommand.cs" />
+    <Compile Include="Patterns\StackCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="RationalNumber.cs" />
-    <Compile Include="Reflection\Extensions\AssemblyExtension.cs" />
-    <Compile Include="Reflection\Extensions\MemberInfoExtension.cs" />
+    <Compile Include="Reflection\Extensions\PropertyHelperExtensions.cs" />
+    <Compile Include="Reflection\Extensions\FieldHelperExtensions.cs" />
+    <Compile Include="Reflection\Extensions\ReflectionHelperExtensions.cs" />
+    <Compile Include="Reflection\FieldHelper.cs" />
+    <Compile Include="Reflection\Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Reflection\Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="Reflection\PropertyHelper.cs" />
+    <Compile Include="Reflection\ReflectionHelper.cs" />
+    <Compile Include="Reflection\Resources\ReflectionResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReflectionResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\MathHelperResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MathHelperResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\NumberResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\RationalNumberResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RationalNumberResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Type.cs" />
-    <Compile Include="Xml\Extensions\XmlDocumentExtension.cs" />
-    <Compile Include="Xml\Linq\Extensions\XDocumentExtension.cs" />
+    <Compile Include="Text\Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Xml\Extensions\XmlDocumentExtensions.cs" />
+    <Compile Include="Xml\Linq\Extensions\XDocumentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Collections\Generic\Extensions\Resources\IListExtensionResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IListExtensionResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Collections\Generic\Resources\CollectionResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CollectionResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Collections\Generic\Resources\GeneratorResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneratorResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Collections\Generic\Resources\SortedBagResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SortedBagResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Patterns\Resources\SimpleCommandResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SimpleCommandResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reflection\Resources\ReflectionResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ReflectionResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\MathHelperResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MathHelperResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\NumberResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NumberResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\RationalNumberResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -146,12 +187,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\FxCop.CustomDictionary.xml">
-      <Link>Properties\FxCop.CustomDictionary.xml</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NLib.Sign.snk" />
+    <None Include="NLib.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
