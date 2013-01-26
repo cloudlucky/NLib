@@ -42,3 +42,5 @@
 
 _ReSharper.*
 packages
+\Main\Output
+\Development\*\Output
