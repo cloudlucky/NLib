@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9ab5fb10-ac08-428d-b40c-91f825b78d6f}</ProjectGuid>
+    <SHFBSchemaVersion>1.9.5.0</SHFBSchemaVersion>
+    <!-- SHFB properties -->
+    <OutputPath>..\Output\Packages\SHFB\</OutputPath>
+    <HtmlHelpName>Documentation</HtmlHelpName>
+    <Language>en-US</Language>
+    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="NLib\NLib.csproj" xmlns="" />
+      <DocumentationSource sourceFile="NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj" xmlns="" />
+      <DocumentationSource sourceFile="NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj" xmlns="" />
+      <DocumentationSource sourceFile="NLib.Web\NLib.Web.csproj" xmlns="" />
+      <DocumentationSource sourceFile="NLib.Web.Mvc\NLib.Web.Mvc.csproj" xmlns="" />
+      <DocumentationSource sourceFile="NLib.Web.Practices.Unity\NLib.Web.Practices.Unity.csproj" xmlns="" />
+    </DocumentationSources>
+    <CopyrightText>Cloudlucky</CopyrightText>
+    <FeedbackEMailAddress>kevin.martin%40cloudlucky.com</FeedbackEMailAddress>
+    <HelpTitle>NLib Documented Class Library</HelpTitle>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <SyntaxFilters>CSharp, VisualBasic</SyntaxFilters>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <PresentationStyle>VS2010</PresentationStyle>
+    <Preliminary>False</Preliminary>
+    <NamingMethod>Guid</NamingMethod>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+  </PropertyGroup>
+  <!-- Import the SHFB build targets -->
+  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+</Project>
