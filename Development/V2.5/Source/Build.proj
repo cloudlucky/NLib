@@ -99,11 +99,15 @@
     <HtmlHelp1Output>$(PackageFolder)\BinariesWithDoc</HtmlHelp1Output>
     <HtmlDocumentation>$(PackageFolder)\HtmlDocumentation</HtmlDocumentation>
     <HtmlDocumentationZipFile>$(OutputFolder)\$(ProjectPrefixName).HtmlDocumentation.zip</HtmlDocumentationZipFile>
-    <BinariesWithDocZipFile>$(OutputFolder)\NLibWithDoc.zip</BinariesWithDocZipFile>
-    <SourcesZipFile>$(OutputFolder)\NLibSources.zip</SourcesZipFile>
+    <BinariesWithDocZipFile>$(OutputFolder)\$(ProjectPrefixName)WithDoc.zip</BinariesWithDocZipFile>
+    <SourcesZipFile>$(OutputFolder)\$(ProjectPrefixName)Sources.zip</SourcesZipFile>
   </PropertyGroup>
 
-  <Import Project="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.tasks"/>
+  <UsingTask AssemblyFile="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo"/>
+  <UsingTask AssemblyFile="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Compression.DNZip"/>
+  <UsingTask AssemblyFile="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Xml.XmlFile"/>
+  <UsingTask AssemblyFile="$(ToolsFolder)\MsBuildExtensionPack\4.0\MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.Xml.XmlTask"/>
+  
   <Import Project="$(SourceFolder)\.nuget\nuget.targets" />
   <UsingTask AssemblyFile="$(xUnitFolder)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
   <UsingTask AssemblyFile="$(StyleCopFolder)\StyleCop.dll" TaskName="StyleCopTask"/>
@@ -263,12 +267,12 @@
     <MSBuild Projects="$(SHFBproj)" Properties="HelpFileFormat=HtmlHelp1;OutputPath=$(HtmlHelp1Output)" UseResultsCache="false"/>
 
     <ItemGroup>
-      <NLibDll Include="$(AllSolutionOutputInclude)"
+      <ProjectDll Include="$(AllSolutionOutputInclude)"
                Exclude="$(AllSolutionOutputExclude)"/>
       <Chm Include="$(HtmlHelp1Output)\*.chm"/>
     </ItemGroup>
 
-    <Copy SourceFiles="@(NLibDll);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
+    <Copy SourceFiles="@(ProjectDll);@(Chm)" DestinationFolder="$(BinariesWithDocFolder)"/>
     <MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="$(BinariesWithDocFolder)" ZipFileName="$(BinariesWithDocZipFile)"/>
   </Target>
 
