@@ -370,6 +370,7 @@
             return graphClone;
         }
 
+
         /// <summary>
         /// Returns a Boolean, indicating if a particular value exists within the graph.
         /// </summary>
@@ -836,6 +837,7 @@
         /// <c>true</c> if marker; otherwise, <c>false</c>.
         /// </value>
         public bool Marked { get; set; }
+        
     }
 
     /// <summary>
@@ -1082,4 +1084,5 @@
             this.Marked = false;
         }
     }
+
 }
