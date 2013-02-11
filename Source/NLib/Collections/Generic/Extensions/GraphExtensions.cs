@@ -9,6 +9,7 @@
     /// </summary>
     public static class GraphExtensions
     {
+       
         /// <summary>
         /// Find a path
         /// </summary>
@@ -62,12 +63,19 @@
         /// <param name="comparerValue">comparer Value..</param>
         /// <returns>path or null.</returns>
         [CLSCompliant(false)]
-        public static Stack<IGraphEdge<T, Number>> FindPath<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        public static Stack<IGraphEdge<T, Number>> FindPath<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue, bool ResidualGraph = false)
         {
             Check.Current.ArgumentNullException(graph, "graph")
                          .ArgumentNullException(start, "start")
                          .ArgumentNullException(terminated, "terminated")
                          .ArgumentNullException(comparerValue, "comparerValue");
+
+            if (!ResidualGraph)
+            {
+                graph = (Graph<T, Number>)graph.Clone();
+                start = graph.GetNode(start.Value);
+                terminated = graph.GetNode(terminated.Value);
+            }
 
             var markedEdge = new Stack<IGraphEdge<T, Number>>();
             var path = new Stack<IGraphEdge<T, Number>>();
@@ -76,6 +84,7 @@
             while (currentNode != null && comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
             {
                 var currentEdge = currentNode.Edges.FirstOrDefault(e => e.Marked != true && !(path.Contains(e) || markedEdge.Contains(e)));
+
                 if (currentEdge != null)
                 {
                     currentEdge.Marked = true;
@@ -91,6 +100,7 @@
                 {
                     currentNode = null;
                 }
+
             }
 
             if (currentNode == null || comparerValue.Compare(currentNode.Value, terminated.Value) != 0)
@@ -181,14 +191,25 @@
         /// <returns>The maximum flow.</returns>
         /// <exception cref = "ArgumentNullException">If graph , start or terminated is null.</exception>
         [CLSCompliant(false)]
-        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, IGraphNode<T, Number> start, IGraphNode<T, Number> terminated, IComparer<T> comparerValue)
+        public static Number FordFulkersonAlgorithm<T>(this IGraph<T, Number> graph, 
+                                                       IGraphNode<T, Number> start, 
+                                                       IGraphNode<T, Number> terminated, 
+                                                       IComparer<T> comparerValue,
+                                                       bool ResidualGraph = false)
         {
             Check.Current.ArgumentNullException(graph, "graph")
                          .ArgumentNullException(start, "start")
                          .ArgumentNullException(terminated, "terminated")
                          .ArgumentNullException(comparerValue, "comparerValue");
 
-            var path = FindPath(graph, start, terminated, comparerValue);
+            if (!ResidualGraph)
+            {
+                graph = (Graph<T, Number>)graph.Clone();
+                start = graph.GetNode(start.Value);
+                terminated = graph.GetNode(terminated.Value);
+            }
+
+            var path = FindPath(graph, start, terminated, comparerValue, true);
             Number flowMax = 0;
 
             while (path.Count > 0)
@@ -199,6 +220,7 @@
 
                 foreach (var edge in path)
                 {
+
                     edge.Value -= bottleneck;
                     var edgeReversed = graph.GetEdge(edge.To.Value, edge.From.Value);
 
@@ -215,14 +237,15 @@
                     {
                         graph.RemoveEdge(edge);
                     }
+
                 }
 
-                path = FindPath(graph, start, terminated, comparerValue);
+                path = FindPath(graph, start, terminated, comparerValue, true);
             }
 
             return flowMax;
         }
-
+        
         /// <summary>
         /// Given a digraph with nonnegative weights on its edges and vertices Start, 
         /// find a shortest path from Start.
@@ -287,8 +310,10 @@
         /// <param name="previous">Previous visited node.</param>
         /// <param name="comparerValue">comparer Value.</param>
         /// <exception cref = "ArgumentNullException">If graph , start, distance, previous or comparerValue is null.</exception>
+        /// 
         private static void Djkstra<T>(IGraph<T, Number> graph, IGraphNode<T, Number> start, IDictionary<T, Number> distance, IDictionary<T, T> previous, IComparer<T> comparerValue)
         {
+
             Check.Current.ArgumentNullException(graph, "graph")
                          .ArgumentNullException(start, "start")
                          .ArgumentNullException(distance, "distance")
@@ -324,7 +349,12 @@
                         minValue = distance[node.Value];
                     }
                 }
+
             }
+
         }
+
+
+
     }
 }
