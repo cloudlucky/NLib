@@ -106,10 +106,10 @@
         /// Initializes a new instance of the <see cref="Graph{T, TCost}" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
-        public Graph(EqualityComparison<T> comparer)
-            : this(null, comparer)
-        {
-        }
+       /// public Graph(EqualityComparison<T> comparer)
+       ///     : this(null, comparer)
+       /// {
+       /// }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Graph{T, TCost}" /> class.
@@ -133,12 +133,12 @@
         /// <exception cref="ArgumentNullException"><paramref name="comparison" /> is null.</exception>
         protected internal Graph(IEnumerable<T> collection, EqualityComparison<T> comparison)
         {
-            this.equalityComparison = comparison ?? EqualityComparer<T>.Default.Equals;
-            this.equalityComparer = comparison != null ? comparison.ToEqualityComparer() : EqualityComparer<T>.Default;
+           this.equalityComparison = comparison ?? EqualityComparer<T>.Default.Equals;
+           this.equalityComparer = comparison != null ? comparison.ToEqualityComparer() : EqualityComparer<T>.Default;
 
-            this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
-            this.AddRange(collection);
-        }
+           this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
+           this.AddRange(collection);
+         }
 
         /// <summary>
         /// Gets the number of nodes
@@ -538,6 +538,19 @@
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}" />.
         /// </summary>
+        /// <param name="IGraphNode">The object to remove from the <see cref="ICollection{T}" />.</param>
+        /// <returns>
+        /// true if <paramref name="item" /> was successfully removed from the <see cref="ICollection{T}" />; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the original <see cref="ICollection{T}" />.
+        /// </returns>
+        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}" /> is read-only.</exception>
+        public virtual bool RemoveNode(IGraphNode<T, TCost> node)
+        {
+            return this.Remove(node.Value);
+        }
+
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}" />.
+        /// </summary>
         /// <param name="edge">The object to remove from the <see cref="ICollection{T}" />.</param>
         /// <exception cref="NotSupportedException">The <see cref="ICollection{T}" /> is read-only.</exception>
         public virtual void RemoveDirectedEdge(IGraphEdge<T, TCost> edge)
@@ -663,8 +676,8 @@
         /// <summary>
         /// Graph node equality comparer
         /// </summary>
-        protected class GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
-        {
+       protected class GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
+       {
             /// <summary>
             /// The equality comparison.
             /// </summary>
@@ -683,10 +696,10 @@
             /// Initializes a new instance of the <see cref="Graph{T, TCost}.GraphNodeEqualityComparer" /> class.
             /// </summary>
             /// <param name="comparer">The comparer.</param>
-            public GraphNodeEqualityComparer(IEqualityComparer<T> comparer)
-            {
-                this.comparison = comparer.Equals;
-            }
+             public GraphNodeEqualityComparer(IEqualityComparer<T> comparer)
+             {
+                 this.comparison = comparer.Equals;
+             }
 
             /// <summary>
             /// Determines whether the specified objects are equal.
@@ -698,7 +711,7 @@
             /// </returns>
             public bool Equals(GraphNode<T, TCost> x, GraphNode<T, TCost> y)
             {
-                return this.comparison(x.Value, y.Value);
+               return this.comparison(x.Value, y.Value);
             }
 
             /// <summary>
@@ -736,17 +749,7 @@
         /// Initializes a new instance of the <see cref="Graph{T}" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
-        public Graph(IEqualityComparer<T> comparer)
-            : base(comparer)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T}" /> class.
-        /// </summary>
-        /// <param name="comparer">The comparer.</param>
-        public Graph(EqualityComparison<T> comparer)
-            : base(comparer)
+        public Graph(IEqualityComparer<T> comparer) : base(comparer)
         {
         }
 
@@ -755,8 +758,7 @@
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
-        public Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer)
-            : base(collection, comparer)
+        public Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer) : base(collection, comparer)
         {
         }
 
@@ -765,8 +767,7 @@
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
-        public Graph(IEnumerable<T> collection, EqualityComparison<T> comparer)
-            : base(collection, comparer)
+        public Graph(IEnumerable<T> collection, EqualityComparison<T> comparer) : base(collection, comparer)
         {
         }
     }
@@ -789,13 +790,6 @@
             this.Value = value;
             this.Edges = new List<IGraphEdge<T, TCost>>();
             this.Marked = false;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GraphNode{T, TCost}" /> class.
-        /// </summary>
-        protected GraphNode()
-        {
         }
 
         /// <summary>
@@ -1084,5 +1078,7 @@
             this.Marked = false;
         }
     }
+
+
 
 }
