@@ -103,6 +103,13 @@
         IGraphNode<T, TCost> GetNode(T item);
 
         /// <summary>
+        /// Remove node from GraphNode 
+        /// </summary>
+        /// <param name="node">The node to remove</param>
+        /// <returns>If a node is removed then return true.</returns>
+        bool RemoveNode(IGraphNode<T, TCost> node);
+
+        /// <summary>
         /// Remove an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
         /// </summary>
         /// <param name="edge">The direct edge that we must removed from the graph.</param>
@@ -127,6 +134,7 @@
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>A copy of your graph.</returns>
-        object Clone();         
+        object Clone();
+
     }
 }
