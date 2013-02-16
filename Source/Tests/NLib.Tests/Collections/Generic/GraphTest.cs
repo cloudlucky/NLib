@@ -34,7 +34,27 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [TestMethod, Timeout(2000)]
-        public void GraphNodeFactoryTest2()
+        public void GraphEdgeFactoryTest2()
+        {
+            var nodeA = new GraphNode<string, Number>("NodeA");
+            var nodeB = new GraphNode<string, Number>("NodeB");
+
+            var factory = GraphEdgeFactory.GetFactory("UndirectedEdgeFactory");
+            Assert.IsInstanceOfType(factory.Create(nodeA, nodeB), typeof(UndirectedEdge<string, Number>));
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void GraphEdgeFactoryTest3()
+        {
+            var nodeA = new GraphNode<string, Number>("NodeA");
+            var nodeB = new GraphNode<string, Number>("NodeB");
+
+            var factory = GraphEdgeFactory.GetFactory("DirectedEdgeFactory");
+            Assert.IsInstanceOfType(factory.Create(nodeA, nodeB), typeof(DirectedEdge<String,Number>));
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void GraphNodeFactoryTest1()
         {
             var node = GraphNodeFactory.GetFactory("GraphNodeDefaultFactory").Create<string, Number>("NodeName");
             Assert.AreEqual("NodeName", node.Value);
@@ -61,6 +81,21 @@ namespace NLib.Tests.Collections.Generic
 
             Assert.AreEqual(3, graph.GetNode("A").Neighbors.Count());
         
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void AddEdgeTest0a()
+        {
+            Assert.IsInstanceOfType(  new DirectedEdge<string, Number>(),
+                                     typeof(DirectedEdge<string, Number>) );    
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void AddEdgeTest0b()
+        { 
+            var to = new GraphNode<string,Number>("to");
+            var from = new GraphNode<string, Number>("from");
+            Assert.IsInstanceOfType( new DirectedEdge<string,Number>(to, from), typeof(DirectedEdge<string, Number>) );
         }
 
         [TestMethod, Timeout(2000)]
@@ -253,6 +288,28 @@ namespace NLib.Tests.Collections.Generic
             graph.RemoveEdge(edge);
 
             Assert.IsNull(graph.GetEdge("B", "A"));
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void RemoveTest1()
+        {
+            IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C"};
+            graph.AddDirectedEdge("A", "A");
+            graph.AddDirectedEdge("A", "B");
+            graph.AddDirectedEdge("A", "C");
+
+            graph.AddDirectedEdge("B", "B");
+            graph.AddDirectedEdge("B","C");
+            graph.AddDirectedEdge("B", "A");
+
+            graph.AddDirectedEdge("C", "C");
+            graph.AddDirectedEdge("C", "A");
+            graph.AddDirectedEdge("C", "B");
+
+            graph.Remove("B");
+
+            Assert.IsFalse(graph.Contains("B"));
+
         }
 
         [TestMethod, Timeout(2000)]
@@ -757,13 +814,11 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void RemoveNodeTest2()
         {
-           
            IGraph<string, Number> graph = new Graph<string, Number> { "A" };
            var node = graph.GetNode("A");
 
            Assert.IsTrue(graph.RemoveNode(node));
-           Assert.IsFalse(graph.RemoveNode(node));
-             
+           Assert.IsFalse(graph.RemoveNode(node));    
         }
 
     }

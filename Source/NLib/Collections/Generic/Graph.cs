@@ -519,7 +519,7 @@
                 return false;
             }
 
-            this.nodeSet.Remove(nodeToRemove);
+           
 
             foreach (var gnode in this.nodeSet)
             {
@@ -528,9 +528,12 @@
                 {
                     gnode.Edges.Remove(edge);
                 }
+
             }
 
             nodeToRemove.Edges.Clear();
+
+            this.nodeSet.Remove(nodeToRemove);
 
             return true;
         }
