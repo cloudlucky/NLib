@@ -275,6 +275,30 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [TestMethod, Timeout(2000)]
+        public void AddRangeTest1()
+        {
+            IGraph<string, Number> graph = new Graph<string, Number>();
+
+            var nodes = new List<string>();
+            nodes.Add("A");
+
+            graph.AddRange(nodes);
+            Assert.IsTrue(graph.Contains("A"));  
+        }
+
+        [TestMethod, Timeout(2000)]
+        public void clearTest1()
+        { 
+            IGraph<string, Number> graph = new Graph<string, Number>();
+            graph.Add("A");
+
+            graph.Clear();
+
+            Assert.IsFalse(graph.Contains("A"));
+        }
+
+
+        [TestMethod, Timeout(2000)]
         public void RemoveEdgeTest1()
         {
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
@@ -288,28 +312,6 @@ namespace NLib.Tests.Collections.Generic
             graph.RemoveEdge(edge);
 
             Assert.IsNull(graph.GetEdge("B", "A"));
-        }
-
-        [TestMethod, Timeout(2000)]
-        public void RemoveTest1()
-        {
-            IGraph<string, Number> graph = new Graph<string, Number> { "A", "B", "C"};
-            graph.AddDirectedEdge("A", "A");
-            graph.AddDirectedEdge("A", "B");
-            graph.AddDirectedEdge("A", "C");
-
-            graph.AddDirectedEdge("B", "B");
-            graph.AddDirectedEdge("B","C");
-            graph.AddDirectedEdge("B", "A");
-
-            graph.AddDirectedEdge("C", "C");
-            graph.AddDirectedEdge("C", "A");
-            graph.AddDirectedEdge("C", "B");
-
-            graph.Remove("B");
-
-            Assert.IsFalse(graph.Contains("B"));
-
         }
 
         [TestMethod, Timeout(2000)]
@@ -804,8 +806,10 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void RemoveNodeTest1()
         {
-           IGraph<string, Number> graph = new Graph<string, Number> { "A" };
+           IGraph<string, Number> graph = new Graph<string, Number> { "B","A" };
            var node = graph.GetNode("A");
+           graph.AddDirectedEdge("A", "B");
+           graph.AddDirectedEdge("B", "A");
 
            Assert.IsTrue( graph.Remove("A") );
            Assert.IsFalse( graph.Remove("A") );
@@ -814,11 +818,13 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void RemoveNodeTest2()
         {
-           IGraph<string, Number> graph = new Graph<string, Number> { "A" };
+           IGraph<string, Number> graph = new Graph<string, Number> { "B","A" };
            var node = graph.GetNode("A");
+           graph.AddDirectedEdge("A", "B");
+           graph.AddDirectedEdge("B", "A");
 
-           Assert.IsTrue(graph.RemoveNode(node));
-           Assert.IsFalse(graph.RemoveNode(node));    
+           Assert.IsTrue(graph.Remove(node));
+           Assert.IsFalse(graph.Remove(node));    
         }
 
     }
