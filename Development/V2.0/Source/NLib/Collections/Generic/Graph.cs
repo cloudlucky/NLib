@@ -260,20 +260,9 @@
         {
             this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
         }
-
-        /// <summary>
-        /// Add an edge in Graph
-        /// </summary>
-        /// <param name="edge">The edge.</param>
-        /// <param name="graph">The graph that is joined by the edge.</param>
-        public virtual void AddEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null)
-        {
-            var obj = graph ?? this;
-            obj.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, obj, new object[] { edge.From.Value, edge.To.Value, edge.Value });
-        }
         
         /// <summary>
-        /// Add the elements of the specified collection in the bag.
+        /// Add the elements of the specified collection in the graph.
         /// </summary>
         /// <param name="collection">The collection.</param>
         public virtual void AddRange(IEnumerable<T> collection)
@@ -400,10 +389,11 @@
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
+            /*
             Check.Current.ArgumentNullException(array, "array")
                          .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
                          .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
-
+            */
             if (this.Count > 0)
             {
                 this.ForEach(i => array[arrayIndex++] = i);
@@ -504,6 +494,17 @@
         }
 
         /// <summary>
+        /// Remove node from GraphNode 
+        /// </summary>
+        /// <param name="node">The node to remove</param>
+        /// <returns>If a node is removed then return true.</returns>
+        public virtual bool Remove(IGraphNode<T, TCost> node)
+        {
+           return this.Remove(node.Value);
+
+        }
+
+        /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}" />.
         /// </summary>
         /// <param name="item">The object to remove from the <see cref="ICollection{T}" />.</param>
@@ -519,7 +520,7 @@
                 return false;
             }
 
-           
+            this.nodeSet.Remove(nodeToRemove);
 
             foreach (var gnode in this.nodeSet)
             {
@@ -528,28 +529,13 @@
                 {
                     gnode.Edges.Remove(edge);
                 }
-
             }
 
             nodeToRemove.Edges.Clear();
 
-            this.nodeSet.Remove(nodeToRemove);
-
             return true;
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}" />.
-        /// </summary>
-        /// <param name="IGraphNode">The object to remove from the <see cref="ICollection{T}" />.</param>
-        /// <returns>
-        /// true if <paramref name="item" /> was successfully removed from the <see cref="ICollection{T}" />; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the original <see cref="ICollection{T}" />.
-        /// </returns>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}" /> is read-only.</exception>
-        public virtual bool RemoveNode(IGraphNode<T, TCost> node)
-        {
-            return this.Remove(node.Value);
-        }
 
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}" />.

@@ -51,7 +51,7 @@
         /// </summary>
         /// <param name="edge">The edge.</param>
         /// <param name="graph">The graph that is joined by the edge.</param>
-        void AddEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null);
+        /// void AddEdge(IGraphEdge<T, TCost> edge, IGraph<T, TCost> graph = null);
 
         /// <summary>
         /// Adds the elements of the specified collection in the bag.
@@ -103,11 +103,18 @@
         IGraphNode<T, TCost> GetNode(T item);
 
         /// <summary>
+        /// Remove node from GraphNode
+        /// </summary>
+        /// <param name="node">The value of the node to remove</param>
+        /// <returns> If a node is removed then return true</returns>
+        bool Remove(T item);
+
+        /// <summary>
         /// Remove node from GraphNode 
         /// </summary>
         /// <param name="node">The node to remove</param>
         /// <returns>If a node is removed then return true.</returns>
-        bool RemoveNode(IGraphNode<T, TCost> node);
+        bool Remove(IGraphNode<T, TCost> node);
 
         /// <summary>
         /// Remove an undirected edge from a GraphNode with one value (from) to a GraphNode with another value (to).
