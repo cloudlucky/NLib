@@ -50,7 +50,7 @@ namespace NLib.Tests.Collections.Generic
             var nodeB = new GraphNode<string, Number>("NodeB");
 
             var factory = GraphEdgeFactory.GetFactory("DirectedEdgeFactory");
-            Assert.IsInstanceOfType(factory.Create(nodeA, nodeB), typeof(DirectedEdge<String,Number>));
+            Assert.IsInstanceOfType(factory.Create(nodeA, nodeB), typeof(DirectedEdge<String, Number>));
         }
 
         [TestMethod, Timeout(2000)]
@@ -67,7 +67,7 @@ namespace NLib.Tests.Collections.Generic
 
             graph.Add("A");
 
-            Assert.AreSame("A",graph["A"].Value);
+            Assert.AreSame("A", graph["A"].Value);
         }
 
         [TestMethod, Timeout(2000)]
@@ -80,22 +80,22 @@ namespace NLib.Tests.Collections.Generic
             graph.AddDirectedEdge("A", "D", 0);
 
             Assert.AreEqual(3, graph.GetNode("A").Neighbors.Count());
-        
+
         }
 
         [TestMethod, Timeout(2000)]
         public void AddEdgeTest0a()
         {
-            Assert.IsInstanceOfType(  new DirectedEdge<string, Number>(),
-                                     typeof(DirectedEdge<string, Number>) );    
+            Assert.IsInstanceOfType(new DirectedEdge<string, Number>(),
+                                     typeof(DirectedEdge<string, Number>));
         }
 
         [TestMethod, Timeout(2000)]
         public void AddEdgeTest0b()
-        { 
-            var to = new GraphNode<string,Number>("to");
+        {
+            var to = new GraphNode<string, Number>("to");
             var from = new GraphNode<string, Number>("from");
-            Assert.IsInstanceOfType( new DirectedEdge<string,Number>(to, from), typeof(DirectedEdge<string, Number>) );
+            Assert.IsInstanceOfType(new DirectedEdge<string, Number>(to, from), typeof(DirectedEdge<string, Number>));
         }
 
         [TestMethod, Timeout(2000)]
@@ -104,7 +104,7 @@ namespace NLib.Tests.Collections.Generic
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
 
             graph.AddDirectedEdge("A", "B", 1);
-            
+
             Assert.AreEqual(1, graph["A", "B"]);
         }
 
@@ -146,7 +146,7 @@ namespace NLib.Tests.Collections.Generic
 
             graph.AddUndirectedEdge("FROM", "TO", value);
             graph.AddUndirectedEdge("TO", "FROM", value);
-            
+
             Assert.AreEqual(40, graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
         }
 
@@ -173,7 +173,7 @@ namespace NLib.Tests.Collections.Generic
 
             edge.Value = 20;
 
-            Assert.AreEqual(new Number(40), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value +  ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
+            Assert.AreEqual(new Number(40), ((UndirectedEdge<string, Number>)graph.GetEdge("TO", "FROM")).Value + ((UndirectedEdge<string, Number>)graph.GetEdge("FROM", "TO")).Value);
 
             edge.Value = 5;
 
@@ -187,7 +187,7 @@ namespace NLib.Tests.Collections.Generic
             IGraph<string, int> graph = new Graph<string, int> { "FROM", "TO" };
 
             graph.AddDirectedEdge("FROM", "TO", 1);
-            
+
             graph.AddUndirectedEdge("TO", "FROM", 2);
 
             Assert.Fail();
@@ -224,11 +224,11 @@ namespace NLib.Tests.Collections.Generic
         {
             IGraph<string, int> graph = new Graph<string, int> { "TO", "FROM" };
 
-            for (int value = 2; value < 1000; value++ )
+            for (int value = 2; value < 1000; value++)
                 graph.AddDirectedEdge("TO", "FROM", value);
 
             graph.AddDirectedEdge("TO", "FROM", 1);
-            
+
             Assert.AreEqual(1, graph.GetEdge("TO", "FROM").Value);
         }
 
@@ -242,10 +242,10 @@ namespace NLib.Tests.Collections.Generic
             graph["TO", "FROM"] = 10;
 
             Assert.AreEqual(new Number(20), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
-            
+
             graph["FROM", "TO"] = 1;
 
-            Assert.AreEqual(new Number(2), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value); 
+            Assert.AreEqual(new Number(2), graph.GetEdge("FROM", "TO").Value + graph.GetEdge("TO", "FROM").Value);
         }
 
         [TestMethod, Timeout(2000)]
@@ -260,9 +260,7 @@ namespace NLib.Tests.Collections.Generic
                     IGraph<string, int> graph = new Graph<string, int> { a, b };
 
                     graph.AddUndirectedEdge(a, b, 10);
-
                     Assert.IsNotNull(graph.GetEdge(a, b));
-
                     var edge = graph.GetEdge(b, a);
 
                     edge.Value = 20;
@@ -283,12 +281,12 @@ namespace NLib.Tests.Collections.Generic
             nodes.Add("A");
 
             graph.AddRange(nodes);
-            Assert.IsTrue(graph.Contains("A"));  
+            Assert.IsTrue(graph.Contains("A"));
         }
 
         [TestMethod, Timeout(2000)]
         public void clearTest1()
-        { 
+        {
             IGraph<string, Number> graph = new Graph<string, Number>();
             graph.Add("A");
 
@@ -304,11 +302,11 @@ namespace NLib.Tests.Collections.Generic
             IGraph<string, int> graph = new Graph<string, int> { "A", "B" };
 
             graph.AddUndirectedEdge("A", "B", 0);
-            
+
             var edge = graph.GetEdge("A", "B");
-            
+
             Assert.IsNotNull(edge);
-            
+
             graph.RemoveEdge(edge);
 
             Assert.IsNull(graph.GetEdge("B", "A"));
@@ -378,8 +376,8 @@ namespace NLib.Tests.Collections.Generic
             string strSequence = string.Empty;
 
             foreach (var node in graph.DepthFirstTraversal("A"))
-               strSequence = strSequence + node.Value;
-      
+                strSequence = strSequence + node.Value;
+
             Assert.AreEqual("ABCDEFGH", strSequence);
         }
 
@@ -427,7 +425,7 @@ namespace NLib.Tests.Collections.Generic
             string strSequence = string.Empty;
             foreach (var node in graph.BreathFirstTraversal("A"))
                 strSequence = strSequence + node.Value;
-            
+
             Assert.AreEqual("ABHGCFDE", strSequence);
         }
 
@@ -451,7 +449,7 @@ namespace NLib.Tests.Collections.Generic
             string strSequence = string.Empty;
             foreach (var node in graph.BreathFirstTraversal("A"))
                 strSequence = strSequence + node.Value;
-            
+
             Assert.AreEqual("ABHGCFDE", strSequence);
 
         }
@@ -460,7 +458,7 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest1()
         {
-            IGraph<long,Number> graph  = new Graph<long> { 1, 2, 3, 4, 5, 6 };
+            IGraph<long, Number> graph = new Graph<long> { 1, 2, 3, 4, 5, 6 };
 
             graph.AddDirectedEdge(1, 2, 8);
             graph.AddDirectedEdge(1, 3, 6);
@@ -481,7 +479,7 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void FordFulkersonAlgorithmTest2()
         {
-            IGraph<int,Number> graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
+            IGraph<int, Number> graph = new Graph<int> { 1, 2, 3, 4, 5, 6 };
             graph.AddDirectedEdge(1, 2, 8);
             graph.AddDirectedEdge(1, 3, 6);
             graph.AddDirectedEdge(2, 4, 4);
@@ -615,21 +613,21 @@ namespace NLib.Tests.Collections.Generic
             var flowMax = graph.FordFulkersonAlgorithm(start, terminated, Comparer<string>.Default, true);
 
             // The graph variable is a residual graph
-            Assert.AreEqual(50, graph.GetEdge("s", "a").Value); 
-            Assert.AreEqual(50,graph.GetEdge("a", "b").Value);
-           
-            Assert.AreEqual(30,graph.GetEdge("c", "d").Value);
-            Assert.AreEqual(30,graph.GetEdge("d", "f").Value);
-           
-            Assert.AreEqual(40,graph.GetEdge("e", "f").Value);
-            Assert.AreEqual(40,graph.GetEdge("f", "s").Value);
-            Assert.AreEqual(10,graph.GetEdge("g", "h").Value);
-            Assert.AreEqual(60,graph.GetEdge("b", "c").Value);
-            Assert.AreEqual(70,graph.GetEdge("b", "e").Value);
+            Assert.AreEqual(50, graph.GetEdge("s", "a").Value);
+            Assert.AreEqual(50, graph.GetEdge("a", "b").Value);
+
+            Assert.AreEqual(30, graph.GetEdge("c", "d").Value);
+            Assert.AreEqual(30, graph.GetEdge("d", "f").Value);
+
+            Assert.AreEqual(40, graph.GetEdge("e", "f").Value);
+            Assert.AreEqual(40, graph.GetEdge("f", "s").Value);
+            Assert.AreEqual(10, graph.GetEdge("g", "h").Value);
+            Assert.AreEqual(60, graph.GetEdge("b", "c").Value);
+            Assert.AreEqual(70, graph.GetEdge("b", "e").Value);
             Assert.AreEqual(30, graph.GetEdge("i", "t").Value);
             Assert.AreEqual(null, graph.GetEdge("b", "g"));
-            Assert.AreEqual(null, graph.GetEdge("h", "i"));    
-            
+            Assert.AreEqual(null, graph.GetEdge("h", "i"));
+
             Assert.AreEqual(new Number(50), flowMax);
         }
 
@@ -646,7 +644,7 @@ namespace NLib.Tests.Collections.Generic
             var str = path.Peek().To.Value + path.Peek().From.Value;
             path.Pop();
             str = str + path.Peek().To.Value + path.Peek().From.Value;
-            Assert.AreEqual("taas",str); 
+            Assert.AreEqual("taas", str);
         }
 
         [TestMethod, Timeout(2000)]
@@ -670,17 +668,17 @@ namespace NLib.Tests.Collections.Generic
             graph.GetNode("t").Marked = true;
 
             var path = graph.FindPath(graph.GetNode("s"), graph.GetNode("t"), Comparer<string>.Default, false);
-            var str = path.Peek().To.Value + path.Peek().From.Value;           
+            var str = path.Peek().To.Value + path.Peek().From.Value;
             path.Pop();
             str = str + path.Peek().To.Value + path.Peek().From.Value;
             Assert.AreEqual("taas", str);
-            
+
             Assert.IsTrue
-           (((graph.GetEdge("s", "a").Marked && graph.GetEdge("a", "b").Marked) && 
-           (graph.GetEdge("b", "c").Marked &&  graph.GetEdge("a", "t").Marked)) &&
-           (((graph.GetNode("s").Marked && graph.GetNode("a").Marked) && 
-           (graph.GetNode("b").Marked && graph.GetNode("c").Marked)) &&
-           (graph.GetNode("t").Marked )));
+            (((graph.GetEdge("s", "a").Marked && graph.GetEdge("a", "b").Marked) &&
+            (graph.GetEdge("b", "c").Marked && graph.GetEdge("a", "t").Marked)) &&
+            (((graph.GetNode("s").Marked && graph.GetNode("a").Marked) &&
+            (graph.GetNode("b").Marked && graph.GetNode("c").Marked)) &&
+            (graph.GetNode("t").Marked)));
         }
 
         [TestMethod, Timeout(2000)]
@@ -764,37 +762,33 @@ namespace NLib.Tests.Collections.Generic
         }
 
         [TestMethod, Timeout(2000)]
-        public void CopyTo()
+        public void CopyTo1()
         {
-
-            var array = new[] {"s", "a", "b", "c", "t"};
-            
-            IGraph<string, Number> graph = new Graph<string, Number> {  };
+            var array = new[] { "s", "a", "b", "c", "t" };
+            IGraph<string, Number> graph = new Graph<string, Number> { };
             graph.AddRange(array);
-
             var output = new string[array.Length];
-            graph.CopyTo(output,0);
+            graph.CopyTo(output, 0);
 
             CollectionAssert.AreEqual(array.ToArray(), output);
-
         }
 
-        [TestMethod, Timeout(2000)]            
+        [TestMethod, Timeout(2000)]
         public void GraphTest1()
         {
-             var graph = new Graph<string, Number>(EqualityComparer<string>.Default);
-             Assert.IsNotNull(graph);
+            var graph = new Graph<string, Number>(EqualityComparer<string>.Default);
+            Assert.IsNotNull(graph);
         }
 
         [TestMethod, Timeout(2000)]
         public void GraphTest2()
         {
             var graph = new Graph<string, Number>();
-            Assert.IsNotNull(graph); 
+            Assert.IsNotNull(graph);
         }
 
         [TestMethod, Timeout(2000)]
-        public void GraphNodeEqualityComparerTest1()
+        public void GraphEqualityComparerTest1()
         {
             var nodeA = new GraphNode<string, Number>("NodeA");
             var nodeB = new GraphNode<string, Number>("NodeB");
@@ -806,26 +800,38 @@ namespace NLib.Tests.Collections.Generic
         [TestMethod, Timeout(2000)]
         public void RemoveNodeTest1()
         {
-           IGraph<string, Number> graph = new Graph<string, Number> { "B","A" };
-           var node = graph.GetNode("A");
-           graph.AddDirectedEdge("A", "B");
-           graph.AddDirectedEdge("B", "A");
+            IGraph<string, Number> graph = new Graph<string, Number> { "B", "A" };
+            var node = graph.GetNode("A");
+            graph.AddDirectedEdge("A", "B");
+            graph.AddDirectedEdge("B", "A");
 
-           Assert.IsTrue( graph.Remove("A") );
-           Assert.IsFalse( graph.Remove("A") );
+            Assert.IsTrue(graph.Remove("A"));
+            Assert.IsFalse(graph.Remove("A"));
         }
 
         [TestMethod, Timeout(2000)]
         public void RemoveNodeTest2()
         {
-           IGraph<string, Number> graph = new Graph<string, Number> { "B","A" };
-           var node = graph.GetNode("A");
-           graph.AddDirectedEdge("A", "B");
-           graph.AddDirectedEdge("B", "A");
+            IGraph<string, Number> graph = new Graph<string, Number> { "B", "A" };
+            var node = graph.GetNode("A");
+            graph.AddDirectedEdge("A", "B");
+            graph.AddDirectedEdge("B", "A");
 
-           Assert.IsTrue(graph.Remove(node));
-           Assert.IsFalse(graph.Remove(node));    
+            Assert.IsTrue(graph.Remove(node));
+            Assert.IsFalse(graph.Remove(node));
         }
 
+        [TestMethod, Timeout(2000)]
+        public void readOnlyTest1()
+        {
+            IGraph<string, Number> graph = new Graph<string, Number>();
+            Assert.IsFalse(graph.IsReadOnly);
+        }
+
+
+
+
     }
+
+
 }
