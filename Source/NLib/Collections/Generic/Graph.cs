@@ -68,13 +68,13 @@
     /// <typeparam name="T">The type of data stored in the graph's nodes.</typeparam>
     /// <typeparam name="TCost">The type of cost.</typeparam>
     [Serializable]
-    public class Graph<T, TCost> : IGraph<T, TCost>, ICloneable
+    public class Graph<T, TCost> : IGraph<T, TCost>, ICloneable, IEnumerable
     {
         /// <summary>
         /// The set of nodes in the graph
         /// </summary>
         private readonly HashSet<GraphNode<T, TCost>> nodeSet;
-        
+
         /// <summary>
         /// The equality comparer.
         /// </summary>
@@ -100,16 +100,8 @@
         public Graph(IEqualityComparer<T> comparer)
             : this(null, comparer)
         {
-        }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T, TCost}" /> class.
-        /// </summary>
-        /// <param name="comparer">The comparer.</param>
-       /// public Graph(EqualityComparison<T> comparer)
-       ///     : this(null, comparer)
-       /// {
-       /// }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Graph{T, TCost}" /> class.
@@ -124,21 +116,6 @@
             this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
             this.AddRange(collection);
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T, TCost}" /> class.
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="comparison">The comparer</param>
-        /// <exception cref="ArgumentNullException"><paramref name="comparison" /> is null.</exception>
-        protected internal Graph(IEnumerable<T> collection, EqualityComparison<T> comparison)
-        {
-           this.equalityComparison = comparison ?? EqualityComparer<T>.Default.Equals;
-           this.equalityComparer = comparison != null ? comparison.ToEqualityComparer() : EqualityComparer<T>.Default;
-
-           this.nodeSet = new HashSet<GraphNode<T, TCost>>(new GraphNodeEqualityComparer(this.equalityComparison));
-           this.AddRange(collection);
-         }
 
         /// <summary>
         /// Gets the number of nodes
@@ -179,14 +156,7 @@
         {
             get
             {
-                var edge = this.GetEdge(from, to);
-
-                if (edge == null)
-                {
-                    throw new Exception();
-                }
-
-                return edge.Value;
+                return this.GetEdge(from, to).Value;
             }
 
             set
@@ -194,14 +164,6 @@
                 var edge = this.GetEdge(from, to);
                 edge.Value = value;
             }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IEqualityComparer{T}" /> object that is used to determine equality for the values in the set.
-        /// </summary>
-        protected IEqualityComparer<T> Comparer
-        {
-            get { return this.equalityComparer; }
         }
 
         /// <summary>
@@ -237,8 +199,11 @@
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return (IEnumerator)this.GetEnumerator();
         }
+
+
+
 
         /// <summary>
         /// Adds a new value to the graph.
@@ -260,7 +225,7 @@
         {
             this.AddDirectedEdge(this.GetNodeByItem(from), this.GetNodeByItem(to), cost);
         }
-        
+
         /// <summary>
         /// Add the elements of the specified collection in the graph.
         /// </summary>
@@ -343,20 +308,20 @@
         /// </returns>
         public virtual object Clone()
         {
-            var graphClone = new Graph<T, TCost>();
+            var clone = new Graph<T, TCost>();
 
             foreach (var nodeClone in this.nodeSet.Select(node => new GraphNode<T, TCost>(node.Value) { Marked = node.Marked }))
             {
-                graphClone.Add(nodeClone);
+                clone.Add(nodeClone);
             }
 
             foreach (var edge in this.nodeSet.SelectMany(node => node.Edges))
             {
-                graphClone.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, graphClone, new object[] { edge.From.Value, edge.To.Value, edge.Value });
-                graphClone.GetEdge(edge.From, edge.To).Marked = edge.Marked;
+                clone.GetType().InvokeMember("Add" + edge.GetType().Name.Trim('`', '2'), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, null, clone, new object[] { edge.From.Value, edge.To.Value, edge.Value });
+                clone.GetEdge(edge.From, edge.To).Marked = edge.Marked;
             }
 
-            return graphClone;
+            return clone;
         }
 
 
@@ -388,12 +353,7 @@
         /// Type <paramref name="array" /> cannot be cast automatically to the type of the destination <paramref name="array" />.
         /// </exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
-        {
-            /*
-            Check.Current.ArgumentNullException(array, "array")
-                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
-                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
-            */
+        {  
             if (this.Count > 0)
             {
                 this.ForEach(i => array[arrayIndex++] = i);
@@ -500,8 +460,7 @@
         /// <returns>If a node is removed then return true.</returns>
         public virtual bool Remove(IGraphNode<T, TCost> node)
         {
-           return this.Remove(node.Value);
-
+            return this.Remove(node.Value);
         }
 
         /// <summary>
@@ -514,6 +473,7 @@
         /// <exception cref="NotSupportedException">The <see cref="ICollection{T}" /> is read-only.</exception>
         public virtual bool Remove(T item)
         {
+            Check.Current.ArgumentNullException(item, "Require argument 'item'");
             var nodeToRemove = this.GetNodeByItem(item);
             if (nodeToRemove == null)
             {
@@ -583,6 +543,7 @@
         /// <returns>The node; otherwise null.</returns>
         protected internal GraphNode<T, TCost> GetNodeByItem(T item)
         {
+            Check.Current.ArgumentNullException(item, "Require argument 'item'");
             return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
         }
 
@@ -592,7 +553,7 @@
         /// <param name="item">The GraphNode instance to add.</param>
         protected void Add(GraphNode<T, TCost> item)
         {
-            Check.Current.ArgumentNullException(item, "item");
+            Check.Current.ArgumentNullException(item, "Require argument 'item'");
             if (!this.Contains(item.Value))
             {
                 this.nodeSet.Add(item);
@@ -665,8 +626,8 @@
         /// <summary>
         /// Graph node equality comparer
         /// </summary>
-       protected class GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
-       {
+        protected class GraphNodeEqualityComparer : IEqualityComparer<GraphNode<T, TCost>>
+        {
             /// <summary>
             /// The equality comparison.
             /// </summary>
@@ -678,17 +639,9 @@
             /// <param name="comparison">The comparison.</param>
             public GraphNodeEqualityComparer(EqualityComparison<T> comparison)
             {
+                Check.Current.ArgumentNullException(comparison, "Require argument 'compararison'");
                 this.comparison = comparison;
             }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Graph{T, TCost}.GraphNodeEqualityComparer" /> class.
-            /// </summary>
-            /// <param name="comparer">The comparer.</param>
-             public GraphNodeEqualityComparer(IEqualityComparer<T> comparer)
-             {
-                 this.comparison = comparer.Equals;
-             }
 
             /// <summary>
             /// Determines whether the specified objects are equal.
@@ -700,7 +653,9 @@
             /// </returns>
             public bool Equals(GraphNode<T, TCost> x, GraphNode<T, TCost> y)
             {
-               return this.comparison(x.Value, y.Value);
+                Check.Current.ArgumentNullException(x, "Require argument 'x' ")
+                             .ArgumentNullException(y, "Require argument 'y'");
+                return this.comparison(x.Value, y.Value);
             }
 
             /// <summary>
@@ -713,7 +668,7 @@
             /// <exception cref="ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
             public int GetHashCode(GraphNode<T, TCost> obj)
             {
-                Check.Current.ArgumentNullException(obj, "obj");
+                Check.Current.ArgumentNullException(obj, "Require argument 'obj'");
                 return obj.Value.GetHashCode();
             }
         }
@@ -733,32 +688,6 @@
         public Graph()
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T}" /> class.
-        /// </summary>
-        /// <param name="comparer">The comparer.</param>
-        public Graph(IEqualityComparer<T> comparer) : base(comparer)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T}" /> class.
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="comparer">The comparer.</param>
-        public Graph(IEnumerable<T> collection, IEqualityComparer<T> comparer) : base(collection, comparer)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Graph{T}" /> class.
-        /// </summary>
-        /// <param name="collection">The collection.</param>
-        /// <param name="comparer">The comparer.</param>
-        public Graph(IEnumerable<T> collection, EqualityComparison<T> comparer) : base(collection, comparer)
-        {
-        }
     }
 
     /// <summary>
@@ -776,6 +705,7 @@
         /// <param name="value">The value.</param>
         public GraphNode(T value)
         {
+            Check.Current.ArgumentNullException(value, "Require argument 'value'");
             this.Value = value;
             this.Edges = new List<IGraphEdge<T, TCost>>();
             this.Marked = false;
@@ -820,7 +750,7 @@
         /// <c>true</c> if marker; otherwise, <c>false</c>.
         /// </value>
         public bool Marked { get; set; }
-        
+
     }
 
     /// <summary>
@@ -848,6 +778,10 @@
         /// <param name="value">The value of the value.</param>
         public GraphEdge(IGraphNode<T, TCost> from, IGraphNode<T, TCost> to, TCost value)
         {
+            Check.Current.ArgumentNullException(from, "Require argument 'from'")
+                         .ArgumentNullException(to, "Require argument 'to'")
+                         .ArgumentNullException(value, "Require argument 'value'");
+
             this.From = from;
             this.To = to;
             this.Value = value;
@@ -910,8 +844,8 @@
     {
         public static GraphEdgeFactory GetFactory(string typeName)
         {
+            Check.Current.ArgumentNullException(typeName, "Require argument 'typeName'");
             Type type = Type.GetType("NLib.Collections.Generic." + typeName);
-
             return (GraphEdgeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
         }
 
@@ -941,6 +875,7 @@
         {
             return (new UndirectedEdge<T, TCost>(from, to, value));
         }
+
     }
 
     /// <summary>
@@ -1021,6 +956,7 @@
         public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to)
             : base(from, to)
         {
+             
         }
 
         public DirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost value)
@@ -1038,6 +974,7 @@
     {
         public static GraphNodeFactory GetFactory(string typeName)
         {
+            Check.Current.ArgumentNullException(typeName, "Require argument 'typeName'");
             Type type = Type.GetType("NLib.Collections.Generic." + typeName);
             return (GraphNodeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
         }
