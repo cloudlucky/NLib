@@ -473,7 +473,7 @@
         /// <exception cref="NotSupportedException">The <see cref="ICollection{T}" /> is read-only.</exception>
         public virtual bool Remove(T item)
         {
-            Check.Current.ArgumentNullException(item, "Require argument 'item'");
+            Check.Current.ArgumentNullException(item, GraphResource.itemArgumentException);
             var nodeToRemove = this.GetNodeByItem(item);
             if (nodeToRemove == null)
             {
@@ -543,7 +543,7 @@
         /// <returns>The node; otherwise null.</returns>
         protected internal GraphNode<T, TCost> GetNodeByItem(T item)
         {
-            Check.Current.ArgumentNullException(item, "Require argument 'item'");
+            Check.Current.ArgumentNullException(item, GraphResource.itemArgumentException);
             return this.nodeSet.FirstOrDefault(x => this.equalityComparison(x.Value, item));
         }
 
@@ -553,7 +553,7 @@
         /// <param name="item">The GraphNode instance to add.</param>
         protected void Add(GraphNode<T, TCost> item)
         {
-            Check.Current.ArgumentNullException(item, "Require argument 'item'");
+            Check.Current.ArgumentNullException(item, GraphResource.itemArgumentException);
             if (!this.Contains(item.Value))
             {
                 this.nodeSet.Add(item);
@@ -570,14 +570,14 @@
         /// <param name="marked">The value is true for a marked edge.</param>
         private void AddDirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
         {
-            Check.Current.ArgumentNullException(from, "Require argument 'from' ")
-                         .ArgumentNullException(to, "Require argument 'to' ");
+            Check.Current.ArgumentNullException(from, GraphResource.fromArgumentException)
+                         .ArgumentNullException(to, GraphResource.toArgumentException);
 
             var edge = this.GetEdge(from, to);
 
             if (edge != null)
             {
-                Check.Current.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", "It is not an undirected edge.");
+                Check.Current.ArgumentException(edge.GetType().Name.Contains("DirectedEdge"), "edge", GraphResource.directedEdgeException);
                 edge.Value = cost;
                 edge.Marked = marked;
             }
@@ -599,14 +599,14 @@
         /// <param name="marked">The value is true for a marked edge</param>
         private void AddUndirectedEdge(GraphNode<T, TCost> from, GraphNode<T, TCost> to, TCost cost, bool marked = false)
         {
-            Check.Current.ArgumentNullException(from, "Require argument 'from' ")
-                         .ArgumentNullException(to, "Require argument 'to' ");
+            Check.Current.ArgumentNullException(from, GraphResource.fromArgumentException)
+                         .ArgumentNullException(to, GraphResource.toArgumentException);
 
             var edge = this.GetEdge(from, to) ?? this.GetEdge(to, from);
 
             if (edge != null)
             {
-                Check.Current.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", "It is not an undirected edge.");
+                Check.Current.ArgumentException(edge.GetType().Name.Contains("UndirectedEdge"), "edge", GraphResource.unDirectedEdgeException);
                 edge.Value = cost;
                 edge.Marked = marked;
             }
@@ -639,7 +639,7 @@
             /// <param name="comparison">The comparison.</param>
             public GraphNodeEqualityComparer(EqualityComparison<T> comparison)
             {
-                Check.Current.ArgumentNullException(comparison, "Require argument 'compararison'");
+                Check.Current.ArgumentNullException(comparison, GraphResource.comparaisonException);
                 this.comparison = comparison;
             }
 
@@ -653,8 +653,8 @@
             /// </returns>
             public bool Equals(GraphNode<T, TCost> x, GraphNode<T, TCost> y)
             {
-                Check.Current.ArgumentNullException(x, "Require argument 'x' ")
-                             .ArgumentNullException(y, "Require argument 'y'");
+                Check.Current.ArgumentNullException(x, GraphResource.equalsLeftArgumentException)
+                             .ArgumentNullException(y, GraphResource.equalsRightArgumentException);
                 return this.comparison(x.Value, y.Value);
             }
 
@@ -668,7 +668,7 @@
             /// <exception cref="ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
             public int GetHashCode(GraphNode<T, TCost> obj)
             {
-                Check.Current.ArgumentNullException(obj, "Require argument 'obj'");
+                Check.Current.ArgumentNullException(obj, GraphResource.GraphNodeArgumentException);
                 return obj.Value.GetHashCode();
             }
         }
@@ -705,7 +705,7 @@
         /// <param name="value">The value.</param>
         public GraphNode(T value)
         {
-            Check.Current.ArgumentNullException(value, "Require argument 'value'");
+            Check.Current.ArgumentNullException(value, GraphResource.GraphNodeValueException);
             this.Value = value;
             this.Edges = new List<IGraphEdge<T, TCost>>();
             this.Marked = false;
@@ -778,9 +778,9 @@
         /// <param name="value">The value of the value.</param>
         public GraphEdge(IGraphNode<T, TCost> from, IGraphNode<T, TCost> to, TCost value)
         {
-            Check.Current.ArgumentNullException(from, "Require argument 'from'")
-                         .ArgumentNullException(to, "Require argument 'to'")
-                         .ArgumentNullException(value, "Require argument 'value'");
+            Check.Current.ArgumentNullException(from, GraphResource.fromArgumentException)
+                         .ArgumentNullException(to, GraphResource.toArgumentException)
+                         .ArgumentNullException(value, GraphResource.GraphNodeValueException);
 
             this.From = from;
             this.To = to;
@@ -844,7 +844,7 @@
     {
         public static GraphEdgeFactory GetFactory(string typeName)
         {
-            Check.Current.ArgumentNullException(typeName, "Require argument 'typeName'");
+            Check.Current.ArgumentNullException(typeName, GraphResource.GraphFactoryException);
             Type type = Type.GetType("NLib.Collections.Generic." + typeName);
             return (GraphEdgeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
         }
@@ -974,7 +974,7 @@
     {
         public static GraphNodeFactory GetFactory(string typeName)
         {
-            Check.Current.ArgumentNullException(typeName, "Require argument 'typeName'");
+            Check.Current.ArgumentNullException(typeName, GraphResource.GraphFactoryException);
             Type type = Type.GetType("NLib.Collections.Generic." + typeName);
             return (GraphNodeFactory)type.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
         }

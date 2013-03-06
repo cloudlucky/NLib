@@ -97,6 +97,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GeneratorResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Collections\Generic\Resources\GraphResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GraphResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Collections\Generic\SortedBag.cs" />
     <Compile Include="Collections\Generic\IRedBlackTreeNode.cs" />
     <Compile Include="EqualityComparison.cs" />
@@ -167,6 +172,10 @@
     <EmbeddedResource Include="Collections\Generic\Resources\GeneratorResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneratorResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Collections\Generic\Resources\GraphResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GraphResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Patterns\Resources\SimpleCommandResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
