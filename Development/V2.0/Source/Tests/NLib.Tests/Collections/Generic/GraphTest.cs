@@ -828,10 +828,6 @@ namespace NLib.Tests.Collections.Generic
             Assert.IsFalse(graph.IsReadOnly);
         }
 
-
-
-
     }
-
 
 }
