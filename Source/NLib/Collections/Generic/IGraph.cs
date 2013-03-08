@@ -107,7 +107,7 @@
         /// </summary>
         /// <param name="node">The value of the node to remove</param>
         /// <returns> If a node is removed then return true</returns>
-        bool Remove(T item);
+        new bool Remove(T item);
 
         /// <summary>
         /// Remove node from GraphNode 

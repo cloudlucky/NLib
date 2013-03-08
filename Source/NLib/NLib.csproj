@@ -50,6 +50,7 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -85,6 +86,7 @@
     <Compile Include="Collections\Generic\IGraph.cs" />
     <Compile Include="Collections\Generic\INode.cs" />
     <Compile Include="Collections\Generic\IRedBlackTree.cs" />
+    <Compile Include="Collections\Generic\Matrix.cs" />
     <Compile Include="Collections\Generic\RedBlackTree.cs" />
     <Compile Include="Collections\Generic\RedBlackTreeNode.cs" />
     <Compile Include="Collections\Generic\Resources\CollectionResource.Designer.cs">
@@ -198,7 +200,9 @@
       <LastGenOutput>RationalNumberResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

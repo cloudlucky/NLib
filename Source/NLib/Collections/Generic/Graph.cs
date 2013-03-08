@@ -474,7 +474,9 @@
         public virtual bool Remove(T item)
         {
             Check.Current.ArgumentNullException(item, GraphResource.itemArgumentException);
+
             var nodeToRemove = this.GetNodeByItem(item);
+
             if (nodeToRemove == null)
             {
                 return false;
