@@ -1,55 +1,90 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Matrix.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NLib.Collections.Generic
 {
-    using System;
-
-    // http://en.wikipedia.org/wiki/Matrix_(mathematics)
-    public class Matrix<T>
+    public class Matrix2D
     {
-        private readonly int columns;
-        private readonly T[,] matrix;
-        private readonly int rows;
+        /// <summary>
+        /// Number of rows of the matrix
+        /// </summary>
+        public int NumberOfRows;
 
-        public Matrix(int rows, int columns)
-        {
-            this.rows = rows;
-            this.columns = columns;
-            this.matrix = new T[rows, columns];
-        }
+        /// <summary>
+        /// Number of columns of the matrix
+        /// </summary>
+        public int NumberOfColumns;
 
-        public int Columns
-        {
-            get { return this.columns; }
-        }
 
-        public int Rows
-        {
-            get { return this.rows; }
-        }
+        /// <summary>
+        /// Array
+        /// </summary>
+        private Number[,] matrix2D;
 
-        public T this[int i, int j]
+        /// <summary>
+        /// Create a new <paramref name="rows"/> by <paramref name="columns"/> matrix
+        /// </summary>
+        /// <param name="rows">The number of rows</param>
+        /// <param name="columns">The number of columns</param>
+        public Matrix2D(int rows, int columns)
         {
-            get { return this.matrix[i, j]; }
-            set { this.matrix[i, j] = value; }
-        }
+            NumberOfRows = rows;
+            NumberOfColumns = columns;
 
-        public static Matrix<T> operator +(Matrix<T> m1, Matrix<T> m2)
-        {
-            if (m1.Rows != m2.Rows || m1.Columns != m2.Columns)
+            matrix2D = new Number[rows, columns];
+
+            for (int j = 0; j < NumberOfColumns; j++)
             {
-                // TODO throw better exception
-                throw new Exception();
+                for (int i = 0; i < NumberOfRows; i++)
+                {
+                    this[i, j] = 0;
+                }
             }
-
-            var m = new Matrix<T>()
         }
+
+        /// <summary>
+        /// Sum of <paramref name="matrix2DLeft"/> and <paramref name="matrix2DRight"/>
+        /// </summary>
+        /// <param name="matrix2DLeft"></param>
+        /// <param name="matrix2DRight"></param>
+        /// <returns>The matrix</returns>
+        public static Matrix2D operator + ( Matrix2D matrix2DLeft, Matrix2D matrix2DRight )
+        {
+            Matrix2D matrix = new Matrix2D(matrix2DLeft.NumberOfRows, matrix2DLeft.NumberOfColumns);
+
+            for (int j = 0; j < matrix2DLeft.NumberOfColumns; j++)
+            {
+               for (int i = 0; i < matrix2DLeft.NumberOfRows; i++)
+               {
+                   matrix[i, j] = matrix2DLeft[i, j] + matrix2DRight[i, j];
+               }
+           }
+          
+           return matrix;
+        }
+     
+        /// <summary>
+        /// 
+        /// <summary>
+        /// Gets the number with the specified item.
+        /// </summary>
+        /// <param name="rows">rows</param>
+        /// <param name="columns">columns</param>
+        /// <returns>The Number if found; otherwise null.</returns>
+        public Number this[int rows, int columns]
+        {
+            get
+            {
+                return this.matrix2D[rows, columns]; 
+            }
+            set 
+            {
+                this.matrix2D[rows, columns] = value;
+            }
+        }
+        
     }
 }
