@@ -12,11 +12,17 @@
     class MatrixTest
     {
         [TestMethod, Timeout(2000)]
-        public void SumTest()
+        public void matrixTest()
         {
-            var matrix = new Matrix2D(0,0);  
-
+            Assert.IsInstanceOfType(new Matrix2D(0, 0), typeof(Matrix2D));
         }
+
+        [TestMethod, Timeout(2000)]
+        public static void SumTest()
+        {
+            Assert.AreEqual(new Matrix2D(2, 2) + new Matrix2D(2, 2), new Matrix2D(2, 2));   
+        }
+
 
     }
 }
