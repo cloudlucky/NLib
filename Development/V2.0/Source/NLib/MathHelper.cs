@@ -1,8 +1,6 @@
 ﻿namespace NLib
 {
     using System;
-    using Microsoft.Xna.Framework.Graphics;
-    
     using NLib.Resources;
 
     /// <summary>
