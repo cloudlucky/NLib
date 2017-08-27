@@ -1,8 +1,8 @@
-﻿namespace NLib.Text.Extensions
-{
-    using System;
-    using System.Text;
+﻿using System;
+using System.Text;
 
+namespace NLib.Text.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="StringBuilder"/>.
     /// </summary>
@@ -17,7 +17,7 @@
         /// <exception cref="ArgumentNullException">The <paramref name="sb"/> parameter is null.</exception>
         public static void AppendLineFormat(this StringBuilder sb, string format, params object[] args)
         {
-            Check.Current.ArgumentNullException(sb, "sb");
+            Check.Current.ArgumentNullException(sb, nameof(sb));
 
             sb.AppendFormat(null, format, args);
             sb.AppendLine();
@@ -33,7 +33,7 @@
         /// <exception cref="ArgumentNullException">The <paramref name="sb" /> parameter is null.</exception>
         public static void AppendLineFormat(this StringBuilder sb, IFormatProvider provider, string format, params object[] args)
         {
-            Check.Current.ArgumentNullException(sb, "sb");
+            Check.Current.ArgumentNullException(sb, nameof(sb));
 
             sb.AppendFormat(provider, format, args);
             sb.AppendLine();

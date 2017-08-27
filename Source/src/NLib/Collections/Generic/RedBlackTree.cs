@@ -1,14 +1,15 @@
-﻿namespace NLib.Collections.Generic
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+using NLib.Collections.Generic.Extensions;
+using NLib.Collections.Generic.Resources;
+
+namespace NLib.Collections.Generic
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
-    using NLib.Collections.Generic.Extensions;
-    using NLib.Collections.Generic.Resources;
-
+    /// <inheritdoc />
     /// <summary>
     /// Represents a strongly typed tree of objects. 
     /// Provides methods to search and manipulate the tree.
@@ -21,26 +22,18 @@
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public class RedBlackTree<T> : IRedBlackTree<T>
     {
+        /// <inheritdoc />
         /// <summary>
-        /// The comparison.
-        /// </summary>
-        private readonly Comparison<T> currentComparer;
-
-        /// <summary>
-        /// Indicates whether allow duplicates is enabled or not.
-        /// </summary>
-        private readonly bool allowDuplicates;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         public RedBlackTree()
             : this(Comparer<T>.Default)
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
         public RedBlackTree(bool allowDuplicates)
@@ -48,8 +41,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         public RedBlackTree(IEnumerable<T> collection)
@@ -57,8 +51,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -67,8 +62,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public RedBlackTree(IComparer<T> comparer)
@@ -76,8 +72,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -86,8 +83,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public RedBlackTree(Comparison<T> comparer)
@@ -95,8 +93,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -105,8 +104,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -115,8 +115,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -126,8 +127,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -136,8 +138,9 @@
         {
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -159,46 +162,24 @@
         {
             Check.Current.Requires<ArgumentNullException>(comparer != null || comparison != null, CollectionResource.Initialize_ArgumentNullException_ComparerAndComparison);
 
-            this.currentComparer = comparison ?? comparer.Compare;
-            this.allowDuplicates = allowDuplicates;
+            this.Comparer = comparison ?? comparer.Compare;
+            this.AllowDuplicates = allowDuplicates;
             this.AddRange(collection);
         }
 
-        /// <summary>
-        /// Gets a value indicating whether allow duplicates is enabled or not.
-        /// </summary>
-        /// <value>
-        /// If true, the tree will add duplicates; otherwise the duplicates won't be added.
-        /// </value>
-        public virtual bool AllowDuplicates
-        {
-            get { return this.allowDuplicates; }
-        }
+        /// <inheritdoc />
+        public virtual bool AllowDuplicates { get; }
 
-        /// <summary>
-        /// Gets or sets the number of elements contained in the <see cref="ICollection{T}"/>.
-        /// </summary>
+        /// <inheritdoc />
         public virtual int Count { get; protected set; }
 
-        /// <summary>
-        /// Gets the root.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTree<T>.RootNode
-        {
-            get { return this.RootNode; }
-        }
+        /// <inheritdoc />
+        IBinaryTreeNode<T> IBinaryTree<T>.RootNode => this.RootNode;
 
-        /// <summary>
-        /// Gets the root.
-        /// </summary>
-        public virtual IRedBlackTreeNode<T> RootNode
-        {
-            get { return this.Root; }
-        }
+        /// <inheritdoc />
+        public virtual IRedBlackTreeNode<T> RootNode => this.Root;
 
-        /// <summary>
-        /// Gets the maximum value of the <see cref="ICollection{T}"/>.
-        /// </summary>
+        /// <inheritdoc />
         public virtual T MaxValue
         {
             get
@@ -212,9 +193,7 @@
             }
         }
 
-        /// <summary>
-        /// Gets the minimum value of the <see cref="ICollection{T}"/>.
-        /// </summary>
+        /// <inheritdoc />
         public virtual T MinValue
         {
             get
@@ -228,15 +207,9 @@
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="ICollection{T}"/> is read-only.
-        /// </summary>
-        /// <returns>true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.</returns>
+        /// <inheritdoc />
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
+        bool ICollection<T>.IsReadOnly => false;
 
         /// <summary>
         /// Gets or sets the root.
@@ -246,16 +219,9 @@
         /// <summary>
         /// Gets the comparer.
         /// </summary>
-        protected virtual Comparison<T> Comparer
-        {
-            get { return this.currentComparer; }
-        }
+        protected virtual Comparison<T> Comparer { get; }
 
-        /// <summary>
-        /// Adds an item to the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="ICollection{T}"/>.</param>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual void Add(T item)
         {
             var node = new RedBlackTreeNode<T>(item);
@@ -313,35 +279,20 @@
             this.Count++;
         }
 
-        /// <summary>
-        /// Adds the elements of the specified collection in the tree.
-        /// </summary>
-        /// <param name="collection">The collection.</param>
+        /// <inheritdoc />
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection != null)
-            {
-                collection.ForEach(this.Add);
-            }
+            collection?.ForEach(this.Add);
         }
 
-        /// <summary>
-        /// Removes all items from the <see cref="ICollection{T}"></see>.
-        /// </summary>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"></see> is read-only. </exception>
+        /// <inheritdoc />
         public virtual void Clear()
         {
             this.Root = null;
             this.Count = 0;
         }
 
-        /// <summary>
-        /// Determines whether the <see cref="ICollection{T}"></see> contains a specific value.
-        /// </summary>
-        /// <param name="item">The object to locate in the <see cref="ICollection{T}"></see>.</param>
-        /// <returns>
-        /// true if item is found in the <see cref="ICollection{T}"></see>; otherwise, false.
-        /// </returns>
+        /// <inheritdoc />
         public virtual bool Contains(T item)
         {
             RedBlackTreeNode<T> node;
@@ -349,26 +300,10 @@
             return this.Contains(item, out node);
         }
 
-        /// <summary>
-        /// Copies the elements of the <see cref="ICollection{T}"/> to an <see cref="Array"/>, starting at a particular <see cref="Array"/> index.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="Array"/> that is the destination of the elements copied from <see cref="ICollection{T}"/>. The <see cref="Array"/> must have zero-based indexing.</param>
-        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="array"/> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="arrayIndex"/> is less than 0.</exception>
-        /// <exception cref="ArgumentException">
-        ///     <paramref name="array"/> is multidimensional.
-        ///     -or-
-        ///     <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
-        ///     -or-
-        ///     The number of elements in the source <see cref="ICollection{T}"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
-        ///     -or-
-        ///     Type <paramref name="array"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
-        /// </exception>
+        /// <inheritdoc />
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.Current.ArgumentNullException(array, "array")
+            Check.Current.ArgumentNullException(array, nameof(array))
                          .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
                          .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
 
@@ -378,77 +313,46 @@
             }
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection in <see cref="InorderTraversal"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="IEnumerator{T}"></see> that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc />
         public virtual IEnumerator<T> GetEnumerator()
         {
             return this.InorderTraversal().GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerator"/> object that can be used to iterate through the collection.
-        /// </returns>
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        /// <summary>
-        /// Iterates through a collection from minimum value to maximum value.
-        /// </summary>
-        /// <returns>Returns the collection from minimum value to maximum value.</returns>
+        /// <inheritdoc />
         public virtual IEnumerable<T> InorderTraversal()
         {
             return this.InorderTraversal(this.Root).Select(node => node.Value);
         }
 
-        /// <summary>
-        /// Iterates through a collection by level.
-        /// </summary>
-        /// <returns>Returns the collection by level.</returns>
+        /// <inheritdoc />
         public virtual IEnumerable<T> LevelOrderTraversal()
         {
             return this.LevelOrderTraversal(this.Root).Select(node => node.Value);
         }
 
-        /// <summary>
-        /// Iterates through a collection from maximum value to minimum value.
-        /// </summary>
-        /// <returns>Returns the collection from maximum value to minimum value.</returns>
+        /// <inheritdoc />
         public virtual IEnumerable<T> PostorderTraversal()
         {
             return this.PostorderTraversal(this.Root).Select(node => node.Value);
         }
 
-        /// <summary>
-        /// Iterates through a collection from root to leaves.
-        /// </summary>
-        /// <returns>Returns the collection from root to leaves.</returns>
+        /// <inheritdoc />
         public virtual IEnumerable<T> PreorderTraversal()
         {
             return this.PreorderTraversal(this.Root).Select(node => node.Value);
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"></see>.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="ICollection{T}"></see>.</param>
-        /// <returns>
-        /// true if item was successfully removed from the <see cref="ICollection{T}"></see>; otherwise, false. This method also returns false if item is not found in the original <see cref="ICollection{T}"></see>.
-        /// </returns>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"></see> is read-only.</exception>
+        /// <inheritdoc />
         public virtual bool Remove(T item)
         {
-            RedBlackTreeNode<T> node;
-
-            if (this.Contains(item, out node))
+            if (this.Contains(item, out var node))
             {
                 this.DeleteOneNode(node);
                 this.Count--;
@@ -539,12 +443,7 @@
         /// <returns>The node's grandparent.</returns>
         protected virtual RedBlackTreeNode<T> GetGrandparent(RedBlackTreeNode<T> node)
         {
-            if (node != null && node.Parent != null)
-            {
-                return node.Parent.Parent;
-            }
-
-            return null;
+            return node?.Parent?.Parent;
         }
 
         /// <summary>

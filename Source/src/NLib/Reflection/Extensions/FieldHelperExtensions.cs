@@ -1,7 +1,7 @@
-﻿namespace NLib.Reflection.Extensions
-{
-    using System;
+﻿using System;
 
+namespace NLib.Reflection.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="FieldHelper{T, TKey}"/>.
     /// </summary>
@@ -18,7 +18,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="helper"/> is null.</exception>
         public static ReflectionHelper<T> SetValue<T, TKey>(this FieldHelper<T, TKey> helper, TKey value)
         {
-            Check.Current.ArgumentNullException(helper, "helper");
+            Check.Current.ArgumentNullException(helper, nameof(helper));
 
             helper.FieldInfo.SetValue(helper.ReflectionHelper.Value, value);
 
@@ -35,7 +35,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="helper"/> is null.</exception>
         public static TKey GetValue<T, TKey>(this FieldHelper<T, TKey> helper)
         {
-            Check.Current.ArgumentNullException(helper, "helper");
+            Check.Current.ArgumentNullException(helper, nameof(helper));
 
             return (TKey)helper.FieldInfo.GetValue(helper.ReflectionHelper.Value);
         }

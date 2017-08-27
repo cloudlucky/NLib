@@ -1,13 +1,13 @@
-﻿namespace NLib.Reflection.Extensions
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq.Expressions;
+using System.Reflection;
+
+using NLib.Reflection.Resources;
+
+namespace NLib.Reflection.Extensions
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
-    using NLib.Reflection.Resources;
-
     /// <summary>
     /// Defines extensions methods for <see cref="ReflectionHelper{T}"/>.
     /// </summary>
@@ -25,8 +25,8 @@
         /// <exception cref="MissingFieldException">The field cannot be found.</exception>
         public static FieldHelper<T, object> Field<T>(this ReflectionHelper<T> helper, string name)
         {
-            Check.Current.ArgumentNullException(helper, "helper")
-                         .ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(helper, nameof(helper))
+                         .ArgumentNullException(name, nameof(name));
 
             var fieldInfo = helper.GetField(name);
 
@@ -49,8 +49,8 @@
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public static FieldHelper<T, TKey> Field<T, TKey>(this ReflectionHelper<T> helper, Expression<Func<T, TKey>> keySelector)
         {
-            Check.Current.ArgumentNullException(helper, "helper")
-                         .ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(helper, nameof(helper))
+                         .ArgumentNullException(keySelector, nameof(keySelector));
 
             var fieldInfo = helper.GetMemberInfo(keySelector) as FieldInfo;
 
@@ -71,8 +71,8 @@
         /// <exception cref="MissingMemberException">The property cannot be found.</exception>
         public static PropertyHelper<T, object> Property<T>(this ReflectionHelper<T> helper, string name)
         {
-            Check.Current.ArgumentNullException(helper, "helper")
-                         .ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(helper, nameof(helper))
+                         .ArgumentNullException(name, nameof(name));
 
             var propertyInfo = helper.GetProperty(name);
 
@@ -95,8 +95,8 @@
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public static PropertyHelper<T, TKey> Property<T, TKey>(this ReflectionHelper<T> helper, Expression<Func<T, TKey>> keySelector)
         {
-            Check.Current.ArgumentNullException(helper, "helper")
-                         .ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(helper, nameof(helper))
+                         .ArgumentNullException(keySelector, nameof(keySelector));
 
             var propertyInfo = helper.GetMemberInfo(keySelector) as PropertyInfo;
 
@@ -113,7 +113,7 @@
         /// <returns>The reflection helper.</returns>
         public static ReflectionHelper<T> Reflection<T>(this T value)
         {
-            Check.Current.ArgumentNullException(value, "value");
+            Check.Current.ArgumentNullException(value, nameof(value));
 
             return new ReflectionHelper<T>(value);
         }
@@ -126,7 +126,7 @@
         /// <returns>The object.</returns>
         public static T Return<T>(this ReflectionHelper<T> helper)
         {
-            Check.Current.ArgumentNullException(helper, "helper");
+            Check.Current.ArgumentNullException(helper, nameof(helper));
 
             return helper.Value;
         }

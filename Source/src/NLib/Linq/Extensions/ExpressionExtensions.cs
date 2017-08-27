@@ -1,7 +1,7 @@
-﻿namespace NLib.Linq.Extensions
-{
-    using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
+namespace NLib.Linq.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="Expression"/>.
     /// </summary>

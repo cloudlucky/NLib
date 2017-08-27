@@ -1,10 +1,10 @@
-﻿namespace NLib.Xml.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Xml;
-    using System.Xml.Linq;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Xml;
+using System.Xml.Linq;
 
+namespace NLib.Xml.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="XmlDocument"/>.
     /// </summary>
@@ -19,7 +19,7 @@
         [SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", Justification = "Utility method to convert.")]
         public static XDocument ToXDocument(this XmlDocument xmlDocument)
         {
-            Check.Current.ArgumentNullException(xmlDocument, "xmlDocument");
+            Check.Current.ArgumentNullException(xmlDocument, nameof(xmlDocument));
 
             return XDocument.Parse(xmlDocument.OuterXml);
         }

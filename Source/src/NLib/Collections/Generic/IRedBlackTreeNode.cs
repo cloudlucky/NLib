@@ -1,5 +1,6 @@
 ﻿namespace NLib.Collections.Generic
 {
+    /// <inheritdoc />
     /// <summary>
     /// Provides the base interface for the abstraction of red-black tree's nodes.
     /// </summary>

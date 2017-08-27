@@ -1,19 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BagBaseDebugView.cs" company=".">
-//   Copyright (c) Cloudlucky. All rights reserved.
-//   http://www.cloudlucky.com
-//   This code is licensed under the Microsoft Public License (Ms-PL)
-//   See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace NLib.Collections.Generic
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
     /// <summary>
     /// For debugging <see cref="BagBase{T}"/>.
     /// </summary>
@@ -31,7 +21,7 @@ namespace NLib.Collections.Generic
         /// <param name="bag">The bag  .</param>
         public BagBaseDebugView(BagBase<T> bag)
         {
-            Check.Current.ArgumentNullException(bag != null, "bag");
+            Check.Current.ArgumentNullException(bag != null, nameof(bag));
             this.bag = bag;
         }
 

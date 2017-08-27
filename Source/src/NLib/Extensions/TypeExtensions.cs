@@ -1,10 +1,10 @@
-﻿namespace NLib.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using System.Reflection;
 
+namespace NLib.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="Type"/>.
     /// </summary>
@@ -20,7 +20,6 @@
         {
             while (type != null && type != typeof(object))
             {
-                //var fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
                 var fieldInfo = type.GetTypeInfo().GetDeclaredField(name);
 
                 if (fieldInfo != null)
@@ -44,7 +43,6 @@
         {
             while (type != null && type != typeof(object))
             {
-                //var propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
                 var propertyInfo = type.GetTypeInfo().GetDeclaredProperty(name);
 
                 if (propertyInfo != null)
@@ -77,8 +75,8 @@
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Reviewed. It's ok.")]
         public static MemberInfo GetMemberInfo<T, TKey>(this Type type, Expression<Func<T, TKey>> keySelector)
         {
-            Check.Current.ArgumentNullException(type, "type")
-                         .ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(type, nameof(type))
+                         .ArgumentNullException(keySelector, nameof(keySelector));
 
             MemberExpression memberExpression = null;
 
@@ -94,7 +92,7 @@
 
             if (memberExpression == null)
             {
-                throw new ArgumentException("Not a member access", "keySelector");
+                throw new ArgumentException("Not a member access", nameof(keySelector));
             }
 
             return memberExpression.Member;

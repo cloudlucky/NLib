@@ -3,6 +3,7 @@ namespace NLib.Collections.Generic
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
+    /// <inheritdoc />
     /// <summary>
     /// Represents a strongly typed tree node. 
     /// </summary>
@@ -25,38 +26,21 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is leaf; has no child node.
-        /// </summary>
-        public bool IsLeaf
-        {
-            get { return this.Right == null && this.Left == null; }
-        }
+        /// <inheritdoc />
+        public bool IsLeaf => this.Right == null && this.Left == null;
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is root; has no parent node.
-        /// </summary>
-        public bool IsRoot
-        {
-            get { return this.Parent == null; }
-        }
+        /// <inheritdoc />
+        public bool IsRoot => this.Parent == null;
 
-        /// <summary>
-        /// Gets the left.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Left
-        {
-            get { return this.Left; }
-        }
+        /// <inheritdoc />
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Left => this.Left;
 
         /// <summary>
         /// Gets or sets the left.
         /// </summary>
         public BinaryTreeNode<T> Left { get; set; }
 
-        /// <summary>
-        /// Gets the neighbors.
-        /// </summary>
+        /// <inheritdoc />
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
         IEnumerable<INode<T>> INode<T>.Neighbors
         {
@@ -67,35 +51,23 @@ namespace NLib.Collections.Generic
             }
         }
 
-        /// <summary>
-        /// Gets the parent.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Parent
-        {
-            get { return this.Parent; }
-        }
+        /// <inheritdoc />
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Parent => this.Parent;
 
         /// <summary>
         /// Gets or sets the parent.
         /// </summary>
         public BinaryTreeNode<T> Parent { get; set; }
 
-        /// <summary>
-        /// Gets the right.
-        /// </summary>
-        IBinaryTreeNode<T> IBinaryTreeNode<T>.Right
-        {
-            get { return this.Right; }
-        }
+        /// <inheritdoc />
+        IBinaryTreeNode<T> IBinaryTreeNode<T>.Right => this.Right;
 
         /// <summary>
         /// Gets or sets the right.
         /// </summary>
         public BinaryTreeNode<T> Right { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
+        /// <inheritdoc />
         public T Value { get; protected set; }
     }
 }

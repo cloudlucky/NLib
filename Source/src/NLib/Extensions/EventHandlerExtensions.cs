@@ -1,8 +1,8 @@
-﻿namespace NLib.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
+namespace NLib.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="EventHandler"/>.
     /// </summary>
@@ -28,10 +28,7 @@
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "It's not an event")]
         public static void RaiseEvent(this EventHandler handler, object sender, EventArgs e)
         {
-            if (handler != null)
-            {
-                handler(sender, e);
-            }
+            handler?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -45,10 +42,7 @@
         public static void RaiseEvent<T>(this EventHandler<T> handler, object sender, T e)
             where T : EventArgs
         {
-            if (handler != null)
-            {
-                handler(sender, e);
-            }
+            handler?.Invoke(sender, e);
         }
     }
 }

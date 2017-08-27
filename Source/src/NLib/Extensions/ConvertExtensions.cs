@@ -1,10 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Globalization;
 
 namespace NLib.Extensions
 {
-    using System;
-    using System.Globalization;
-
     /// <summary>
     /// Defines extensions methods for <see cref="Convert.ChangeType(object, Type)"/>.
     /// </summary>

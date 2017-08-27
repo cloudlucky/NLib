@@ -1,11 +1,11 @@
-﻿namespace NLib.Extensions
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+using NLib.Collections.Generic.Extensions.Resources;
+
+namespace NLib.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-
-    using NLib.Collections.Generic.Extensions.Resources;
-
     /// <summary>
     /// Defines extensions methods for <see cref="IList{T}"/>.
     /// </summary>
@@ -21,7 +21,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static void SwapValues<T>(this T[] array, int index1, int index2)
         {
-            Check.Current.ArgumentNullException(array, "array")
+            Check.Current.ArgumentNullException(array, nameof(array))
                          .Requires<IndexOutOfRangeException>(index1 >= 0 && index1 < array.Length, IListExtensionResource.SwapValues_IndexOutOfRangeException_Index1)
                          .Requires<IndexOutOfRangeException>(index2 >= 0 && index2 < array.Length, IListExtensionResource.SwapValues_IndexOutOfRangeException_Index2);
 

@@ -1,7 +1,7 @@
-﻿namespace NLib
-{
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace NLib
+{
     /// <summary>
     /// Determines whether the specified objects are equal.
     /// </summary>

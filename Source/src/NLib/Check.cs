@@ -1,13 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+
 
 namespace NLib
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Linq.Expressions;
-
     /// <summary>
     /// Contains static methods for representing program check.
     /// </summary>
@@ -28,10 +27,7 @@ namespace NLib
         /// <summary>
         /// Gets the current instance of <see cref="Check"/>.
         /// </summary>
-        public static Check Current
-        {
-            get { return Instance.Value; }
-        }
+        public static Check Current => Instance.Value;
 
         /// <summary>
         /// Throw exception of type <typeparamref name="TException"/>.
@@ -59,7 +55,7 @@ namespace NLib
 
             try
             {
-                throw (TException)Activator.CreateInstance(exception, new object[] { message });
+                throw (TException)Activator.CreateInstance(exception, message);
             }
             catch (MissingMethodException ex)
             {

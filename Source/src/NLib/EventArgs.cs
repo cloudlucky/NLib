@@ -1,34 +1,28 @@
-﻿namespace NLib
-{
-    using System;
+﻿using System;
 
+namespace NLib
+{
+    /// <inheritdoc />
     /// <summary>
-    /// <see cref="EventArgs{T}"/> is the base class for classes containing generic event data.
+    /// <see cref="T:NLib.EventArgs`1" /> is the base class for classes containing generic event data.
     /// </summary>
     /// <typeparam name="T">The type of the value.</typeparam>
     [Serializable]
     public class EventArgs<T> : EventArgs
     {
+        /// <inheritdoc />
         /// <summary>
-        /// The value.
-        /// </summary>
-        private readonly T value;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EventArgs{T}"/> class.
+        /// Initializes a new instance of the <see cref="T:NLib.EventArgs`1" /> class.
         /// </summary>
         /// <param name="value">The value.</param>
         public EventArgs(T value)
         {
-            this.value = value;
+            this.Value = value;
         }
 
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public T Value
-        {
-            get { return this.value; }
-        }
+        public T Value { get; }
     }
 }

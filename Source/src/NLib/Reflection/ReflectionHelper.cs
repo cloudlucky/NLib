@@ -1,12 +1,12 @@
-﻿namespace NLib.Reflection
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using System.Reflection;
+
+using NLib.Extensions;
+
+namespace NLib.Reflection
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;
-    using System.Reflection;
-
-    using NLib.Extensions;
-
     /// <summary>
     /// Represents support for reflection.
     /// </summary>
@@ -14,41 +14,25 @@
     public class ReflectionHelper<T>
     {
         /// <summary>
-        /// The value.
-        /// </summary>
-        private readonly T value;
-
-        /// <summary>
-        /// The type of the value.
-        /// </summary>
-        private readonly Type type;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ReflectionHelper{T}"/> class.
         /// </summary>
         /// <param name="value">The value.</param>
         public ReflectionHelper(T value)
         {
-            this.value = value;
-            this.type = value.GetType();
+            this.Value = value;
+            this.Type = value.GetType();
         }
 
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public T Value
-        {
-            get { return this.value; }
-        }
+        public T Value { get; }
 
         /// <summary>
         /// Gets the type of the value.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Reviewed. It's OK.")]
-        public Type Type
-        {
-            get { return this.type; }
-        }
+        public Type Type { get; }
 
         /// <summary>
         /// Gets the field by name.
@@ -58,7 +42,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public FieldInfo GetField(string name)
         {
-            Check.Current.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, nameof(name));
 
             return this.Type.GetField(name);
         }
@@ -71,9 +55,9 @@
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         public PropertyInfo GetProperty(string name)
         {
-            Check.Current.ArgumentNullException(name, "name");
+            Check.Current.ArgumentNullException(name, nameof(name));
 
-            return TypeExtensions.GetProperty(this.Type, name);
+            return this.Type.GetProperty(name);
         }
 
         /// <summary>
@@ -86,7 +70,7 @@
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed. It's OK.")]
         public MemberInfo GetMemberInfo<TKey>(Expression<Func<T, TKey>> keySelector)
         {
-            Check.Current.ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(keySelector, nameof(keySelector));
 
             return this.Type.GetMemberInfo(keySelector);
         }

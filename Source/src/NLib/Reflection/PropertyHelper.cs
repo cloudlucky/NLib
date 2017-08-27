@@ -1,8 +1,8 @@
-﻿namespace NLib.Reflection
-{
-    using System;
-    using System.Reflection;
+﻿using System;
+using System.Reflection;
 
+namespace NLib.Reflection
+{
     /// <summary>
     /// Represents support for property reflection.
     /// </summary>
@@ -11,54 +11,30 @@
     public class PropertyHelper<T, TKey>
     {
         /// <summary>
-        /// The reflection helper.
-        /// </summary>
-        private readonly ReflectionHelper<T> reflectionHelper;
-
-        /// <summary>
-        /// The property info.
-        /// </summary>
-        private readonly PropertyInfo propertyInfo;
-
-        /// <summary>
-        /// The property's type.
-        /// </summary>
-        private readonly Type propertyInfoType;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PropertyHelper{T, TKey}"/> class.
         /// </summary>
         /// <param name="reflectionHelper">The reflection helper.</param>
         /// <param name="propertyInfo">The property info.</param>
         public PropertyHelper(ReflectionHelper<T> reflectionHelper, PropertyInfo propertyInfo)
         {
-            this.reflectionHelper = reflectionHelper;
-            this.propertyInfo = propertyInfo;
-            this.propertyInfoType = propertyInfo.PropertyType;
+            this.ReflectionHelper = reflectionHelper;
+            this.PropertyInfo = propertyInfo;
+            this.PropertyInfoType = propertyInfo.PropertyType;
         }
 
         /// <summary>
         /// Gets the reflection helper.
         /// </summary>
-        public ReflectionHelper<T> ReflectionHelper
-        {
-            get { return this.reflectionHelper; }
-        }
+        public ReflectionHelper<T> ReflectionHelper { get; }
 
         /// <summary>
         /// Gets the property info.
         /// </summary>
-        public PropertyInfo PropertyInfo
-        {
-            get { return this.propertyInfo; }
-        }
+        public PropertyInfo PropertyInfo { get; }
 
         /// <summary>
         /// Gets the type of the property info.
         /// </summary>
-        public Type PropertyInfoType
-        {
-            get { return this.propertyInfoType; }
-        }
+        public Type PropertyInfoType { get; }
     }
 }

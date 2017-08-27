@@ -1,7 +1,8 @@
-﻿namespace NLib.Collections.Generic
-{
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace NLib.Collections.Generic
+{
+    /// <inheritdoc />
     /// <summary>
     /// Provides the base interface for the abstraction of red-black trees.
     /// </summary>

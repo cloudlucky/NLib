@@ -1,45 +1,34 @@
-﻿namespace NLib.Collections.Generic
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+
+using NLib.Collections.Generic.Extensions;
+using NLib.Collections.Generic.Resources;
+
+namespace NLib.Collections.Generic
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
-    using NLib.Collections.Generic.Extensions;
-    using NLib.Collections.Generic.Resources;
-
+    /// <inheritdoc />
     /// <summary>
     /// Represents a collection of objects that is maintained in Base order.
     /// </summary>
     /// <typeparam name="T">The type of elements in the bag.</typeparam>
     [Serializable]
     [DebuggerTypeProxy(typeof(BagBaseDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public abstract class BagBase<T> : IBag<T>
     {
-        /// <summary>
-        /// Gets or sets the number of elements contained in the <see cref="ICollection{T}"/>.
-        /// </summary>
+        /// <inheritdoc />
         public virtual int Count { get; protected set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the <see cref="ICollection{T}"/> is read-only.
-        /// </summary>
-        /// <returns>
-        /// true if the <see cref="ICollection{T}"/> is read-only; otherwise, false.
-        /// </returns>
+        /// <inheritdoc />
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Reviewed. It's OK.")]
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
+        bool ICollection<T>.IsReadOnly => false;
 
-        /// <summary>
-        /// Gets the Set of unique elements in the Bag.
-        /// </summary>
+        /// <inheritdoc />
         public abstract ISet<T> UniqueSet { get; }
 
         /// <summary>
@@ -53,21 +42,13 @@
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Reviewed. It's OK here for sub classes to change the model.")]
         protected IDictionary<T, int> Model { get; set; }
 
-        /// <summary>
-        /// Adds an item to the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="ICollection{T}"/>.</param>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual void Add(T item)
         {
             this.Add(item, 1);
         }
 
-        /// <summary>
-        /// Adds nCopies copies of the specified object to the Bag.
-        /// </summary>
-        /// <param name="item">The item to add.</param>
-        /// <param name="numberCopies">The number of copies to add.</param>
+        /// <inheritdoc />
         public virtual void Add(T item, int numberCopies)
         {
             if (this.Contains(item))
@@ -88,73 +69,34 @@
         /// <param name="collection">The collection.</param>
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection != null)
-            {
-                collection.ForEach(this.Add);
-            }
+            collection?.ForEach(this.Add);
         }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="IEnumerable{T}"/> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="IEnumerable{T}"/> to compare with this instance.</param>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="IEnumerable{T}"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc />
         public virtual bool BagEquals(IEnumerable<T> other)
         {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return this.Model.Keys.All(key => other.Count(x => this.EqualityComparer(x, key)) == this.GetCount(key));
+            return other != null && this.Model.Keys.All(key => other.Count(x => this.EqualityComparer(x, key)) == this.GetCount(key));
         }
 
-        /// <summary>
-        /// Removes all items from the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual void Clear()
         {
             this.Model.Clear();
             this.Count = 0;
         }
 
-        /// <summary>
-        /// Determines whether the <see cref="ICollection{T}"/> contains a specific value.
-        /// </summary>
-        /// <param name="item">The object to locate in the <see cref="ICollection{T}"/>.</param>
-        /// <returns>
-        /// true if <paramref name="item"/> is found in the <see cref="ICollection{T}"/>; otherwise, false.
-        /// </returns>
+        /// <inheritdoc />
         public virtual bool Contains(T item)
         {
             return this.Model.ContainsKey(item);
         }
 
-        /// <summary>
-        /// Copies the elements of the <see cref="ICollection{T}"/> to an <see cref="Array"/>, starting at a particular <see cref="Array"/> index.
-        /// </summary>
-        /// <param name="array">The one-dimensional <see cref="Array"/> that is the destination of the elements copied from <see cref="ICollection{T}"/>. The <see cref="Array"/> must have zero-based indexing.</param>
-        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="array"/> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="arrayIndex"/> is less than 0.</exception>
-        /// <exception cref="ArgumentException">
-        ///     <paramref name="array"/> is multidimensional.
-        ///     -or-
-        ///     <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
-        ///     -or-
-        ///     The number of elements in the source <see cref="ICollection{T}"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
-        ///     -or-
-        ///     Type <paramref name="array"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
-        /// </exception>
+        /// <inheritdoc />
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            Check.Current.ArgumentNullException(array, "array")
-                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = "arrayIndex" })
-                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = "array" });
+            Check.Current.ArgumentNullException(array, nameof(array))
+                         .Requires<ArgumentOutOfRangeException>(arrayIndex >= 0, CollectionResource.CopyTo_ArgumentOutOfRangeException_ArrayIndex, new { paramName = nameof(arrayIndex) })
+                         .Requires<ArgumentException>(arrayIndex < array.Length && arrayIndex + this.Count <= array.Length, CollectionResource.CopyTo_ArgumentException_Array, new { paramName = nameof(array) });
 
             if (this.Count > 0)
             {
@@ -162,43 +104,25 @@
             }
         }
 
-        /// <summary>
-        /// Removes all occurrences of all elements in the specified collection from the current <see cref="IBag{T}"/> object.
-        /// </summary>
-        /// <param name="other">The collection of items to remove from the <see cref="IBag{T}"/> object.</param>
-        /// <exception cref="ArgumentNullException">other is null.</exception>
+        /// <inheritdoc />
         public virtual void ExceptAllWith(IEnumerable<T> other)
         {
             other.ForEach(i => this.RemoveAll(i));
         }
 
-        /// <summary>
-        /// Removes one occurrence of all elements in the specified collection from the current <see cref="IBag{T}"/> object.
-        /// </summary>
-        /// <param name="other">The collection of items to remove from the <see cref="IBag{T}"/> object.</param>
-        /// <exception cref="ArgumentNullException">other is null.</exception>
+        /// <inheritdoc />
         public virtual void ExceptWith(IEnumerable<T> other)
         {
             other.ForEach(i => this.Remove(i));
         }
 
-        /// <summary>
-        /// Gets the number of occurrences (cardinality) of the given object currently in the bag.
-        /// </summary>
-        /// <param name="item">The item to search for.</param>
-        /// <returns>the number of occurrences of the item; zero if not found.</returns>
+        /// <inheritdoc />
         public virtual int GetCount(T item)
         {
             return this.Model.ContainsKey(item) ? this.Model[item] : 0;
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>1</filterpriority>
+        /// <inheritdoc />
         public virtual IEnumerator<T> GetEnumerator()
         {
             foreach (var n in this.Model)
@@ -210,27 +134,16 @@
             }
         }
 
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerator{T}"/> object that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        /// <summary>
-        /// Modifies the current bag so that it contains only elements that are also in a specified collection.
-        /// </summary>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
+        /// <inheritdoc />
         public virtual void IntersectWith(IEnumerable<T> other)
         {
-            Check.Current.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, nameof(other));
 
             var tmp = other.ToList();
             foreach (var t in tmp)
@@ -268,14 +181,7 @@
             }
         }
 
-        /// <summary>
-        /// Determines whether the current bag is a property (strict) sub bag of a specified collection.
-        /// </summary>
-        /// <returns>
-        /// true if the current bag is a correct sub bag of <paramref name="other"/>; otherwise, false.
-        /// </returns>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual bool IsProperSubBagOf(IEnumerable<T> other)
         {
             var tmp = other.ToList();
@@ -283,82 +189,39 @@
                    && this.All(tmp.Contains);
         }
 
-        /// <summary>
-        /// Determines whether the current bag is a correct super bag of a specified collection.
-        /// </summary>
-        /// <returns>
-        /// true if the <see cref="IBag{T}"/> object is a correct super bag of <paramref name="other"/>; otherwise, false.
-        /// </returns>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual bool IsProperSuperBagOf(IEnumerable<T> other)
         {
             return this.IsSuperBagOf(other);
         }
 
-        /// <summary>
-        /// Determines whether a bag is a sub bag of a specified collection.
-        /// </summary>
-        /// <returns>
-        /// true if the current bag is a sub bag of <paramref name="other"/>; otherwise, false.
-        /// </returns>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual bool IsSubBagOf(IEnumerable<T> other)
         {
             var tmp = other.ToList();
             return tmp.All(x => this.Contains(x) && this.Model[x] <= tmp.Count(y => this.EqualityComparer(x, y)));
         }
 
-        /// <summary>
-        /// Determines whether the current bag is a super bag of a specified collection.
-        /// </summary>
-        /// <returns>
-        /// true if the current bag is a super bag of <paramref name="other"/>; otherwise, false.
-        /// </returns>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual bool IsSuperBagOf(IEnumerable<T> other)
         {
             var tmp = other.ToList();
             return tmp.All(x => this.Contains(x) && this.Model[x] >= tmp.Count(y => this.EqualityComparer(x, y)));
         }
 
-        /// <summary>
-        /// Determines whether the current bag overlaps with the specified collection.
-        /// </summary>
-        /// <returns>
-        /// true if the current bag and <paramref name="other"/> share at least one common element; otherwise, false.
-        /// </returns>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual bool Overlaps(IEnumerable<T> other)
         {
             return other.All(this.Contains);
         }
 
-        /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="ICollection{T}"/>.</param>
-        /// <returns>
-        /// true if <paramref name="item"/> was successfully removed from the <see cref="ICollection{T}"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="ICollection{T}"/>.
-        /// </returns>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual bool Remove(T item)
         {
             return this.Remove(item, 1) == 1;
         }
 
-        /// <summary>
-        /// Removes a certain occurrences number of a specific object from the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="ICollection{T}"/>.</param>
-        /// <param name="numberCopies">The number of copies to remove.</param>
-        /// <returns>
-        /// The occurrence number of <paramref name="item"/>.
-        /// </returns>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual int Remove(T item, int numberCopies)
         {
             if (!this.Contains(item))
@@ -387,14 +250,7 @@
             return result;
         }
 
-        /// <summary>
-        /// Removes all occurrences of a specific object from the <see cref="ICollection{T}"/>.
-        /// </summary>
-        /// <param name="item">The object to remove from the <see cref="ICollection{T}"/>.</param>
-        /// <returns>
-        /// The occurrence number of <paramref name="item"/>.
-        /// </returns>
-        /// <exception cref="NotSupportedException">The <see cref="ICollection{T}"/> is read-only.</exception>
+        /// <inheritdoc />
         public virtual int RemoveAll(T item)
         {
             if (!this.Contains(item))
@@ -409,15 +265,11 @@
             return result;
         }
 
-        /// <summary>
-        /// Modifies the current bag so that it contains only elements that are present either in the current bag or in the specified collection, but not both.
-        /// </summary>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", MessageId = "0", Justification = "CheckError class do the check")]
         public virtual void SymmetricExceptWith(IEnumerable<T> other)
         {
-            Check.Current.ArgumentNullException(other, "other");
+            Check.Current.ArgumentNullException(other, nameof(other));
 
             var tmp = new List<T>();
 
@@ -436,11 +288,7 @@
             this.AddRange(tmp);
         }
 
-        /// <summary>
-        /// Modifies the current bag so that it contains all elements that are present in both the current bag and in the specified collection.
-        /// </summary>
-        /// <param name="other">The collection to compare to the current bag.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <inheritdoc />
         public virtual void UnionWith(IEnumerable<T> other)
         {
             this.AddRange(other);

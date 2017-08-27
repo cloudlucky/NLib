@@ -1,10 +1,10 @@
-﻿namespace NLib.Xml.Linq.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Xml;
-    using System.Xml.Linq;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Xml;
+using System.Xml.Linq;
 
+namespace NLib.Xml.Linq.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="XDocument"/>.
     /// </summary>
@@ -22,7 +22,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static XmlDocument ToXmlDocument(this XDocument xdocument)
         {
-            Check.Current.ArgumentNullException(xdocument, "xdocument");
+            Check.Current.ArgumentNullException(xdocument, nameof(xdocument));
 
             using (var reader = xdocument.CreateReader())
             {

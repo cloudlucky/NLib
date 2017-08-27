@@ -1,11 +1,11 @@
-﻿namespace NLib.Collections.Generic.Extensions
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+using NLib.Collections.Generic.Extensions.Resources;
+
+namespace NLib.Collections.Generic.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-
-    using NLib.Collections.Generic.Extensions.Resources;
-
     /// <summary>
     /// Defines extensions methods for <see cref="IList{T}"/>.
     /// </summary>

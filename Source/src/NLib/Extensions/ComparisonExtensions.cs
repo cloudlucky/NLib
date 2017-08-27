@@ -1,8 +1,8 @@
-﻿namespace NLib.Extensions
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace NLib.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="Comparison{T}"/>.
     /// </summary>

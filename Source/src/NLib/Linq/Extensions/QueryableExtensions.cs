@@ -1,11 +1,11 @@
-﻿namespace NLib.Linq.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Linq.Expressions;
 
+namespace NLib.Linq.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="IQueryable{T}"/>.
     /// </summary>
@@ -43,8 +43,8 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
         public static IQueryable<TSource> Between<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, TKey min, TKey max)
         {
-            Check.Current.ArgumentNullException(source, "source")
-                         .ArgumentNullException(keySelector, "keySelector");
+            Check.Current.ArgumentNullException(source, nameof(source))
+                         .ArgumentNullException(keySelector, nameof(keySelector));
 
             var key = Expression.Invoke(keySelector, keySelector.Parameters.ToArray());
             var lowerBound = Expression.LessThanOrEqual(Expression.Constant(min), key);
@@ -65,7 +65,7 @@
         /// <returns>The subset of the collection.</returns>
         public static IQueryable<T> Paginate<T>(this IQueryable<T> collection, int page, int pageSize)
         {
-            Check.Current.ArgumentNullException(collection, "collection");
+            Check.Current.ArgumentNullException(collection, nameof(collection));
 
             var skip = Math.Max(pageSize * page, 0);
             

@@ -1,9 +1,9 @@
-﻿namespace NLib.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
+namespace NLib.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="MemberInfo"/>.
     /// </summary>
@@ -21,7 +21,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static bool Contains(this string text, string value, StringComparison comparisonType)
         {
-            Check.Current.ArgumentNullException(text, "text");
+            Check.Current.ArgumentNullException(text, nameof(text));
 
             if (string.IsNullOrEmpty(value))
             { 

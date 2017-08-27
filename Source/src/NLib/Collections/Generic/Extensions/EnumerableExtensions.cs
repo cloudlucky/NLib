@@ -1,10 +1,10 @@
-﻿namespace NLib.Collections.Generic.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
+namespace NLib.Collections.Generic.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="IEnumerable{T}"/>.
     /// </summary>
@@ -94,9 +94,8 @@
         {
             Check.Current.ArgumentNullException(collection, "collection")
                          .ArgumentNullException(action, "action");
-            
-            var list = collection as List<TSource>;
-            if (list != null)
+
+            if (collection is List<TSource> list)
             {
                 list.ForEach(action);
             }

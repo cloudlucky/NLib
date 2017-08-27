@@ -1,11 +1,11 @@
-﻿namespace NLib.Collections.Generic
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+using NLib.Collections.Generic.Resources;
+
+namespace NLib.Collections.Generic
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-
-    using NLib.Collections.Generic.Resources;
-
     /// <summary>
     /// Provide a set of methods to generate collection.
     /// </summary>
@@ -53,7 +53,7 @@
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> is null.</exception>
         public static IEnumerable<T> Generate<T>(int count, Func<T, T> func, Generator provider)
         {
-            return Generate(count, func, default(T), provider);
+            return Generate(count, func, default, provider);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "2", Justification = "CheckError class do the check")]
         public static IEnumerable<T> Generate<T>(int count, Func<T, T> func, T defaultValue, Generator provider)
         {
-            Check.Current.ArgumentNullException(provider, "provider");
+            Check.Current.ArgumentNullException(provider, nameof(provider));
 
             return provider.Generate(func, count, defaultValue);
         }
@@ -88,7 +88,7 @@
         /// <exception cref="ArgumentException"><paramref name="count"/> is less than zero.</exception>
         public virtual IEnumerable<T> Generate<T>(Func<T, T> func, int count, T defaultValue)
         {
-            Check.Current.ArgumentNullException(func, "func")
+            Check.Current.ArgumentNullException(func, nameof(func))
                          .Requires<ArgumentException>(count >= 0, GeneratorResource.Generate_ArgumentException_Count);
 
             var last = defaultValue;

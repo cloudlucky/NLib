@@ -1,10 +1,10 @@
-﻿namespace NLib.Reflection.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
 
+namespace NLib.Reflection.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="Assembly"/>.
     /// </summary>
@@ -25,7 +25,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static string GetManifestResourceString(this Assembly assembly, string name)
         {
-            Check.Current.ArgumentNullException(assembly, "assembly");
+            Check.Current.ArgumentNullException(assembly, nameof(assembly));
 
             var stream = assembly.GetManifestResourceStream(name);
 

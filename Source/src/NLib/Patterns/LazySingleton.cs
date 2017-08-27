@@ -1,8 +1,8 @@
-﻿namespace NLib.Patterns
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
+namespace NLib.Patterns
+{
     /// <summary>
     /// Create a unique instance of <typeparamref name="T"/>.
     /// </summary>
@@ -19,9 +19,6 @@
         /// Gets the current instance of <typeparam name="T"/>.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1000:DoNotDeclareStaticMembersOnGenericTypes", Justification = "Reviewd. It's OK.")]
-        public static T Current
-        {
-            get { return Instance.Value; }
-        }
+        public static T Current => Instance.Value;
     }
 }

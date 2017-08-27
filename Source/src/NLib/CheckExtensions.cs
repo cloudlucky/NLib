@@ -1,12 +1,12 @@
-﻿namespace NLib
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq.Expressions;
+
+using NLib.Linq.Extensions;
+
+namespace NLib
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq.Expressions;
-
-    using NLib.Linq.Extensions;
-
     /// <summary>
     /// Defines extensions methods for <see cref="Check"/>.
     /// </summary>

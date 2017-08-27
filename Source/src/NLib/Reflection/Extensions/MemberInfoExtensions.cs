@@ -1,10 +1,10 @@
-﻿namespace NLib.Reflection.Extensions
-{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Reflection;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
 
+namespace NLib.Reflection.Extensions
+{
     /// <summary>
     /// Defines extensions methods for <see cref="MemberInfo"/>.
     /// </summary>
@@ -50,7 +50,7 @@
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         public static T[] GetCustomAttributes<T>(this MemberInfo memberInfo, bool inherit) where T : Attribute
         {
-            Check.Current.ArgumentNullException(memberInfo, "memberInfo");
+            Check.Current.ArgumentNullException(memberInfo, nameof(memberInfo));
 
             return memberInfo.GetCustomAttributes(typeof(T), inherit) as T[];
         }
@@ -62,21 +62,17 @@
         /// <returns>The type of the member info.</returns>
         public static Type GetMemberType(this MemberInfo memberInfo)
         {
-            Check.Current.ArgumentNullException(memberInfo, "memberInfo");
+            Check.Current.ArgumentNullException(memberInfo, nameof(memberInfo));
 
-            var property = memberInfo as PropertyInfo;
-            if (property != null)
+            switch (memberInfo)
             {
-                return property.PropertyType;
+                case PropertyInfo property:
+                    return property.PropertyType;
+                case FieldInfo field:
+                    return field.FieldType;
+                default:
+                    throw new NotSupportedException("member info is not supported");
             }
-
-            var field = memberInfo as FieldInfo;
-            if (field != null)
-            {
-                return field.FieldType;
-            }
-
-            throw new NotSupportedException("member info is not supported");
         }
     }
 }

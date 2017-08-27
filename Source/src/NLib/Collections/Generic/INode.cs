@@ -1,8 +1,8 @@
-﻿namespace NLib.Collections.Generic
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
+namespace NLib.Collections.Generic
+{
     /// <summary>
     /// Represents a node in a collection.
     /// </summary>

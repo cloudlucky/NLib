@@ -1,9 +1,9 @@
-﻿namespace NLib
+﻿using System;
+
+using NLib.Resources;
+
+namespace NLib
 {
-    using System;
-
-    using NLib.Resources;
-
     /// <summary>
     /// Adds some methods to <see cref="Math"/>.
     /// </summary>
