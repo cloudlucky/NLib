@@ -72,11 +72,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NLib.Web.Practices.Unity\NLib.Web.Practices.Unity.csproj">
+    <ProjectReference Include="..\..\src\NLib.Web.Practices.Unity\NLib.Web.Practices.Unity.csproj">
       <Project>{966C6F13-031A-4D05-8AB3-0ED68D688FDB}</Project>
       <Name>NLib.Web.Practices.Unity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NLib.Web\NLib.Web.csproj">
+    <ProjectReference Include="..\..\src\NLib.Web\NLib.Web.csproj">
       <Project>{3EBCC361-90EB-4807-9F21-44A34F163ED8}</Project>
       <Name>NLib.Web</Name>
     </ProjectReference>

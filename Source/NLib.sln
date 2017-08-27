@@ -16,13 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib", "src\NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLib", "src\NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Practices.Unity", "src\NLib.Web.Practices.Unity\NLib.Web.Practices.Unity.csproj", "{966C6F13-031A-4D05-8AB3-0ED68D688FDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Practices.Unity.Tests", "tests\NLib.Web.Practices.Unity.Tests\NLib.Web.Practices.Unity.Tests.csproj", "{28C77648-304B-4186-A21D-BA894BFB245A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web", "NLib.Web\NLib.Web.csproj", "{3EBCC361-90EB-4807-9F21-44A34F163ED8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web", "src\NLib.Web\NLib.Web.csproj", "{3EBCC361-90EB-4807-9F21-44A34F163ED8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.ComponentModel.DataAnnotations", "src\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj", "{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}"
 EndProject
@@ -37,6 +37,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Tests", "tests\NLib.Tests\NLib.Tests.csproj", "{A21B94A7-4C3C-4BBC-A617-452912C8F38D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Mvc.Tests", "tests\NLib.Web.Mvc.Tests\NLib.Web.Mvc.Tests.csproj", "{3D2DD692-66D8-4251-9DBE-AEF8B8467303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{F006565B-C2EF-45E1-96A5-08581DB1EE80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -158,6 +160,18 @@ Global
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303}.Release|x86.ActiveCfg = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Debug|x86.Build.0 = Debug|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|x86.ActiveCfg = Release|Any CPU
+		{F006565B-C2EF-45E1-96A5-08581DB1EE80}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,7 +184,7 @@ Global
 		{3D2DD692-66D8-4251-9DBE-AEF8B8467303} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35
 		SolutionGuid = {5293A053-59A1-44B5-97EE-7B5AEFC63D6B}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

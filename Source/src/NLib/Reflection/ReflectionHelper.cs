@@ -60,7 +60,7 @@
         {
             Check.Current.ArgumentNullException(name, "name");
 
-            return TypeExtensions.GetField(this.Type, name);
+            return this.Type.GetField(name);
         }
 
         /// <summary>

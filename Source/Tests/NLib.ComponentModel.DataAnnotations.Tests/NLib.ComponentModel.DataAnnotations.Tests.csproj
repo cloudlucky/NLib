@@ -62,11 +62,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">
+    <ProjectReference Include="..\..\src\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj">
       <Project>{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}</Project>
       <Name>NLib.ComponentModel.DataAnnotations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NLib\NLib.csproj">
+    <ProjectReference Include="..\..\src\NLib\NLib.csproj">
       <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
       <Name>NLib</Name>
     </ProjectReference>

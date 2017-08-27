@@ -90,7 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NLib.Web.Mvc\NLib.Web.Mvc.csproj">
+    <ProjectReference Include="..\..\src\NLib.Web.Mvc\NLib.Web.Mvc.csproj">
       <Project>{339A9B10-F035-44B9-98AC-21F438A857F6}</Project>
       <Name>NLib.Web.Mvc</Name>
     </ProjectReference>

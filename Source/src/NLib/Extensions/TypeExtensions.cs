@@ -21,7 +21,7 @@
             while (type != null && type != typeof(object))
             {
                 //var fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-                var fieldInfo = type.GetField(name);
+                var fieldInfo = type.GetTypeInfo().GetDeclaredField(name);
 
                 if (fieldInfo != null)
                 {
@@ -45,7 +45,7 @@
             while (type != null && type != typeof(object))
             {
                 //var propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-                var propertyInfo = type.GetProperty(name);
+                var propertyInfo = type.GetTypeInfo().GetDeclaredProperty(name);
 
                 if (propertyInfo != null)
                 {

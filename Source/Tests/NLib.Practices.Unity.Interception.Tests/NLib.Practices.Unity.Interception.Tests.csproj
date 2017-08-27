@@ -76,11 +76,11 @@
     <Compile Include="RestrictedAttributeTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj">
+    <ProjectReference Include="..\..\src\NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj">
       <Project>{c06961d0-ebba-4941-be2f-2fbdcfbd359f}</Project>
       <Name>NLib.Practices.Unity.Interception</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NLib\NLib.csproj">
+    <ProjectReference Include="..\..\src\NLib\NLib.csproj">
       <Project>{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}</Project>
       <Name>NLib</Name>
     </ProjectReference>
