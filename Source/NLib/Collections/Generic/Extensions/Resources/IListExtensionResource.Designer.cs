@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace NLib.Collections.Generic.Extensions.Resources {
     using System;
     
@@ -39,7 +41,7 @@ namespace NLib.Collections.Generic.Extensions.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Collections.Generic.Extensions.Resources.IListExtensionResource", typeof(IListExtensionResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Collections.Generic.Extensions.Resources.IListExtensionResource", typeof(IListExtensionResource).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

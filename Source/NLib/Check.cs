@@ -1,4 +1,6 @@
-﻿namespace NLib
+﻿using System.Reflection;
+
+namespace NLib
 {
     using System;
     using System.Collections.Generic;
@@ -80,12 +82,12 @@
         {
             var exception = typeof(TException);
             var argumentsType = arguments.GetType();
-            var argumentsProperties = argumentsType.GetProperties();
-            var argumentsPropertiesLength = argumentsProperties.Length + (message == null ? 0 : 1);
+            var argumentsProperties = argumentsType.GetTypeInfo().DeclaredProperties.ToList();
+            var argumentsPropertiesLength = argumentsProperties.Count + (message == null ? 0 : 1);
             var l = new List<object>();
             var constructorParametersLength = 0;
 
-            foreach (var parameters in exception.GetConstructors().Select(c => c.GetParameters()))
+            foreach (var parameters in exception.GetTypeInfo().DeclaredConstructors.Select(c => c.GetParameters()))
             {
                 constructorParametersLength = parameters.Length;
 
@@ -103,7 +105,7 @@
                             var p2 = p;
                             var p1 = argumentsProperties.FirstOrDefault(x => x.Name == p2.Name);
 
-                            if (p1 == null || !p1.PropertyType.IsAssignableFrom(p.ParameterType))
+                            if (p1 == null || !p1.PropertyType.GetTypeInfo().IsAssignableFrom(p.ParameterType.GetTypeInfo()))
                             {
                                 l.Clear();
                                 constructorFound = false;

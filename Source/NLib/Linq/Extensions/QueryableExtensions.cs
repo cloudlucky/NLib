@@ -68,7 +68,7 @@
             Check.Current.ArgumentNullException(collection, "collection");
 
             var skip = Math.Max(pageSize * page, 0);
-
+            
             return collection.Skip(skip).Take(pageSize);
         }
     }

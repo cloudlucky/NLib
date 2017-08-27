@@ -20,14 +20,15 @@
         {
             while (type != null && type != typeof(object))
             {
-                var fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                //var fieldInfo = type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                var fieldInfo = type.GetField(name);
 
                 if (fieldInfo != null)
                 {
                     return fieldInfo;
                 }
 
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
             }
 
             return null;
@@ -43,14 +44,15 @@
         {
             while (type != null && type != typeof(object))
             {
-                var propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                //var propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                var propertyInfo = type.GetProperty(name);
 
                 if (propertyInfo != null)
                 {
                     return propertyInfo;
                 }
 
-                type = type.BaseType;
+                type = type.GetTypeInfo().BaseType;
             }
 
             return null;

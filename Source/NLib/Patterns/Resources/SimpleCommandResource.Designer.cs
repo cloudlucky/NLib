@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace NLib.Patterns.Resources {
     using System;
     
@@ -39,7 +41,7 @@ namespace NLib.Patterns.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Patterns.Resources.SimpleCommandResource", typeof(SimpleCommandResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Patterns.Resources.SimpleCommandResource", typeof(SimpleCommandResource).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

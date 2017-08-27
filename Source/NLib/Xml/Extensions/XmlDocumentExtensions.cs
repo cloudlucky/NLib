@@ -21,12 +21,7 @@
         {
             Check.Current.ArgumentNullException(xmlDocument, "xmlDocument");
 
-            using (var reader = new XmlNodeReader(xmlDocument))
-            {
-                reader.MoveToContent();
-
-                return XDocument.Load(reader);
-            }
+            return XDocument.Parse(xmlDocument.OuterXml);
         }
     }
 }

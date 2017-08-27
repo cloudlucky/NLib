@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{232265D9-1455-4721-82CC-49A4B5952D0B}"
 	ProjectSection(SolutionItems) = preProject
 		Build.proj = Build.proj
@@ -28,13 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Mvc", "NLib.Web.Mv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception", "NLib.Practices.Unity.Interception\NLib.Practices.Unity.Interception.csproj", "{C06961D0-EBBA-4941-BE2F-2FBDCFBD359F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7A6F4E59-1AF1-459E-A482-1C58AE59867E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.ComponentModel.DataAnnotations.Tests", "Tests\NLib.ComponentModel.DataAnnotations.Tests\NLib.ComponentModel.DataAnnotations.Tests.csproj", "{401806B6-785B-4F3A-8C8F-353D1568D770}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Practices.Unity.Interception.Tests", "Tests\NLib.Practices.Unity.Interception.Tests\NLib.Practices.Unity.Interception.Tests.csproj", "{408C9F5D-2B16-403D-82AC-D72D7888A998}"
@@ -44,50 +39,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.Web.Mvc.Tests", "Tests\NLib.Web.Mvc.Tests\NLib.Web.Mvc.Tests.csproj", "{3D2DD692-66D8-4251-9DBE-AEF8B8467303}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs19
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = NLib\\NLib.csproj
-		SccProjectName1 = NLib
-		SccLocalPath1 = NLib
-		SccProjectUniqueName2 = NLib.Web\\NLib.Web.csproj
-		SccProjectName2 = NLib.Web
-		SccLocalPath2 = NLib.Web
-		SccProjectUniqueName3 = NLib.ComponentModel.DataAnnotations\\NLib.ComponentModel.DataAnnotations.csproj
-		SccProjectName3 = NLib.ComponentModel.DataAnnotations
-		SccLocalPath3 = NLib.ComponentModel.DataAnnotations
-		SccProjectUniqueName4 = NLib.Web.Mvc\\NLib.Web.Mvc.csproj
-		SccProjectName4 = NLib.Web.Mvc
-		SccLocalPath4 = NLib.Web.Mvc
-		SccProjectUniqueName5 = NLib.Practices.Unity.Interception\\NLib.Practices.Unity.Interception.csproj
-		SccProjectName5 = NLib.Practices.Unity.Interception
-		SccLocalPath5 = NLib.Practices.Unity.Interception
-		SccProjectUniqueName6 = NLib.Web.Practices.Unity\\NLib.Web.Practices.Unity.csproj
-		SccProjectName6 = NLib.Web.Practices.Unity
-		SccLocalPath6 = NLib.Web.Practices.Unity
-		SccProjectUniqueName7 = Tests\\NLib.Web.Practices.Unity.Tests\\NLib.Web.Practices.Unity.Tests.csproj
-		SccProjectTopLevelParentUniqueName7 = NLib.sln
-		SccProjectName7 = Tests/NLib.Web.Practices.Unity.Tests
-		SccLocalPath7 = Tests\\NLib.Web.Practices.Unity.Tests
-		SccProjectUniqueName8 = Tests\\NLib.ComponentModel.DataAnnotations.Tests\\NLib.ComponentModel.DataAnnotations.Tests.csproj
-		SccProjectTopLevelParentUniqueName8 = NLib.sln
-		SccProjectName8 = Tests/NLib.ComponentModel.DataAnnotations.Tests
-		SccLocalPath8 = Tests\\NLib.ComponentModel.DataAnnotations.Tests
-		SccProjectUniqueName9 = Tests\\NLib.Practices.Unity.Interception.Tests\\NLib.Practices.Unity.Interception.Tests.csproj
-		SccProjectTopLevelParentUniqueName9 = NLib.sln
-		SccProjectName9 = Tests/NLib.Practices.Unity.Interception.Tests
-		SccLocalPath9 = Tests\\NLib.Practices.Unity.Interception.Tests
-		SccProjectUniqueName10 = Tests\\NLib.Tests\\NLib.Tests.csproj
-		SccProjectTopLevelParentUniqueName10 = NLib.sln
-		SccProjectName10 = Tests/NLib.Tests
-		SccLocalPath10 = Tests\\NLib.Tests
-		SccProjectUniqueName11 = Tests\\NLib.Web.Mvc.Tests\\NLib.Web.Mvc.Tests.csproj
-		SccProjectTopLevelParentUniqueName11 = NLib.sln
-		SccProjectName11 = Tests/NLib.Web.Mvc.Tests
-		SccLocalPath11 = Tests\\NLib.Web.Mvc.Tests
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -220,5 +171,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35
+		SolutionGuid = {5293A053-59A1-44B5-97EE-7B5AEFC63D6B}
 	EndGlobalSection
 EndGlobal

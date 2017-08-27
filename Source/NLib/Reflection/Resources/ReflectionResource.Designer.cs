@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace NLib.Reflection.Resources {
     using System;
     
@@ -39,7 +41,7 @@ namespace NLib.Reflection.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Reflection.Resources.ReflectionResource", typeof(ReflectionResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.Reflection.Resources.ReflectionResource", typeof(ReflectionResource).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
