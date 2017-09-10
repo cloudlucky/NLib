@@ -1,16 +1,16 @@
 ﻿using System;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Xml.Serialization;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Xml.Serialization;
 
-    using NLib.Resources;
+using NLib.Resources;
 
-    namespace NLib
+namespace NLib
 {
     /// <summary>
     /// Class allowing management of fraction.
-    /// The following operators are defined: +, -, *, /, ==, !=, etc. 
+    /// The following operators are defined: +, -, *, /, ==, !=, etc.
     /// </summary>
     [DebuggerDisplay("{Numerator} / {Denominator}")]
     [Serializable]
@@ -194,6 +194,240 @@
         /// </summary>
         [XmlAttribute]
         public long Denominator { get; private set; }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="decimal"/> to <see cref="RationalNumber"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="decimal"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator RationalNumber(decimal value)
+        {
+            return new RationalNumber(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="double"/> to <see cref="RationalNumber"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="double"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator RationalNumber(double value)
+        {
+            return new RationalNumber(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="long"/> to <see cref="RationalNumber"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="long"/> to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator RationalNumber(long value)
+        {
+            return new RationalNumber(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="string"/> to <see cref="RationalNumber"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "The constructor will handle the culture")]
+        public static implicit operator RationalNumber(string value)
+        {
+            return new RationalNumber(value);
+        }
+
+        /// <summary>
+        /// Subtracts two specified <see cref="RationalNumber"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>The result of the operator.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator -(RationalNumber r1, RationalNumber r2)
+        {
+            return Subtract(r1, r2);
+        }
+
+        /// <summary>
+        /// Negates the value of the specified <see cref="RationalNumber"/> operand.
+        /// </summary>
+        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
+        /// <returns>The result of the operator.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator -(RationalNumber r)
+        {
+            return Negate(r);
+        }
+
+        /// <summary>
+        /// Decrements the <see cref="RationalNumber.Numerator"/> operand by one.
+        /// </summary>
+        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
+        /// <returns>The value of d decremented by 1.</returns>
+        /// <exception cref="OverflowException">The <see cref="RationalNumber.Numerator"/> is less than <see cref="long.MinValue"/></exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator --(RationalNumber r)
+        {
+            return Decrement(r);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether two instances of <see cref="RationalNumber"/> are not equal.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> and <paramref name="r2"/> are not equal; otherwise, false..</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator !=(RationalNumber r1, RationalNumber r2)
+        {
+            return !Equals(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns the remainder resulting from dividing two specified <see cref="RationalNumber"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/> (the dividend).</param>
+        /// <param name="r2">A <see cref="RationalNumber"/> (the divisor).</param>
+        /// <returns>The <see cref="RationalNumber"/> remainder resulting from dividing <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="DivideByZeroException">d2 is zero</exception>
+        /// <exception cref="OverflowException">The return value is less than <see cref="double.MinValue"/> or greater than <see cref="double.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator %(RationalNumber r1, RationalNumber r2)
+        {
+            return Mod(r1, r2);
+        }
+
+        /// <summary>
+        /// Multiplies two specified <see cref="RationalNumber"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>The <see cref="RationalNumber"/> result of multiplying <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator *(RationalNumber r1, RationalNumber r2)
+        {
+            return Multiply(r1, r2);
+        }
+
+        /// <summary>
+        /// Divides two specified <see cref="RationalNumber"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/> (the dividend).</param>
+        /// <param name="r2">A <see cref="RationalNumber"/> (the divisor).</param>
+        /// <returns>The <see cref="RationalNumber"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="DivideByZeroException">d2 is zero</exception>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator /(RationalNumber r1, RationalNumber r2)
+        {
+            return Divide(r1, r2);
+        }
+
+        /// <summary>
+        /// Adds two specified <see cref="RationalNumber"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>The <see cref="RationalNumber"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator +(RationalNumber r1, RationalNumber r2)
+        {
+            return Add(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns the value of the <see cref="RationalNumber"/> operand (the sign of the operand is unchanged).
+        /// </summary>
+        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
+        /// <returns>The value of the operand, <paramref name="r"/>.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator +(RationalNumber r)
+        {
+            return Plus(r);
+        }
+
+        /// <summary>
+        /// Increments the <see cref="RationalNumber.Numerator"/> operand by one.
+        /// </summary>
+        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
+        /// <returns>The value of d incremented by 1.</returns>
+        /// <exception cref="OverflowException">The <see cref="RationalNumber.Numerator"/> is greater than <see cref="long.MaxValue"/></exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static RationalNumber operator ++(RationalNumber r)
+        {
+            return Increment(r);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is less than another specified <see cref="RationalNumber.Numerator"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator <(RationalNumber r1, RationalNumber r2)
+        {
+            return r1.ToDouble() < r2.ToDouble();
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is less than or equal to another specified <see cref="RationalNumber.Numerator"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator <=(RationalNumber r1, RationalNumber r2)
+        {
+            return r1.ToDouble() <= r2.ToDouble();
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether two instances of <see cref="RationalNumber.Numerator"/> are equal.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator ==(RationalNumber r1, RationalNumber r2)
+        {
+            return Equals(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is greater than another specified <see cref="RationalNumber.Numerator"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is greater than <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator >(RationalNumber r1, RationalNumber r2)
+        {
+            return r1.ToDouble() > r2.ToDouble();
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is greater than or equal to another specified <see cref="RationalNumber.Numerator"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
+        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is greater than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator >=(RationalNumber r1, RationalNumber r2)
+        {
+            return r1.ToDouble() >= r2.ToDouble();
+        }
 
         /// <summary>
         /// Adds two specified <see cref="RationalNumber"/> values.
@@ -452,240 +686,6 @@
             return true;
         }
 
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="decimal"/> to <see cref="RationalNumber"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="decimal"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator RationalNumber(decimal value)
-        {
-            return new RationalNumber(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="double"/> to <see cref="RationalNumber"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="double"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator RationalNumber(double value)
-        {
-            return new RationalNumber(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="long"/> to <see cref="RationalNumber"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="long"/> to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator RationalNumber(long value)
-        {
-            return new RationalNumber(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="string"/> to <see cref="RationalNumber"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "The constructor will handle the culture")]
-        public static implicit operator RationalNumber(string value)
-        {
-            return new RationalNumber(value);
-        }
-
-        /// <summary>
-        /// Subtracts two specified <see cref="RationalNumber"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>The result of the operator.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator -(RationalNumber r1, RationalNumber r2)
-        {
-            return Subtract(r1, r2);
-        }
-
-        /// <summary>
-        /// Negates the value of the specified <see cref="RationalNumber"/> operand.
-        /// </summary>
-        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
-        /// <returns>The result of the operator.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator -(RationalNumber r)
-        {
-            return Negate(r);
-        }
-
-        /// <summary>
-        /// Decrements the <see cref="RationalNumber.Numerator"/> operand by one.
-        /// </summary>
-        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
-        /// <returns>The value of d decremented by 1.</returns>
-        /// <exception cref="OverflowException">The <see cref="RationalNumber.Numerator"/> is less than <see cref="long.MinValue"/></exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator --(RationalNumber r)
-        {
-            return Decrement(r);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether two instances of <see cref="RationalNumber"/> are not equal.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> and <paramref name="r2"/> are not equal; otherwise, false..</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator !=(RationalNumber r1, RationalNumber r2)
-        {
-            return !Equals(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns the remainder resulting from dividing two specified <see cref="RationalNumber"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/> (the dividend).</param>
-        /// <param name="r2">A <see cref="RationalNumber"/> (the divisor).</param>
-        /// <returns>The <see cref="RationalNumber"/> remainder resulting from dividing <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="DivideByZeroException">d2 is zero</exception>
-        /// <exception cref="OverflowException">The return value is less than <see cref="double.MinValue"/> or greater than <see cref="double.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator %(RationalNumber r1, RationalNumber r2)
-        {
-            return Mod(r1, r2);
-        }
-
-        /// <summary>
-        /// Multiplies two specified <see cref="RationalNumber"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>The <see cref="RationalNumber"/> result of multiplying <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator *(RationalNumber r1, RationalNumber r2)
-        {
-            return Multiply(r1, r2);
-        }
-
-        /// <summary>
-        /// Divides two specified <see cref="RationalNumber"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/> (the dividend).</param>
-        /// <param name="r2">A <see cref="RationalNumber"/> (the divisor).</param>
-        /// <returns>The <see cref="RationalNumber"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="DivideByZeroException">d2 is zero</exception>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator /(RationalNumber r1, RationalNumber r2)
-        {
-            return Divide(r1, r2);
-        }
-
-        /// <summary>
-        /// Adds two specified <see cref="RationalNumber"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>The <see cref="RationalNumber"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator +(RationalNumber r1, RationalNumber r2)
-        {
-            return Add(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns the value of the <see cref="RationalNumber"/> operand (the sign of the operand is unchanged).
-        /// </summary>
-        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
-        /// <returns>The value of the operand, <paramref name="r"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator +(RationalNumber r)
-        {
-            return Plus(r);
-        }
-
-        /// <summary>
-        /// Increments the <see cref="RationalNumber.Numerator"/> operand by one.
-        /// </summary>
-        /// <param name="r">The <see cref="RationalNumber"/> operand.</param>
-        /// <returns>The value of d incremented by 1.</returns>
-        /// <exception cref="OverflowException">The <see cref="RationalNumber.Numerator"/> is greater than <see cref="long.MaxValue"/></exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static RationalNumber operator ++(RationalNumber r)
-        {
-            return Increment(r);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is less than another specified <see cref="RationalNumber.Numerator"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator <(RationalNumber r1, RationalNumber r2)
-        {
-            return r1.ToDouble() < r2.ToDouble();
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is less than or equal to another specified <see cref="RationalNumber.Numerator"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator <=(RationalNumber r1, RationalNumber r2)
-        {
-            return r1.ToDouble() <= r2.ToDouble();
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether two instances of <see cref="RationalNumber.Numerator"/> are equal.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator ==(RationalNumber r1, RationalNumber r2)
-        {
-            return Equals(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is greater than another specified <see cref="RationalNumber.Numerator"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is greater than <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator >(RationalNumber r1, RationalNumber r2)
-        {
-            return r1.ToDouble() > r2.ToDouble();
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="RationalNumber.Numerator"/> is greater than or equal to another specified <see cref="RationalNumber.Numerator"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="RationalNumber"/>.</param>
-        /// <param name="r2">A <see cref="RationalNumber"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is greater than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator >=(RationalNumber r1, RationalNumber r2)
-        {
-            return r1.ToDouble() >= r2.ToDouble();
-        }
-
         /// <inheritdoc />
         public int CompareTo(object obj)
         {
@@ -739,7 +739,7 @@
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -1024,14 +1024,14 @@
                 return;
             }
 
-            if (double.MinValue == d)
+            if (d == double.MinValue)
             {
                 this.Denominator = MinValue.Denominator;
                 this.Numerator = MinValue.Numerator;
                 return;
             }
 
-            if (double.MaxValue == d)
+            if (d == double.MaxValue)
             {
                 this.Denominator = MaxValue.Denominator;
                 this.Numerator = MaxValue.Numerator;

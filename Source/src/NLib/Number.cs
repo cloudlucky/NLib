@@ -83,9 +83,8 @@ namespace NLib
             this.model = l;
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Number" /> struct.
+        /// Initializes a new instance of the <see cref="NLib.Number" /> struct.
         /// </summary>
         /// <param name="s">The <see cref="T:System.String" /> to convert.</param>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
@@ -123,6 +122,260 @@ namespace NLib
         public Number(double d)
         {
             this.model = d;
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="double"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="double"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Number(decimal value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="double"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="double"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Number(double value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="long"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="long"/> to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Number(long value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="int"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="int"/> to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Number(int value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="ulong"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="ulong"/> to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static explicit operator Number(ulong value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="string"/> to <see cref="Number"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="string"/>.</param>
+        /// <returns>The result of the conversion.</returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "The constructor will handle the culture")]
+        public static implicit operator Number(string value)
+        {
+            return new Number(value);
+        }
+
+        /// <summary>
+        /// Subtracts two specified <see cref="Number"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>The result of the operator.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator -(Number r1, Number r2)
+        {
+            return Subtract(r1, r2);
+        }
+
+        /// <summary>
+        /// Negates the value of the specified <see cref="Number"/> operand.
+        /// </summary>
+        /// <param name="r">The <see cref="Number"/> operand.</param>
+        /// <returns>The result of the operator.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator -(Number r)
+        {
+            return Negate(r);
+        }
+
+        /// <summary>
+        /// Decrements the <see cref="Number"/> operand by one.
+        /// </summary>
+        /// <param name="r">The <see cref="Number"/> operand.</param>
+        /// <returns>The value of d decremented by 1.</returns>
+        /// <exception cref="OverflowException">The <see cref="Number"/> is less than <see cref="long.MinValue"/></exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator --(Number r)
+        {
+            return Decrement(r);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether two instances of <see cref="Number"/> are not equal.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> and <paramref name="r2"/> are not equal; otherwise, false..</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator !=(Number r1, Number r2)
+        {
+            return !Equals(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns the remainder resulting from dividing two specified <see cref="Number"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/> (the dividend).</param>
+        /// <param name="r2">A <see cref="Number"/> (the divisor).</param>
+        /// <returns>The <see cref="Number"/> remainder resulting from dividing <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="DivideByZeroException">d2 is zero</exception>
+        /// <exception cref="OverflowException">The return value is less than <see cref="double.MinValue"/> or greater than <see cref="double.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator %(Number r1, Number r2)
+        {
+            return Mod(r1, r2);
+        }
+
+        /// <summary>
+        /// Multiplies two specified <see cref="Number"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>The <see cref="Number"/> result of multiplying <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator *(Number r1, Number r2)
+        {
+            return Multiply(r1, r2);
+        }
+
+        /// <summary>
+        /// Divides two specified <see cref="Number"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/> (the dividend).</param>
+        /// <param name="r2">A <see cref="Number"/> (the divisor).</param>
+        /// <returns>The <see cref="Number"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="DivideByZeroException">d2 is zero</exception>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator /(Number r1, Number r2)
+        {
+            return Divide(r1, r2);
+        }
+
+        /// <summary>
+        /// Adds two specified <see cref="Number"/> values.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>The <see cref="Number"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
+        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator +(Number r1, Number r2)
+        {
+            return Add(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns the value of the <see cref="Number"/> operand (the sign of the operand is unchanged).
+        /// </summary>
+        /// <param name="r">The <see cref="Number"/> operand.</param>
+        /// <returns>The value of the operand, <paramref name="r"/>.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator +(Number r)
+        {
+            return Plus(r);
+        }
+
+        /// <summary>
+        /// Increments the <see cref="Number"/> operand by one.
+        /// </summary>
+        /// <param name="r">The <see cref="Number"/> operand.</param>
+        /// <returns>The value of d incremented by 1.</returns>
+        /// <exception cref="OverflowException">The <see cref="Number"/> is greater than <see cref="long.MaxValue"/></exception>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static Number operator ++(Number r)
+        {
+            return Increment(r);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="Number"/> is less than another specified <see cref="Number"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator <(Number r1, Number r2)
+        {
+            return r1.model < r2.model;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="Number"/> is less than or equal to another specified <see cref="Number"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator <=(Number r1, Number r2)
+        {
+            return r1.model <= r2.model;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether two instances of <see cref="Number"/> are equal.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator ==(Number r1, Number r2)
+        {
+            return Equals(r1, r2);
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="Number"/> is greater than another specified <see cref="Number"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is greater than <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator >(Number r1, Number r2)
+        {
+            return r1.model > r2.model;
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a specified <see cref="Number"/> is greater than or equal to another specified <see cref="Number"/>.
+        /// </summary>
+        /// <param name="r1">A <see cref="Number"/>.</param>
+        /// <param name="r2">A <see cref="Number"/>.</param>
+        /// <returns>true if <paramref name="r1"/> is greater than or to equal <paramref name="r2"/>; otherwise, false.</returns>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
+        public static bool operator >=(Number r1, Number r2)
+        {
+            return r1.model >= r2.model;
         }
 
         /// <summary>
@@ -368,260 +621,6 @@ namespace NLib
             return r1.model - r2.model;
         }
 
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="double"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="double"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Number(decimal value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="double"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="double"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Number(double value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="long"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="int"/> to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Number(long value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="int"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="int"/> to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Number(int value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="ulong"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="ulong"/> to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static explicit operator Number(ulong value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="string"/> to <see cref="Number"/>.
-        /// </summary>
-        /// <param name="value">The <see cref="string"/>.</param>
-        /// <returns>The result of the conversion.</returns>
-        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "The constructor will handle the culture")]
-        public static implicit operator Number(string value)
-        {
-            return new Number(value);
-        }
-
-        /// <summary>
-        /// Subtracts two specified <see cref="Number"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>The result of the operator.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator -(Number r1, Number r2)
-        {
-            return Subtract(r1, r2);
-        }
-
-        /// <summary>
-        /// Negates the value of the specified <see cref="Number"/> operand.
-        /// </summary>
-        /// <param name="r">The <see cref="Number"/> operand.</param>
-        /// <returns>The result of the operator.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator -(Number r)
-        {
-            return Negate(r);
-        }
-
-        /// <summary>
-        /// Decrements the <see cref="Number"/> operand by one.
-        /// </summary>
-        /// <param name="r">The <see cref="Number"/> operand.</param>
-        /// <returns>The value of d decremented by 1.</returns>
-        /// <exception cref="OverflowException">The <see cref="Number"/> is less than <see cref="long.MinValue"/></exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator --(Number r)
-        {
-            return Decrement(r);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether two instances of <see cref="Number"/> are not equal.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> and <paramref name="r2"/> are not equal; otherwise, false..</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator !=(Number r1, Number r2)
-        {
-            return !Equals(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns the remainder resulting from dividing two specified <see cref="Number"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/> (the dividend).</param>
-        /// <param name="r2">A <see cref="Number"/> (the divisor).</param>
-        /// <returns>The <see cref="Number"/> remainder resulting from dividing <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="DivideByZeroException">d2 is zero</exception>
-        /// <exception cref="OverflowException">The return value is less than <see cref="double.MinValue"/> or greater than <see cref="double.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator %(Number r1, Number r2)
-        {
-            return Mod(r1, r2);
-        }
-
-        /// <summary>
-        /// Multiplies two specified <see cref="Number"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>The <see cref="Number"/> result of multiplying <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator *(Number r1, Number r2)
-        {
-            return Multiply(r1, r2);
-        }
-
-        /// <summary>
-        /// Divides two specified <see cref="Number"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/> (the dividend).</param>
-        /// <param name="r2">A <see cref="Number"/> (the divisor).</param>
-        /// <returns>The <see cref="Number"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="DivideByZeroException">d2 is zero</exception>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator /(Number r1, Number r2)
-        {
-            return Divide(r1, r2);
-        }
-
-        /// <summary>
-        /// Adds two specified <see cref="Number"/> values.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>The <see cref="Number"/> result of <paramref name="r1"/> by <paramref name="r2"/>.</returns>
-        /// <exception cref="OverflowException">The return value is less than <see cref="long.MinValue"/> or greater than <see cref="long.MaxValue"/>.</exception>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator +(Number r1, Number r2)
-        {
-            return Add(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns the value of the <see cref="Number"/> operand (the sign of the operand is unchanged).
-        /// </summary>
-        /// <param name="r">The <see cref="Number"/> operand.</param>
-        /// <returns>The value of the operand, <paramref name="r"/>.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator +(Number r)
-        {
-            return Plus(r);
-        }
-
-        /// <summary>
-        /// Increments the <see cref="Number"/> operand by one.
-        /// </summary>
-        /// <param name="r">The <see cref="Number"/> operand.</param>
-        /// <returns>The value of d incremented by 1.</returns>
-        /// <exception cref="OverflowException">The <see cref="Number"/> is greater than <see cref="long.MaxValue"/></exception>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static Number operator ++(Number r)
-        {
-            return Increment(r);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="Number"/> is less than another specified <see cref="Number"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator <(Number r1, Number r2)
-        {
-            return r1.model < r2.model;
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="Number"/> is less than or equal to another specified <see cref="Number"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator <=(Number r1, Number r2)
-        {
-            return r1.model <= r2.model;
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether two instances of <see cref="Number"/> are equal.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is less than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator ==(Number r1, Number r2)
-        {
-            return Equals(r1, r2);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="Number"/> is greater than another specified <see cref="Number"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is greater than <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator >(Number r1, Number r2)
-        {
-            return r1.model > r2.model;
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether a specified <see cref="Number"/> is greater than or equal to another specified <see cref="Number"/>.
-        /// </summary>
-        /// <param name="r1">A <see cref="Number"/>.</param>
-        /// <param name="r2">A <see cref="Number"/>.</param>
-        /// <returns>true if <paramref name="r1"/> is greater than or to equal <paramref name="r2"/>; otherwise, false.</returns>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1625:ElementDocumentationMustNotBeCopiedAndPasted", Justification = "Reviewed. Suppression is OK here. It's like the System.Decimal documentation.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Parameter name is enough meaningful in the current context")]
-        public static bool operator >=(Number r1, Number r2)
-        {
-            return r1.model >= r2.model;
-        }
-
         /// <inheritdoc />
         public int CompareTo(object obj)
         {
@@ -675,7 +674,7 @@ namespace NLib
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

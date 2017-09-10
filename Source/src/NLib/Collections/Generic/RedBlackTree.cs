@@ -9,9 +9,8 @@ using NLib.Collections.Generic.Resources;
 
 namespace NLib.Collections.Generic
 {
-    /// <inheritdoc />
     /// <summary>
-    /// Represents a strongly typed tree of objects. 
+    /// Represents a strongly typed tree of objects.
     /// Provides methods to search and manipulate the tree.
     /// </summary>
     /// <remarks>
@@ -22,18 +21,16 @@ namespace NLib.Collections.Generic
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public class RedBlackTree<T> : IRedBlackTree<T>
     {
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         public RedBlackTree()
             : this(Comparer<T>.Default)
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
         public RedBlackTree(bool allowDuplicates)
@@ -41,9 +38,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         public RedBlackTree(IEnumerable<T> collection)
@@ -51,9 +47,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -62,9 +57,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public RedBlackTree(IComparer<T> comparer)
@@ -72,9 +66,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -83,9 +76,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public RedBlackTree(Comparison<T> comparer)
@@ -93,9 +85,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         /// <param name="allowDuplicates">If true, the tree will add duplicates; otherwise the duplicates won't be added.</param>
@@ -104,9 +95,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -115,9 +105,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -127,9 +116,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -138,9 +126,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.RedBlackTree`1" /> class.
+        /// Initializes a new instance of the <see cref="RedBlackTree{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -722,8 +709,8 @@ namespace NLib.Collections.Generic
                         node = node.Parent;
                     }
 
-                    node = node.IsRoot 
-                             ? null 
+                    node = node.IsRoot
+                             ? null
                              : node.Parent.Right;
                 }
             }
@@ -927,7 +914,7 @@ namespace NLib.Collections.Generic
         }
 
         /// <summary>
-        /// Sibling node is red. 
+        /// Sibling node is red.
         /// See <![CDATA[http://en.wikipedia.org/w/index.php?title=Red-black_tree&amp;oldid=437925585]]> for more detail.
         /// </summary>
         /// <remarks>

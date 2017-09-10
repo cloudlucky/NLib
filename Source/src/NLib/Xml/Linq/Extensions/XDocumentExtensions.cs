@@ -28,7 +28,7 @@ namespace NLib.Xml.Linq.Extensions
             {
                 var xmlDocument = new XmlDocument();
                 xmlDocument.Load(reader);
-                
+
                 return xmlDocument;
             }
         }

@@ -39,7 +39,7 @@ namespace NLib.Linq.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="keySelector"/> is null.</exception>
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Like Linq API")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId  = "0", Justification = "CheckError class do the check")]
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "CheckError class do the check")]
         public static IQueryable<TSource> Between<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector, TKey min, TKey max)
         {
@@ -51,7 +51,7 @@ namespace NLib.Linq.Extensions
             var upperBound = Expression.LessThanOrEqual(key, Expression.Constant(max));
             var and = Expression.AndAlso(lowerBound, upperBound);
             var lambda = Expression.Lambda<Func<TSource, bool>>(and, keySelector.Parameters);
-            
+
             return source.Where(lambda);
         }
 
@@ -68,7 +68,7 @@ namespace NLib.Linq.Extensions
             Check.Current.ArgumentNullException(collection, nameof(collection));
 
             var skip = Math.Max(pageSize * page, 0);
-            
+
             return collection.Skip(skip).Take(pageSize);
         }
     }

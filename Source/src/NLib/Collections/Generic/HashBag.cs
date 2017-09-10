@@ -19,18 +19,16 @@ namespace NLib.Collections.Generic
     [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "No need to finish with Collection suffix")]
     public class HashBag<T> : BagBase<T>
     {
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         public HashBag()
             : this(EqualityComparer<T>.Default)
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         public HashBag(IEnumerable<T> collection)
@@ -38,9 +36,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public HashBag(IEqualityComparer<T> comparer)
@@ -48,9 +45,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public HashBag(EqualityComparison<T> comparer)
@@ -58,9 +54,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>
@@ -69,9 +64,8 @@ namespace NLib.Collections.Generic
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.Collections.Generic.HashBag`1" /> class.
+        /// Initializes a new instance of the <see cref="HashBag{T}"/> class.
         /// </summary>
         /// <param name="collection">The collection.</param>
         /// <param name="comparer">The comparer.</param>

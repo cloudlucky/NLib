@@ -15,17 +15,15 @@ namespace NLib
         /// </summary>
         private readonly string className = string.Empty;
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.MissingConstructorException" /> class.
+        /// Initializes a new instance of the <see cref="MissingConstructorException"/> class.
         /// </summary>
         public MissingConstructorException()
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.MissingConstructorException" /> class with a specified error message.
+        /// Initializes a new instance of the <see cref="MissingConstructorException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">
         /// The message that describes the error.
@@ -35,9 +33,8 @@ namespace NLib
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.MissingConstructorException" /> class with a specified error message 
+        /// Initializes a new instance of the <see cref="MissingConstructorException"/> class with a specified error message
         /// and a reference to the inner exception that is the cause of this exception.
         /// </summary>
         /// <param name="message">
@@ -51,9 +48,8 @@ namespace NLib
         {
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:NLib.MissingConstructorException" /> class with a specified error message.
+        /// Initializes a new instance of the <see cref="MissingConstructorException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="className">The name of the class in which access to a nonexistent method was attempted.</param>
@@ -62,13 +58,12 @@ namespace NLib
         {
             this.className = className;
         }
-        
-        /// <inheritdoc />
+
         /// <summary>
         /// Gets the text string showing the class name, the method name, and the signature of the missing method. This property is read-only.
         /// </summary>
-        public override string Message => string.IsNullOrWhiteSpace(this.className) 
-            ? base.Message 
+        public override string Message => string.IsNullOrWhiteSpace(this.className)
+            ? base.Message
             : string.Format(CultureInfo.CurrentCulture, "{0}: {1}", this.className, base.Message);
     }
 }

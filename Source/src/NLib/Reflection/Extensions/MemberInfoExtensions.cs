@@ -14,7 +14,7 @@ namespace NLib.Reflection.Extensions
         /// When overridden in a derived class, returns the first of custom attributes identified by <see cref="Type"/>.
         /// </summary>
         /// <typeparam name="T">
-        /// The type of attribute to search for. 
+        /// The type of attribute to search for.
         /// Only attributes that are assignable to this type are returned.
         /// </typeparam>
         /// <param name="memberInfo">The member info.</param>
@@ -23,10 +23,11 @@ namespace NLib.Reflection.Extensions
         /// <exception cref="TypeLoadException">A custom attribute type cannot be loaded.</exception>
         /// <exception cref="ArgumentNullException">The member info is null.</exception>
         /// <exception cref="InvalidOperationException">
-        /// This member belongs to a type that is loaded into the reflection-only context. 
+        /// This member belongs to a type that is loaded into the reflection-only context.
         /// See How to: Load Assemblies into the Reflection-Only Context.
         /// </exception>
-        public static T GetCustomAttribute<T>(this MemberInfo memberInfo, bool inherit) where T : Attribute
+        public static T GetCustomAttribute<T>(this MemberInfo memberInfo, bool inherit)
+            where T : Attribute
         {
             return GetCustomAttributes<T>(memberInfo, inherit).FirstOrDefault();
         }
@@ -35,7 +36,7 @@ namespace NLib.Reflection.Extensions
         /// When overridden in a derived class, returns an array of custom attributes identified by <see cref="Type"/>.
         /// </summary>
         /// <typeparam name="T">
-        /// The type of attribute to search for. 
+        /// The type of attribute to search for.
         /// Only attributes that are assignable to this type are returned.
         /// </typeparam>
         /// <param name="memberInfo">The member info.</param>
@@ -44,11 +45,12 @@ namespace NLib.Reflection.Extensions
         /// <exception cref="TypeLoadException">A custom attribute type cannot be loaded.</exception>
         /// <exception cref="ArgumentNullException">The member info is null.</exception>
         /// <exception cref="InvalidOperationException">
-        /// This member belongs to a type that is loaded into the reflection-only context. 
+        /// This member belongs to a type that is loaded into the reflection-only context.
         /// See How to: Load Assemblies into the Reflection-Only Context.
         /// </exception>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "CheckError class do the check")]
-        public static T[] GetCustomAttributes<T>(this MemberInfo memberInfo, bool inherit) where T : Attribute
+        public static T[] GetCustomAttributes<T>(this MemberInfo memberInfo, bool inherit)
+            where T : Attribute
         {
             Check.Current.ArgumentNullException(memberInfo, nameof(memberInfo));
 

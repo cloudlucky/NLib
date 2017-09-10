@@ -17,7 +17,7 @@ namespace NLib
         public static double Factorial(double nb)
         {
             Check.Current.Requires<ArgumentException>(nb >= 0, MathHelperResource.Factorial_ArgumentException_Nb, new { paramName = "nb" });
-            
+
             var result = 1.0;
 
             for (var i = 1; i <= nb; ++i)

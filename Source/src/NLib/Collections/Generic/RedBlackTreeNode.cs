@@ -1,11 +1,11 @@
-﻿namespace NLib.Collections.Generic
-{
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
+namespace NLib.Collections.Generic
+{
     /// <inheritdoc />
     /// <summary>
-    /// Represents a strongly typed tree node. 
+    /// Represents a strongly typed tree node.
     /// </summary>
     /// <typeparam name="T">The type of elements in the node.</typeparam>
     public class RedBlackTreeNode<T> : IRedBlackTreeNode<T>

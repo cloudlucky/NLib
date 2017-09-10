@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-
 namespace NLib
 {
     /// <summary>
@@ -35,7 +34,8 @@ namespace NLib
         /// <typeparam name="TException">The exception to throw.</typeparam>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have default constructor.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void ThrowException<TException>() where TException : Exception
+        public static void ThrowException<TException>()
+            where TException : Exception
         {
             var exception = typeof(TException);
 
@@ -49,7 +49,8 @@ namespace NLib
         /// <param name="message">The message to display</param>
         /// <exception cref="MissingConstructorException">The <typeparamref name="TException"/> don't have a constructor with one parameter of type string.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void ThrowException<TException>(string message) where TException : Exception
+        public static void ThrowException<TException>(string message)
+            where TException : Exception
         {
             var exception = typeof(TException);
 
@@ -74,7 +75,8 @@ namespace NLib
         /// </param>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static void ThrowException<TException>(string message, object arguments) where TException : Exception
+        public static void ThrowException<TException>(string message, object arguments)
+            where TException : Exception
         {
             var exception = typeof(TException);
             var argumentsType = arguments.GetType();

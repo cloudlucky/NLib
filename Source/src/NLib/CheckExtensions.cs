@@ -57,7 +57,8 @@ namespace NLib
         /// <param name="reference">The parameter to check if it's null.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
-        public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference) where T : struct
+        public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference)
+            where T : struct
         {
             return ArgumentNullException(check, reference, null);
         }
@@ -96,7 +97,8 @@ namespace NLib
         /// <param name="message">The message.</param>
         /// <returns>The <see cref="Check" /> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Like Linq API")]
-        public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference, string message) where T : struct
+        public static Check ArgumentNullException<T>(this Check check, Expression<Func<T?>> reference, string message)
+            where T : struct
         {
             return Requires<ArgumentNullException>(check, reference.Compile()().HasValue, message, new { paramName = reference.GetParameterName() });
         }
@@ -263,7 +265,7 @@ namespace NLib
         {
             return Requires<NullReferenceException>(check, reference.Compile()() != null, message);
         }
-        
+
         /// <summary>
         /// Specifies a check contract for the enclosing method or property, and throws an exception if the <paramref name="condition"/> for the contract fails.
         /// </summary>
@@ -272,7 +274,8 @@ namespace NLib
         /// <param name="condition">The conditional expression to test.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, bool condition) where TException : Exception
+        public static Check Requires<TException>(this Check check, bool condition)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, string.Empty);
         }
@@ -285,7 +288,8 @@ namespace NLib
         /// <param name="condition">The conditional expression to test.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, Func<bool> condition) where TException : Exception
+        public static Check Requires<TException>(this Check check, Func<bool> condition)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, string.Empty);
         }
@@ -298,7 +302,8 @@ namespace NLib
         /// <param name="condition">The conditional expression to test.</param>
         /// <param name="exception">The exception thrown if the <paramref name="condition"/> is false.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
-        public static Check Requires<TException>(this Check check, bool condition, TException exception) where TException : Exception
+        public static Check Requires<TException>(this Check check, bool condition, TException exception)
+            where TException : Exception
         {
             if (!condition)
             {
@@ -316,7 +321,8 @@ namespace NLib
         /// <param name="condition">The conditional expression to test.</param>
         /// <param name="exception">The exception thrown if the <paramref name="condition"/> is false.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
-        public static Check Requires<TException>(this Check check, Func<bool> condition, TException exception) where TException : Exception
+        public static Check Requires<TException>(this Check check, Func<bool> condition, TException exception)
+            where TException : Exception
         {
             return Requires(check, condition(), exception);
         }
@@ -330,7 +336,8 @@ namespace NLib
         /// <param name="message">The message to display if the <paramref name="condition"/> is false.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, bool condition, string message) where TException : Exception
+        public static Check Requires<TException>(this Check check, bool condition, string message)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, message, null);
         }
@@ -344,7 +351,8 @@ namespace NLib
         /// <param name="message">The message to display if the <paramref name="condition"/> is false.</param>
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, Func<bool> condition, string message) where TException : Exception
+        public static Check Requires<TException>(this Check check, Func<bool> condition, string message)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, message, null);
         }
@@ -368,7 +376,8 @@ namespace NLib
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, bool condition, object arguments) where TException : Exception
+        public static Check Requires<TException>(this Check check, bool condition, object arguments)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, null, arguments);
         }
@@ -392,7 +401,8 @@ namespace NLib
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, Func<bool> condition, object arguments) where TException : Exception
+        public static Check Requires<TException>(this Check check, Func<bool> condition, object arguments)
+            where TException : Exception
         {
             return Requires<TException>(check, condition, null, arguments);
         }
@@ -417,7 +427,8 @@ namespace NLib
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, bool condition, string message, object arguments) where TException : Exception
+        public static Check Requires<TException>(this Check check, bool condition, string message, object arguments)
+            where TException : Exception
         {
             if (condition)
             {
@@ -459,7 +470,8 @@ namespace NLib
         /// <returns>The <see cref="Check"/> instance for method chaining.</returns>
         /// <exception cref="MissingConstructorException">The properties of the <paramref name="arguments"/> must match in name (case-sensitive), type and number of parameters.</exception>
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "It doesn't make sense to provide TypeParameter because it will be created by Reflection")]
-        public static Check Requires<TException>(this Check check, Func<bool> condition, string message, object arguments) where TException : Exception
+        public static Check Requires<TException>(this Check check, Func<bool> condition, string message, object arguments)
+            where TException : Exception
         {
             return Requires<TException>(check, condition(), message, arguments);
         }

@@ -24,7 +24,7 @@ namespace NLib.Extensions
             Check.Current.ArgumentNullException(text, nameof(text));
 
             if (string.IsNullOrEmpty(value))
-            { 
+            {
                 return true;
             }
 
