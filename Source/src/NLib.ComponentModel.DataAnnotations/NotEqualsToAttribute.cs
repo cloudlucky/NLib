@@ -1,10 +1,10 @@
-﻿namespace NLib.ComponentModel.DataAnnotations
-{
-    using System;
+﻿using System;
     using System.Diagnostics.CodeAnalysis;
 
     using NLib.ComponentModel.DataAnnotations.Resources;
 
+    namespace NLib.ComponentModel.DataAnnotations
+{
     /// <summary>
     /// Provides an attribute that compares two properties of a model.
     /// Validate if the two properties are not equal.

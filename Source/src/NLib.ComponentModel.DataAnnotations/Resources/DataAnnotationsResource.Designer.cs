@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace NLib.ComponentModel.DataAnnotations.Resources {
     using System;
     
@@ -39,7 +41,7 @@ namespace NLib.ComponentModel.DataAnnotations.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.ComponentModel.DataAnnotations.Resources.DataAnnotationsResource", typeof(DataAnnotationsResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLib.ComponentModel.DataAnnotations.Resources.DataAnnotationsResource", typeof(DataAnnotationsResource).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

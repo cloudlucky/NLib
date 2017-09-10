@@ -1,12 +1,12 @@
-﻿namespace NLib.ComponentModel.DataAnnotations
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Reflection;
+using NLib.ComponentModel.DataAnnotations.Resources;
+
+namespace NLib.ComponentModel.DataAnnotations
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-
-    using NLib.ComponentModel.DataAnnotations.Resources;
-
     /// <summary>
     /// Provides a base attribute that compares two properties of a model.
     /// </summary>
@@ -85,11 +85,11 @@
 
             var currentValueComparable = value as IComparable;
             Check.Current.Requires<ValidationException>(currentValueComparable != null, new { errorMessage = string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_DoesNotImplementIComparable, validationContext.DisplayName), validatingAttribute = this, value });
-            
+
             if (!this.MustBeSameType)
             {
                 var currentValueType = currentValueComparable.GetType();
-                if (!otherValue.GetType().IsAssignableFrom(currentValueType))
+                if (!otherValue.GetType().GetTypeInfo().IsAssignableFrom(currentValueType.GetTypeInfo()))
                 {
                     try
                     {
@@ -106,7 +106,7 @@
                 var currentValueType = currentValueComparable.GetType();
                 var otherValueType = otherValue.GetType();
 
-                if (!currentValueType.IsAssignableFrom(otherValueType) || !otherValueType.IsAssignableFrom(currentValueType))
+                if (!currentValueType.GetTypeInfo().IsAssignableFrom(otherValueType.GetTypeInfo()) || !otherValueType.GetTypeInfo().IsAssignableFrom(currentValueType.GetTypeInfo()))
                 {
                     throw new ValidationException(string.Format(CultureInfo.CurrentCulture, DataAnnotationsResource.CompareBaseAttribute_TypeMissMatch, validationContext.DisplayName, currentValueType.Name, this.OtherPropertyName, otherValueType.Name));
                 }
@@ -125,7 +125,7 @@
         /// <exception cref="ValidationException">The <see cref="OtherPropertyName"/> is not found.</exception>
         protected object GetOtherProperty(ValidationContext validationContext)
         {
-            var propertyInfo = validationContext.ObjectType.GetProperty(this.OtherPropertyName);
+            var propertyInfo = validationContext.ObjectType.GetTypeInfo().GetDeclaredProperty(this.OtherPropertyName);
 
             if (propertyInfo != null)
             {
