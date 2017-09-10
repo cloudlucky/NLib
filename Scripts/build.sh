@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
-SlnPath="./../Source/NLib.Sln"
-
-dotnet restore $SlnPath
-dotnet build $SlnPath
+dotnet restore "./../Source/NLib.Sln"
+dotnet build "./../Source/NLib.Sln"
