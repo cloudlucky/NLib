@@ -41,7 +41,7 @@
         {
             var foo = -1;
             var ex = Assert.Throws<ArgumentException>(() => Check.Current.ArgumentException(foo > 0, "foo", "foo is negative"));
-            Assert.Equal("foo is negative\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is negative{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -74,7 +74,7 @@
         public void ArgumentNullException5()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(null, "foo", "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -134,7 +134,7 @@
         {
             string foo = null;
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullException(() => foo, "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -167,7 +167,7 @@
         public void ArgumentNullOrEmptyException5()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullOrEmptyException(null, "foo", "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -205,7 +205,7 @@
         {
             string foo = null;
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullOrEmptyException(() => foo, "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -256,7 +256,7 @@
         public void ArgumentNullOrWhiteSpaceException8()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullOrWhiteSpaceException(null, "foo", "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -315,7 +315,7 @@
         {
             string foo = null;
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.ArgumentNullOrWhiteSpaceException(() => foo, "foo is null"));
-            Assert.Equal("foo is null\r\nParameter name: foo", ex.Message);
+            Assert.Equal($"foo is null{Environment.NewLine}Parameter name: foo", ex.Message);
         }
 
         [Fact]
@@ -425,7 +425,7 @@
         public void Requires6()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.Requires<ArgumentNullException>(false, "A message", new { paramName = "1" }));
-            Assert.Equal("A message\r\nParameter name: 1", ex.Message);
+            Assert.Equal($"A message{Environment.NewLine}Parameter name: 1", ex.Message);
             Assert.Equal("1", ex.ParamName);
         }
 
@@ -495,7 +495,7 @@
         public void Requires17()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => Check.Current.Requires<ArgumentNullException>(() => false, "A message", new { paramName = "1" }));
-            Assert.Equal("A message\r\nParameter name: 1", ex.Message);
+            Assert.Equal($"A message{Environment.NewLine}Parameter name: 1", ex.Message);
             Assert.Equal("1", ex.ParamName);
         }
 
