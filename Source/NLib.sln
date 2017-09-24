@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{232265D9-1455-4721-82CC-49A4B5952D0B}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{57AD4C78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLib", "src\NLib\NLib.csproj", "{31ED9528-1CD7-4DA7-8A66-4BEA9AEB860D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.ComponentModel.DataAnnotations", "src\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj", "{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLib.ComponentModel.DataAnnotations", "src\NLib.ComponentModel.DataAnnotations\NLib.ComponentModel.DataAnnotations.csproj", "{C45770BF-61FB-4B23-8AD2-C415DF7BCE10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLib.ComponentModel.DataAnnotations.Tests", "tests\NLib.ComponentModel.DataAnnotations.Tests\NLib.ComponentModel.DataAnnotations.Tests.csproj", "{401806B6-785B-4F3A-8C8F-353D1568D770}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLib.ComponentModel.DataAnnotations.Tests", "tests\NLib.ComponentModel.DataAnnotations.Tests\NLib.ComponentModel.DataAnnotations.Tests.csproj", "{401806B6-785B-4F3A-8C8F-353D1568D770}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLib.Tests", "tests\NLib.Tests\NLib.Tests.csproj", "{A21B94A7-4C3C-4BBC-A617-452912C8F38D}"
 EndProject
@@ -84,7 +84,7 @@ Global
 		{A21B94A7-4C3C-4BBC-A617-452912C8F38D} = {57AD4C78-8FAF-4985-8C89-ABC6D9733A8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5293A053-59A1-44B5-97EE-7B5AEFC63D6B}
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.Interception.2.1.505.2\lib\NET35
+		SolutionGuid = {5293A053-59A1-44B5-97EE-7B5AEFC63D6B}
 	EndGlobalSection
 EndGlobal
