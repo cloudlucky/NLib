@@ -11,5 +11,5 @@ branches:
   - MigrateToNetStandard
 image: Visual Studio 2017
 before_build:
-  - ps: .\Source\build.ps1
+  - ps: .\Scripts\build.ps1
 test: off
