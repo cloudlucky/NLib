@@ -10,7 +10,8 @@ branches:
   - /^(.*\/)?ci-.*$/
   - MigrateToNetStandard
 image: Visual Studio 2017
-deploy: off
+before_build:
+  - cmd: dotnet restore
 build:
   project: Source\NLib.sln
   verbosity: minimal
