@@ -11,7 +11,7 @@ branches:
   - MigrateToNetStandard
 image: Visual Studio 2017
 before_build:
-  - cmd: dotnet restore
+  - cmd: dotnet restore Source\NLib.sln
 build:
   project: Source\NLib.sln
   verbosity: minimal
