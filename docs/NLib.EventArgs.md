@@ -1,13 +1,13 @@
 # EventArgs class
 Represents a generic {{EventArgs}}
 
-{code:c#}
+```csharp
 new EventArgs<int>(3);
-{code:c#}
+```
 
 Example:
 
-{code:c#}
+```csharp
 class MyClass
 {
     event EventHandler<EventArgs<int>> MyEventHandler;
@@ -21,4 +21,4 @@ class MyClass
         // Do something with e.Value
     }
 }
-{code:c#}
+```
